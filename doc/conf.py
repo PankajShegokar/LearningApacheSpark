@@ -26,7 +26,7 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo']
 
 try:
     from sphinx.ext import pngmath
-    extensions.append('sphinx.ext.pngmath')
+    extensions.append('sphinx.ext.imgmath')
 except ImportError:
     print >>sys.stderr, 'Warning: could not import sphinx.ext.pngmath'
     pass
@@ -38,7 +38,7 @@ templates_path = ['.templates']
 source_suffix = '.txt'
 
 # The master toctree document.
-master_doc = 'contents'
+master_doc = 'index'
 
 show_authors = True
 

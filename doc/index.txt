@@ -1,5 +1,5 @@
 
-.. _contents:
+.. _index:
 
   .. _fig_logo:
   .. figure:: images/logo.jpg
@@ -22,6 +22,7 @@ Contents
    setup
    introduction
    rdd
+   stats
    regression
    classification
    clustering
