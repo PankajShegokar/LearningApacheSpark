@@ -19,7 +19,13 @@ In data mining, Regression is a model to represent the relationship between the 
 Linear Regression
 +++++++++++++++++
 
-Given that :math:`{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}`
+Given that a data set :math:`{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}` which contains n features
+(variables) and m samples (data points), in simple linear regression model, the formula is given by:
+
+      .. math::
+
+         y_i = \beta_0 + \beta_1 x_{i1}, \text{where}, i= 1, \cdots m.  
+
 
  .. code-block:: python
 

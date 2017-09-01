@@ -40,7 +40,7 @@ except ImportError:
 templates_path = ['.templates']
 
 # The suffix of source filenames.
-source_suffix = '.txt'
+source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'

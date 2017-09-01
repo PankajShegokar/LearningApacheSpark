@@ -168,7 +168,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="sources/regression.txt" rel="nofollow"> View page source</a>
+            <a href="sources/regression.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -191,9 +191,14 @@
 <p>In data mining, Regression is a model to represent the relationship between the value of lable ( or target, it is numerical variable) and on one or more features (or predictors they can be numerical and categorical variables).</p>
 <div class="section" id="linear-regression">
 <h2>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h2>
-<p>Given that <img class="math" src="images/math/55d7179dd61a69d248a17e45235dbf6945ffab5d.png" alt="{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}"/></p>
+<p>Given that a data set <img class="math" src="images/math/55d7179dd61a69d248a17e45235dbf6945ffab5d.png" alt="{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}"/> which contains n features
+(variables) and m samples (data points), in simple linear regression model, the formula is given by:</p>
 <blockquote>
-<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<div><blockquote>
+<div><div class="math">
+<p><img src="images/math/7f7e147e862cf71026b92bc1cc0f5805c4026273.png" alt="y_i = \beta_0 + \beta_1 x_{i1}, \text{where}, i= 1, \cdots m."/></p>
+</div></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 
 <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
     <span class="o">.</span><span class="n">builder</span> \
