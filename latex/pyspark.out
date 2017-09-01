@@ -1,0 +1,54 @@
+\BOOKMARK [0][-]{chapter.1}{Preface}{}% 1
+\BOOKMARK [1][-]{section.1.1}{About}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Motivation for this tutorial}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Acknowledgement}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{Feedback and suggestions}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{Why Spark with Python ?}{}% 6
+\BOOKMARK [1][-]{section.2.1}{Why Spark?}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.2}{Why Spark with Python \(PySpark\)?}{chapter.2}% 8
+\BOOKMARK [0][-]{chapter.3}{Configure Running Platform}{}% 9
+\BOOKMARK [1][-]{section.3.1}{Run on Databricks Community Cloud}{chapter.3}% 10
+\BOOKMARK [1][-]{section.3.2}{Configure Spark on Mac and Ubuntu}{chapter.3}% 11
+\BOOKMARK [1][-]{section.3.3}{Configure Spark on Windows}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.4}{PySpark With Text Editor or IDE}{chapter.3}% 13
+\BOOKMARK [1][-]{section.3.5}{Set up Spark on Cloud}{chapter.3}% 14
+\BOOKMARK [1][-]{section.3.6}{Demo Code in this Section}{chapter.3}% 15
+\BOOKMARK [0][-]{chapter.4}{An Introduction to Apache Spark}{}% 16
+\BOOKMARK [1][-]{section.4.1}{Core Concepts}{chapter.4}% 17
+\BOOKMARK [1][-]{section.4.2}{Spark Components}{chapter.4}% 18
+\BOOKMARK [1][-]{section.4.3}{Architecture}{chapter.4}% 19
+\BOOKMARK [1][-]{section.4.4}{How Spark Works?}{chapter.4}% 20
+\BOOKMARK [0][-]{chapter.5}{Programming with RDDs}{}% 21
+\BOOKMARK [1][-]{section.5.1}{Create RDD}{chapter.5}% 22
+\BOOKMARK [1][-]{section.5.2}{Spark Transformations}{chapter.5}% 23
+\BOOKMARK [1][-]{section.5.3}{Spark Actions}{chapter.5}% 24
+\BOOKMARK [0][-]{chapter.6}{Statistics Preliminary}{}% 25
+\BOOKMARK [0][-]{chapter.7}{Regression}{}% 26
+\BOOKMARK [1][-]{section.7.1}{Linear Regression}{chapter.7}% 27
+\BOOKMARK [1][-]{section.7.2}{Generalized linear regression}{chapter.7}% 28
+\BOOKMARK [1][-]{section.7.3}{Decision tree Regression}{chapter.7}% 29
+\BOOKMARK [1][-]{section.7.4}{Random Forest Regression}{chapter.7}% 30
+\BOOKMARK [1][-]{section.7.5}{Gradient-boosted tree regression}{chapter.7}% 31
+\BOOKMARK [0][-]{chapter.8}{Classification}{}% 32
+\BOOKMARK [1][-]{section.8.1}{Logistic regression}{chapter.8}% 33
+\BOOKMARK [1][-]{section.8.2}{Decision tree Classification}{chapter.8}% 34
+\BOOKMARK [1][-]{section.8.3}{Random forest Classification}{chapter.8}% 35
+\BOOKMARK [1][-]{section.8.4}{Gradient-boosted tree Classification}{chapter.8}% 36
+\BOOKMARK [1][-]{section.8.5}{Naive Bayes Classification}{chapter.8}% 37
+\BOOKMARK [1][-]{section.8.6}{Support Vector Machines Classification}{chapter.8}% 38
+\BOOKMARK [0][-]{chapter.9}{Clustering}{}% 39
+\BOOKMARK [1][-]{section.9.1}{K-Means Model}{chapter.9}% 40
+\BOOKMARK [0][-]{chapter.10}{Text Mining}{}% 41
+\BOOKMARK [1][-]{section.10.1}{Text Preprocessing}{chapter.10}% 42
+\BOOKMARK [1][-]{section.10.2}{Text Classification}{chapter.10}% 43
+\BOOKMARK [1][-]{section.10.3}{Sentiment analysis}{chapter.10}% 44
+\BOOKMARK [1][-]{section.10.4}{N-grams and Correlations}{chapter.10}% 45
+\BOOKMARK [1][-]{section.10.5}{Topic Model: Latent Dirichlet Allocation}{chapter.10}% 46
+\BOOKMARK [0][-]{chapter.11}{Social Network Analysis}{}% 47
+\BOOKMARK [1][-]{section.11.1}{Co-occurrence Network}{chapter.11}% 48
+\BOOKMARK [1][-]{section.11.2}{Correlation Network}{chapter.11}% 49
+\BOOKMARK [0][-]{chapter.12}{Neural Network}{}% 50
+\BOOKMARK [1][-]{section.12.1}{Feedforward Neural Network}{chapter.12}% 51
+\BOOKMARK [0][-]{chapter.13}{Main Reference}{}% 52
+\BOOKMARK [0][-]{chapter*.5}{Bibliography}{}% 53
+\BOOKMARK [0][-]{section*.10}{Index}{}% 54

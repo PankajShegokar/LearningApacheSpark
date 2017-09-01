@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Programming with RDDs &mdash; Learning Apache Spark with Python v1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Learning Apache Spark with Python v1.0 documentation" href="index.html"/>
+        <link rel="next" title="Statistics Preliminary" href="stats.html"/>
+        <link rel="prev" title="An Introduction to Apache Spark" href="introduction.html"/>
+ 
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-168290-9']);
+  _gaq.push(['_trackPageview']);
+</script>
+
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Learning Apache Spark with Python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="why.html">Why Spark with Python ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Configure Running Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">An Introduction to Apache Spark</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Programming with RDDs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-rdd">Create RDD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-transformations">Spark Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spark-actions">Spark Actions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">Statistics Preliminary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textmining.html">Text Mining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="socialnetwork.html">Social Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fnn.html">Neural Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Main Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Learning Apache Spark with Python</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Programming with RDDs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/rdd.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="programming-with-rdds">
+<span id="rdd"></span><h1>Programming with RDDs<a class="headerlink" href="#programming-with-rdds" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>If you only know yourself, but not your opponent, you may win or may lose.
+If you know neither yourself nor your enemy, you will always endanger yourself</strong>
+– idiom, from Sunzi’s Art of War</p>
+</div>
+<p>RDD represents <strong>Resilient Distributed Dataset</strong>. An RDD in Spark is simply an immutable
+distributed collection of objects sets. Each RDD is split into multiple partitions (similar pattern
+with smaller sets), which may be computed on different nodes of the cluster.</p>
+<div class="section" id="create-rdd">
+<h2>Create RDD<a class="headerlink" href="#create-rdd" title="Permalink to this headline">¶</a></h2>
+<p>Usually, there are two popular way to create the RDDs: loading an external dataset, or distributing
+a set of collection of objects. The following examples show some simplest ways to create RDDs by using
+<code class="docutils literal"><span class="pre">parallelize()</span></code> fucntion which takes an already existing collection in your program and pass the same
+to the Spark Context.</p>
+<ol class="arabic simple">
+<li>By using <code class="docutils literal"><span class="pre">parallelize(</span> <span class="pre">)</span></code> fucntion</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark create RDD example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;a b c&#39;</span><span class="p">),</span>
+             <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;d e f&#39;</span><span class="p">),</span>
+             <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;g h i&#39;</span><span class="p">)])</span><span class="o">.</span><span class="n">toDF</span><span class="p">([</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">,</span> <span class="s1">&#39;col3&#39;</span><span class="p">,</span><span class="s1">&#39;col4&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Then you will get the RDD data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="o">+----+----+----+-----+</span>
+<span class="o">|</span><span class="n">col1</span><span class="o">|</span><span class="n">col2</span><span class="o">|</span><span class="n">col3</span><span class="o">|</span> <span class="n">col4</span><span class="o">|</span>
+<span class="o">+----+----+----+-----+</span>
+<span class="o">|</span>   <span class="mi">1</span><span class="o">|</span>   <span class="mi">2</span><span class="o">|</span>   <span class="mi">3</span><span class="o">|</span><span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">|</span>
+<span class="o">|</span>   <span class="mi">4</span><span class="o">|</span>   <span class="mi">5</span><span class="o">|</span>   <span class="mi">6</span><span class="o">|</span><span class="n">d</span> <span class="n">e</span> <span class="n">f</span><span class="o">|</span>
+<span class="o">|</span>   <span class="mi">7</span><span class="o">|</span>   <span class="mi">8</span><span class="o">|</span>   <span class="mi">9</span><span class="o">|</span><span class="n">g</span> <span class="n">h</span> <span class="n">i</span><span class="o">|</span>
+<span class="o">+----+----+----+-----+</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark create RDD example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="n">myData</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>Then you will get the RDD data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">myData</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+<span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>By using <code class="docutils literal"><span class="pre">createDataFrame(</span> <span class="pre">)</span></code> function</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark create RDD example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="n">Employee</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+                        <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Joe&#39;</span><span class="p">,</span>   <span class="s1">&#39;70000&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">),</span>
+                        <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Henry&#39;</span><span class="p">,</span> <span class="s1">&#39;80000&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">),</span>
+                        <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;Sam&#39;</span><span class="p">,</span>   <span class="s1">&#39;60000&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">),</span>
+                        <span class="p">(</span><span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;Max&#39;</span><span class="p">,</span>   <span class="s1">&#39;90000&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)],</span>
+                        <span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Sallary&#39;</span><span class="p">,</span><span class="s1">&#39;DepartmentId&#39;</span><span class="p">]</span>
+                       <span class="p">)</span>
+</pre></div>
+</div>
+<p>Then you will get the RDD data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---+-----+-------+------------+</span>
+<span class="o">|</span> <span class="n">Id</span><span class="o">|</span> <span class="n">Name</span><span class="o">|</span><span class="n">Sallary</span><span class="o">|</span><span class="n">DepartmentId</span><span class="o">|</span>
+<span class="o">+---+-----+-------+------------+</span>
+<span class="o">|</span>  <span class="mi">1</span><span class="o">|</span>  <span class="n">Joe</span><span class="o">|</span>  <span class="mi">70000</span><span class="o">|</span>           <span class="mi">1</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span><span class="o">|</span><span class="n">Henry</span><span class="o">|</span>  <span class="mi">80000</span><span class="o">|</span>           <span class="mi">2</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span><span class="o">|</span>  <span class="n">Sam</span><span class="o">|</span>  <span class="mi">60000</span><span class="o">|</span>           <span class="mi">2</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span><span class="o">|</span>  <span class="n">Max</span><span class="o">|</span>  <span class="mi">90000</span><span class="o">|</span>           <span class="mi">1</span><span class="o">|</span>
+<span class="o">+---+-----+-------+------------+</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>By using <code class="docutils literal"><span class="pre">read</span></code> and <code class="docutils literal"><span class="pre">load</span></code> functions</li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><strong>Read dataset from .csv file</strong></li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">## set up  SparkSession</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark create RDD example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;com.databricks.spark.csv&#39;</span><span class="p">)</span><span class="o">.</span>\
+                               <span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> \
+                               <span class="n">inferschema</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span><span class="o">.</span>\
+                <span class="n">load</span><span class="p">(</span><span class="s2">&quot;/home/feng/Spark/Code/data/Advertising.csv&quot;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then you will get the RDD data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---+-----+-----+---------+-----+</span>
+<span class="o">|</span><span class="n">_c0</span><span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>
+<span class="o">+---+-----+-----+---------+-----+</span>
+<span class="o">|</span>  <span class="mi">1</span><span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>     <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span><span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>     <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span><span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>     <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span><span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>     <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span><span class="o">|</span><span class="mf">180.8</span><span class="o">|</span> <span class="mf">10.8</span><span class="o">|</span>     <span class="mf">58.4</span><span class="o">|</span> <span class="mf">12.9</span><span class="o">|</span>
+<span class="o">+---+-----+-----+---------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+
+<span class="n">root</span>
+ <span class="o">|--</span> <span class="n">_c0</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">TV</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Radio</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Newspaper</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Sales</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Once created, RDDs offer two types of operations: transformations and actions.</p>
+<blockquote>
+<div><ol class="loweralpha simple" start="2">
+<li><strong>Read dataset from DataBase</strong></li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">## set up  SparkSession</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+            <span class="o">.</span><span class="n">builder</span> \
+            <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark create RDD example&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="c1">## User information</span>
+<span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;your_username&#39;</span>
+<span class="n">pw</span>   <span class="o">=</span> <span class="s1">&#39;your_password&#39;</span>
+
+<span class="c1">## Database information</span>
+<span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;table_name&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;jdbc:postgresql://##.###.###.##:5432/dataset?user=&#39;</span><span class="o">+</span><span class="n">user</span><span class="o">+</span><span class="s1">&#39;&amp;password=&#39;</span><span class="o">+</span><span class="n">pw</span>
+<span class="n">properties</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="s1">&#39;org.postgresql.Driver&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="n">pw</span><span class="p">,</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">jdbc</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="n">properties</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then you will get the RDD data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---+-----+-----+---------+-----+</span>
+<span class="o">|</span><span class="n">_c0</span><span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>
+<span class="o">+---+-----+-----+---------+-----+</span>
+<span class="o">|</span>  <span class="mi">1</span><span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>     <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span><span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>     <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span><span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>     <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span><span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>     <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span><span class="o">|</span><span class="mf">180.8</span><span class="o">|</span> <span class="mf">10.8</span><span class="o">|</span>     <span class="mf">58.4</span><span class="o">|</span> <span class="mf">12.9</span><span class="o">|</span>
+<span class="o">+---+-----+-----+---------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+
+<span class="n">root</span>
+ <span class="o">|--</span> <span class="n">_c0</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">TV</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Radio</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Newspaper</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Sales</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Reading tables from Database needs the proper drive for the corresponding Database.
+For example, the above demo needs <code class="docutils literal"><span class="pre">org.postgresql.Driver</span></code> and <strong>you need to download
+it and put it in ``jars`` folder of your spark installation path.</strong> I download
+<code class="docutils literal"><span class="pre">postgresql-42.1.1.jar</span></code> from the official website and put it in <code class="docutils literal"><span class="pre">jars</span></code> folder.</p>
+</div>
+</div>
+<div class="section" id="spark-transformations">
+<h2>Spark Transformations<a class="headerlink" href="#spark-transformations" title="Permalink to this headline">¶</a></h2>
+<p>Transformations construct a new RDD from a previous one. For example, one common
+transformation is filtering data that matches a predicate.</p>
+</div>
+<div class="section" id="spark-actions">
+<h2>Spark Actions<a class="headerlink" href="#spark-actions" title="Permalink to this headline">¶</a></h2>
+<p>Actions, on the other hand, compute a result based on an RDD, and either return it to
+the driver program or save it to an external storage system (e.g., HDFS).</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="stats.html" class="btn btn-neutral float-right" title="Statistics Preliminary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introduction.html" class="btn btn-neutral" title="An Introduction to Apache Spark" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Wenqiang Feng.
+      Last updated on Aug 31, 2017.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+
+
+</body>
+</html>

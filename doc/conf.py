@@ -26,7 +26,7 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo']
 
 try:
     from sphinx.ext import pngmath
-    extensions.append('sphinx.ext.imgmath')
+    extensions.append('sphinx.ext.pngmath')
 except ImportError:
     print >>sys.stderr, 'Warning: could not import sphinx.ext.pngmath'
     pass
@@ -124,7 +124,7 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 #html_static_path = ['.static', 'images']
-html_static_path = ['images','data','code']
+html_static_path = ['data','code','notebook']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -181,12 +181,12 @@ latex_font_size = '11pt'
 # (source start file, target name, title, author, document class [howto/manual]).
 
 latex_documents = [
-  ('contents', 'pyspark.tex', 'Learning Apache Spark with Python',
+  ('index', 'pyspark.tex', 'Learning Apache Spark with Python',
    'Wenqiang Feng', 'manual'),
 ]
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-latex_logo = '_static/logo.jpg'
+latex_logo = 'images/logo.jpg'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.

@@ -29,7 +29,7 @@ if __name__ == '__main__':
         except OSError:
             pass
 
-    outdir = options['-o'] or (throot + '/html')
+    outdir = options['-o'] or (throot + '/docs')
     latexout = options['-o'] or (throot + '/latex')
     mkdir(outdir)
     mkdir(latexout)
