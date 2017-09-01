@@ -30,7 +30,7 @@ Given that a data set :math:`{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i
 In matrix notation, the data set is written as :math:`\X = [\X_1,\cdots, \X_n]` with
 :math:`\X_i = {\displaystyle \{x_{\cdot i}\}_{i=1}^{n}}`, 
 :math:`\Y = {\displaystyle \{y_{i}\}_{i=1}^{m}}`
-and :math:`\mathbf{\beta}^\top` = {\displaystyle \{\beta_{i}\}_{i=1}^{m}}. 
+and :math:`\mathbf{\beta}^\top = {\displaystyle \{\beta_{i}\}_{i=1}^{m}}`. 
 Then the normal equations are written as
 
       .. math::
