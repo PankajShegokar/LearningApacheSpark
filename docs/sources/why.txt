@@ -9,7 +9,7 @@ Why Spark with Python ?
 
   **Sharpening the knife longer can make it easier to hack the firewood** -- old Chinese proverb
 
-I want to answer this question in two folders:
+I want to answer this question from the following two parts:
 
 Why Spark?
 ++++++++++

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  31 AUG 2017 20:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  31 AUG 2017 21:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1061,15 +1061,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [6 <./stack.png> <./spark-runs-everywhere.png>]
-<languages.png, id=358, 658.46pt x 529.98pt>
-File: languages.png Graphic file (type png)
- <use languages.png>
-Package pdftex.def Info: languages.png used on input line 314.
+<languages.jpg, id=358, 658.46pt x 529.98pt>
+File: languages.jpg Graphic file (type jpg)
+ <use languages.jpg>
+Package pdftex.def Info: languages.jpg used on input line 314.
 (pdftex.def)             Requested size: 658.4584pt x 529.97868pt.
-File: languages.png Graphic file (type png)
+File: languages.jpg Graphic file (type jpg)
 
-<use languages.png>
-Package pdftex.def Info: languages.png used on input line 314.
+<use languages.jpg>
+Package pdftex.def Info: languages.jpg used on input line 314.
 (pdftex.def)             Requested size: 469.755pt x 378.09987pt.
 
 
@@ -1078,7 +1078,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[7 <./languages.png>]
+[7 <./languages.jpg>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1595,7 +1595,7 @@ ive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-d
 ist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (55 pages, 2625508 bytes).
+Output written on pyspark.pdf (55 pages, 2625530 bytes).
 PDF statistics:
  760 PDF objects out of 1000 (max. 8388607)
  637 compressed objects within 7 object streams
