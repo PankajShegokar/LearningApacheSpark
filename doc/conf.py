@@ -203,7 +203,10 @@ latex_preamble =  '\\usepackage{amsmath}\n'+\
                           '\\usepackage{amsfonts}\n'+\
                           '\\usepackage{amssymb}\n'+\
                           '\\usepackage{dsfont}\n'+\
-                          '\\def\\Z{\\mathbb{Z}}\n'
+                          '\\def\\X{\\mathbf{X}}\n'+\
+                          '\\def\\Y{\\mathbf{Y}}\n'+\
+                          '\\def\\Bbeta{\\boldsymbol{\\beta}}\n'
+
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
@@ -219,4 +222,7 @@ pngmath_latex_preamble =  '\\usepackage{amsmath}\n'+\
                           '\\usepackage{amsfonts}\n'+\
                           '\\usepackage{amssymb}\n'+\
                           '\\usepackage{dsfont}\n'+\
-                          '\\def\\Z{\\mathbb{Z}}\n'
+                          '\\def\\X{\\mathbf{X}}\n'+\
+                          '\\def\\Y{\\mathbf{Y}}\n'+\
+                          '\\def\\Bbeta{\\boldsymbol{\\beta}}\n'
+

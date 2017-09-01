@@ -20,11 +20,23 @@ Linear Regression
 +++++++++++++++++
 
 Given that a data set :math:`{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}` which contains n features
-(variables) and m samples (data points), in simple linear regression model, the formula is given by:
+(variables) and m samples (data points), in simple linear regression model for modeling :math:`{\displaystyle m}` data points with one independent variable: :math:`{\displaystyle x_{i1}}`, the formula is given by:
 
       .. math::
 
-         y_i = \beta_0 + \beta_1 x_{i1}, \text{where}, i= 1, \cdots m.  
+         y_i = \beta_0 + \beta_1 x_{i1}, \text{where}, i= 1, \cdots m. 
+       
+
+In matrix notation, the data set is written as :math:`\X = [\X_1,\cdots, \X_n]` with
+:math:`\X_i = {\displaystyle \{x_{\cdot i}\}_{i=1}^{n}}`, 
+:math:`\Y = {\displaystyle \{y_{i}\}_{i=1}^{m}}`
+and :math:`\mathbf{\beta}^\top` = {\displaystyle \{\beta_{i}\}_{i=1}^{m}}. 
+Then the normal equations are written as
+
+      .. math::
+
+         \Y = \X \Bbeta.
+         
 
 
  .. code-block:: python

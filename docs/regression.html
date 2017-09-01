@@ -191,12 +191,21 @@
 <p>In data mining, Regression is a model to represent the relationship between the value of lable ( or target, it is numerical variable) and on one or more features (or predictors they can be numerical and categorical variables).</p>
 <div class="section" id="linear-regression">
 <h2>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h2>
-<p>Given that a data set <img class="math" src="images/math/55d7179dd61a69d248a17e45235dbf6945ffab5d.png" alt="{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}"/> which contains n features
-(variables) and m samples (data points), in simple linear regression model, the formula is given by:</p>
+<p>Given that a data set <img class="math" src="images/math/54f083c556b076986d9a1835c0343609198e7924.png" alt="{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}"/> which contains n features
+(variables) and m samples (data points), in simple linear regression model for modeling <img class="math" src="images/math/2ef085ed6aabcff9ef6660b0b90091ae8a25a5f6.png" alt="{\displaystyle m}"/> data points with one independent variable: <img class="math" src="images/math/df031f10e220f4e1b3d8f2cd84b4c4e7a499484b.png" alt="{\displaystyle x_{i1}}"/>, the formula is given by:</p>
+<blockquote>
+<div><div class="math">
+<p><img src="images/math/14a68400b777445ea811d5df603a95b269c63c58.png" alt="y_i = \beta_0 + \beta_1 x_{i1}, \text{where}, i= 1, \cdots m."/></p>
+</div></div></blockquote>
+<p>In matrix notation, the data set is written as <img class="math" src="images/math/79f30a9be3e1b57bc1e847f4c5d180b424f93426.png" alt="\X = [\X_1,\cdots, \X_n]"/> with
+<img class="math" src="images/math/e2ab70f568d4eea8aa3c130d2ad7844b1d5fe7bd.png" alt="\X_i = {\displaystyle \{x_{\cdot i}\}_{i=1}^{n}}"/>,
+<img class="math" src="images/math/0670d0b133c8241d0ee35ea04152eda55b2fd4b9.png" alt="\Y = {\displaystyle \{y_{i}\}_{i=1}^{m}}"/>
+and <img class="math" src="images/math/e2c0b5680b62ee1b77d67c59982e82935fe4d809.png" alt="\mathbf{\beta}^\top"/> = {displaystyle {beta_{i}}_{i=1}^{m}}.
+Then the normal equations are written as</p>
 <blockquote>
 <div><blockquote>
 <div><div class="math">
-<p><img src="images/math/7f7e147e862cf71026b92bc1cc0f5805c4026273.png" alt="y_i = \beta_0 + \beta_1 x_{i1}, \text{where}, i= 1, \cdots m."/></p>
+<p><img src="images/math/b9f9aff11617685eeeb3e6f8aa49a8954375010e.png" alt="\Y = \X \Bbeta."/></p>
 </div></div></blockquote>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 
