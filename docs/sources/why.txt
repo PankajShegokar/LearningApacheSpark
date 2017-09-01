@@ -74,12 +74,12 @@ No matter you like it or not, Python has been one of the most popular programmin
   .. figure:: images/languages.png
     :align: center
 
-    programming language popularity from R-Chart
+    KDnuggets Analytics/Data Science 2017 Software Poll from `kdnuggets`_.
 
 
 .. _Apache Spark™ : http://spark.apache.org/
 
-.. _R-Chart: http://www.r-chart.com/2010/08/programming-language-popularity.html
+.. _kdnuggets: http://www.kdnuggets.com/2017/05/poll-analytics-data-science-machine-learning-software-leaders.html
 
 
 

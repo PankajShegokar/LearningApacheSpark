@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  31 AUG 2017 20:21
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  31 AUG 2017 20:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1061,16 +1061,16 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [6 <./stack.png> <./spark-runs-everywhere.png>]
-<languages.png, id=358, 1606.0pt x 1603.9925pt>
+<languages.png, id=358, 658.46pt x 529.98pt>
 File: languages.png Graphic file (type png)
  <use languages.png>
 Package pdftex.def Info: languages.png used on input line 314.
-(pdftex.def)             Requested size: 1605.99611pt x 1603.98859pt.
+(pdftex.def)             Requested size: 658.4584pt x 529.97868pt.
 File: languages.png Graphic file (type png)
 
 <use languages.png>
 Package pdftex.def Info: languages.png used on input line 314.
-(pdftex.def)             Requested size: 469.755pt x 469.1598pt.
+(pdftex.def)             Requested size: 469.755pt x 378.09987pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1577,8 +1577,8 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1550.
  ) 
 Here is how much of TeX's memory you used:
  10416 strings out of 493304
- 146840 string characters out of 6139871
- 250288 words of memory out of 5000000
+ 146842 string characters out of 6139871
+ 250411 words of memory out of 5000000
  13367 multiletter control sequences out of 15000+600000
  66384 words of font info for 90 fonts, out of 8000000 for 9000
  958 hyphenation exceptions out of 8191
@@ -1595,10 +1595,10 @@ ive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-d
 ist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (55 pages, 3119224 bytes).
+Output written on pyspark.pdf (55 pages, 2625508 bytes).
 PDF statistics:
  760 PDF objects out of 1000 (max. 8388607)
- 636 compressed objects within 7 object streams
+ 637 compressed objects within 7 object streams
  186 named destinations out of 1000 (max. 500000)
  573 words of extra memory for PDF output out of 10000 (max. 10000000)
 
