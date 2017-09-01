@@ -71,7 +71,7 @@ No matter you like it or not, Python has been one of the most popular programmin
 
 
   .. _fig_languages:
-  .. figure:: images/languages.png
+  .. figure:: images/languages.jpg
     :align: center
 
     KDnuggets Analytics/Data Science 2017 Software Poll from `kdnuggets`_.
