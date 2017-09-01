@@ -22,7 +22,12 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo']
+# pip install -e git+git://github.com/michaeljones/sphinx-to-github.git#egg=sphinx-to-github
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo',"sphinxtogithub"]
+
+sphinx_to_github = True
+sphinx_to_github_verbose = True
+sphinx_to_github_encoding = "utf-8"
 
 try:
     from sphinx.ext import pngmath
