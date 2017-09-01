@@ -10,3 +10,7 @@ In this repository, I try to use the detailed demo code and examples to show how
 Although I am by no means an data mining programming and Big Data expert, I decided that it would be useful for me to share what I learned about PySpark programming in the form of easy tutorials with detailed example. I hope those tutorials will be a valuable tool for your studies.
 
 The tutorials assume that the reader has a preliminary knowledge of programing and Linux. And this document is generated automatically by using sphinx.
+
+Reference:
+
+- https://github.com/michaeljones/sphinx-to-github
