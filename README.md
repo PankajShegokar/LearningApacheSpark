@@ -11,6 +11,10 @@ Although I am by no means an data mining programming and Big Data expert, I deci
 
 The tutorials assume that the reader has a preliminary knowledge of programing and Linux. And this document is generated automatically by using sphinx.
 
+
+BTW, I successfully brought git output format into Sphnix in this repository.  You need to install `sphinx-to-github`
+and more details can be found from the following reference:
+
 Reference:
 
 - https://github.com/michaeljones/sphinx-to-github
