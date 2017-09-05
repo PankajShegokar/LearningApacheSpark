@@ -294,7 +294,7 @@ The final Root Mean Squared Error (RMSE) is as follows:
 
 .. code-block:: python
 
-Root Mean Squared Error (RMSE) on test data = 1.63114
+	Root Mean Squared Error (RMSE) on test data = 1.63114
 
 
 
