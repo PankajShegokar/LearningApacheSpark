@@ -106,6 +106,8 @@
 <li class="toctree-l1"><a class="reference internal" href="stats.html">Statistics Preliminary</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Regression</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#linear-regression">Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-solve-it">How to solve it?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#demo">Demo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generalized-linear-regression">Generalized linear regression</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#decision-tree-regression">Decision tree Regression</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#random-forest-regression">Random Forest Regression</a></li>
@@ -191,32 +193,155 @@
 <p>In data mining, Regression is a model to represent the relationship between the value of lable ( or target, it is numerical variable) and on one or more features (or predictors they can be numerical and categorical variables).</p>
 <div class="section" id="linear-regression">
 <h2>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h2>
-<p>Given that a data set <img class="math" src="images/math/54f083c556b076986d9a1835c0343609198e7924.png" alt="{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}"/> which contains n features
-(variables) and m samples (data points), in simple linear regression model for modeling <img class="math" src="images/math/2ef085ed6aabcff9ef6660b0b90091ae8a25a5f6.png" alt="{\displaystyle m}"/> data points with one independent variable: <img class="math" src="images/math/df031f10e220f4e1b3d8f2cd84b4c4e7a499484b.png" alt="{\displaystyle x_{i1}}"/>, the formula is given by:</p>
+<p>Given that a data set <img class="math" src="images/math/6d20f5ca5eaf64e6ca28d07379b0f19e69364475.png" alt="{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}"/> which contains n features
+(variables) and m samples (data points), in simple linear regression model for modeling <img class="math" src="images/math/e2e41c048230d8820d51d5202e6fc530386b4707.png" alt="{\displaystyle m}"/> data points with one independent variable: <img class="math" src="images/math/cc82db7c9ba7788384379d0e9237a613bd6bc31f.png" alt="{\displaystyle x_{i1}}"/>, the formula is given by:</p>
 <blockquote>
 <div><div class="math">
-<p><img src="images/math/14a68400b777445ea811d5df603a95b269c63c58.png" alt="y_i = \beta_0 + \beta_1 x_{i1}, \text{where}, i= 1, \cdots m."/></p>
+<p><img src="images/math/01bb9fef6a7476fc6bdb99fbd4e1eb8b44103cfc.png" alt="y_i = \beta_0 + \beta_1 x_{i1}, \text{where}, i= 1, \cdots m."/></p>
 </div></div></blockquote>
-<p>In matrix notation, the data set is written as <img class="math" src="images/math/79f30a9be3e1b57bc1e847f4c5d180b424f93426.png" alt="\X = [\X_1,\cdots, \X_n]"/> with
-<img class="math" src="images/math/e2ab70f568d4eea8aa3c130d2ad7844b1d5fe7bd.png" alt="\X_i = {\displaystyle \{x_{\cdot i}\}_{i=1}^{n}}"/>,
-<img class="math" src="images/math/0670d0b133c8241d0ee35ea04152eda55b2fd4b9.png" alt="\Y = {\displaystyle \{y_{i}\}_{i=1}^{m}}"/>
-and <img class="math" src="images/math/8d6f8290c0937f3a04b90276db92262c11015d5f.png" alt="\mathbf{\beta}^\top = {\displaystyle \{\beta_{i}\}_{i=1}^{m}}"/>.
+<p>In matrix notation, the data set is written as <img class="math" src="images/math/44d96c1fc8a8647293b5230cb817663f0a3a51c3.png" alt="\X = [\X_1,\cdots, \X_n]"/> with
+<img class="math" src="images/math/56fb836c3121e1acd3c6f5d7619889b777a138ed.png" alt="\X_i = {\displaystyle \{x_{\cdot i}\}_{i=1}^{n}}"/>,
+<img class="math" src="images/math/d9eef80b82d69bbc48cef263ad4f6493d1763890.png" alt="\By = {\displaystyle \{y_{i}\}_{i=1}^{m}}"/>
+and <img class="math" src="images/math/df2414901dafa4b81383957f9a727bac22c8192e.png" alt="\Bbeta^\top = {\displaystyle \{\beta_{i}\}_{i=1}^{m}}"/>.
 Then the normal equations are written as</p>
 <blockquote>
-<div><blockquote>
 <div><div class="math">
-<p><img src="images/math/b9f9aff11617685eeeb3e6f8aa49a8954375010e.png" alt="\Y = \X \Bbeta."/></p>
+<p><img src="images/math/5795b2d0a1fd7625e2fa821df89d3fea06a832ec.png" alt="\By = \X \Bbeta."/></p>
 </div></div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+</div>
+<div class="section" id="how-to-solve-it">
+<h2>How to solve it?<a class="headerlink" href="#how-to-solve-it" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="demo">
+<h2>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Set up spark context and SparkSession</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span>       <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 
-<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
-    <span class="o">.</span><span class="n">builder</span> \
-    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark Linear Regression Example&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+       <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+           <span class="o">.</span><span class="n">builder</span> \
+           <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark regression example&quot;</span><span class="p">)</span> \
+           <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+           <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+
+
+
+<span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">python</span>
+
+       <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+       <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+           <span class="o">.</span><span class="n">builder</span> \
+           <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark Linear Regression Example&quot;</span><span class="p">)</span> \
+           <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+           <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </pre></div>
 </div>
-</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>Load dataset</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----+--------+------+-----+---------+----+-----+-------+----+---------+-------+-------+</span>
+<span class="o">|</span><span class="n">fixed</span><span class="o">|</span><span class="n">volatile</span><span class="o">|</span><span class="n">citric</span><span class="o">|</span><span class="n">sugar</span><span class="o">|</span><span class="n">chlorides</span><span class="o">|</span><span class="n">free</span><span class="o">|</span><span class="n">total</span><span class="o">|</span><span class="n">density</span><span class="o">|</span>  <span class="n">pH</span><span class="o">|</span><span class="n">sulphates</span><span class="o">|</span><span class="n">alcohol</span><span class="o">|</span><span class="n">quality</span><span class="o">|</span>
+<span class="o">+-----+--------+------+-----+---------+----+-----+-------+----+---------+-------+-------+</span>
+<span class="o">|</span>  <span class="mf">7.4</span><span class="o">|</span>     <span class="mf">0.7</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span>  <span class="mf">1.9</span><span class="o">|</span>    <span class="mf">0.076</span><span class="o">|</span><span class="mf">11.0</span><span class="o">|</span> <span class="mf">34.0</span><span class="o">|</span> <span class="mf">0.9978</span><span class="o">|</span><span class="mf">3.51</span><span class="o">|</span>     <span class="mf">0.56</span><span class="o">|</span>    <span class="mf">9.4</span><span class="o">|</span>      <span class="mi">5</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mf">7.8</span><span class="o">|</span>    <span class="mf">0.88</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span>  <span class="mf">2.6</span><span class="o">|</span>    <span class="mf">0.098</span><span class="o">|</span><span class="mf">25.0</span><span class="o">|</span> <span class="mf">67.0</span><span class="o">|</span> <span class="mf">0.9968</span><span class="o">|</span> <span class="mf">3.2</span><span class="o">|</span>     <span class="mf">0.68</span><span class="o">|</span>    <span class="mf">9.8</span><span class="o">|</span>      <span class="mi">5</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mf">7.8</span><span class="o">|</span>    <span class="mf">0.76</span><span class="o">|</span>  <span class="mf">0.04</span><span class="o">|</span>  <span class="mf">2.3</span><span class="o">|</span>    <span class="mf">0.092</span><span class="o">|</span><span class="mf">15.0</span><span class="o">|</span> <span class="mf">54.0</span><span class="o">|</span>  <span class="mf">0.997</span><span class="o">|</span><span class="mf">3.26</span><span class="o">|</span>     <span class="mf">0.65</span><span class="o">|</span>    <span class="mf">9.8</span><span class="o">|</span>      <span class="mi">5</span><span class="o">|</span>
+<span class="o">|</span> <span class="mf">11.2</span><span class="o">|</span>    <span class="mf">0.28</span><span class="o">|</span>  <span class="mf">0.56</span><span class="o">|</span>  <span class="mf">1.9</span><span class="o">|</span>    <span class="mf">0.075</span><span class="o">|</span><span class="mf">17.0</span><span class="o">|</span> <span class="mf">60.0</span><span class="o">|</span>  <span class="mf">0.998</span><span class="o">|</span><span class="mf">3.16</span><span class="o">|</span>     <span class="mf">0.58</span><span class="o">|</span>    <span class="mf">9.8</span><span class="o">|</span>      <span class="mi">6</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mf">7.4</span><span class="o">|</span>     <span class="mf">0.7</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span>  <span class="mf">1.9</span><span class="o">|</span>    <span class="mf">0.076</span><span class="o">|</span><span class="mf">11.0</span><span class="o">|</span> <span class="mf">34.0</span><span class="o">|</span> <span class="mf">0.9978</span><span class="o">|</span><span class="mf">3.51</span><span class="o">|</span>     <span class="mf">0.56</span><span class="o">|</span>    <span class="mf">9.4</span><span class="o">|</span>      <span class="mi">5</span><span class="o">|</span>
+<span class="o">+-----+--------+------+-----+---------+----+-----+-------+----+---------+-------+-------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>change categorical variable size</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Convert to float format</span>
+<span class="k">def</span> <span class="nf">string_to_float</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="k">def</span> <span class="nf">condition</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;low&quot;</span>
+    <span class="k">elif</span><span class="p">(</span><span class="mi">4</span><span class="o">&lt;</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">):</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;high&quot;</span>
+    <span class="k">return</span> <span class="n">label</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">DoubleType</span>
+<span class="n">string_to_float_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">string_to_float</span><span class="p">,</span> <span class="n">DoubleType</span><span class="p">())</span>
+<span class="n">quality_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">condition</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">df</span><span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="n">quality_udf</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Convert the data to dense vector</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># convert the data to dense vector</span>
+<span class="k">def</span> <span class="nf">transData</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span><span class="o">.</span>\
+           <span class="n">toDF</span><span class="p">([</span><span class="s1">&#39;label&#39;</span><span class="p">,</span><span class="s1">&#39;features&#39;</span><span class="p">])</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">Row</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+
+<span class="n">data</span><span class="o">=</span> <span class="n">transData</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>Split the data into training and test sets (40% held out for testing)</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Split the data into train and test</span>
+<span class="p">(</span><span class="n">trainingData</span><span class="p">,</span> <span class="n">testData</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li>Train neural network</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># specify layers for the neural network:</span>
+<span class="c1"># input layer of size 11 (features), two intermediate of size 5 and 4</span>
+<span class="c1"># and output of size 7 (classes)</span>
+<span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span> <span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="c1"># create the trainer and set its parameters</span>
+<span class="n">FNN</span> <span class="o">=</span> <span class="n">MultilayerPerceptronClassifier</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;indexedLabel&quot;</span><span class="p">,</span> <span class="n">featuresCol</span><span class="o">=</span><span class="s2">&quot;indexedFeatures&quot;</span><span class="p">,</span>\
+                                         <span class="n">maxIter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span> <span class="n">blockSize</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1234</span><span class="p">)</span>
+<span class="c1"># Convert indexed labels back to original labels.</span>
+<span class="n">labelConverter</span> <span class="o">=</span> <span class="n">IndexToString</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">,</span>
+                               <span class="n">labels</span><span class="o">=</span><span class="n">labelIndexer</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+<span class="c1"># Chain indexers and forest in a Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">labelIndexer</span><span class="p">,</span> <span class="n">featureIndexer</span><span class="p">,</span> <span class="n">FNN</span><span class="p">,</span> <span class="n">labelConverter</span><span class="p">])</span>
+<span class="c1"># train the model</span>
+<span class="c1"># Train model.  This also runs the indexers.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="7">
+<li>Make predictions</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Make predictions.</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testData</span><span class="p">)</span>
+<span class="c1"># Select example rows to display.</span>
+<span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">,</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li>Evaluation</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Select (prediction, true label) and compute test error</span>
+<span class="n">evaluator</span> <span class="o">=</span> <span class="n">MulticlassClassificationEvaluator</span><span class="p">(</span>
+    <span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;indexedLabel&quot;</span><span class="p">,</span> <span class="n">predictionCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span> <span class="n">metricName</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Predictions accuracy = </span><span class="si">%g</span><span class="s2">, Test Error = </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">accuracy</span><span class="p">,(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">)))</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="generalized-linear-regression">
 <h2>Generalized linear regression<a class="headerlink" href="#generalized-linear-regression" title="Permalink to this headline">¶</a></h2>
@@ -255,7 +380,7 @@ Then the normal equations are written as</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Sep 01, 2017.
+      Last updated on Sep 05, 2017.
 
     </p>
   </div>

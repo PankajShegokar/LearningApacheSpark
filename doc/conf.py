@@ -204,7 +204,7 @@ latex_preamble =  '\\usepackage{amsmath}\n'+\
                           '\\usepackage{amssymb}\n'+\
                           '\\usepackage{dsfont}\n'+\
                           '\\def\\X{\\mathbf{X}}\n'+\
-                          '\\def\\Y{\\mathbf{Y}}\n'+\
+                          '\\def\\By{\\mathbf{y}}\n'+\
                           '\\def\\Bbeta{\\boldsymbol{\\beta}}\n'
 
 
@@ -223,6 +223,6 @@ pngmath_latex_preamble =  '\\usepackage{amsmath}\n'+\
                           '\\usepackage{amssymb}\n'+\
                           '\\usepackage{dsfont}\n'+\
                           '\\def\\X{\\mathbf{X}}\n'+\
-                          '\\def\\Y{\\mathbf{Y}}\n'+\
+                          '\\def\\By{\\mathbf{y}}\n'+\
                           '\\def\\Bbeta{\\boldsymbol{\\beta}}\n'
 
