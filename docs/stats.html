@@ -103,7 +103,11 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Configure Running Platform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">An Introduction to Apache Spark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rdd.html">Programming with RDDs</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Statistics Preliminary</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Statistics Preliminary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#notations">Notations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#measurement-formula">Measurement Formula</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
@@ -182,6 +186,35 @@
 If you know neither yourself nor your enemy, you will always endanger yourself</strong>
 – idiom, from Sunzi’s Art of War</p>
 </div>
+<div class="section" id="notations">
+<h2>Notations<a class="headerlink" href="#notations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>m : the number of the samples</li>
+<li>n : the number of the features</li>
+<li><img class="math" src="images/math/11551022ee3e27f6b7dd6035d9b69d4f8880cc07.png" alt="y_i"/> : i-th label</li>
+<li><img class="math" src="images/math/3db9dc7d349447a5e6b60cca0c3164d63f71d21e.png" alt="{\displaystyle {\bar {y}}}"/>:  the mean of <img class="math" src="images/math/59a0a4ab1ae05e923fc8d56b59fd1a55a4ca444c.png" alt="y"/>.</li>
+</ul>
+</div>
+<div class="section" id="measurement-formula">
+<h2>Measurement Formula<a class="headerlink" href="#measurement-formula" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Mean squared error</li>
+</ul>
+<p>In statistics, the <strong>MSE</strong> (<a class="reference external" href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Squared Error</a>) of an estimator (of a procedure for estimating an unobserved quantity) measures the average of the squares of the errors or deviations—that is, the difference between the estimator and what is estimated.</p>
+<div class="math">
+<p><img src="images/math/eeedcad9bd825027a6b54fcb6a5131dbbfd7dd6f.png" alt="\text{MSE}=\frac{1}{m}\sum_{i=1}^m\left( \hat{y}_i-y_i\right)^2"/></p>
+</div><ul class="simple">
+<li>Root Mean squared error</li>
+</ul>
+<div class="math">
+<p><img src="images/math/cdbd550ef7d1db5d42b52d6a9aced8ee512c33fc.png" alt="\text{RMSE} = \sqrt{\text{MSE}}=\sqrt{\frac{1}{m}\sum_{i=1}^m\left( \hat{y}_i-y_i\right)^2}"/></p>
+</div><ul class="simple">
+<li>Total sum of squares</li>
+</ul>
+<p>In statistical data analysis the <strong>TSS</strong> (<a class="reference external" href="https://en.wikipedia.org/wiki/Total_sum_of_squares">Total Sum of Squares</a>) is a quantity that appears as part of a standard way of presenting results of such analyses. It is defined as being the sum, over all observations, of the squared differences of each observation from the overall mean.</p>
+<div class="math">
+<p><img src="images/math/1facdd81347ee2a1a842f0fc3665122fd48379e2.png" alt="\text{TSS} =  \sum_{i=1}^m\left( y_i-\bar{y}\right)^2"/></p>
+</div></div>
 </div>
 
 
@@ -207,7 +240,7 @@ If you know neither yourself nor your enemy, you will always endanger yourself</
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Sep 05, 2017.
+      Last updated on Sep 06, 2017.
 
     </p>
   </div>
