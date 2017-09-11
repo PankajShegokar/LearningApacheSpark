@@ -23,9 +23,12 @@ Multinomial logistic regression
 Decision tree Classification
 ++++++++++++++++++++++++++++
 
+The Jupyter notebook can be download from `Decision Tree Classification <_static/DecisionTreeC.ipynb>`_.
+
 
 Random forest Classification
 ++++++++++++++++++++++++++++
+
 
 Gradient-boosted tree Classification
 ++++++++++++++++++++++++++++++++++++
@@ -33,6 +36,8 @@ Gradient-boosted tree Classification
 
 Naive Bayes Classification
 ++++++++++++++++++++++++++
+
+The Jupyter notebook can be download from `Naive Bayes Classification <_static/NaiveBayes.ipynb>`_.
 
 
 Support Vector Machines Classification

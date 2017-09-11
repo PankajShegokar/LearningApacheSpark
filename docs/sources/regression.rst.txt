@@ -45,6 +45,8 @@ How to solve it?
 Demo
 ----
 
+The Jupyter notebook can be download from `LinearRegression <_static/LinearRegression.ipynb>`_.
+
 1. Set up spark context and SparkSession
 
 .. code-block:: python
@@ -301,15 +303,24 @@ The final Root Mean Squared Error (RMSE) is as follows:
 Generalized linear regression
 +++++++++++++++++++++++++++++
 
+The Jupyter notebook can be download from `Generalized Linear Regression <_static/GLM.ipynb>`_.
+
+
 Decision tree Regression
 ++++++++++++++++++++++++
+
+The Jupyter notebook can be download from `Decision Tree Regression <_static/DecisionTreeR.ipynb>`_.
+
 
 Random Forest Regression
 ++++++++++++++++++++++++
 
+The Jupyter notebook can be download from `Generalized Linear Regression <_static/GLM.ipynb>`_.
 
 Gradient-boosted tree regression
 ++++++++++++++++++++++++++++++++
+
+The Jupyter notebook can be download from `Generalized Linear Regression <_static/GLM.ipynb>`_.
 
 
 
