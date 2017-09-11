@@ -121,8 +121,10 @@ Demo
 	layers = [11, 5, 4, 4, 3 , 7]
 
 	# create the trainer and set its parameters
-	FNN = MultilayerPerceptronClassifier(labelCol="indexedLabel", featuresCol="indexedFeatures",\
-	                                         maxIter=100, layers=layers, blockSize=128, seed=1234)
+	FNN = MultilayerPerceptronClassifier(labelCol="indexedLabel", \
+	                                     featuresCol="indexedFeatures",\
+	                                     maxIter=100, layers=layers, \
+	                                     blockSize=128, seed=1234)
 	# Convert indexed labels back to original labels.
 	labelConverter = IndexToString(inputCol="prediction", outputCol="predictedLabel",
 	                               labels=labelIndexer.labels)
