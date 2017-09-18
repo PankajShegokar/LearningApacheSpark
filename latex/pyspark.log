@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  31 AUG 2017 21:59
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  18 SEP 2017 16:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -843,28 +843,28 @@ Writing index file pyspark.idx
 (./pyspark.aux)
 \openout1 = `pyspark.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 123.
-LaTeX Font Info:    ... okay on input line 123.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 123.
-LaTeX Font Info:    ... okay on input line 123.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 123.
-LaTeX Font Info:    ... okay on input line 123.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 123.
-LaTeX Font Info:    ... okay on input line 123.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 123.
-LaTeX Font Info:    ... okay on input line 123.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 123.
-LaTeX Font Info:    ... okay on input line 123.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 123.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 123.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 125.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 125.
 
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 123.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 123.
-LaTeX Font Info:    ... okay on input line 123.
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 123.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 125.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
@@ -898,7 +898,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box41
-Package hyperref Info: Link coloring ON on input line 123.
+Package hyperref Info: Link coloring ON on input line 125.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -908,50 +908,50 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count134
 )
-LaTeX Info: Redefining \ref on input line 123.
-LaTeX Info: Redefining \pageref on input line 123.
-LaTeX Info: Redefining \nameref on input line 123.
+LaTeX Info: Redefining \ref on input line 125.
+LaTeX Info: Redefining \pageref on input line 125.
+LaTeX Info: Redefining \nameref on input line 125.
 
 (./pyspark.out) (./pyspark.out)
 \@outlinefile=\write6
 \openout6 = `pyspark.out'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--126
+Underfull \hbox (badness 10000) in paragraph at lines 128--128
 
  []
 
-<logo.jpg, id=222, 377.41pt x 200.75pt>
+<logo.jpg, id=230, 377.41pt x 200.75pt>
 File: logo.jpg Graphic file (type jpg)
  <use logo.jpg>
-Package pdftex.def Info: logo.jpg used on input line 126.
+Package pdftex.def Info: logo.jpg used on input line 128.
 (pdftex.def)             Requested size: 377.40907pt x 200.7495pt.
 File: logo.jpg Graphic file (type jpg)
  <use logo.jpg>
-Package pdftex.def Info: logo.jpg used on input line 126.
+Package pdftex.def Info: logo.jpg used on input line 128.
 (pdftex.def)             Requested size: 377.40907pt x 200.7495pt.
-LaTeX Font Info:    Try loading font information for T1+phv on input line 126.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 128.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <24.88> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 126.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 128.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <17.28> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 126.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 128.
 LaTeX Font Info:    Font shape `T1/phv/bx/it' in size <17.28> not available
-(Font)              Font shape `T1/phv/b/it' tried instead on input line 126.
+(Font)              Font shape `T1/phv/b/it' tried instead on input line 128.
 LaTeX Font Info:    Font shape `T1/phv/b/it' in size <17.28> not available
-(Font)              Font shape `T1/phv/b/sl' tried instead on input line 126.
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 128.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <17.28> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 126.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 128.
 <<ot1.cmap>><<oml.cmap>><<oms.cmap>><<omx.cmap>>
-LaTeX Font Info:    Try loading font information for U+msa on input line 126.
+LaTeX Font Info:    Try loading font information for U+msa on input line 128.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 126.
+LaTeX Font Info:    Try loading font information for U+msb on input line 128.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -963,7 +963,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 2.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 43.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 52.
  [1
 
 ])
@@ -974,11 +974,11 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10.95> not available
 [2]
 File: logo.jpg Graphic file (type jpg)
  <use logo.jpg>
-Package pdftex.def Info: logo.jpg used on input line 131.
+Package pdftex.def Info: logo.jpg used on input line 133.
 (pdftex.def)             Requested size: 377.40907pt x 200.7495pt.
 File: logo.jpg Graphic file (type jpg)
  <use logo.jpg>
-Package pdftex.def Info: logo.jpg used on input line 131.
+Package pdftex.def Info: logo.jpg used on input line 133.
 (pdftex.def)             Requested size: 377.40907pt x 200.7495pt.
 
 
@@ -1001,14 +1001,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 ]
 Chapter 1.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 143.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 145.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 143.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 145.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 143.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 145.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 149.
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 175.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 151.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 177.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
@@ -1021,37 +1021,37 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [4]
 Chapter 2.
-<logistic-regression.png, id=338, 250.9375pt x 129.48375pt>
+<logistic-regression.png, id=348, 250.9375pt x 129.48375pt>
 File: logistic-regression.png Graphic file (type png)
 
 <use logistic-regression.png>
-Package pdftex.def Info: logistic-regression.png used on input line 260.
+Package pdftex.def Info: logistic-regression.png used on input line 262.
 (pdftex.def)             Requested size: 250.93687pt x 129.48341pt.
 File: logistic-regression.png Graphic file (type png)
  <use logistic-regression.png>
-Package pdftex.def Info: logistic-regression.png used on input line 260.
+Package pdftex.def Info: logistic-regression.png used on input line 262.
 (pdftex.def)             Requested size: 250.93687pt x 129.48341pt.
  [5
 
- <./logistic-regression.png>] <stack.png, id=346, 759.83875pt x 426.59375pt>
+ <./logistic-regression.png>] <stack.png, id=356, 759.83875pt x 426.59375pt>
 File: stack.png Graphic file (type png)
  <use stack.png>
-Package pdftex.def Info: stack.png used on input line 285.
+Package pdftex.def Info: stack.png used on input line 287.
 (pdftex.def)             Requested size: 759.83688pt x 426.5927pt.
 File: stack.png Graphic file (type png)
 
 <use stack.png>
-Package pdftex.def Info: stack.png used on input line 285.
+Package pdftex.def Info: stack.png used on input line 287.
 (pdftex.def)             Requested size: 469.755pt x 263.73682pt.
- <spark-runs-everywhere.png, id=348, 547.04375pt x 426.59375pt>
+ <spark-runs-everywhere.png, id=358, 547.04375pt x 426.59375pt>
 File: spark-runs-everywhere.png Graphic file (type png)
 
 <use spark-runs-everywhere.png>
-Package pdftex.def Info: spark-runs-everywhere.png used on input line 301.
+Package pdftex.def Info: spark-runs-everywhere.png used on input line 303.
 (pdftex.def)             Requested size: 547.0424pt x 426.5927pt.
 File: spark-runs-everywhere.png Graphic file (type png)
  <use spark-runs-everywhere.png>
-Package pdftex.def Info: spark-runs-everywhere.png used on input line 301.
+Package pdftex.def Info: spark-runs-everywhere.png used on input line 303.
 (pdftex.def)             Requested size: 469.755pt x 366.3297pt.
 
 
@@ -1061,15 +1061,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [6 <./stack.png> <./spark-runs-everywhere.png>]
-<languages.jpg, id=358, 658.46pt x 529.98pt>
+<languages.jpg, id=368, 658.46pt x 529.98pt>
 File: languages.jpg Graphic file (type jpg)
  <use languages.jpg>
-Package pdftex.def Info: languages.jpg used on input line 314.
+Package pdftex.def Info: languages.jpg used on input line 316.
 (pdftex.def)             Requested size: 658.4584pt x 529.97868pt.
 File: languages.jpg Graphic file (type jpg)
 
 <use languages.jpg>
-Package pdftex.def Info: languages.jpg used on input line 314.
+Package pdftex.def Info: languages.jpg used on input line 316.
 (pdftex.def)             Requested size: 469.755pt x 378.09987pt.
 
 
@@ -1089,77 +1089,77 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Chapter 3.
-<login.png, id=370, 921.4425pt x 671.50874pt>
+<login.png, id=380, 921.4425pt x 671.50874pt>
 File: login.png Graphic file (type png)
  <use login.png>
-Package pdftex.def Info: login.png used on input line 352.
+Package pdftex.def Info: login.png used on input line 354.
 (pdftex.def)             Requested size: 921.44026pt x 671.50711pt.
 File: login.png Graphic file (type png)
  <use login.png>
-Package pdftex.def Info: login.png used on input line 352.
+Package pdftex.def Info: login.png used on input line 354.
 (pdftex.def)             Requested size: 469.755pt x 342.33173pt.
 
-<workspace.png, id=371, 1104.125pt x 760.8425pt>
+<workspace.png, id=381, 1104.125pt x 760.8425pt>
 File: workspace.png Graphic file (type png)
  <use workspace.png>
-Package pdftex.def Info: workspace.png used on input line 366.
+Package pdftex.def Info: workspace.png used on input line 368.
 (pdftex.def)             Requested size: 1104.12231pt x 760.84064pt.
 File: workspace.png Graphic file (type png)
 
 <use workspace.png>
-Package pdftex.def Info: workspace.png used on input line 366.
+Package pdftex.def Info: workspace.png used on input line 368.
 (pdftex.def)             Requested size: 469.755pt x 323.70787pt.
- <cluster.png, id=372, 1194.4625pt x 763.85374pt>
+ <cluster.png, id=382, 1194.4625pt x 763.85374pt>
 File: cluster.png Graphic file (type png)
 
 <use cluster.png>
-Package pdftex.def Info: cluster.png used on input line 379.
+Package pdftex.def Info: cluster.png used on input line 381.
 (pdftex.def)             Requested size: 1194.45958pt x 763.85187pt.
 File: cluster.png Graphic file (type png)
  <use cluster.png>
-Package pdftex.def Info: cluster.png used on input line 379.
+Package pdftex.def Info: cluster.png used on input line 381.
 (pdftex.def)             Requested size: 469.755pt x 300.40768pt.
 
-<table.png, id=373, 1194.4625pt x 763.85374pt>
+<table.png, id=383, 1194.4625pt x 763.85374pt>
 File: table.png Graphic file (type png)
  <use table.png>
-Package pdftex.def Info: table.png used on input line 392.
+Package pdftex.def Info: table.png used on input line 394.
 (pdftex.def)             Requested size: 1194.45958pt x 763.85187pt.
 File: table.png Graphic file (type png)
  <use table.png>
-Package pdftex.def Info: table.png used on input line 392.
+Package pdftex.def Info: table.png used on input line 394.
 (pdftex.def)             Requested size: 469.755pt x 300.40768pt.
 
-<dataset1.png, id=374, 1355.0625pt x 835.12pt>
+<dataset1.png, id=384, 1355.0625pt x 835.12pt>
 File: dataset1.png Graphic file (type png)
  <use dataset1.png>
-Package pdftex.def Info: dataset1.png used on input line 397.
+Package pdftex.def Info: dataset1.png used on input line 399.
 (pdftex.def)             Requested size: 1355.0592pt x 835.11795pt.
 File: dataset1.png Graphic file (type png)
 
 <use dataset1.png>
-Package pdftex.def Info: dataset1.png used on input line 397.
+Package pdftex.def Info: dataset1.png used on input line 399.
 (pdftex.def)             Requested size: 469.755pt x 289.50568pt.
- <notebook.png, id=375, 1355.0625pt x 835.12pt>
+ <notebook.png, id=385, 1355.0625pt x 835.12pt>
 File: notebook.png Graphic file (type png)
 
 <use notebook.png>
-Package pdftex.def Info: notebook.png used on input line 417.
+Package pdftex.def Info: notebook.png used on input line 419.
 (pdftex.def)             Requested size: 1355.0592pt x 835.11795pt.
 File: notebook.png Graphic file (type png)
  <use notebook.png>
-Package pdftex.def Info: notebook.png used on input line 417.
+Package pdftex.def Info: notebook.png used on input line 419.
 (pdftex.def)             Requested size: 469.755pt x 289.50568pt.
 
-<codenotebook.png, id=376, 1342.01375pt x 835.12pt>
+<codenotebook.png, id=386, 1342.01375pt x 835.12pt>
 File: codenotebook.png Graphic file (type png)
  <use codenotebook.png>
-Package pdftex.def Info: codenotebook.png used on input line 422.
+Package pdftex.def Info: codenotebook.png used on input line 424.
 (pdftex.def)             Requested size: 1342.01048pt x 835.11795pt.
 File: codenotebook.png Graphic file (type png)
 
 <use codenotebook.png>
-Package pdftex.def Info: codenotebook.png used on input line 422.
+Package pdftex.def Info: codenotebook.png used on input line 424.
 (pdftex.def)             Requested size: 469.755pt x 292.32185pt.
  [9]
 
@@ -1190,7 +1190,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [13 <./notebook.png> <./codenotebook.png>]
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 432.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 434.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
@@ -1202,12 +1202,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 547--548
+Underfull \hbox (badness 10000) in paragraph at lines 549--550
 []\T1/ptm/m/n/10.95 Test: Test the Pre-req-ui-sites: change the di-rec-tion
  []
 
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 558.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 560.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1216,7 +1216,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [15]
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 597.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 599.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1224,15 +1224,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[16] <jupyterWithPySpark.png, id=446, 1342.01375pt x 902.37125pt>
+[16] <jupyterWithPySpark.png, id=456, 1342.01375pt x 902.37125pt>
 File: jupyterWithPySpark.png Graphic file (type png)
 
 <use jupyterWithPySpark.png>
-Package pdftex.def Info: jupyterWithPySpark.png used on input line 660.
+Package pdftex.def Info: jupyterWithPySpark.png used on input line 662.
 (pdftex.def)             Requested size: 1342.01048pt x 902.36905pt.
 File: jupyterWithPySpark.png Graphic file (type png)
  <use jupyterWithPySpark.png>
-Package pdftex.def Info: jupyterWithPySpark.png used on input line 660.
+Package pdftex.def Info: jupyterWithPySpark.png used on input line 662.
 (pdftex.def)             Requested size: 469.755pt x 315.8622pt.
 
 
@@ -1242,47 +1242,47 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [17 <./jupyterWithPySpark.png>]
-<sublimeWithPySpark.png, id=456, 1299.85625pt x 467.7475pt>
+<sublimeWithPySpark.png, id=467, 1299.85625pt x 467.7475pt>
 File: sublimeWithPySpark.png Graphic file (type png)
 
 <use sublimeWithPySpark.png>
-Package pdftex.def Info: sublimeWithPySpark.png used on input line 682.
+Package pdftex.def Info: sublimeWithPySpark.png used on input line 684.
 (pdftex.def)             Requested size: 1299.85309pt x 467.74634pt.
 File: sublimeWithPySpark.png Graphic file (type png)
  <use sublimeWithPySpark.png>
-Package pdftex.def Info: sublimeWithPySpark.png used on input line 682.
+Package pdftex.def Info: sublimeWithPySpark.png used on input line 684.
 (pdftex.def)             Requested size: 469.755pt x 169.03845pt.
 
-<PyDevProperties.png, id=457, 1602.98875pt x 1034.86626pt>
+<PyDevProperties.png, id=468, 1602.98875pt x 1034.86626pt>
 File: PyDevProperties.png Graphic file (type png)
 
 <use PyDevProperties.png>
-Package pdftex.def Info: PyDevProperties.png used on input line 702.
+Package pdftex.def Info: PyDevProperties.png used on input line 704.
 (pdftex.def)             Requested size: 1602.98485pt x 1034.86372pt.
 File: PyDevProperties.png Graphic file (type png)
  <use PyDevProperties.png>
-Package pdftex.def Info: PyDevProperties.png used on input line 702.
+Package pdftex.def Info: PyDevProperties.png used on input line 704.
 (pdftex.def)             Requested size: 469.755pt x 303.26167pt.
 
-<pydevPath.png, id=458, 791.95876pt x 562.1pt>
+<pydevPath.png, id=469, 791.95876pt x 562.1pt>
 File: pydevPath.png Graphic file (type png)
  <use pydevPath.png>
-Package pdftex.def Info: pydevPath.png used on input line 715.
+Package pdftex.def Info: pydevPath.png used on input line 717.
 (pdftex.def)             Requested size: 791.95683pt x 562.09863pt.
 File: pydevPath.png Graphic file (type png)
 
 <use pydevPath.png>
-Package pdftex.def Info: pydevPath.png used on input line 715.
+Package pdftex.def Info: pydevPath.png used on input line 717.
 (pdftex.def)             Requested size: 469.755pt x 333.42014pt.
- <pysparkWithEclipse.png, id=459, 1609.01125pt x 1035.87pt>
+ <pysparkWithEclipse.png, id=470, 1609.01125pt x 1035.87pt>
 File: pysparkWithEclipse.png Graphic file (type png)
 
 <use pysparkWithEclipse.png>
-Package pdftex.def Info: pysparkWithEclipse.png used on input line 725.
+Package pdftex.def Info: pysparkWithEclipse.png used on input line 727.
 (pdftex.def)             Requested size: 1609.00734pt x 1035.86746pt.
 File: pysparkWithEclipse.png Graphic file (type png)
  <use pysparkWithEclipse.png>
-Package pdftex.def Info: pysparkWithEclipse.png used on input line 725.
+Package pdftex.def Info: pysparkWithEclipse.png used on input line 727.
 (pdftex.def)             Requested size: 469.755pt x 302.41779pt.
 
 
@@ -1307,15 +1307,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [20 <./pysparkWithEclipse.png>]
 Chapter 4.
-<spark-components.png, id=482, 545.03625pt x 440.64626pt>
+<spark-components.png, id=492, 545.03625pt x 440.64626pt>
 File: spark-components.png Graphic file (type png)
 
 <use spark-components.png>
-Package pdftex.def Info: spark-components.png used on input line 817.
+Package pdftex.def Info: spark-components.png used on input line 819.
 (pdftex.def)             Requested size: 545.03493pt x 440.64517pt.
 File: spark-components.png Graphic file (type png)
  <use spark-components.png>
-Package pdftex.def Info: spark-components.png used on input line 817.
+Package pdftex.def Info: spark-components.png used on input line 819.
 (pdftex.def)             Requested size: 469.755pt x 379.78212pt.
  [21
 
@@ -1327,15 +1327,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [22 <./spark-components.png>]
-<spark-components1.png, id=495, 848.16875pt x 285.065pt>
+<spark-components1.png, id=505, 848.16875pt x 285.065pt>
 File: spark-components1.png Graphic file (type png)
 
 <use spark-components1.png>
-Package pdftex.def Info: spark-components1.png used on input line 877.
+Package pdftex.def Info: spark-components1.png used on input line 879.
 (pdftex.def)             Requested size: 848.16667pt x 285.0643pt.
 File: spark-components1.png Graphic file (type png)
  <use spark-components1.png>
-Package pdftex.def Info: spark-components1.png used on input line 877.
+Package pdftex.def Info: spark-components1.png used on input line 879.
 (pdftex.def)             Requested size: 469.755pt x 157.88235pt.
 
 
@@ -1344,15 +1344,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[23 <./spark-components1.png>] <work_flow.png, id=503, 653.44125pt x 353.32pt>
+[23 <./spark-components1.png>] <work_flow.png, id=513, 653.44125pt x 353.32pt>
 File: work_flow.png Graphic file (type png)
 
 <use work_flow.png>
-Package pdftex.def Info: work_flow.png used on input line 947.
+Package pdftex.def Info: work_flow.png used on input line 949.
 (pdftex.def)             Requested size: 653.43965pt x 353.31914pt.
 File: work_flow.png Graphic file (type png)
  <use work_flow.png>
-Package pdftex.def Info: work_flow.png used on input line 947.
+Package pdftex.def Info: work_flow.png used on input line 949.
 (pdftex.def)             Requested size: 469.755pt x 253.99664pt.
 
 
@@ -1397,21 +1397,24 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[30
+[30]
+Chapter 7.
+[31
 
 ]
-Chapter 7.
-[31]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[32
+[32]
 
-]
-Chapter 8.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 [33]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1419,10 +1422,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[34
+[34]
 
-]
-Chapter 9.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 [35]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1430,10 +1436,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[36
+[36]
 
-]
-Chapter 10.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 [37]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1441,56 +1450,28 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[38
-
-]
-Chapter 11.
-<name_freq.png, id=579, 712.6625pt x 469.755pt>
-File: name_freq.png Graphic file (type png)
- <use name_freq.png>
-Package pdftex.def Info: name_freq.png used on input line 1320.
-(pdftex.def)             Requested size: 712.66077pt x 469.75386pt.
-File: name_freq.png Graphic file (type png)
-
-<use name_freq.png>
-Package pdftex.def Info: name_freq.png used on input line 1320.
-(pdftex.def)             Requested size: 469.755pt x 309.63786pt.
- <word_freq.png, id=580, 1075.01625pt x 765.86125pt>
-File: word_freq.png Graphic file (type png)
-
-<use word_freq.png>
-Package pdftex.def Info: word_freq.png used on input line 1326.
-(pdftex.def)             Requested size: 1075.01364pt x 765.85938pt.
-File: word_freq.png Graphic file (type png)
- <use word_freq.png>
-Package pdftex.def Info: word_freq.png used on input line 1326.
-(pdftex.def)             Requested size: 469.755pt x 334.66614pt.
-
-<netfreq.png, id=581, 912.40875pt x 696.6025pt>
-File: netfreq.png Graphic file (type png)
- <use netfreq.png>
-Package pdftex.def Info: netfreq.png used on input line 1332.
-(pdftex.def)             Requested size: 912.40652pt x 696.6008pt.
-File: netfreq.png Graphic file (type png)
-
-<use netfreq.png>
-Package pdftex.def Info: netfreq.png used on input line 1332.
-(pdftex.def)             Requested size: 469.755pt x 358.64268pt.
- [39 <./name_freq.png>]
+[38]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[40 <./word_freq.png>]
+[39]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[41 <./netfreq.png>]
+[40]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[41]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1498,32 +1479,23 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [42]
-Chapter 12.
-<fnn.png, id=606, 907.39pt x 357.335pt>
-File: fnn.png Graphic file (type png)
- <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 1362.
-(pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
-File: fnn.png Graphic file (type png)
- <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 1362.
-(pdftex.def)             Requested size: 469.755pt x 184.99194pt.
- [43
-
- <./fnn.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[44]
+[43]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
+[44
+
+]
+Chapter 8.
 [45]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1534,7 +1506,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [46
 
 ]
-Chapter 13.
+Chapter 9.
 [47]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1545,14 +1517,8 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [48
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1542--1544
-[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
-ure and in-ter-nals.
- []
-
-(./pyspark.ind [49
-
-]
+Chapter 10.
+[49]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1561,44 +1527,167 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [50
 
-] [51
+]
+Chapter 11.
+<name_freq.png, id=686, 712.6625pt x 469.755pt>
+File: name_freq.png Graphic file (type png)
+ <use name_freq.png>
+Package pdftex.def Info: name_freq.png used on input line 2192.
+(pdftex.def)             Requested size: 712.66077pt x 469.75386pt.
+File: name_freq.png Graphic file (type png)
+
+<use name_freq.png>
+Package pdftex.def Info: name_freq.png used on input line 2192.
+(pdftex.def)             Requested size: 469.755pt x 309.63786pt.
+ <word_freq.png, id=687, 1075.01625pt x 765.86125pt>
+File: word_freq.png Graphic file (type png)
+
+<use word_freq.png>
+Package pdftex.def Info: word_freq.png used on input line 2198.
+(pdftex.def)             Requested size: 1075.01364pt x 765.85938pt.
+File: word_freq.png Graphic file (type png)
+ <use word_freq.png>
+Package pdftex.def Info: word_freq.png used on input line 2198.
+(pdftex.def)             Requested size: 469.755pt x 334.66614pt.
+
+<netfreq.png, id=688, 912.40875pt x 696.6025pt>
+File: netfreq.png Graphic file (type png)
+ <use netfreq.png>
+Package pdftex.def Info: netfreq.png used on input line 2204.
+(pdftex.def)             Requested size: 912.40652pt x 696.6008pt.
+File: netfreq.png Graphic file (type png)
+
+<use netfreq.png>
+Package pdftex.def Info: netfreq.png used on input line 2204.
+(pdftex.def)             Requested size: 469.755pt x 358.64268pt.
+ [51 <./name_freq.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[52 <./word_freq.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[53 <./netfreq.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[54]
+Chapter 12.
+<fnn.png, id=714, 907.39pt x 357.335pt>
+File: fnn.png Graphic file (type png)
+ <use fnn.png>
+Package pdftex.def Info: fnn.png used on input line 2234.
+(pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
+File: fnn.png Graphic file (type png)
+ <use fnn.png>
+Package pdftex.def Info: fnn.png used on input line 2234.
+(pdftex.def)             Requested size: 469.755pt x 184.99194pt.
+ [55
+
+ <./fnn.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[56]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[57]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[58
+
+]
+Chapter 13.
+[59]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[60
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 2416--2418
+[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
+ure and in-ter-nals.
+ []
+
+(./pyspark.ind [61
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[62
+
+] [63
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1550.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1550.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2424.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2424.
  (./pyspark.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1550.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1550.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2424.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2424.
 
 Package rerunfilecheck Info: File `pyspark.out' has not changed.
-(rerunfilecheck)             Checksum: C0F97F05E022AC092E19DF2443359C5E;3515.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1550.
+(rerunfilecheck)             Checksum: 410648C1DAF06A745780CCE3989B0F12;3637.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2424.
  ) 
 Here is how much of TeX's memory you used:
- 10416 strings out of 493304
- 146842 string characters out of 6139871
- 250411 words of memory out of 5000000
- 13367 multiletter control sequences out of 15000+600000
- 66384 words of font info for 90 fonts, out of 8000000 for 9000
+ 10522 strings out of 493304
+ 148157 string characters out of 6139871
+ 255811 words of memory out of 5000000
+ 13400 multiletter control sequences out of 15000+600000
+ 72442 words of font info for 101 fonts, out of 8000000 for 9000
  958 hyphenation exceptions out of 8191
- 37i,12n,49p,1529b,487s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,18n,51p,1529b,507s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
-w/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucr
-r8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
-tmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (55 pages, 2625530 bytes).
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+msy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/font
+s/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
+helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uh
+vr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on pyspark.pdf (67 pages, 2696628 bytes).
 PDF statistics:
- 760 PDF objects out of 1000 (max. 8388607)
- 637 compressed objects within 7 object streams
- 186 named destinations out of 1000 (max. 500000)
- 573 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 895 PDF objects out of 1000 (max. 8388607)
+ 754 compressed objects within 8 object streams
+ 239 named destinations out of 1000 (max. 500000)
+ 589 words of extra memory for PDF output out of 10000 (max. 10000000)
 
