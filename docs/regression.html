@@ -106,14 +106,35 @@
 <li class="toctree-l1"><a class="reference internal" href="stats.html">Statistics Preliminary</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Regression</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#linear-regression">Linear Regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#how-to-solve-it">How to solve it?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#demo">Demo</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#generalized-linear-regression">Generalized linear regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#decision-tree-regression">Decision tree Regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#random-forest-regression">Random Forest Regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-tree-regression">Gradient-boosted tree regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generalized-linear-regression">Generalized linear regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">How to solve it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#decision-tree-regression">Decision tree Regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">How to solve it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#random-forest-regression">Random Forest Regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">How to solve it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-tree-regression">Gradient-boosted tree regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">How to solve it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Demo</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
@@ -195,6 +216,8 @@
 <p>In data mining, Regression is a model to represent the relationship between the value of lable ( or target, it is numerical variable) and on one or more features (or predictors they can be numerical and categorical variables).</p>
 <div class="section" id="linear-regression">
 <h2>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
 <p>Given that a data set <img class="math" src="images/math/6d20f5ca5eaf64e6ca28d07379b0f19e69364475.png" alt="{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}"/> which contains n features
 (variables) and m samples (data points), in simple linear regression model for modeling <img class="math" src="images/math/e2e41c048230d8820d51d5202e6fc530386b4707.png" alt="{\displaystyle m}"/> data points with one independent variable: <img class="math" src="images/math/cc82db7c9ba7788384379d0e9237a613bd6bc31f.png" alt="{\displaystyle x_{i1}}"/>, the formula is given by:</p>
 <blockquote>
@@ -210,12 +233,335 @@ Then the normal equations are written as</p>
 <div><div class="math">
 <p><img src="images/math/5795b2d0a1fd7625e2fa821df89d3fea06a832ec.png" alt="\By = \X \Bbeta."/></p>
 </div></div></blockquote>
+</div>
 <div class="section" id="how-to-solve-it">
 <h3>How to solve it?<a class="headerlink" href="#how-to-solve-it" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Direct Methods</li>
+<li>Iterative Methods</li>
+</ol>
 </div>
 <div class="section" id="demo">
 <h3>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h3>
-<p>The Jupyter notebook can be download from <a class="reference external" href="static/LinearRegression.ipynb">LinearRegression</a>.</p>
+<ul class="simple">
+<li>The Jupyter notebook can be download from <a class="reference external" href="static/LinearRegression.ipynb">LinearRegression</a> which was implemented without using Pipeline.</li>
+<li>The Jupyter notebook can be download from <a class="reference external" href="static/LinearRegressionWpipeline.ipynb">LinearRegression</a> which was implemented with using Pipeline.</li>
+<li>I will only present the code with pipeline style in the following.</li>
+</ul>
+<ol class="arabic simple">
+<li>Set up spark context and SparkSession</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark regression example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Load dataset</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;com.databricks.spark.csv&#39;</span><span class="p">)</span><span class="o">.</span>\
+                       <span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> \
+                       <span class="n">inferschema</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">load</span><span class="p">(</span><span class="s2">&quot;../data/Advertising.csv&quot;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>check the data set</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----+-----+---------+-----+</span>
+<span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>
+<span class="o">+-----+-----+---------+-----+</span>
+<span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>     <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>
+<span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>     <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span>
+<span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>     <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span>
+<span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>     <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span>
+<span class="o">|</span><span class="mf">180.8</span><span class="o">|</span> <span class="mf">10.8</span><span class="o">|</span>     <span class="mf">58.4</span><span class="o">|</span> <span class="mf">12.9</span><span class="o">|</span>
+<span class="o">+-----+-----+---------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+
+<span class="n">root</span>
+ <span class="o">|--</span> <span class="n">TV</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Radio</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Newspaper</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Sales</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also get the Statistical resutls from the data frame
+(Unfortunately, it only works for numerical).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-------+-----------------+------------------+------------------+------------------+</span>
+<span class="o">|</span><span class="n">summary</span><span class="o">|</span>               <span class="n">TV</span><span class="o">|</span>             <span class="n">Radio</span><span class="o">|</span>         <span class="n">Newspaper</span><span class="o">|</span>             <span class="n">Sales</span><span class="o">|</span>
+<span class="o">+-------+-----------------+------------------+------------------+------------------+</span>
+<span class="o">|</span>  <span class="n">count</span><span class="o">|</span>              <span class="mi">200</span><span class="o">|</span>               <span class="mi">200</span><span class="o">|</span>               <span class="mi">200</span><span class="o">|</span>               <span class="mi">200</span><span class="o">|</span>
+<span class="o">|</span>   <span class="n">mean</span><span class="o">|</span>         <span class="mf">147.0425</span><span class="o">|</span><span class="mf">23.264000000000024</span><span class="o">|</span><span class="mf">30.553999999999995</span><span class="o">|</span><span class="mf">14.022500000000003</span><span class="o">|</span>
+<span class="o">|</span> <span class="n">stddev</span><span class="o">|</span><span class="mf">85.85423631490805</span><span class="o">|</span><span class="mf">14.846809176168728</span><span class="o">|</span> <span class="mf">21.77862083852283</span><span class="o">|</span> <span class="mf">5.217456565710477</span><span class="o">|</span>
+<span class="o">|</span>    <span class="nb">min</span><span class="o">|</span>              <span class="mf">0.7</span><span class="o">|</span>               <span class="mf">0.0</span><span class="o">|</span>               <span class="mf">0.3</span><span class="o">|</span>               <span class="mf">1.6</span><span class="o">|</span>
+<span class="o">|</span>    <span class="nb">max</span><span class="o">|</span>            <span class="mf">296.4</span><span class="o">|</span>              <span class="mf">49.6</span><span class="o">|</span>             <span class="mf">114.0</span><span class="o">|</span>              <span class="mf">27.0</span><span class="o">|</span>
+<span class="o">+-------+-----------------+------------------+------------------+------------------+</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Convert the data to dense vector (<strong>features</strong> and <strong>label</strong>)</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">Row</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+
+<span class="c1"># I provide two ways to build the features and labels</span>
+
+<span class="c1"># method 1 (good for small feature):</span>
+<span class="c1">#def transData(row):</span>
+<span class="c1">#    return Row(label=row[&quot;Sales&quot;],</span>
+<span class="c1">#               features=Vectors.dense([row[&quot;TV&quot;],</span>
+<span class="c1">#                                       row[&quot;Radio&quot;],</span>
+<span class="c1">#                                       row[&quot;Newspaper&quot;]]))</span>
+
+<span class="c1"># Method 2 (good for large features):</span>
+<span class="k">def</span> <span class="nf">transData</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">[</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">([</span><span class="s1">&#39;features&#39;</span><span class="p">,</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Transform the dataset to DataFrame</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">transformed</span><span class="o">=</span> <span class="n">transData</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">transformed</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----------------+-----+</span>
+<span class="o">|</span>         <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>
+<span class="o">+-----------------+-----+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">230.1</span><span class="p">,</span><span class="mf">37.8</span><span class="p">,</span><span class="mf">69.2</span><span class="p">]</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">44.5</span><span class="p">,</span><span class="mf">39.3</span><span class="p">,</span><span class="mf">45.1</span><span class="p">]</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">151.5</span><span class="p">,</span><span class="mf">41.3</span><span class="p">,</span><span class="mf">58.5</span><span class="p">]</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">180.8</span><span class="p">,</span><span class="mf">10.8</span><span class="p">,</span><span class="mf">58.4</span><span class="p">]</span><span class="o">|</span> <span class="mf">12.9</span><span class="o">|</span>
+<span class="o">+-----------------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You will find out that all of the machine learning algorithms in Spark are
+based on the <strong>features</strong> and <strong>label</strong>. That is to say, you can play with
+all of the machine learning algorithms in Spark when you get ready the
+<strong>features</strong> and <strong>label</strong>.</p>
+</div>
+<ol class="arabic simple" start="5">
+<li>Deal With Categorical Variables</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.regression</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">VectorIndexer</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">RegressionEvaluator</span>
+
+<span class="c1"># Automatically identify categorical features, and index them.</span>
+<span class="c1"># We specify maxCategories so features with &gt; 4 distinct values are treated as continuous.</span>
+
+<span class="n">featureIndexer</span> <span class="o">=</span> <span class="n">VectorIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">,</span> \
+                               <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;indexedFeatures&quot;</span><span class="p">,</span>\
+                               <span class="n">maxCategories</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">featureIndexer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now you check your dataset with</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----------------+-----+-----------------+</span>
+<span class="o">|</span>         <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>  <span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+-----------------+-----+-----------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">230.1</span><span class="p">,</span><span class="mf">37.8</span><span class="p">,</span><span class="mf">69.2</span><span class="p">]</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span><span class="p">[</span><span class="mf">230.1</span><span class="p">,</span><span class="mf">37.8</span><span class="p">,</span><span class="mf">69.2</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">44.5</span><span class="p">,</span><span class="mf">39.3</span><span class="p">,</span><span class="mf">45.1</span><span class="p">]</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span> <span class="p">[</span><span class="mf">44.5</span><span class="p">,</span><span class="mf">39.3</span><span class="p">,</span><span class="mf">45.1</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span> <span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">151.5</span><span class="p">,</span><span class="mf">41.3</span><span class="p">,</span><span class="mf">58.5</span><span class="p">]</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span><span class="p">[</span><span class="mf">151.5</span><span class="p">,</span><span class="mf">41.3</span><span class="p">,</span><span class="mf">58.5</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">180.8</span><span class="p">,</span><span class="mf">10.8</span><span class="p">,</span><span class="mf">58.4</span><span class="p">]</span><span class="o">|</span> <span class="mf">12.9</span><span class="o">|</span><span class="p">[</span><span class="mf">180.8</span><span class="p">,</span><span class="mf">10.8</span><span class="p">,</span><span class="mf">58.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+-----------------+-----+-----------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li>Split the data into training and test sets (40% held out for testing)</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Split the data into training and test sets (40% held out for testing)</span>
+<span class="p">(</span><span class="n">trainingData</span><span class="p">,</span> <span class="n">testData</span><span class="p">)</span> <span class="o">=</span> <span class="n">transformed</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>You can check your train and test data as follows (In my opinion, it is always
+to good to keep tracking your data during prototype pahse):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">trainingData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">testData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---------------+-----+---------------+</span>
+<span class="o">|</span>       <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span><span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+---------------+-----+---------------+</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">11.6</span><span class="p">,</span><span class="mf">5.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">3.2</span><span class="o">|</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">11.6</span><span class="p">,</span><span class="mf">5.7</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">5.4</span><span class="p">,</span><span class="mf">29.9</span><span class="p">,</span><span class="mf">9.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.3</span><span class="o">|</span> <span class="p">[</span><span class="mf">5.4</span><span class="p">,</span><span class="mf">29.9</span><span class="p">,</span><span class="mf">9.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.3</span><span class="p">,</span><span class="mf">28.1</span><span class="p">,</span><span class="mf">41.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.5</span><span class="o">|</span><span class="p">[</span><span class="mf">7.3</span><span class="p">,</span><span class="mf">28.1</span><span class="p">,</span><span class="mf">41.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">38.9</span><span class="p">,</span><span class="mf">50.6</span><span class="p">]</span><span class="o">|</span>  <span class="mf">6.6</span><span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">38.9</span><span class="p">,</span><span class="mf">50.6</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">8.6</span><span class="p">,</span><span class="mf">2.1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span><span class="o">|</span>  <span class="mf">4.8</span><span class="o">|</span>  <span class="p">[</span><span class="mf">8.6</span><span class="p">,</span><span class="mf">2.1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+---------------+-----+---------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+
+<span class="o">+----------------+-----+----------------+</span>
+<span class="o">|</span>        <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span> <span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+----------------+-----+----------------+</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">39.6</span><span class="p">,</span><span class="mf">8.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">1.6</span><span class="o">|</span>  <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">39.6</span><span class="p">,</span><span class="mf">8.7</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">8.4</span><span class="p">,</span><span class="mf">27.2</span><span class="p">,</span><span class="mf">2.1</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.7</span><span class="o">|</span>  <span class="p">[</span><span class="mf">8.4</span><span class="p">,</span><span class="mf">27.2</span><span class="p">,</span><span class="mf">2.1</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">11.7</span><span class="p">,</span><span class="mf">36.9</span><span class="p">,</span><span class="mf">45.2</span><span class="p">]</span><span class="o">|</span>  <span class="mf">7.3</span><span class="o">|</span><span class="p">[</span><span class="mf">11.7</span><span class="p">,</span><span class="mf">36.9</span><span class="p">,</span><span class="mf">45.2</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">13.2</span><span class="p">,</span><span class="mf">15.9</span><span class="p">,</span><span class="mf">49.6</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.6</span><span class="o">|</span><span class="p">[</span><span class="mf">13.2</span><span class="p">,</span><span class="mf">15.9</span><span class="p">,</span><span class="mf">49.6</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">16.9</span><span class="p">,</span><span class="mf">43.7</span><span class="p">,</span><span class="mf">89.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">8.7</span><span class="o">|</span><span class="p">[</span><span class="mf">16.9</span><span class="p">,</span><span class="mf">43.7</span><span class="p">,</span><span class="mf">89.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+----------------+-----+----------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="7">
+<li>Fit Ordinary Least Square Regression Model</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Import LinearRegression class</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.regression</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># Define LinearRegression algorithm</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li>Pipeline Architecture</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Chain indexer and tree in a Pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">featureIndexer</span><span class="p">,</span> <span class="n">lr</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li>Summary of the Model</li>
+</ol>
+<p>Spark has a poor summary function for data and model. I wrote a summary
+function which has similar format as <strong>R</strong> output for the linear regression in PySpark.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">modelsummary</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Note: the last rows are the information for Intercept&quot;</span><span class="p">)</span>
+    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">,</span><span class="s2">&quot;-------------------------------------------------&quot;</span><span class="p">)</span>
+    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">,</span><span class="s2">&quot;  Estimate   |   Std.Error | t Values  |  P-value&quot;</span><span class="p">)</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coefficients</span><span class="p">),</span><span class="n">model</span><span class="o">.</span><span class="n">intercept</span><span class="p">)</span>
+    <span class="n">Summary</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Summary</span><span class="o">.</span><span class="n">pValues</span><span class="p">)):</span>
+        <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">,</span><span class="s1">&#39;{:10.6f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coef</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>\
+        <span class="s1">&#39;{:10.6f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Summary</span><span class="o">.</span><span class="n">coefficientStandardErrors</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>\
+        <span class="s1">&#39;{:8.3f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Summary</span><span class="o">.</span><span class="n">tValues</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>\
+        <span class="s1">&#39;{:10.6f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Summary</span><span class="o">.</span><span class="n">pValues</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">,</span><span class="s1">&#39;---&#39;</span><span class="p">)</span>
+    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">,</span><span class="s2">&quot;Mean squared error: </span><span class="si">% .6f</span><span class="s2">&quot;</span> \
+           <span class="o">%</span> <span class="n">Summary</span><span class="o">.</span><span class="n">meanSquaredError</span><span class="p">,</span> <span class="s2">&quot;, RMSE: </span><span class="si">% .6f</span><span class="s2">&quot;</span> \
+           <span class="o">%</span> <span class="n">Summary</span><span class="o">.</span><span class="n">rootMeanSquaredError</span> <span class="p">)</span>
+    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">,</span><span class="s2">&quot;Multiple R-squared: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">Summary</span><span class="o">.</span><span class="n">r2</span><span class="p">,</span> <span class="s2">&quot;, </span><span class="se">\</span>
+<span class="s2">            Total iterations: </span><span class="si">%i</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">Summary</span><span class="o">.</span><span class="n">totalIterations</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">modelsummary</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>You will get the following summary results:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Note</span><span class="p">:</span> <span class="n">the</span> <span class="n">last</span> <span class="n">rows</span> <span class="n">are</span> <span class="n">the</span> <span class="n">information</span> <span class="k">for</span> <span class="n">Intercept</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;-------------------------------------------------&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  Estimate   |   Std.Error | t Values  |  P-value&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.044186&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.001663&#39;</span><span class="p">,</span> <span class="s1">&#39;  26.573&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.000000&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.206311&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.010846&#39;</span><span class="p">,</span> <span class="s1">&#39;  19.022&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.000000&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.001963&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.007467&#39;</span><span class="p">,</span> <span class="s1">&#39;   0.263&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.793113&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  2.596154&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.379550&#39;</span><span class="p">,</span> <span class="s1">&#39;   6.840&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.000000&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;---&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;Mean squared error:  2.588230&#39;</span><span class="p">,</span> <span class="s1">&#39;, RMSE:  1.608798&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;Multiple R-squared: 0.911869&#39;</span><span class="p">,</span> <span class="s1">&#39;,             Total iterations: 1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="10">
+<li>Make predictions</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Make predictions.</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testData</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Select example rows to display.</span>
+<span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">,</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+----------------+-----+------------------+</span>
+<span class="o">|</span>        <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>        <span class="n">prediction</span><span class="o">|</span>
+<span class="o">+----------------+-----+------------------+</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">39.6</span><span class="p">,</span><span class="mf">8.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">1.6</span><span class="o">|</span> <span class="mf">10.81405928637388</span><span class="o">|</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">8.4</span><span class="p">,</span><span class="mf">27.2</span><span class="p">,</span><span class="mf">2.1</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.7</span><span class="o">|</span> <span class="mf">8.583086404079918</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">11.7</span><span class="p">,</span><span class="mf">36.9</span><span class="p">,</span><span class="mf">45.2</span><span class="p">]</span><span class="o">|</span>  <span class="mf">7.3</span><span class="o">|</span><span class="mf">10.814712818232422</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">13.2</span><span class="p">,</span><span class="mf">15.9</span><span class="p">,</span><span class="mf">49.6</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.6</span><span class="o">|</span> <span class="mf">6.557106943899219</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">16.9</span><span class="p">,</span><span class="mf">43.7</span><span class="p">,</span><span class="mf">89.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">8.7</span><span class="o">|</span><span class="mf">12.534151375058645</span><span class="o">|</span>
+<span class="o">+----------------+-----+------------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li>Evaluation</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">RegressionEvaluator</span>
+<span class="c1"># Select (prediction, true label) and compute test error</span>
+<span class="n">evaluator</span> <span class="o">=</span> <span class="n">RegressionEvaluator</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span>
+                                <span class="n">predictionCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span>
+                                <span class="n">metricName</span><span class="o">=</span><span class="s2">&quot;rmse&quot;</span><span class="p">)</span>
+
+<span class="n">rmse</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Root Mean Squared Error (RMSE) on test data = </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rmse</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The final Root Mean Squared Error (RMSE) is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Root</span> <span class="n">Mean</span> <span class="n">Squared</span> <span class="n">Error</span> <span class="p">(</span><span class="n">RMSE</span><span class="p">)</span> <span class="n">on</span> <span class="n">test</span> <span class="n">data</span> <span class="o">=</span> <span class="mf">1.63114</span>
+</pre></div>
+</div>
+<p>You can also check the <img class="math" src="images/math/e709cbf3f1d088efd23fdf5af00e001244037688.png" alt="R^2"/> value for the test data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+
+<span class="kn">import</span> <span class="nn">sklearn.metrics</span>
+<span class="n">r2_score</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;r2_score: {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r2_score</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Then you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">r2_score</span><span class="p">:</span> <span class="mf">0.854486655585</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You should know most softwares are using different formula to calculate the
+<img class="math" src="images/math/e709cbf3f1d088efd23fdf5af00e001244037688.png" alt="R^2"/> value when no intercept is included in the model. You can get more
+information from the <a class="reference external" href="https://stats.stackexchange.com/questions/26176/removal-of-statistically-significant-intercept-term-increases-r2-in-linear-mo">disscussion at StackExchange</a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="generalized-linear-regression">
+<h2>Generalized linear regression<a class="headerlink" href="#generalized-linear-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id4">
+<h3>How to solve it?<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id5">
+<h3>Demo<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>The Jupyter notebook can be download from <a class="reference external" href="static/GLM.ipynb">Generalized Linear Regression</a>.</p>
 <ol class="arabic simple">
 <li>Set up spark context and SparkSession</li>
 </ol>
@@ -337,28 +683,95 @@ all of the machine learning algorithms in Spark when you get ready the
 </pre></div>
 </div>
 <ol class="arabic simple" start="5">
-<li>Split the data into training and test sets (40% held out for testing)</li>
+<li>Deal with the Categorical variables</li>
 </ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.regression</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">VectorIndexer</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">RegressionEvaluator</span>
 
-<span class="c1"># Split the data into training and test sets (40% held out for testing)</span>
-<span class="p">(</span><span class="n">trainingData</span><span class="p">,</span> <span class="n">testData</span><span class="p">)</span> <span class="o">=</span> <span class="n">transformed</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+<span class="c1"># Automatically identify categorical features, and index them.</span>
+<span class="c1"># We specify maxCategories so features with &gt; 4</span>
+<span class="c1"># distinct values are treated as continuous.</span>
+
+<span class="n">featureIndexer</span> <span class="o">=</span> <span class="n">VectorIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">,</span> \
+                               <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;indexedFeatures&quot;</span><span class="p">,</span>\
+                               <span class="n">maxCategories</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">featureIndexer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When you check you data at this point, you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----------------+-----+-----------------+</span>
+<span class="o">|</span>         <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>  <span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+-----------------+-----+-----------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">230.1</span><span class="p">,</span><span class="mf">37.8</span><span class="p">,</span><span class="mf">69.2</span><span class="p">]</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span><span class="p">[</span><span class="mf">230.1</span><span class="p">,</span><span class="mf">37.8</span><span class="p">,</span><span class="mf">69.2</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">44.5</span><span class="p">,</span><span class="mf">39.3</span><span class="p">,</span><span class="mf">45.1</span><span class="p">]</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span> <span class="p">[</span><span class="mf">44.5</span><span class="p">,</span><span class="mf">39.3</span><span class="p">,</span><span class="mf">45.1</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span> <span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">151.5</span><span class="p">,</span><span class="mf">41.3</span><span class="p">,</span><span class="mf">58.5</span><span class="p">]</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span><span class="p">[</span><span class="mf">151.5</span><span class="p">,</span><span class="mf">41.3</span><span class="p">,</span><span class="mf">58.5</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">180.8</span><span class="p">,</span><span class="mf">10.8</span><span class="p">,</span><span class="mf">58.4</span><span class="p">]</span><span class="o">|</span> <span class="mf">12.9</span><span class="o">|</span><span class="p">[</span><span class="mf">180.8</span><span class="p">,</span><span class="mf">10.8</span><span class="p">,</span><span class="mf">58.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+-----------------+-----+-----------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="6">
-<li>Fit Ordinary Least Square Regression Model</li>
+<li>Split the data into training and test sets (40% held out for testing)</li>
 </ol>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Import LinearRegression class</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml.regression</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Split the data into training and test sets (40% held out for testing)</span>
+<span class="p">(</span><span class="n">trainingData</span><span class="p">,</span> <span class="n">testData</span><span class="p">)</span> <span class="o">=</span> <span class="n">transformed</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>You can check your train and test data as follows (In my opinion, it is always
+to good to keep tracking your data during prototype pahse):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">trainingData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">testData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+----------------+-----+----------------+</span>
+<span class="o">|</span>        <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span> <span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+----------------+-----+----------------+</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">5.4</span><span class="p">,</span><span class="mf">29.9</span><span class="p">,</span><span class="mf">9.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.3</span><span class="o">|</span>  <span class="p">[</span><span class="mf">5.4</span><span class="p">,</span><span class="mf">29.9</span><span class="p">,</span><span class="mf">9.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">38.9</span><span class="p">,</span><span class="mf">50.6</span><span class="p">]</span><span class="o">|</span>  <span class="mf">6.6</span><span class="o">|</span> <span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">38.9</span><span class="p">,</span><span class="mf">50.6</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">8.4</span><span class="p">,</span><span class="mf">27.2</span><span class="p">,</span><span class="mf">2.1</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.7</span><span class="o">|</span>  <span class="p">[</span><span class="mf">8.4</span><span class="p">,</span><span class="mf">27.2</span><span class="p">,</span><span class="mf">2.1</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">8.7</span><span class="p">,</span><span class="mf">48.9</span><span class="p">,</span><span class="mf">75.0</span><span class="p">]</span><span class="o">|</span>  <span class="mf">7.2</span><span class="o">|</span> <span class="p">[</span><span class="mf">8.7</span><span class="p">,</span><span class="mf">48.9</span><span class="p">,</span><span class="mf">75.0</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">11.7</span><span class="p">,</span><span class="mf">36.9</span><span class="p">,</span><span class="mf">45.2</span><span class="p">]</span><span class="o">|</span>  <span class="mf">7.3</span><span class="o">|</span><span class="p">[</span><span class="mf">11.7</span><span class="p">,</span><span class="mf">36.9</span><span class="p">,</span><span class="mf">45.2</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+----------------+-----+----------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
 
-<span class="c1"># Define LinearRegression algorithm</span>
-<span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="o">+---------------+-----+---------------+</span>
+<span class="o">|</span>       <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span><span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+---------------+-----+---------------+</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">39.6</span><span class="p">,</span><span class="mf">8.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">1.6</span><span class="o">|</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">39.6</span><span class="p">,</span><span class="mf">8.7</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">11.6</span><span class="p">,</span><span class="mf">5.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">3.2</span><span class="o">|</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">11.6</span><span class="p">,</span><span class="mf">5.7</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.3</span><span class="p">,</span><span class="mf">28.1</span><span class="p">,</span><span class="mf">41.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.5</span><span class="o">|</span><span class="p">[</span><span class="mf">7.3</span><span class="p">,</span><span class="mf">28.1</span><span class="p">,</span><span class="mf">41.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">8.6</span><span class="p">,</span><span class="mf">2.1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span><span class="o">|</span>  <span class="mf">4.8</span><span class="o">|</span>  <span class="p">[</span><span class="mf">8.6</span><span class="p">,</span><span class="mf">2.1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">31.6</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.9</span><span class="o">|</span><span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">31.6</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+---------------+-----+---------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="7">
+<li>Fit Generalized Linear Regression Model</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Import LinearRegression class</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.regression</span> <span class="kn">import</span> <span class="n">GeneralizedLinearRegression</span>
+
+<span class="c1"># Define LinearRegression algorithm</span>
+<span class="n">glr</span> <span class="o">=</span> <span class="n">GeneralizedLinearRegression</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>\
+                                  <span class="n">maxIter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">regParam</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li>Pipeline Architecture</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Chain indexer and tree in a Pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">featureIndexer</span><span class="p">,</span> <span class="n">glr</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
 <li>Summary of the Model</li>
 </ol>
 <p>Spark has a poor summary function for data and model. I wrote a summary
@@ -378,30 +791,28 @@ function which has similar format as <strong>R</strong> output for the linear re
         <span class="s1">&#39;{:10.6f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Summary</span><span class="o">.</span><span class="n">pValues</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
 
     <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">,</span><span class="s1">&#39;---&#39;</span><span class="p">)</span>
-    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">,</span><span class="s2">&quot;Mean squared error: </span><span class="si">% .6f</span><span class="s2">&quot;</span> \
-           <span class="o">%</span> <span class="n">Summary</span><span class="o">.</span><span class="n">meanSquaredError</span><span class="p">,</span> <span class="s2">&quot;, RMSE: </span><span class="si">% .6f</span><span class="s2">&quot;</span> \
-           <span class="o">%</span> <span class="n">Summary</span><span class="o">.</span><span class="n">rootMeanSquaredError</span> <span class="p">)</span>
-    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">,</span><span class="s2">&quot;Multiple R-squared: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">Summary</span><span class="o">.</span><span class="n">r2</span><span class="p">,</span> <span class="s2">&quot;, </span><span class="se">\</span>
-<span class="s2">            Total iterations: </span><span class="si">%i</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">Summary</span><span class="o">.</span><span class="n">totalIterations</span><span class="p">)</span>
+<span class="c1">#     print (&quot;##&quot;,&quot;Mean squared error: % .6f&quot; \</span>
+<span class="c1">#            % Summary.meanSquaredError, &quot;, RMSE: % .6f&quot; \</span>
+<span class="c1">#            % Summary.rootMeanSquaredError )</span>
+<span class="c1">#     print (&quot;##&quot;,&quot;Multiple R-squared: %f&quot; % Summary.r2, &quot;, \</span>
+<span class="c1">#             Total iterations: %i&quot;% Summary.totalIterations)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">modelsummary</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">modelsummary</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>You will get the following summary results:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Note</span><span class="p">:</span> <span class="n">the</span> <span class="n">last</span> <span class="n">rows</span> <span class="n">are</span> <span class="n">the</span> <span class="n">information</span> <span class="k">for</span> <span class="n">Intercept</span>
 <span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;-------------------------------------------------&#39;</span><span class="p">)</span>
 <span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  Estimate   |   Std.Error | t Values  |  P-value&#39;</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.044053&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.001785&#39;</span><span class="p">,</span> <span class="s1">&#39;  24.680&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.000000&#39;</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.174338&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.011428&#39;</span><span class="p">,</span> <span class="s1">&#39;  15.255&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.000000&#39;</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.012286&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.008553&#39;</span><span class="p">,</span> <span class="s1">&#39;   1.436&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.153497&#39;</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  3.302545&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.380453&#39;</span><span class="p">,</span> <span class="s1">&#39;   8.681&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.000000&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.042857&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.001668&#39;</span><span class="p">,</span> <span class="s1">&#39;  25.692&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.000000&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.199922&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.009881&#39;</span><span class="p">,</span> <span class="s1">&#39;  20.232&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.000000&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39; -0.001957&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.006917&#39;</span><span class="p">,</span> <span class="s1">&#39;  -0.283&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.777757&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;  3.007515&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.406389&#39;</span><span class="p">,</span> <span class="s1">&#39;   7.401&#39;</span><span class="p">,</span> <span class="s1">&#39;  0.000000&#39;</span><span class="p">)</span>
 <span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;---&#39;</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;Mean squared error:  2.643675&#39;</span><span class="p">,</span> <span class="s1">&#39;, RMSE:  1.625938&#39;</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;##&#39;</span><span class="p">,</span> <span class="s1">&#39;Multiple R-squared: 0.901501&#39;</span><span class="p">,</span> <span class="s1">&#39;,             Total iterations: 1&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="8">
+<ol class="arabic simple" start="10">
 <li>Make predictions</li>
 </ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Make predictions.</span>
@@ -412,22 +823,23 @@ function which has similar format as <strong>R</strong> output for the linear re
 <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">,</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+----------------+-----+------------------+</span>
-<span class="o">|</span>        <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>        <span class="n">prediction</span><span class="o">|</span>
-<span class="o">+----------------+-----+------------------+</span>
-<span class="o">|</span>  <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">11.6</span><span class="p">,</span><span class="mf">5.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">3.2</span><span class="o">|</span> <span class="mf">5.401313528832074</span><span class="o">|</span>
-<span class="o">|</span> <span class="p">[</span><span class="mf">7.3</span><span class="p">,</span><span class="mf">28.1</span><span class="p">,</span><span class="mf">41.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.5</span><span class="o">|</span> <span class="mf">8.633140366255825</span><span class="o">|</span>
-<span class="o">|</span>  <span class="p">[</span><span class="mf">8.4</span><span class="p">,</span><span class="mf">27.2</span><span class="p">,</span><span class="mf">2.1</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.7</span><span class="o">|</span> <span class="mf">8.395487836305678</span><span class="o">|</span>
-<span class="o">|</span> <span class="p">[</span><span class="mf">8.7</span><span class="p">,</span><span class="mf">48.9</span><span class="p">,</span><span class="mf">75.0</span><span class="p">]</span><span class="o">|</span>  <span class="mf">7.2</span><span class="o">|</span>  <span class="mf">12.5498600070264</span><span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span><span class="mf">12.381185925526161</span><span class="o">|</span>
-<span class="o">+----------------+-----+------------------+</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---------------+-----+------------------+</span>
+<span class="o">|</span>       <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>        <span class="n">prediction</span><span class="o">|</span>
+<span class="o">+---------------+-----+------------------+</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">39.6</span><span class="p">,</span><span class="mf">8.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">1.6</span><span class="o">|</span><span class="mf">10.937383732327625</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">11.6</span><span class="p">,</span><span class="mf">5.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">3.2</span><span class="o">|</span> <span class="mf">5.491166258750164</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.3</span><span class="p">,</span><span class="mf">28.1</span><span class="p">,</span><span class="mf">41.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.5</span><span class="o">|</span>   <span class="mf">8.8571603947873</span><span class="o">|</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">8.6</span><span class="p">,</span><span class="mf">2.1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span><span class="o">|</span>  <span class="mf">4.8</span><span class="o">|</span> <span class="mf">3.793966281660073</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">31.6</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.9</span><span class="o">|</span> <span class="mf">4.502507124763654</span><span class="o">|</span>
+<span class="o">+---------------+-----+------------------+</span>
 <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="9">
+<ol class="arabic simple" start="11">
 <li>Evaluation</li>
 </ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">RegressionEvaluator</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">RegressionEvaluator</span>
 <span class="c1"># Select (prediction, true label) and compute test error</span>
 <span class="n">evaluator</span> <span class="o">=</span> <span class="n">RegressionEvaluator</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span>
                                 <span class="n">predictionCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span>
@@ -438,26 +850,61 @@ function which has similar format as <strong>R</strong> output for the linear re
 </pre></div>
 </div>
 <p>The final Root Mean Squared Error (RMSE) is as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Root</span> <span class="n">Mean</span> <span class="n">Squared</span> <span class="n">Error</span> <span class="p">(</span><span class="n">RMSE</span><span class="p">)</span> <span class="n">on</span> <span class="n">test</span> <span class="n">data</span> <span class="o">=</span> <span class="mf">1.63114</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Root</span> <span class="n">Mean</span> <span class="n">Squared</span> <span class="n">Error</span> <span class="p">(</span><span class="n">RMSE</span><span class="p">)</span> <span class="n">on</span> <span class="n">test</span> <span class="n">data</span> <span class="o">=</span> <span class="mf">1.89857</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+
+<span class="kn">import</span> <span class="nn">sklearn.metrics</span>
+<span class="n">r2_score</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;r2_score: {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r2_score</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Then you will get the <img class="math" src="images/math/e709cbf3f1d088efd23fdf5af00e001244037688.png" alt="R^2"/> value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">r2_score</span><span class="p">:</span> <span class="mf">0.87707391843</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="generalized-linear-regression">
-<h2>Generalized linear regression<a class="headerlink" href="#generalized-linear-regression" title="Permalink to this headline">¶</a></h2>
-<p>The Jupyter notebook can be download from <a class="reference external" href="static/GLM.ipynb">Generalized Linear Regression</a>.</p>
-</div>
 <div class="section" id="decision-tree-regression">
 <h2>Decision tree Regression<a class="headerlink" href="#decision-tree-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>Introduction<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id8">
+<h3>How to solve it?<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id9">
+<h3>Demo<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>The Jupyter notebook can be download from <a class="reference external" href="static/DecisionTreeR.ipynb">Decision Tree Regression</a>.</p>
+</div>
 </div>
 <div class="section" id="random-forest-regression">
 <h2>Random Forest Regression<a class="headerlink" href="#random-forest-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3>Introduction<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id12">
+<h3>How to solve it?<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id13">
+<h3>Demo<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>The Jupyter notebook can be download from <a class="reference external" href="static/GLM.ipynb">Generalized Linear Regression</a>.</p>
+</div>
 </div>
 <div class="section" id="gradient-boosted-tree-regression">
 <h2>Gradient-boosted tree regression<a class="headerlink" href="#gradient-boosted-tree-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h3>Introduction<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id16">
+<h3>How to solve it?<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id17">
+<h3>Demo<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>The Jupyter notebook can be download from <a class="reference external" href="static/GLM.ipynb">Generalized Linear Regression</a>.</p>
+</div>
 </div>
 </div>
 
@@ -484,7 +931,7 @@ function which has similar format as <strong>R</strong> output for the linear re
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Sep 12, 2017.
+      Last updated on Sep 18, 2017.
 
     </p>
   </div>
