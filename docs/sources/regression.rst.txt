@@ -266,6 +266,8 @@ Then you will get
 
 7.  Fit Ordinary Least Square Regression Model
 
+For more details about the parameters, please visit `Linear Regression API`_ .
+
 .. code-block:: python
 
 	# Import LinearRegression class
