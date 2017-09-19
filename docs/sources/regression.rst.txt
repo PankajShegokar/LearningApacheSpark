@@ -54,11 +54,13 @@ How to solve it?
 Demo
 ----
 
-* The Jupyter notebook can be download from `LinearRegression <_static/LinearRegression.ipynb>`_ which was implemented without using Pipeline.
+* The Jupyter notebook can be download from `Linear Regression <_static/LinearRegression.ipynb>`_ which was implemented without using Pipeline.
 
-* The Jupyter notebook can be download from `LinearRegression <_static/LinearRegressionWpipeline.ipynb>`_ which was implemented with using Pipeline.
+* The Jupyter notebook can be download from `Linear Regression with Pipeline <_static/LinearRegressionWpipeline.ipynb>`_ which was implemented with using Pipeline.
 
 * I will only present the code with pipeline style in the following.
+
+* For more details about the parameters, please visit `Linear Regression API`_ .
 
 1. Set up spark context and SparkSession
 
@@ -414,7 +416,9 @@ How to solve it?
 Demo
 ----
 
-The Jupyter notebook can be download from `Generalized Linear Regression <_static/GLM.ipynb>`_.
+* The Jupyter notebook can be download from `Generalized Linear Regression <_static/GLM.ipynb>`_.
+
+* For more details about the parameters, please visit `Generalized Linear Regression API`_ .
 
 
 1. Set up spark context and SparkSession
@@ -764,7 +768,10 @@ How to solve it?
 
 Demo
 ----
-The Jupyter notebook can be download from `Decision Tree Regression <_static/DecisionTreeR.ipynb>`_.
+
+* The Jupyter notebook can be download from `Decision Tree Regression <_static/DecisionTreeR.ipynb>`_.
+
+* For more details about the parameters, please visit `Decision Tree Regressor API`_ .
 
 
 Random Forest Regression
@@ -780,7 +787,9 @@ How to solve it?
 Demo
 ----
 
-The Jupyter notebook can be download from `Generalized Linear Regression <_static/RandomForestR.ipynb>`_.
+* The Jupyter notebook can be download from `Random Forest Regression <_static/RandomForestR.ipynb>`_.
+
+* For more details about the parameters, please visit `Random Forest Regressor API`_ .
 
 
 Gradient-boosted tree regression
@@ -797,7 +806,9 @@ Demo
 ----
 
 
-The Jupyter notebook can be download from `Generalized Linear Regression <_static/GLM.ipynb>`_.
+* The Jupyter notebook can be download from `Gradient-boosted tree regression <_static/GLM.ipynb>`_.
+
+* For more details about the parameters, please visit `Gradient boosted tree API`_ .
 
 
 
@@ -807,6 +818,11 @@ The Jupyter notebook can be download from `Generalized Linear Regression <_stati
 .. _Yassine Alouini: https://www.quora.com/profile/Yassine-Alouini
 
 .. _disscussion at StackExchange : https://stats.stackexchange.com/questions/26176/removal-of-statistically-significant-intercept-term-increases-r2-in-linear-mo
+.. _Linear Regression API: http://takwatanabe.me/pyspark/generated/generated/ml.regression.LinearRegression.html
+.. _Generalized Linear Regression API: http://takwatanabe.me/pyspark/generated/generated/ml.regression.GeneralizedLinearRegression.html
+.. _Decision Tree Regressor API: http://takwatanabe.me/pyspark/generated/generated/ml.regression.DecisionTreeRegressor.html
+.. _Random Forest Regressor API: http://takwatanabe.me/pyspark/generated/generated/ml.regression.RandomForestRegressor.html
+.. _Gradient boosted tree API: http://takwatanabe.me/pyspark/generated/generated/ml.regression.GBTRegressor.html
 
 
 
