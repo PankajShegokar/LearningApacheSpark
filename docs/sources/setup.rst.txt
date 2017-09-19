@@ -190,7 +190,7 @@ Actually, the Pre-build version doesn’t need installation. You can use it when
 
   .. code-block:: bash
  
-   java version "1.8.0_131"
+   ./pyspark
 
   .. code-block:: bash
  

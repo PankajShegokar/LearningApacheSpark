@@ -780,7 +780,7 @@ How to solve it?
 Demo
 ----
 
-The Jupyter notebook can be download from `Generalized Linear Regression <_static/GLM.ipynb>`_.
+The Jupyter notebook can be download from `Generalized Linear Regression <_static/RandomForestR.ipynb>`_.
 
 
 Gradient-boosted tree regression
