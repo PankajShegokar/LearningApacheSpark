@@ -886,6 +886,271 @@ function which has similar format as <strong>R</strong> output for the linear re
 <li>The Jupyter notebook can be download from <a class="reference external" href="static/DecisionTreeR.ipynb">Decision Tree Regression</a>.</li>
 <li>For more details about the parameters, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.regression.DecisionTreeRegressor.html">Decision Tree Regressor API</a> .</li>
 </ul>
+<ol class="arabic simple">
+<li>Set up spark context and SparkSession</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark regression example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Load dataset</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;com.databricks.spark.csv&#39;</span><span class="p">)</span><span class="o">.</span>\
+                       <span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> \
+                       <span class="n">inferschema</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">load</span><span class="p">(</span><span class="s2">&quot;../data/Advertising.csv&quot;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>check the data set</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----+-----+---------+-----+</span>
+<span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>
+<span class="o">+-----+-----+---------+-----+</span>
+<span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>     <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>
+<span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>     <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span>
+<span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>     <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span>
+<span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>     <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span>
+<span class="o">|</span><span class="mf">180.8</span><span class="o">|</span> <span class="mf">10.8</span><span class="o">|</span>     <span class="mf">58.4</span><span class="o">|</span> <span class="mf">12.9</span><span class="o">|</span>
+<span class="o">+-----+-----+---------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+
+<span class="n">root</span>
+ <span class="o">|--</span> <span class="n">TV</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Radio</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Newspaper</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Sales</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also get the Statistical resutls from the data frame
+(Unfortunately, it only works for numerical).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-------+-----------------+------------------+------------------+------------------+</span>
+<span class="o">|</span><span class="n">summary</span><span class="o">|</span>               <span class="n">TV</span><span class="o">|</span>             <span class="n">Radio</span><span class="o">|</span>         <span class="n">Newspaper</span><span class="o">|</span>             <span class="n">Sales</span><span class="o">|</span>
+<span class="o">+-------+-----------------+------------------+------------------+------------------+</span>
+<span class="o">|</span>  <span class="n">count</span><span class="o">|</span>              <span class="mi">200</span><span class="o">|</span>               <span class="mi">200</span><span class="o">|</span>               <span class="mi">200</span><span class="o">|</span>               <span class="mi">200</span><span class="o">|</span>
+<span class="o">|</span>   <span class="n">mean</span><span class="o">|</span>         <span class="mf">147.0425</span><span class="o">|</span><span class="mf">23.264000000000024</span><span class="o">|</span><span class="mf">30.553999999999995</span><span class="o">|</span><span class="mf">14.022500000000003</span><span class="o">|</span>
+<span class="o">|</span> <span class="n">stddev</span><span class="o">|</span><span class="mf">85.85423631490805</span><span class="o">|</span><span class="mf">14.846809176168728</span><span class="o">|</span> <span class="mf">21.77862083852283</span><span class="o">|</span> <span class="mf">5.217456565710477</span><span class="o">|</span>
+<span class="o">|</span>    <span class="nb">min</span><span class="o">|</span>              <span class="mf">0.7</span><span class="o">|</span>               <span class="mf">0.0</span><span class="o">|</span>               <span class="mf">0.3</span><span class="o">|</span>               <span class="mf">1.6</span><span class="o">|</span>
+<span class="o">|</span>    <span class="nb">max</span><span class="o">|</span>            <span class="mf">296.4</span><span class="o">|</span>              <span class="mf">49.6</span><span class="o">|</span>             <span class="mf">114.0</span><span class="o">|</span>              <span class="mf">27.0</span><span class="o">|</span>
+<span class="o">+-------+-----------------+------------------+------------------+------------------+</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Convert the data to dense vector (<strong>features</strong> and <strong>label</strong>)</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">Row</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+
+<span class="c1"># I provide two ways to build the features and labels</span>
+
+<span class="c1"># method 1 (good for small feature):</span>
+<span class="c1">#def transData(row):</span>
+<span class="c1">#    return Row(label=row[&quot;Sales&quot;],</span>
+<span class="c1">#               features=Vectors.dense([row[&quot;TV&quot;],</span>
+<span class="c1">#                                       row[&quot;Radio&quot;],</span>
+<span class="c1">#                                       row[&quot;Newspaper&quot;]]))</span>
+
+<span class="c1"># Method 2 (good for large features):</span>
+<span class="k">def</span> <span class="nf">transData</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">[</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">([</span><span class="s1">&#39;features&#39;</span><span class="p">,</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">transformed</span><span class="o">=</span> <span class="n">transData</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">transformed</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----------------+-----+</span>
+<span class="o">|</span>         <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>
+<span class="o">+-----------------+-----+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">230.1</span><span class="p">,</span><span class="mf">37.8</span><span class="p">,</span><span class="mf">69.2</span><span class="p">]</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">44.5</span><span class="p">,</span><span class="mf">39.3</span><span class="p">,</span><span class="mf">45.1</span><span class="p">]</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">151.5</span><span class="p">,</span><span class="mf">41.3</span><span class="p">,</span><span class="mf">58.5</span><span class="p">]</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">180.8</span><span class="p">,</span><span class="mf">10.8</span><span class="p">,</span><span class="mf">58.4</span><span class="p">]</span><span class="o">|</span> <span class="mf">12.9</span><span class="o">|</span>
+<span class="o">+-----------------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You will find out that all of the machine learning algorithms in Spark are
+based on the <strong>features</strong> and <strong>label</strong>. That is to say, you can play with
+all of the machine learning algorithms in Spark when you get ready the
+<strong>features</strong> and <strong>label</strong>.</p>
+</div>
+<ol class="arabic simple" start="4">
+<li>Convert the data to dense vector</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># convert the data to dense vector</span>
+<span class="k">def</span> <span class="nf">transData</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span><span class="o">.</span>\
+           <span class="n">toDF</span><span class="p">([</span><span class="s1">&#39;label&#39;</span><span class="p">,</span><span class="s1">&#39;features&#39;</span><span class="p">])</span>
+
+<span class="n">transformed</span> <span class="o">=</span> <span class="n">transData</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">transformed</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>Deal with the Categorical variables</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.regression</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">VectorIndexer</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">RegressionEvaluator</span>
+
+<span class="c1"># Automatically identify categorical features, and index them.</span>
+<span class="c1"># We specify maxCategories so features with &gt; 4</span>
+<span class="c1"># distinct values are treated as continuous.</span>
+
+<span class="n">featureIndexer</span> <span class="o">=</span> <span class="n">VectorIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">,</span> \
+                               <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;indexedFeatures&quot;</span><span class="p">,</span>\
+                               <span class="n">maxCategories</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">featureIndexer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When you check you data at this point, you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----------------+-----+-----------------+</span>
+<span class="o">|</span>         <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>  <span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+-----------------+-----+-----------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">230.1</span><span class="p">,</span><span class="mf">37.8</span><span class="p">,</span><span class="mf">69.2</span><span class="p">]</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span><span class="p">[</span><span class="mf">230.1</span><span class="p">,</span><span class="mf">37.8</span><span class="p">,</span><span class="mf">69.2</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">44.5</span><span class="p">,</span><span class="mf">39.3</span><span class="p">,</span><span class="mf">45.1</span><span class="p">]</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span> <span class="p">[</span><span class="mf">44.5</span><span class="p">,</span><span class="mf">39.3</span><span class="p">,</span><span class="mf">45.1</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span> <span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">151.5</span><span class="p">,</span><span class="mf">41.3</span><span class="p">,</span><span class="mf">58.5</span><span class="p">]</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span><span class="p">[</span><span class="mf">151.5</span><span class="p">,</span><span class="mf">41.3</span><span class="p">,</span><span class="mf">58.5</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">180.8</span><span class="p">,</span><span class="mf">10.8</span><span class="p">,</span><span class="mf">58.4</span><span class="p">]</span><span class="o">|</span> <span class="mf">12.9</span><span class="o">|</span><span class="p">[</span><span class="mf">180.8</span><span class="p">,</span><span class="mf">10.8</span><span class="p">,</span><span class="mf">58.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+-----------------+-----+-----------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li>Split the data into training and test sets (40% held out for testing)</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Split the data into training and test sets (40% held out for testing)</span>
+<span class="p">(</span><span class="n">trainingData</span><span class="p">,</span> <span class="n">testData</span><span class="p">)</span> <span class="o">=</span> <span class="n">transformed</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>You can check your train and test data as follows (In my opinion, it is always
+to good to keep tracking your data during prototype pahse):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">trainingData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">testData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---------------+-----+---------------+</span>
+<span class="o">|</span>       <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span><span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+---------------+-----+---------------+</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">11.6</span><span class="p">,</span><span class="mf">5.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">3.2</span><span class="o">|</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">11.6</span><span class="p">,</span><span class="mf">5.7</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.3</span><span class="p">,</span><span class="mf">28.1</span><span class="p">,</span><span class="mf">41.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.5</span><span class="o">|</span><span class="p">[</span><span class="mf">7.3</span><span class="p">,</span><span class="mf">28.1</span><span class="p">,</span><span class="mf">41.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">8.4</span><span class="p">,</span><span class="mf">27.2</span><span class="p">,</span><span class="mf">2.1</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.7</span><span class="o">|</span> <span class="p">[</span><span class="mf">8.4</span><span class="p">,</span><span class="mf">27.2</span><span class="p">,</span><span class="mf">2.1</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">8.6</span><span class="p">,</span><span class="mf">2.1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span><span class="o">|</span>  <span class="mf">4.8</span><span class="o">|</span>  <span class="p">[</span><span class="mf">8.6</span><span class="p">,</span><span class="mf">2.1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">8.7</span><span class="p">,</span><span class="mf">48.9</span><span class="p">,</span><span class="mf">75.0</span><span class="p">]</span><span class="o">|</span>  <span class="mf">7.2</span><span class="o">|</span><span class="p">[</span><span class="mf">8.7</span><span class="p">,</span><span class="mf">48.9</span><span class="p">,</span><span class="mf">75.0</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+---------------+-----+---------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+
+<span class="o">+----------------+-----+----------------+</span>
+<span class="o">|</span>        <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span> <span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+----------------+-----+----------------+</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">39.6</span><span class="p">,</span><span class="mf">8.7</span><span class="p">]</span><span class="o">|</span>  <span class="mf">1.6</span><span class="o">|</span>  <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">39.6</span><span class="p">,</span><span class="mf">8.7</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>  <span class="p">[</span><span class="mf">5.4</span><span class="p">,</span><span class="mf">29.9</span><span class="p">,</span><span class="mf">9.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">5.3</span><span class="o">|</span>  <span class="p">[</span><span class="mf">5.4</span><span class="p">,</span><span class="mf">29.9</span><span class="p">,</span><span class="mf">9.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span> <span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">38.9</span><span class="p">,</span><span class="mf">50.6</span><span class="p">]</span><span class="o">|</span>  <span class="mf">6.6</span><span class="o">|</span> <span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">38.9</span><span class="p">,</span><span class="mf">50.6</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span><span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">18.7</span><span class="p">,</span><span class="mf">12.1</span><span class="p">,</span><span class="mf">23.4</span><span class="p">]</span><span class="o">|</span>  <span class="mf">6.7</span><span class="o">|</span><span class="p">[</span><span class="mf">18.7</span><span class="p">,</span><span class="mf">12.1</span><span class="p">,</span><span class="mf">23.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+----------------+-----+----------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="7">
+<li>Fit Decision Tree Regression Model</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.regression</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+
+<span class="c1"># Train a DecisionTree model.</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">featuresCol</span><span class="o">=</span><span class="s2">&quot;indexedFeatures&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li>Pipeline Architecture</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Chain indexer and tree in a Pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">featureIndexer</span><span class="p">,</span> <span class="n">dt</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li>Make predictions</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Make predictions.</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testData</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Select example rows to display.</span>
+<span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">,</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+----------+-----+----------------+</span>
+<span class="o">|</span><span class="n">prediction</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>        <span class="n">features</span><span class="o">|</span>
+<span class="o">+----------+-----+----------------+</span>
+<span class="o">|</span>       <span class="mf">7.2</span><span class="o">|</span>  <span class="mf">1.6</span><span class="o">|</span>  <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">39.6</span><span class="p">,</span><span class="mf">8.7</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>       <span class="mf">7.3</span><span class="o">|</span>  <span class="mf">5.3</span><span class="o">|</span>  <span class="p">[</span><span class="mf">5.4</span><span class="p">,</span><span class="mf">29.9</span><span class="p">,</span><span class="mf">9.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>       <span class="mf">7.2</span><span class="o">|</span>  <span class="mf">6.6</span><span class="o">|</span> <span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">38.9</span><span class="p">,</span><span class="mf">50.6</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>      <span class="mf">8.64</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span><span class="p">[</span><span class="mf">17.2</span><span class="p">,</span><span class="mf">45.9</span><span class="p">,</span><span class="mf">69.3</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span>      <span class="mf">6.45</span><span class="o">|</span>  <span class="mf">6.7</span><span class="o">|</span><span class="p">[</span><span class="mf">18.7</span><span class="p">,</span><span class="mf">12.1</span><span class="p">,</span><span class="mf">23.4</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+----------+-----+----------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="10">
+<li>Evaluation</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">RegressionEvaluator</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">RegressionEvaluator</span>
+<span class="c1"># Select (prediction, true label) and compute test error</span>
+<span class="n">evaluator</span> <span class="o">=</span> <span class="n">RegressionEvaluator</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span>
+                                <span class="n">predictionCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span>
+                                <span class="n">metricName</span><span class="o">=</span><span class="s2">&quot;rmse&quot;</span><span class="p">)</span>
+
+<span class="n">rmse</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Root Mean Squared Error (RMSE) on test data = </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rmse</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The final Root Mean Squared Error (RMSE) is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Root</span> <span class="n">Mean</span> <span class="n">Squared</span> <span class="n">Error</span> <span class="p">(</span><span class="n">RMSE</span><span class="p">)</span> <span class="n">on</span> <span class="n">test</span> <span class="n">data</span> <span class="o">=</span> <span class="mf">1.50999</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+
+<span class="kn">import</span> <span class="nn">sklearn.metrics</span>
+<span class="n">r2_score</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;r2_score: {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r2_score</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Then you will get the <img class="math" src="images/math/e709cbf3f1d088efd23fdf5af00e001244037688.png" alt="R^2"/> value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">r2_score</span><span class="p">:</span> <span class="mf">0.911024318967</span>
+</pre></div>
+</div>
+<p>You may also check the importance of the features:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">featureImportances</span>
+</pre></div>
+</div>
+<p>The you will get the weight for each features</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">SparseVector</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">0.6811</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mf">0.3187</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mf">0.0002</span><span class="p">})</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="random-forest-regression">
@@ -945,7 +1210,7 @@ function which has similar format as <strong>R</strong> output for the linear re
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Sep 19, 2017.
+      Last updated on Sep 20, 2017.
 
     </p>
   </div>
