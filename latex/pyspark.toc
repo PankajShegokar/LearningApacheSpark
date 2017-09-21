@@ -49,38 +49,38 @@
 \contentsline {subsection}{\numberline {7.3.1}Introduction}{42}{subsection.7.3.1}
 \contentsline {subsection}{\numberline {7.3.2}How to solve it?}{42}{subsection.7.3.2}
 \contentsline {subsection}{\numberline {7.3.3}Demo}{42}{subsection.7.3.3}
-\contentsline {section}{\numberline {7.4}Random Forest Regression}{42}{section.7.4}
-\contentsline {subsection}{\numberline {7.4.1}Introduction}{42}{subsection.7.4.1}
-\contentsline {subsection}{\numberline {7.4.2}How to solve it?}{42}{subsection.7.4.2}
-\contentsline {subsection}{\numberline {7.4.3}Demo}{42}{subsection.7.4.3}
-\contentsline {section}{\numberline {7.5}Gradient-boosted tree regression}{43}{section.7.5}
-\contentsline {subsection}{\numberline {7.5.1}Introduction}{43}{subsection.7.5.1}
-\contentsline {subsection}{\numberline {7.5.2}How to solve it?}{43}{subsection.7.5.2}
-\contentsline {subsection}{\numberline {7.5.3}Demo}{43}{subsection.7.5.3}
-\contentsline {chapter}{\numberline {8}Classification}{45}{chapter.8}
-\contentsline {section}{\numberline {8.1}Logistic regression}{45}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}Binomial logistic regression}{45}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}Multinomial logistic regression}{45}{subsection.8.1.2}
-\contentsline {section}{\numberline {8.2}Decision tree Classification}{45}{section.8.2}
-\contentsline {section}{\numberline {8.3}Random forest Classification}{45}{section.8.3}
-\contentsline {section}{\numberline {8.4}Gradient-boosted tree Classification}{45}{section.8.4}
-\contentsline {section}{\numberline {8.5}Naive Bayes Classification}{45}{section.8.5}
-\contentsline {section}{\numberline {8.6}Support Vector Machines Classification}{45}{section.8.6}
-\contentsline {chapter}{\numberline {9}Clustering}{47}{chapter.9}
-\contentsline {section}{\numberline {9.1}K-Means Model}{47}{section.9.1}
-\contentsline {chapter}{\numberline {10}Text Mining}{49}{chapter.10}
-\contentsline {section}{\numberline {10.1}Text Preprocessing}{49}{section.10.1}
-\contentsline {section}{\numberline {10.2}Text Classification}{49}{section.10.2}
-\contentsline {section}{\numberline {10.3}Sentiment analysis}{49}{section.10.3}
-\contentsline {section}{\numberline {10.4}N-grams and Correlations}{49}{section.10.4}
-\contentsline {section}{\numberline {10.5}Topic Model: Latent Dirichlet Allocation}{49}{section.10.5}
-\contentsline {chapter}{\numberline {11}Social Network Analysis}{51}{chapter.11}
-\contentsline {section}{\numberline {11.1}Co-occurrence Network}{51}{section.11.1}
-\contentsline {section}{\numberline {11.2}Correlation Network}{54}{section.11.2}
-\contentsline {chapter}{\numberline {12}Neural Network}{55}{chapter.12}
-\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{55}{section.12.1}
-\contentsline {subsection}{\numberline {12.1.1}Introduction}{55}{subsection.12.1.1}
-\contentsline {subsection}{\numberline {12.1.2}Demo}{56}{subsection.12.1.2}
-\contentsline {chapter}{\numberline {13}Main Reference}{59}{chapter.13}
-\contentsline {chapter}{Bibliography}{61}{chapter*.5}
-\contentsline {chapter}{Index}{63}{section*.10}
+\contentsline {section}{\numberline {7.4}Random Forest Regression}{47}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Introduction}{47}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}How to solve it?}{47}{subsection.7.4.2}
+\contentsline {subsection}{\numberline {7.4.3}Demo}{47}{subsection.7.4.3}
+\contentsline {section}{\numberline {7.5}Gradient-boosted tree regression}{47}{section.7.5}
+\contentsline {subsection}{\numberline {7.5.1}Introduction}{47}{subsection.7.5.1}
+\contentsline {subsection}{\numberline {7.5.2}How to solve it?}{47}{subsection.7.5.2}
+\contentsline {subsection}{\numberline {7.5.3}Demo}{47}{subsection.7.5.3}
+\contentsline {chapter}{\numberline {8}Classification}{49}{chapter.8}
+\contentsline {section}{\numberline {8.1}Logistic regression}{49}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Binomial logistic regression}{49}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}Multinomial logistic regression}{49}{subsection.8.1.2}
+\contentsline {section}{\numberline {8.2}Decision tree Classification}{49}{section.8.2}
+\contentsline {section}{\numberline {8.3}Random forest Classification}{49}{section.8.3}
+\contentsline {section}{\numberline {8.4}Gradient-boosted tree Classification}{49}{section.8.4}
+\contentsline {section}{\numberline {8.5}Naive Bayes Classification}{49}{section.8.5}
+\contentsline {section}{\numberline {8.6}Support Vector Machines Classification}{50}{section.8.6}
+\contentsline {chapter}{\numberline {9}Clustering}{51}{chapter.9}
+\contentsline {section}{\numberline {9.1}K-Means Model}{51}{section.9.1}
+\contentsline {chapter}{\numberline {10}Text Mining}{53}{chapter.10}
+\contentsline {section}{\numberline {10.1}Text Preprocessing}{53}{section.10.1}
+\contentsline {section}{\numberline {10.2}Text Classification}{53}{section.10.2}
+\contentsline {section}{\numberline {10.3}Sentiment analysis}{53}{section.10.3}
+\contentsline {section}{\numberline {10.4}N-grams and Correlations}{53}{section.10.4}
+\contentsline {section}{\numberline {10.5}Topic Model: Latent Dirichlet Allocation}{53}{section.10.5}
+\contentsline {chapter}{\numberline {11}Social Network Analysis}{55}{chapter.11}
+\contentsline {section}{\numberline {11.1}Co-occurrence Network}{55}{section.11.1}
+\contentsline {section}{\numberline {11.2}Correlation Network}{58}{section.11.2}
+\contentsline {chapter}{\numberline {12}Neural Network}{59}{chapter.12}
+\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{59}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}Introduction}{59}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}Demo}{60}{subsection.12.1.2}
+\contentsline {chapter}{\numberline {13}Main Reference}{63}{chapter.13}
+\contentsline {chapter}{Bibliography}{65}{chapter*.5}
+\contentsline {chapter}{Index}{67}{section*.10}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  18 SEP 2017 16:41
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  20 SEP 2017 21:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1492,10 +1492,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[44
+[44]
 
-]
-Chapter 8.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 [45]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1503,10 +1506,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[46
+[46]
 
-]
-Chapter 9.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 [47]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1517,7 +1523,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [48
 
 ]
-Chapter 10.
+Chapter 8.
 [49]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1525,74 +1531,96 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[50
+[50]
+Chapter 9.
+[51
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[52
+
+]
+Chapter 10.
+[53]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[54
 
 ]
 Chapter 11.
-<name_freq.png, id=686, 712.6625pt x 469.755pt>
+<name_freq.png, id=724, 712.6625pt x 469.755pt>
 File: name_freq.png Graphic file (type png)
  <use name_freq.png>
-Package pdftex.def Info: name_freq.png used on input line 2192.
+Package pdftex.def Info: name_freq.png used on input line 2580.
 (pdftex.def)             Requested size: 712.66077pt x 469.75386pt.
 File: name_freq.png Graphic file (type png)
 
 <use name_freq.png>
-Package pdftex.def Info: name_freq.png used on input line 2192.
+Package pdftex.def Info: name_freq.png used on input line 2580.
 (pdftex.def)             Requested size: 469.755pt x 309.63786pt.
- <word_freq.png, id=687, 1075.01625pt x 765.86125pt>
+ <word_freq.png, id=725, 1075.01625pt x 765.86125pt>
 File: word_freq.png Graphic file (type png)
 
 <use word_freq.png>
-Package pdftex.def Info: word_freq.png used on input line 2198.
+Package pdftex.def Info: word_freq.png used on input line 2586.
 (pdftex.def)             Requested size: 1075.01364pt x 765.85938pt.
 File: word_freq.png Graphic file (type png)
  <use word_freq.png>
-Package pdftex.def Info: word_freq.png used on input line 2198.
+Package pdftex.def Info: word_freq.png used on input line 2586.
 (pdftex.def)             Requested size: 469.755pt x 334.66614pt.
 
-<netfreq.png, id=688, 912.40875pt x 696.6025pt>
+<netfreq.png, id=726, 912.40875pt x 696.6025pt>
 File: netfreq.png Graphic file (type png)
  <use netfreq.png>
-Package pdftex.def Info: netfreq.png used on input line 2204.
+Package pdftex.def Info: netfreq.png used on input line 2592.
 (pdftex.def)             Requested size: 912.40652pt x 696.6008pt.
 File: netfreq.png Graphic file (type png)
 
 <use netfreq.png>
-Package pdftex.def Info: netfreq.png used on input line 2204.
+Package pdftex.def Info: netfreq.png used on input line 2592.
 (pdftex.def)             Requested size: 469.755pt x 358.64268pt.
- [51 <./name_freq.png>]
+ [55 <./name_freq.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[52 <./word_freq.png>]
+[56 <./word_freq.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[53 <./netfreq.png>]
+[57 <./netfreq.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[54]
+[58]
 Chapter 12.
-<fnn.png, id=714, 907.39pt x 357.335pt>
+<fnn.png, id=751, 907.39pt x 357.335pt>
 File: fnn.png Graphic file (type png)
  <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 2234.
+Package pdftex.def Info: fnn.png used on input line 2622.
 (pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
 File: fnn.png Graphic file (type png)
  <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 2234.
+Package pdftex.def Info: fnn.png used on input line 2622.
 (pdftex.def)             Requested size: 469.755pt x 184.99194pt.
- [55
+ [59
 
  <./fnn.png>]
 
@@ -1601,42 +1629,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[56]
+[60]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[57]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[58
-
-]
-Chapter 13.
-[59]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[60
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 2416--2418
-[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
-ure and in-ter-nals.
- []
-
-(./pyspark.ind [61
-
-]
+[61]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1645,23 +1645,51 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [62
 
-] [63
+]
+Chapter 13.
+[63]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[64
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 2804--2806
+[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
+ure and in-ter-nals.
+ []
+
+(./pyspark.ind [65
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[66
+
+] [67
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2424.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2424.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2812.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2812.
  (./pyspark.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2424.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2424.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2812.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2812.
 
 Package rerunfilecheck Info: File `pyspark.out' has not changed.
 (rerunfilecheck)             Checksum: 410648C1DAF06A745780CCE3989B0F12;3637.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2424.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2812.
  ) 
 Here is how much of TeX's memory you used:
- 10522 strings out of 493304
- 148157 string characters out of 6139871
+ 10536 strings out of 493304
+ 148251 string characters out of 6139871
  255811 words of memory out of 5000000
  13400 multiletter control sequences out of 15000+600000
  72442 words of font info for 101 fonts, out of 8000000 for 9000
@@ -1684,10 +1712,10 @@ helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uh
 vr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (67 pages, 2696628 bytes).
+Output written on pyspark.pdf (71 pages, 2707375 bytes).
 PDF statistics:
- 895 PDF objects out of 1000 (max. 8388607)
- 754 compressed objects within 8 object streams
- 239 named destinations out of 1000 (max. 500000)
+ 935 PDF objects out of 1000 (max. 8388607)
+ 790 compressed objects within 8 object streams
+ 253 named destinations out of 1000 (max. 500000)
  589 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{September 18, 2017}
+\date{September 20, 2017}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -551,7 +551,7 @@ Test: Test the Prerequisites: change the direction \code{spark-\#.\#.\#-bin-hado
 \end{enumerate}
 
 \begin{Verbatim}[commandchars=\\\{\}]
-java version \PYG{l+s+s2}{\PYGZdq{}1.8.0\PYGZus{}131\PYGZdq{}}
+./pyspark
 \end{Verbatim}
 
 \begin{Verbatim}[commandchars=\\\{\}]
@@ -1294,13 +1294,16 @@ Iterative Methods
 \subsection{Demo}
 \label{regression:demo}\begin{itemize}
 \item {} 
-The Jupyter notebook can be download from LinearRegression which was implemented without using Pipeline.
+The Jupyter notebook can be download from Linear Regression which was implemented without using Pipeline.
 
 \item {} 
-The Jupyter notebook can be download from LinearRegression which was implemented with using Pipeline.
+The Jupyter notebook can be download from Linear Regression with Pipeline which was implemented with using Pipeline.
 
 \item {} 
 I will only present the code with pipeline style in the following.
+
+\item {} 
+For more details about the parameters, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.regression.LinearRegression.html}{Linear Regression API} .
 
 \end{itemize}
 \begin{enumerate}
@@ -1530,6 +1533,8 @@ Fit Ordinary Least Square Regression Model
 
 \end{enumerate}
 
+For more details about the parameters, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.regression.LinearRegression.html}{Linear Regression API} .
+
 \begin{Verbatim}[commandchars=\\\{\}]
 \PYG{c}{\PYGZsh{} Import LinearRegression class}
 \PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.regression} \PYG{k+kn}{import} \PYG{n}{LinearRegression}
@@ -1688,8 +1693,14 @@ information from the \href{https://stats.stackexchange.com/questions/26176/remov
 \label{regression:id4}
 
 \subsection{Demo}
-\label{regression:id5}
+\label{regression:id5}\begin{itemize}
+\item {} 
 The Jupyter notebook can be download from Generalized Linear Regression.
+
+\item {} 
+For more details about the parameters, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.regression.GeneralizedLinearRegression.html}{Generalized Linear Regression API} .
+
+\end{itemize}
 \begin{enumerate}
 \item {} 
 Set up spark context and SparkSession
@@ -2075,8 +2086,345 @@ Then you will get the \(R^2\) value:
 \label{regression:id8}
 
 \subsection{Demo}
-\label{regression:id9}
+\label{regression:id9}\begin{itemize}
+\item {} 
 The Jupyter notebook can be download from Decision Tree Regression.
+
+\item {} 
+For more details about the parameters, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.regression.DecisionTreeRegressor.html}{Decision Tree Regressor API} .
+
+\end{itemize}
+\begin{enumerate}
+\item {} 
+Set up spark context and SparkSession
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql} \PYG{k+kn}{import} \PYG{n}{SparkSession}
+
+\PYG{n}{spark} \PYG{o}{=} \PYG{n}{SparkSession} \PYGZbs{}
+    \PYG{o}{.}\PYG{n}{builder} \PYGZbs{}
+    \PYG{o}{.}\PYG{n}{appName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Python Spark regression example}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)} \PYGZbs{}
+    \PYG{o}{.}\PYG{n}{config}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{spark.some.config.option}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{some\PYGZhy{}value}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)} \PYGZbs{}
+    \PYG{o}{.}\PYG{n}{getOrCreate}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+Load dataset
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{read}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{com.databricks.spark.csv}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYGZbs{}
+                       \PYG{n}{options}\PYG{p}{(}\PYG{n}{header}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{true}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYGZbs{}
+                       \PYG{n}{inferschema}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{true}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYGZbs{}
+            \PYG{n}{load}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{../data/Advertising.csv}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{header}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{p}{;}
+\end{Verbatim}
+
+check the data set
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{n+nb+bp}{True}\PYG{p}{)}
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{printSchema}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+Then you will get
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}\PYG{n}{Newspaper}\PYG{o}{\textbar{}}\PYG{n}{Sales}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{45.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.3}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{58.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{180.8}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.8}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{58.4}\PYG{o}{\textbar{}} \PYG{l+m+mf}{12.9}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+
+\PYG{n}{root}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{TV}\PYG{p}{:} \PYG{n}{double} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{Radio}\PYG{p}{:} \PYG{n}{double} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{Newspaper}\PYG{p}{:} \PYG{n}{double} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{Sales}\PYG{p}{:} \PYG{n}{double} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+\end{Verbatim}
+
+You can also get the Statistical resutls from the data frame
+(Unfortunately, it only works for numerical).
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{describe}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+Then you will get
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{summary}\PYG{o}{\textbar{}}               \PYG{n}{TV}\PYG{o}{\textbar{}}             \PYG{n}{Radio}\PYG{o}{\textbar{}}         \PYG{n}{Newspaper}\PYG{o}{\textbar{}}             \PYG{n}{Sales}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}  \PYG{n}{count}\PYG{o}{\textbar{}}              \PYG{l+m+mi}{200}\PYG{o}{\textbar{}}               \PYG{l+m+mi}{200}\PYG{o}{\textbar{}}               \PYG{l+m+mi}{200}\PYG{o}{\textbar{}}               \PYG{l+m+mi}{200}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}   \PYG{n}{mean}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{147.0425}\PYG{o}{\textbar{}}\PYG{l+m+mf}{23.264000000000024}\PYG{o}{\textbar{}}\PYG{l+m+mf}{30.553999999999995}\PYG{o}{\textbar{}}\PYG{l+m+mf}{14.022500000000003}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{n}{stddev}\PYG{o}{\textbar{}}\PYG{l+m+mf}{85.85423631490805}\PYG{o}{\textbar{}}\PYG{l+m+mf}{14.846809176168728}\PYG{o}{\textbar{}} \PYG{l+m+mf}{21.77862083852283}\PYG{o}{\textbar{}} \PYG{l+m+mf}{5.217456565710477}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}    \PYG{n+nb}{min}\PYG{o}{\textbar{}}              \PYG{l+m+mf}{0.7}\PYG{o}{\textbar{}}               \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}               \PYG{l+m+mf}{0.3}\PYG{o}{\textbar{}}               \PYG{l+m+mf}{1.6}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}    \PYG{n+nb}{max}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{296.4}\PYG{o}{\textbar{}}              \PYG{l+m+mf}{49.6}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{114.0}\PYG{o}{\textbar{}}              \PYG{l+m+mf}{27.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+Convert the data to dense vector (\textbf{features} and \textbf{label})
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql} \PYG{k+kn}{import} \PYG{n}{Row}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.linalg} \PYG{k+kn}{import} \PYG{n}{Vectors}
+
+\PYG{c}{\PYGZsh{} I provide two ways to build the features and labels}
+
+\PYG{c}{\PYGZsh{} method 1 (good for small feature):}
+\PYG{c}{\PYGZsh{}def transData(row):}
+\PYG{c}{\PYGZsh{}    return Row(label=row[\PYGZdq{}Sales\PYGZdq{}],}
+\PYG{c}{\PYGZsh{}               features=Vectors.dense([row[\PYGZdq{}TV\PYGZdq{}],}
+\PYG{c}{\PYGZsh{}                                       row[\PYGZdq{}Radio\PYGZdq{}],}
+\PYG{c}{\PYGZsh{}                                       row[\PYGZdq{}Newspaper\PYGZdq{}]]))}
+
+\PYG{c}{\PYGZsh{} Method 2 (good for large features):}
+\PYG{k}{def} \PYG{n+nf}{transData}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}\PYG{p}{:}
+\PYG{k}{return} \PYG{n}{data}\PYG{o}{.}\PYG{n}{rdd}\PYG{o}{.}\PYG{n}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{r}\PYG{p}{:} \PYG{p}{[}\PYG{n}{Vectors}\PYG{o}{.}\PYG{n}{dense}\PYG{p}{(}\PYG{n}{r}\PYG{p}{[}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)}\PYG{p}{,}\PYG{n}{r}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toDF}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{transformed}\PYG{o}{=} \PYG{n}{transData}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+\PYG{n}{transformed}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}         \PYG{n}{features}\PYG{o}{\textbar{}}\PYG{n}{label}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{230.1}\PYG{p}{,}\PYG{l+m+mf}{37.8}\PYG{p}{,}\PYG{l+m+mf}{69.2}\PYG{p}{]}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{44.5}\PYG{p}{,}\PYG{l+m+mf}{39.3}\PYG{p}{,}\PYG{l+m+mf}{45.1}\PYG{p}{]}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{17.2}\PYG{p}{,}\PYG{l+m+mf}{45.9}\PYG{p}{,}\PYG{l+m+mf}{69.3}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{151.5}\PYG{p}{,}\PYG{l+m+mf}{41.3}\PYG{p}{,}\PYG{l+m+mf}{58.5}\PYG{p}{]}\PYG{o}{\textbar{}} \PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{180.8}\PYG{p}{,}\PYG{l+m+mf}{10.8}\PYG{p}{,}\PYG{l+m+mf}{58.4}\PYG{p}{]}\PYG{o}{\textbar{}} \PYG{l+m+mf}{12.9}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+
+\begin{notice}{note}{Note:}
+You will find out that all of the machine learning algorithms in Spark are
+based on the \textbf{features} and \textbf{label}. That is to say, you can play with
+all of the machine learning algorithms in Spark when you get ready the
+\textbf{features} and \textbf{label}.
+\end{notice}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item {} 
+Convert the data to dense vector
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} convert the data to dense vector}
+\PYG{k}{def} \PYG{n+nf}{transData}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{return} \PYG{n}{data}\PYG{o}{.}\PYG{n}{rdd}\PYG{o}{.}\PYG{n}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{r}\PYG{p}{:} \PYG{p}{[}\PYG{n}{r}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,} \PYG{n}{Vectors}\PYG{o}{.}\PYG{n}{dense}\PYG{p}{(}\PYG{n}{r}\PYG{p}{[}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYGZbs{}
+           \PYG{n}{toDF}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+
+\PYG{n}{transformed} \PYG{o}{=} \PYG{n}{transData}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+\PYG{n}{transformed}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{4}
+\item {} 
+Deal with the Categorical variables
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml} \PYG{k+kn}{import} \PYG{n}{Pipeline}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.regression} \PYG{k+kn}{import} \PYG{n}{LinearRegression}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.feature} \PYG{k+kn}{import} \PYG{n}{VectorIndexer}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.evaluation} \PYG{k+kn}{import} \PYG{n}{RegressionEvaluator}
+
+\PYG{c}{\PYGZsh{} Automatically identify categorical features, and index them.}
+\PYG{c}{\PYGZsh{} We specify maxCategories so features with \PYGZgt{} 4}
+\PYG{c}{\PYGZsh{} distinct values are treated as continuous.}
+
+\PYG{n}{featureIndexer} \PYG{o}{=} \PYG{n}{VectorIndexer}\PYG{p}{(}\PYG{n}{inputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYGZbs{}
+                               \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{indexedFeatures}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYGZbs{}
+                               \PYG{n}{maxCategories}\PYG{o}{=}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{transformed}\PYG{p}{)}
+
+\PYG{n}{data} \PYG{o}{=} \PYG{n}{featureIndexer}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{transformed}\PYG{p}{)}
+\end{Verbatim}
+
+When you check you data at this point, you will get
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}         \PYG{n}{features}\PYG{o}{\textbar{}}\PYG{n}{label}\PYG{o}{\textbar{}}  \PYG{n}{indexedFeatures}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{230.1}\PYG{p}{,}\PYG{l+m+mf}{37.8}\PYG{p}{,}\PYG{l+m+mf}{69.2}\PYG{p}{]}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{230.1}\PYG{p}{,}\PYG{l+m+mf}{37.8}\PYG{p}{,}\PYG{l+m+mf}{69.2}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{44.5}\PYG{p}{,}\PYG{l+m+mf}{39.3}\PYG{p}{,}\PYG{l+m+mf}{45.1}\PYG{p}{]}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{44.5}\PYG{p}{,}\PYG{l+m+mf}{39.3}\PYG{p}{,}\PYG{l+m+mf}{45.1}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{17.2}\PYG{p}{,}\PYG{l+m+mf}{45.9}\PYG{p}{,}\PYG{l+m+mf}{69.3}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{17.2}\PYG{p}{,}\PYG{l+m+mf}{45.9}\PYG{p}{,}\PYG{l+m+mf}{69.3}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{151.5}\PYG{p}{,}\PYG{l+m+mf}{41.3}\PYG{p}{,}\PYG{l+m+mf}{58.5}\PYG{p}{]}\PYG{o}{\textbar{}} \PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{151.5}\PYG{p}{,}\PYG{l+m+mf}{41.3}\PYG{p}{,}\PYG{l+m+mf}{58.5}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{180.8}\PYG{p}{,}\PYG{l+m+mf}{10.8}\PYG{p}{,}\PYG{l+m+mf}{58.4}\PYG{p}{]}\PYG{o}{\textbar{}} \PYG{l+m+mf}{12.9}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{180.8}\PYG{p}{,}\PYG{l+m+mf}{10.8}\PYG{p}{,}\PYG{l+m+mf}{58.4}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{5}
+\item {} 
+Split the data into training and test sets (40\% held out for testing)
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} Split the data into training and test sets (40\PYGZpc{} held out for testing)}
+\PYG{p}{(}\PYG{n}{trainingData}\PYG{p}{,} \PYG{n}{testData}\PYG{p}{)} \PYG{o}{=} \PYG{n}{transformed}\PYG{o}{.}\PYG{n}{randomSplit}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mf}{0.6}\PYG{p}{,} \PYG{l+m+mf}{0.4}\PYG{p}{]}\PYG{p}{)}
+\end{Verbatim}
+
+You can check your train and test data as follows (In my opinion, it is always
+to good to keep tracking your data during prototype pahse):
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{trainingData}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\PYG{n}{testData}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+
+Then you will get
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}       \PYG{n}{features}\PYG{o}{\textbar{}}\PYG{n}{label}\PYG{o}{\textbar{}}\PYG{n}{indexedFeatures}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{4.1}\PYG{p}{,}\PYG{l+m+mf}{11.6}\PYG{p}{,}\PYG{l+m+mf}{5.7}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{3.2}\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{4.1}\PYG{p}{,}\PYG{l+m+mf}{11.6}\PYG{p}{,}\PYG{l+m+mf}{5.7}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{7.3}\PYG{p}{,}\PYG{l+m+mf}{28.1}\PYG{p}{,}\PYG{l+m+mf}{41.4}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{5.5}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{7.3}\PYG{p}{,}\PYG{l+m+mf}{28.1}\PYG{p}{,}\PYG{l+m+mf}{41.4}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{8.4}\PYG{p}{,}\PYG{l+m+mf}{27.2}\PYG{p}{,}\PYG{l+m+mf}{2.1}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{5.7}\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{8.4}\PYG{p}{,}\PYG{l+m+mf}{27.2}\PYG{p}{,}\PYG{l+m+mf}{2.1}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{p}{[}\PYG{l+m+mf}{8.6}\PYG{p}{,}\PYG{l+m+mf}{2.1}\PYG{p}{,}\PYG{l+m+mf}{1.0}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{4.8}\PYG{o}{\textbar{}}  \PYG{p}{[}\PYG{l+m+mf}{8.6}\PYG{p}{,}\PYG{l+m+mf}{2.1}\PYG{p}{,}\PYG{l+m+mf}{1.0}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{8.7}\PYG{p}{,}\PYG{l+m+mf}{48.9}\PYG{p}{,}\PYG{l+m+mf}{75.0}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{7.2}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{8.7}\PYG{p}{,}\PYG{l+m+mf}{48.9}\PYG{p}{,}\PYG{l+m+mf}{75.0}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}        \PYG{n}{features}\PYG{o}{\textbar{}}\PYG{n}{label}\PYG{o}{\textbar{}} \PYG{n}{indexedFeatures}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}  \PYG{p}{[}\PYG{l+m+mf}{0.7}\PYG{p}{,}\PYG{l+m+mf}{39.6}\PYG{p}{,}\PYG{l+m+mf}{8.7}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.6}\PYG{o}{\textbar{}}  \PYG{p}{[}\PYG{l+m+mf}{0.7}\PYG{p}{,}\PYG{l+m+mf}{39.6}\PYG{p}{,}\PYG{l+m+mf}{8.7}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{p}{[}\PYG{l+m+mf}{5.4}\PYG{p}{,}\PYG{l+m+mf}{29.9}\PYG{p}{,}\PYG{l+m+mf}{9.4}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{5.3}\PYG{o}{\textbar{}}  \PYG{p}{[}\PYG{l+m+mf}{5.4}\PYG{p}{,}\PYG{l+m+mf}{29.9}\PYG{p}{,}\PYG{l+m+mf}{9.4}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{7.8}\PYG{p}{,}\PYG{l+m+mf}{38.9}\PYG{p}{,}\PYG{l+m+mf}{50.6}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{6.6}\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{7.8}\PYG{p}{,}\PYG{l+m+mf}{38.9}\PYG{p}{,}\PYG{l+m+mf}{50.6}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{17.2}\PYG{p}{,}\PYG{l+m+mf}{45.9}\PYG{p}{,}\PYG{l+m+mf}{69.3}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{17.2}\PYG{p}{,}\PYG{l+m+mf}{45.9}\PYG{p}{,}\PYG{l+m+mf}{69.3}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{18.7}\PYG{p}{,}\PYG{l+m+mf}{12.1}\PYG{p}{,}\PYG{l+m+mf}{23.4}\PYG{p}{]}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{6.7}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{18.7}\PYG{p}{,}\PYG{l+m+mf}{12.1}\PYG{p}{,}\PYG{l+m+mf}{23.4}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{6}
+\item {} 
+Fit Decision Tree Regression Model
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.regression} \PYG{k+kn}{import} \PYG{n}{DecisionTreeRegressor}
+
+\PYG{c}{\PYGZsh{} Train a DecisionTree model.}
+\PYG{n}{dt} \PYG{o}{=} \PYG{n}{DecisionTreeRegressor}\PYG{p}{(}\PYG{n}{featuresCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{indexedFeatures}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{7}
+\item {} 
+Pipeline Architecture
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} Chain indexer and tree in a Pipeline}
+\PYG{n}{pipeline} \PYG{o}{=} \PYG{n}{Pipeline}\PYG{p}{(}\PYG{n}{stages}\PYG{o}{=}\PYG{p}{[}\PYG{n}{featureIndexer}\PYG{p}{,} \PYG{n}{dt}\PYG{p}{]}\PYG{p}{)}
+
+\PYG{n}{model} \PYG{o}{=} \PYG{n}{pipeline}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{trainingData}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{8}
+\item {} 
+Make predictions
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} Make predictions.}
+\PYG{n}{predictions} \PYG{o}{=} \PYG{n}{model}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{testData}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} Select example rows to display.}
+\PYG{n}{predictions}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{predictedLabel}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{prediction}\PYG{o}{\textbar{}}\PYG{n}{label}\PYG{o}{\textbar{}}        \PYG{n}{features}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}       \PYG{l+m+mf}{7.2}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.6}\PYG{o}{\textbar{}}  \PYG{p}{[}\PYG{l+m+mf}{0.7}\PYG{p}{,}\PYG{l+m+mf}{39.6}\PYG{p}{,}\PYG{l+m+mf}{8.7}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}       \PYG{l+m+mf}{7.3}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{5.3}\PYG{o}{\textbar{}}  \PYG{p}{[}\PYG{l+m+mf}{5.4}\PYG{p}{,}\PYG{l+m+mf}{29.9}\PYG{p}{,}\PYG{l+m+mf}{9.4}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}       \PYG{l+m+mf}{7.2}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{6.6}\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{7.8}\PYG{p}{,}\PYG{l+m+mf}{38.9}\PYG{p}{,}\PYG{l+m+mf}{50.6}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}      \PYG{l+m+mf}{8.64}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{17.2}\PYG{p}{,}\PYG{l+m+mf}{45.9}\PYG{p}{,}\PYG{l+m+mf}{69.3}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}      \PYG{l+m+mf}{6.45}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{6.7}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{18.7}\PYG{p}{,}\PYG{l+m+mf}{12.1}\PYG{p}{,}\PYG{l+m+mf}{23.4}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{9}
+\item {} 
+Evaluation
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.evaluation} \PYG{k+kn}{import} \PYG{n}{RegressionEvaluator}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.evaluation} \PYG{k+kn}{import} \PYG{n}{RegressionEvaluator}
+\PYG{c}{\PYGZsh{} Select (prediction, true label) and compute test error}
+\PYG{n}{evaluator} \PYG{o}{=} \PYG{n}{RegressionEvaluator}\PYG{p}{(}\PYG{n}{labelCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}
+                                \PYG{n}{predictionCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}
+                                \PYG{n}{metricName}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{rmse}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n}{rmse} \PYG{o}{=} \PYG{n}{evaluator}\PYG{o}{.}\PYG{n}{evaluate}\PYG{p}{(}\PYG{n}{predictions}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Root Mean Squared Error (RMSE) on test data = }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s}{\PYGZdq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{rmse}\PYG{p}{)}
+\end{Verbatim}
+
+The final Root Mean Squared Error (RMSE) is as follows:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{Root} \PYG{n}{Mean} \PYG{n}{Squared} \PYG{n}{Error} \PYG{p}{(}\PYG{n}{RMSE}\PYG{p}{)} \PYG{n}{on} \PYG{n}{test} \PYG{n}{data} \PYG{o}{=} \PYG{l+m+mf}{1.50999}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{y\PYGZus{}true} \PYG{o}{=} \PYG{n}{predictions}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toPandas}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{y\PYGZus{}pred} \PYG{o}{=} \PYG{n}{predictions}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toPandas}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{k+kn}{import} \PYG{n+nn}{sklearn.metrics}
+\PYG{n}{r2\PYGZus{}score} \PYG{o}{=} \PYG{n}{sklearn}\PYG{o}{.}\PYG{n}{metrics}\PYG{o}{.}\PYG{n}{r2\PYGZus{}score}\PYG{p}{(}\PYG{n}{y\PYGZus{}true}\PYG{p}{,} \PYG{n}{y\PYGZus{}pred}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{r2\PYGZus{}score: \PYGZob{}0\PYGZcb{}}\PYG{l+s}{\PYGZsq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{r2\PYGZus{}score}\PYG{p}{)}\PYG{p}{)}
+\end{Verbatim}
+
+Then you will get the \(R^2\) value:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{r2\PYGZus{}score}\PYG{p}{:} \PYG{l+m+mf}{0.911024318967}
+\end{Verbatim}
+
+You may also check the importance of the features:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{model}\PYG{o}{.}\PYG{n}{stages}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{featureImportances}
+\end{Verbatim}
+
+The you will get the weight for each features
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{SparseVector}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{:} \PYG{l+m+mf}{0.6811}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{:} \PYG{l+m+mf}{0.3187}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{:} \PYG{l+m+mf}{0.0002}\PYG{p}{\PYGZcb{}}\PYG{p}{)}
+\end{Verbatim}
 
 
 \section{Random Forest Regression}
@@ -2089,8 +2437,14 @@ The Jupyter notebook can be download from Decision Tree Regression.
 \label{regression:id12}
 
 \subsection{Demo}
-\label{regression:id13}
-The Jupyter notebook can be download from Generalized Linear Regression.
+\label{regression:id13}\begin{itemize}
+\item {} 
+The Jupyter notebook can be download from Random Forest Regression.
+
+\item {} 
+For more details about the parameters, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.regression.RandomForestRegressor.html}{Random Forest Regressor API} .
+
+\end{itemize}
 
 
 \section{Gradient-boosted tree regression}
@@ -2103,12 +2457,18 @@ The Jupyter notebook can be download from Generalized Linear Regression.
 \label{regression:id16}
 
 \subsection{Demo}
-\label{regression:id17}
-The Jupyter notebook can be download from Generalized Linear Regression.
+\label{regression:id17}\begin{itemize}
+\item {} 
+The Jupyter notebook can be download from Gradient-boosted tree regression.
+
+\item {} 
+For more details about the parameters, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.regression.GBTRegressor.html}{Gradient boosted tree API} .
+
+\end{itemize}
 
 
 \chapter{Classification}
-\label{classification::doc}\label{classification:disscussion-at-stackexchange}\label{classification:classification}\label{classification:id1}
+\label{classification:gradient-boosted-tree-api}\label{classification::doc}\label{classification:classification}\label{classification:id1}
 \begin{notice}{note}{Note:}
 \textbf{Birds of a feather folock together.} -- old Chinese proverb
 \end{notice}
@@ -2124,26 +2484,54 @@ The Jupyter notebook can be download from Generalized Linear Regression.
 \label{classification:multinomial-logistic-regression}
 
 \section{Decision tree Classification}
-\label{classification:decision-tree-classification}
+\label{classification:decision-tree-classification}\begin{itemize}
+\item {} 
 The Jupyter notebook can be download from Decision Tree Classification.
+
+\item {} 
+For more details, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.classification.DecisionTreeClassifier.html}{DecisionTreeClassifier API} .
+
+\end{itemize}
 
 
 \section{Random forest Classification}
-\label{classification:random-forest-classification}
+\label{classification:random-forest-classification}\begin{itemize}
+\item {} 
+The Jupyter notebook can be download from Random forest Classification.
+
+\item {} 
+For more details, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.classification.RandomForestClassifier.html}{RandomForestClassifier API} .
+
+\end{itemize}
+
 
 \section{Gradient-boosted tree Classification}
-\label{classification:gradient-boosted-tree-classification}
+\label{classification:gradient-boosted-tree-classification}\begin{itemize}
+\item {} 
+The Jupyter notebook can be download from Gradient boosted tree Classification.
+
+\item {} 
+For more details, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.classification.GBTClassifier.html}{GBTClassifier API} .
+
+\end{itemize}
+
 
 \section{Naive Bayes Classification}
-\label{classification:naive-bayes-classification}
+\label{classification:naive-bayes-classification}\begin{itemize}
+\item {} 
 The Jupyter notebook can be download from Naive Bayes Classification.
+
+\item {} 
+For more details, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.classification.NaiveBayes.html}{NaiveBayes API} .
+
+\end{itemize}
 
 
 \section{Support Vector Machines Classification}
 \label{classification:support-vector-machines-classification}
 
 \chapter{Clustering}
-\label{clustering:clustering}\label{clustering:yassine-alouini}\label{clustering::doc}\label{clustering:id1}
+\label{clustering:naivebayes-api}\label{clustering:clustering}\label{clustering::doc}\label{clustering:id1}
 \begin{notice}{note}{Note:}
 Sharpening the knife longer can make it easier to hack the firewood -- old Chinese proverb
 \end{notice}
