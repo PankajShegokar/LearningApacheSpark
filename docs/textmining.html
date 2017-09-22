@@ -108,6 +108,11 @@
 <li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Text Mining</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#source-of-text">Source of text</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#image-to-text">Image to text</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pdf-to-text">PDF to text</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#text-preprocessing">Text Preprocessing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#text-classification">Text Classification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sentiment-analysis">Sentiment analysis</a></li>
@@ -188,6 +193,71 @@
 <p class="last">Sharpening the knife longer can make it easier to hack the firewood &#8211; old Chinese proverb</p>
 </div>
 <p>I want to answer this question in two folders:</p>
+<div class="section" id="source-of-text">
+<h2>Source of text<a class="headerlink" href="#source-of-text" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="image-to-text">
+<h3>Image to text<a class="headerlink" href="#image-to-text" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span></span>def img2text():
+    ```
+    convert images files to text
+    ```
+</pre></div>
+</div>
+</div>
+<div class="section" id="pdf-to-text">
+<h3>PDF to text<a class="headerlink" href="#pdf-to-text" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span></span>def pdf2text():
+    ```
+    convert pdf files to text
+    ```
+    import os, PythonMagick
+    from datetime import datetime
+    import PyPDF2
+
+    from PIL import Image
+    import pytesseract
+
+    f = open(&#39;doc.txt&#39;,&#39;wa&#39;)
+
+    for pdf in [pdf_file for pdf_file in os.listdir(pdf_dir) if pdf_file.endswith(&quot;.pdf&quot;)]:
+
+        start_time = datetime.now()
+
+        input_pdf = pdf_dir + &quot;/&quot; + pdf
+
+        pdf_im = PyPDF2.PdfFileReader(file(input_pdf, &quot;rb&quot;))
+        npage = pdf_im.getNumPages()
+
+        print(&#39;--------------------------------------------------------------------&#39;)
+        print(pdf)
+        print(&#39;Converting %d pages.&#39; % npage)
+        print(&#39;--------------------------------------------------------------------&#39;)
+
+        for p in range(npage):
+
+            pdf_file = input_pdf + &#39;[&#39; + str(p) +&#39;]&#39;
+            image_file =  image_dir  + &quot;/&quot; + pdf+ &#39;_&#39; + str(p)+ &#39;.png&#39;
+
+            im = PythonMagick.Image()
+            im.density(&#39;300&#39;)
+            im.read(pdf_file)
+            im.write(image_file)
+
+            text = pytesseract.image_to_string(Image.open(image_file))
+
+            print(text)
+
+            f.write( &quot;\n--------------------------------------------------------------------\n&quot;)
+            f.write( pdf + &quot;\n&quot;)
+            f.write(text.encode(&#39;utf-8&#39;))
+
+    print &quot;CPU Time for converting&quot; + pdf +&quot;:&quot;+ str(datetime.now() - start_time) +&quot;\n&quot;
+
+f.close()
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="text-preprocessing">
 <h2>Text Preprocessing<a class="headerlink" href="#text-preprocessing" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -228,7 +298,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Sep 20, 2017.
+      Last updated on Sep 22, 2017.
 
     </p>
   </div>
