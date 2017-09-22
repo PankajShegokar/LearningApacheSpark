@@ -253,16 +253,163 @@
 
     print &quot;CPU Time for converting&quot; + pdf +&quot;:&quot;+ str(datetime.now() - start_time) +&quot;\n&quot;
 
-        f.close()
+    f.close()
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="text-preprocessing">
 <h2>Text Preprocessing<a class="headerlink" href="#text-preprocessing" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>check to see if a row only contains whitespace</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_blanks</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="n">is_blank</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data_str</span><span class="o">.</span><span class="n">isspace</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">is_blank</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Determine whether the language of the text content is english or not: Use langid module to classify the language to make sure we are applying the correct cleanup actions for English langid</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_lang</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="n">predict_lang</span> <span class="o">=</span> <span class="n">langid</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">data_str</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predict_lang</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">.</span><span class="mi">9</span><span class="p">:</span>
+        <span class="n">language</span> <span class="o">=</span> <span class="n">predict_lang</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">language</span> <span class="o">=</span> <span class="s1">&#39;NA&#39;</span>
+    <span class="k">return</span> <span class="n">language</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Remove features</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_features</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="c1"># compile regex</span>
+    <span class="n">url_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;https?://(www.)?\w+\.\w+(/\w+)*/?&#39;</span><span class="p">)</span>
+    <span class="n">punc_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+    <span class="n">num_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(</span><span class="se">\\</span><span class="s1">d+)&#39;</span><span class="p">)</span>
+    <span class="n">mention_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;@(\w+)&#39;</span><span class="p">)</span>
+    <span class="n">alpha_num_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;^[a-z0-9_.]+$&quot;</span><span class="p">)</span>
+    <span class="c1"># convert to lowercase</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="c1"># remove hyperlinks</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">url_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="c1"># remove @mentions</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">mention_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="c1"># remove puncuation</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">punc_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="c1"># remove numeric &#39;words&#39;</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">num_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="c1"># remove non a-z 0-9 characters and words shorter than 3 characters</span>
+    <span class="n">list_pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">data_str</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">list_pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alpha_num_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">word</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alpha_num_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">cleaned_str</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">word</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span>
+        <span class="n">list_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">cleaned_str</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>removes stop words</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_stops</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="c1"># expects a string</span>
+    <span class="n">stops</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;english&quot;</span><span class="p">))</span>
+    <span class="n">list_pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stops</span><span class="p">:</span>
+            <span class="c1"># rebuild cleaned_str</span>
+            <span class="k">if</span> <span class="n">list_pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">word</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">cleaned_str</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">word</span>
+            <span class="n">list_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">cleaned_str</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>tagging text</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tag_and_remove</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+    <span class="c1"># noun tags</span>
+    <span class="n">nn_tags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">,</span> <span class="s1">&#39;NNP&#39;</span><span class="p">,</span> <span class="s1">&#39;NNP&#39;</span><span class="p">,</span> <span class="s1">&#39;NNPS&#39;</span><span class="p">,</span> <span class="s1">&#39;NNS&#39;</span><span class="p">]</span>
+    <span class="c1"># adjectives</span>
+    <span class="n">jj_tags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;JJ&#39;</span><span class="p">,</span> <span class="s1">&#39;JJR&#39;</span><span class="p">,</span> <span class="s1">&#39;JJS&#39;</span><span class="p">]</span>
+    <span class="c1"># verbs</span>
+    <span class="n">vb_tags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;VB&#39;</span><span class="p">,</span> <span class="s1">&#39;VBD&#39;</span><span class="p">,</span> <span class="s1">&#39;VBG&#39;</span><span class="p">,</span> <span class="s1">&#39;VBN&#39;</span><span class="p">,</span> <span class="s1">&#39;VBP&#39;</span><span class="p">,</span> <span class="s1">&#39;VBZ&#39;</span><span class="p">]</span>
+    <span class="n">nltk_tags</span> <span class="o">=</span> <span class="n">nn_tags</span> <span class="o">+</span> <span class="n">jj_tags</span> <span class="o">+</span> <span class="n">vb_tags</span>
+
+    <span class="c1"># break string into &#39;words&#39;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="c1"># tag the text and keep only those with the right tags</span>
+    <span class="n">tagged_text</span> <span class="o">=</span> <span class="n">pos_tag</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tagged_word</span> <span class="ow">in</span> <span class="n">tagged_text</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tagged_word</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">nltk_tags</span><span class="p">:</span>
+            <span class="n">cleaned_str</span> <span class="o">+=</span> <span class="n">tagged_word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+
+    <span class="k">return</span> <span class="n">cleaned_str</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>lemmatization</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lemmatize</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="c1"># expects a string</span>
+    <span class="n">list_pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">lmtzr</span> <span class="o">=</span> <span class="n">WordNetLemmatizer</span><span class="p">()</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">tagged_words</span> <span class="o">=</span> <span class="n">pos_tag</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tagged_words</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;v&#39;</span> <span class="ow">in</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">lemma</span> <span class="o">=</span> <span class="n">lmtzr</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lemma</span> <span class="o">=</span> <span class="n">lmtzr</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;n&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">list_pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">lemma</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">cleaned_str</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">lemma</span>
+        <span class="n">list_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">cleaned_str</span>
+</pre></div>
+</div>
+<p><strong>define the preprocessing function in PySpark</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StringType</span>
+<span class="kn">import</span> <span class="nn">preproc</span> <span class="kn">as</span> <span class="nn">pp</span>
+
+<span class="n">check_lang_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">check_lang</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">remove_stops_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">remove_stops</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">remove_features_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">remove_features</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">tag_and_remove_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">tag_and_remove</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">lemmatize_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">check_blanks_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">check_blanks</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="text-classification">
 <h2>Text Classification<a class="headerlink" href="#text-classification" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.stem.wordnet</span> <span class="kn">import</span> <span class="n">WordNetLemmatizer</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">pos_tag</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">langid</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="sentiment-analysis">
 <h2>Sentiment analysis<a class="headerlink" href="#sentiment-analysis" title="Permalink to this headline">¶</a></h2>
