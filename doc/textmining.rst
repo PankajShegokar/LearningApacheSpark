@@ -78,7 +78,7 @@ PDF to text
 	    
 	    print "CPU Time for converting" + pdf +":"+ str(datetime.now() - start_time) +"\n"
 
-	f.close()  
+		f.close()  
 
 
 Text Preprocessing 
