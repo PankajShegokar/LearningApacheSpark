@@ -281,11 +281,23 @@ PySpark With Jupyter Notebook
 -----------------------------
 
 After you finishing the above setup steps in :ref:`set-up-Ubuntu`, 
-then you should be good to use write and run your PySpark Code
+then you should be good to write and run your PySpark Code
 in Jupyter notebook.
 
   .. _fig_jupyterWithPySpark:
   .. figure:: images/jupyterWithPySpark.png
+    :align: center   
+
+
+PySpark With Apache Zeppelin
+----------------------------
+
+After you finishing the above setup steps in :ref:`set-up-Ubuntu`, 
+then you should be good to write and run your PySpark Code
+in Apache Zeppelin.
+
+  .. _fig_zeppelin:
+  .. figure:: images/zeppelin.png
     :align: center   
 
 
