@@ -64,7 +64,7 @@
 \contentsline {section}{\numberline {8.2}Decision tree Classification}{49}{section.8.2}
 \contentsline {section}{\numberline {8.3}Random forest Classification}{49}{section.8.3}
 \contentsline {section}{\numberline {8.4}Gradient-boosted tree Classification}{49}{section.8.4}
-\contentsline {section}{\numberline {8.5}Naive Bayes Classification}{49}{section.8.5}
+\contentsline {section}{\numberline {8.5}Naive Bayes Classification}{50}{section.8.5}
 \contentsline {section}{\numberline {8.6}Support Vector Machines Classification}{50}{section.8.6}
 \contentsline {chapter}{\numberline {9}Clustering}{51}{chapter.9}
 \contentsline {section}{\numberline {9.1}K-Means Model}{51}{section.9.1}
