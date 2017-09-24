@@ -20,71 +20,72 @@
 \contentsline {section}{\numberline {3.3}Configure Spark on Windows}{17}{section.3.3}
 \contentsline {section}{\numberline {3.4}PySpark With Text Editor or IDE}{17}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}PySpark With Jupyter Notebook}{17}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}PySpark With Sublime Text}{17}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}PySpark With Eclipse}{18}{subsection.3.4.3}
-\contentsline {section}{\numberline {3.5}Set up Spark on Cloud}{18}{section.3.5}
-\contentsline {section}{\numberline {3.6}Demo Code in this Section}{18}{section.3.6}
-\contentsline {chapter}{\numberline {4}An Introduction to Apache Spark}{21}{chapter.4}
-\contentsline {section}{\numberline {4.1}Core Concepts}{21}{section.4.1}
-\contentsline {section}{\numberline {4.2}Spark Components}{21}{section.4.2}
-\contentsline {section}{\numberline {4.3}Architecture}{24}{section.4.3}
-\contentsline {section}{\numberline {4.4}How Spark Works?}{24}{section.4.4}
-\contentsline {chapter}{\numberline {5}Programming with RDDs}{25}{chapter.5}
-\contentsline {section}{\numberline {5.1}Create RDD}{25}{section.5.1}
-\contentsline {section}{\numberline {5.2}Spark Transformations}{28}{section.5.2}
-\contentsline {section}{\numberline {5.3}Spark Actions}{28}{section.5.3}
-\contentsline {chapter}{\numberline {6}Statistics Preliminary}{29}{chapter.6}
-\contentsline {section}{\numberline {6.1}Notations}{29}{section.6.1}
-\contentsline {section}{\numberline {6.2}Measurement Formula}{29}{section.6.2}
-\contentsline {chapter}{\numberline {7}Regression}{31}{chapter.7}
-\contentsline {section}{\numberline {7.1}Linear Regression}{31}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}Introduction}{31}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {7.1.2}How to solve it?}{31}{subsection.7.1.2}
-\contentsline {subsection}{\numberline {7.1.3}Demo}{32}{subsection.7.1.3}
-\contentsline {section}{\numberline {7.2}Generalized linear regression}{37}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}Introduction}{37}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {7.2.2}How to solve it?}{37}{subsection.7.2.2}
-\contentsline {subsection}{\numberline {7.2.3}Demo}{37}{subsection.7.2.3}
-\contentsline {section}{\numberline {7.3}Decision tree Regression}{42}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Introduction}{42}{subsection.7.3.1}
-\contentsline {subsection}{\numberline {7.3.2}How to solve it?}{42}{subsection.7.3.2}
-\contentsline {subsection}{\numberline {7.3.3}Demo}{42}{subsection.7.3.3}
-\contentsline {section}{\numberline {7.4}Random Forest Regression}{47}{section.7.4}
-\contentsline {subsection}{\numberline {7.4.1}Introduction}{47}{subsection.7.4.1}
-\contentsline {subsection}{\numberline {7.4.2}How to solve it?}{47}{subsection.7.4.2}
-\contentsline {subsection}{\numberline {7.4.3}Demo}{47}{subsection.7.4.3}
-\contentsline {section}{\numberline {7.5}Gradient-boosted tree regression}{47}{section.7.5}
-\contentsline {subsection}{\numberline {7.5.1}Introduction}{47}{subsection.7.5.1}
-\contentsline {subsection}{\numberline {7.5.2}How to solve it?}{47}{subsection.7.5.2}
-\contentsline {subsection}{\numberline {7.5.3}Demo}{47}{subsection.7.5.3}
-\contentsline {chapter}{\numberline {8}Classification}{49}{chapter.8}
-\contentsline {section}{\numberline {8.1}Logistic regression}{49}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}Binomial logistic regression}{49}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}Multinomial logistic regression}{49}{subsection.8.1.2}
-\contentsline {section}{\numberline {8.2}Decision tree Classification}{49}{section.8.2}
-\contentsline {section}{\numberline {8.3}Random forest Classification}{49}{section.8.3}
-\contentsline {section}{\numberline {8.4}Gradient-boosted tree Classification}{49}{section.8.4}
-\contentsline {section}{\numberline {8.5}Naive Bayes Classification}{50}{section.8.5}
-\contentsline {section}{\numberline {8.6}Support Vector Machines Classification}{50}{section.8.6}
-\contentsline {chapter}{\numberline {9}Clustering}{51}{chapter.9}
-\contentsline {section}{\numberline {9.1}K-Means Model}{51}{section.9.1}
-\contentsline {chapter}{\numberline {10}Text Mining}{53}{chapter.10}
-\contentsline {section}{\numberline {10.1}Source of text}{53}{section.10.1}
-\contentsline {subsection}{\numberline {10.1.1}Image to text}{53}{subsection.10.1.1}
-\contentsline {subsection}{\numberline {10.1.2}Image Enhnaced to text}{54}{subsection.10.1.2}
-\contentsline {subsection}{\numberline {10.1.3}PDF to text}{55}{subsection.10.1.3}
-\contentsline {section}{\numberline {10.2}Text Preprocessing}{56}{section.10.2}
-\contentsline {section}{\numberline {10.3}Text Classification}{59}{section.10.3}
-\contentsline {section}{\numberline {10.4}Sentiment analysis}{59}{section.10.4}
-\contentsline {section}{\numberline {10.5}N-grams and Correlations}{59}{section.10.5}
-\contentsline {section}{\numberline {10.6}Topic Model: Latent Dirichlet Allocation}{59}{section.10.6}
-\contentsline {chapter}{\numberline {11}Social Network Analysis}{61}{chapter.11}
-\contentsline {section}{\numberline {11.1}Co-occurrence Network}{61}{section.11.1}
-\contentsline {section}{\numberline {11.2}Correlation Network}{64}{section.11.2}
-\contentsline {chapter}{\numberline {12}Neural Network}{65}{chapter.12}
-\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{65}{section.12.1}
-\contentsline {subsection}{\numberline {12.1.1}Introduction}{65}{subsection.12.1.1}
-\contentsline {subsection}{\numberline {12.1.2}Demo}{66}{subsection.12.1.2}
-\contentsline {chapter}{\numberline {13}Main Reference}{69}{chapter.13}
-\contentsline {chapter}{Bibliography}{71}{chapter*.5}
-\contentsline {chapter}{Index}{73}{section*.10}
+\contentsline {subsection}{\numberline {3.4.2}PySpark With Apache Zeppelin}{17}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}PySpark With Sublime Text}{19}{subsection.3.4.3}
+\contentsline {subsection}{\numberline {3.4.4}PySpark With Eclipse}{19}{subsection.3.4.4}
+\contentsline {section}{\numberline {3.5}Set up Spark on Cloud}{19}{section.3.5}
+\contentsline {section}{\numberline {3.6}Demo Code in this Section}{21}{section.3.6}
+\contentsline {chapter}{\numberline {4}An Introduction to Apache Spark}{23}{chapter.4}
+\contentsline {section}{\numberline {4.1}Core Concepts}{23}{section.4.1}
+\contentsline {section}{\numberline {4.2}Spark Components}{23}{section.4.2}
+\contentsline {section}{\numberline {4.3}Architecture}{26}{section.4.3}
+\contentsline {section}{\numberline {4.4}How Spark Works?}{26}{section.4.4}
+\contentsline {chapter}{\numberline {5}Programming with RDDs}{27}{chapter.5}
+\contentsline {section}{\numberline {5.1}Create RDD}{27}{section.5.1}
+\contentsline {section}{\numberline {5.2}Spark Transformations}{30}{section.5.2}
+\contentsline {section}{\numberline {5.3}Spark Actions}{30}{section.5.3}
+\contentsline {chapter}{\numberline {6}Statistics Preliminary}{31}{chapter.6}
+\contentsline {section}{\numberline {6.1}Notations}{31}{section.6.1}
+\contentsline {section}{\numberline {6.2}Measurement Formula}{31}{section.6.2}
+\contentsline {chapter}{\numberline {7}Regression}{33}{chapter.7}
+\contentsline {section}{\numberline {7.1}Linear Regression}{33}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Introduction}{33}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}How to solve it?}{33}{subsection.7.1.2}
+\contentsline {subsection}{\numberline {7.1.3}Demo}{34}{subsection.7.1.3}
+\contentsline {section}{\numberline {7.2}Generalized linear regression}{39}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Introduction}{39}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}How to solve it?}{39}{subsection.7.2.2}
+\contentsline {subsection}{\numberline {7.2.3}Demo}{39}{subsection.7.2.3}
+\contentsline {section}{\numberline {7.3}Decision tree Regression}{44}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Introduction}{44}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}How to solve it?}{44}{subsection.7.3.2}
+\contentsline {subsection}{\numberline {7.3.3}Demo}{44}{subsection.7.3.3}
+\contentsline {section}{\numberline {7.4}Random Forest Regression}{49}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Introduction}{49}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}How to solve it?}{49}{subsection.7.4.2}
+\contentsline {subsection}{\numberline {7.4.3}Demo}{49}{subsection.7.4.3}
+\contentsline {section}{\numberline {7.5}Gradient-boosted tree regression}{49}{section.7.5}
+\contentsline {subsection}{\numberline {7.5.1}Introduction}{49}{subsection.7.5.1}
+\contentsline {subsection}{\numberline {7.5.2}How to solve it?}{49}{subsection.7.5.2}
+\contentsline {subsection}{\numberline {7.5.3}Demo}{49}{subsection.7.5.3}
+\contentsline {chapter}{\numberline {8}Classification}{51}{chapter.8}
+\contentsline {section}{\numberline {8.1}Logistic regression}{51}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Binomial logistic regression}{51}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}Multinomial logistic regression}{51}{subsection.8.1.2}
+\contentsline {section}{\numberline {8.2}Decision tree Classification}{51}{section.8.2}
+\contentsline {section}{\numberline {8.3}Random forest Classification}{51}{section.8.3}
+\contentsline {section}{\numberline {8.4}Gradient-boosted tree Classification}{51}{section.8.4}
+\contentsline {section}{\numberline {8.5}Naive Bayes Classification}{52}{section.8.5}
+\contentsline {section}{\numberline {8.6}Support Vector Machines Classification}{52}{section.8.6}
+\contentsline {chapter}{\numberline {9}Clustering}{53}{chapter.9}
+\contentsline {section}{\numberline {9.1}K-Means Model}{53}{section.9.1}
+\contentsline {chapter}{\numberline {10}Text Mining}{55}{chapter.10}
+\contentsline {section}{\numberline {10.1}Source of text}{55}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}Image to text}{55}{subsection.10.1.1}
+\contentsline {subsection}{\numberline {10.1.2}Image Enhnaced to text}{56}{subsection.10.1.2}
+\contentsline {subsection}{\numberline {10.1.3}PDF to text}{57}{subsection.10.1.3}
+\contentsline {section}{\numberline {10.2}Text Preprocessing}{58}{section.10.2}
+\contentsline {section}{\numberline {10.3}Text Classification}{61}{section.10.3}
+\contentsline {section}{\numberline {10.4}Sentiment analysis}{61}{section.10.4}
+\contentsline {section}{\numberline {10.5}N-grams and Correlations}{61}{section.10.5}
+\contentsline {section}{\numberline {10.6}Topic Model: Latent Dirichlet Allocation}{61}{section.10.6}
+\contentsline {chapter}{\numberline {11}Social Network Analysis}{63}{chapter.11}
+\contentsline {section}{\numberline {11.1}Co-occurrence Network}{63}{section.11.1}
+\contentsline {section}{\numberline {11.2}Correlation Network}{66}{section.11.2}
+\contentsline {chapter}{\numberline {12}Neural Network}{67}{chapter.12}
+\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{67}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}Introduction}{67}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}Demo}{68}{subsection.12.1.2}
+\contentsline {chapter}{\numberline {13}Main Reference}{71}{chapter.13}
+\contentsline {chapter}{Bibliography}{73}{chapter*.5}
+\contentsline {chapter}{Index}{75}{section*.10}

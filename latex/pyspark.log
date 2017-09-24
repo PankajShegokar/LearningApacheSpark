@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  24 SEP 2017 17:26
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.22)  24 SEP 2017 17:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -963,7 +963,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 2.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 52.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 53.
  [1
 
 ])
@@ -1235,6 +1235,17 @@ File: jupyterWithPySpark.png Graphic file (type png)
 Package pdftex.def Info: jupyterWithPySpark.png used on input line 662.
 (pdftex.def)             Requested size: 469.755pt x 315.8622pt.
 
+<zeppelin.png, id=463, 1319.93124pt x 1059.96pt>
+File: zeppelin.png Graphic file (type png)
+ <use zeppelin.png>
+Package pdftex.def Info: zeppelin.png used on input line 676.
+(pdftex.def)             Requested size: 1319.92802pt x 1059.95741pt.
+File: zeppelin.png Graphic file (type png)
+
+<use zeppelin.png>
+Package pdftex.def Info: zeppelin.png used on input line 676.
+(pdftex.def)             Requested size: 469.755pt x 377.23459pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1242,47 +1253,54 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [17 <./jupyterWithPySpark.png>]
-<sublimeWithPySpark.png, id=472, 1299.85625pt x 467.7475pt>
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[18 <./zeppelin.png>]
+<sublimeWithPySpark.png, id=479, 1299.85625pt x 467.7475pt>
 File: sublimeWithPySpark.png Graphic file (type png)
 
 <use sublimeWithPySpark.png>
-Package pdftex.def Info: sublimeWithPySpark.png used on input line 684.
+Package pdftex.def Info: sublimeWithPySpark.png used on input line 698.
 (pdftex.def)             Requested size: 1299.85309pt x 467.74634pt.
 File: sublimeWithPySpark.png Graphic file (type png)
  <use sublimeWithPySpark.png>
-Package pdftex.def Info: sublimeWithPySpark.png used on input line 684.
+Package pdftex.def Info: sublimeWithPySpark.png used on input line 698.
 (pdftex.def)             Requested size: 469.755pt x 169.03845pt.
 
-<PyDevProperties.png, id=473, 1602.98875pt x 1034.86626pt>
+<PyDevProperties.png, id=480, 1602.98875pt x 1034.86626pt>
 File: PyDevProperties.png Graphic file (type png)
 
 <use PyDevProperties.png>
-Package pdftex.def Info: PyDevProperties.png used on input line 704.
+Package pdftex.def Info: PyDevProperties.png used on input line 718.
 (pdftex.def)             Requested size: 1602.98485pt x 1034.86372pt.
 File: PyDevProperties.png Graphic file (type png)
  <use PyDevProperties.png>
-Package pdftex.def Info: PyDevProperties.png used on input line 704.
+Package pdftex.def Info: PyDevProperties.png used on input line 718.
 (pdftex.def)             Requested size: 469.755pt x 303.26167pt.
 
-<pydevPath.png, id=474, 791.95876pt x 562.1pt>
+<pydevPath.png, id=481, 791.95876pt x 562.1pt>
 File: pydevPath.png Graphic file (type png)
  <use pydevPath.png>
-Package pdftex.def Info: pydevPath.png used on input line 717.
+Package pdftex.def Info: pydevPath.png used on input line 731.
 (pdftex.def)             Requested size: 791.95683pt x 562.09863pt.
 File: pydevPath.png Graphic file (type png)
 
 <use pydevPath.png>
-Package pdftex.def Info: pydevPath.png used on input line 717.
+Package pdftex.def Info: pydevPath.png used on input line 731.
 (pdftex.def)             Requested size: 469.755pt x 333.42014pt.
- <pysparkWithEclipse.png, id=475, 1609.01125pt x 1035.87pt>
+ <pysparkWithEclipse.png, id=482, 1609.01125pt x 1035.87pt>
 File: pysparkWithEclipse.png Graphic file (type png)
 
 <use pysparkWithEclipse.png>
-Package pdftex.def Info: pysparkWithEclipse.png used on input line 727.
+Package pdftex.def Info: pysparkWithEclipse.png used on input line 741.
 (pdftex.def)             Requested size: 1609.00734pt x 1035.86746pt.
 File: pysparkWithEclipse.png Graphic file (type png)
  <use pysparkWithEclipse.png>
-Package pdftex.def Info: pysparkWithEclipse.png used on input line 727.
+Package pdftex.def Info: pysparkWithEclipse.png used on input line 741.
 (pdftex.def)             Requested size: 469.755pt x 302.41779pt.
 
 
@@ -1291,51 +1309,58 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[18 <./sublimeWithPySpark.png>]
+[19 <./sublimeWithPySpark.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[19 <./PyDevProperties.png> <./pydevPath.png>]
+[20 <./PyDevProperties.png> <./pydevPath.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[20 <./pysparkWithEclipse.png>]
+[21 <./pysparkWithEclipse.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[22
+
+]
 Chapter 4.
-<spark-components.png, id=497, 545.03625pt x 440.64626pt>
+<spark-components.png, id=510, 545.03625pt x 440.64626pt>
 File: spark-components.png Graphic file (type png)
 
 <use spark-components.png>
-Package pdftex.def Info: spark-components.png used on input line 819.
+Package pdftex.def Info: spark-components.png used on input line 833.
 (pdftex.def)             Requested size: 545.03493pt x 440.64517pt.
 File: spark-components.png Graphic file (type png)
  <use spark-components.png>
-Package pdftex.def Info: spark-components.png used on input line 819.
+Package pdftex.def Info: spark-components.png used on input line 833.
 (pdftex.def)             Requested size: 469.755pt x 379.78212pt.
- [21
-
-]
+ [23]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[22 <./spark-components.png>]
-<spark-components1.png, id=510, 848.16875pt x 285.065pt>
+[24 <./spark-components.png>]
+<spark-components1.png, id=522, 848.16875pt x 285.065pt>
 File: spark-components1.png Graphic file (type png)
 
 <use spark-components1.png>
-Package pdftex.def Info: spark-components1.png used on input line 879.
+Package pdftex.def Info: spark-components1.png used on input line 893.
 (pdftex.def)             Requested size: 848.16667pt x 285.0643pt.
 File: spark-components1.png Graphic file (type png)
  <use spark-components1.png>
-Package pdftex.def Info: spark-components1.png used on input line 879.
+Package pdftex.def Info: spark-components1.png used on input line 893.
 (pdftex.def)             Requested size: 469.755pt x 157.88235pt.
 
 
@@ -1344,15 +1369,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[23 <./spark-components1.png>] <work_flow.png, id=518, 653.44125pt x 353.32pt>
+[25 <./spark-components1.png>] <work_flow.png, id=530, 653.44125pt x 353.32pt>
 File: work_flow.png Graphic file (type png)
 
 <use work_flow.png>
-Package pdftex.def Info: work_flow.png used on input line 949.
+Package pdftex.def Info: work_flow.png used on input line 963.
 (pdftex.def)             Requested size: 653.43965pt x 353.31914pt.
 File: work_flow.png Graphic file (type png)
  <use work_flow.png>
-Package pdftex.def Info: work_flow.png used on input line 949.
+Package pdftex.def Info: work_flow.png used on input line 963.
 (pdftex.def)             Requested size: 469.755pt x 253.99664pt.
 
 
@@ -1361,25 +1386,11 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[24 <./work_flow.png (PNG copy)>]
+[26 <./work_flow.png (PNG copy)>]
 Chapter 5.
-[25
+[27
 
 ]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[26]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[27]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1387,10 +1398,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [28]
-Chapter 6.
-[29
 
-]
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[29]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1398,7 +1412,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [30]
-Chapter 7.
+Chapter 6.
 [31
 
 ]
@@ -1409,13 +1423,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [32]
+Chapter 7.
+[33
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[33]
+]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1520,10 +1531,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[48
+[48]
 
-]
-Chapter 8.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 [49]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1531,9 +1545,20 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[50]
+[50
+
+]
+Chapter 8.
+[51]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[52]
 Chapter 9.
-[51
+[53
 
 ]
 
@@ -1542,24 +1567,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[52
+[54
 
 ]
 Chapter 10.
-[53]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[54]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
 [55]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1595,74 +1606,88 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[60
+[60]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[61]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[62
 
 ]
 Chapter 11.
-<name_freq.png, id=757, 712.6625pt x 469.755pt>
+<name_freq.png, id=769, 712.6625pt x 469.755pt>
 File: name_freq.png Graphic file (type png)
  <use name_freq.png>
-Package pdftex.def Info: name_freq.png used on input line 2924.
+Package pdftex.def Info: name_freq.png used on input line 2938.
 (pdftex.def)             Requested size: 712.66077pt x 469.75386pt.
 File: name_freq.png Graphic file (type png)
 
 <use name_freq.png>
-Package pdftex.def Info: name_freq.png used on input line 2924.
+Package pdftex.def Info: name_freq.png used on input line 2938.
 (pdftex.def)             Requested size: 469.755pt x 309.63786pt.
- <word_freq.png, id=758, 1075.01625pt x 765.86125pt>
+ <word_freq.png, id=770, 1075.01625pt x 765.86125pt>
 File: word_freq.png Graphic file (type png)
 
 <use word_freq.png>
-Package pdftex.def Info: word_freq.png used on input line 2930.
+Package pdftex.def Info: word_freq.png used on input line 2944.
 (pdftex.def)             Requested size: 1075.01364pt x 765.85938pt.
 File: word_freq.png Graphic file (type png)
  <use word_freq.png>
-Package pdftex.def Info: word_freq.png used on input line 2930.
+Package pdftex.def Info: word_freq.png used on input line 2944.
 (pdftex.def)             Requested size: 469.755pt x 334.66614pt.
 
-<netfreq.png, id=759, 912.40875pt x 696.6025pt>
+<netfreq.png, id=771, 912.40875pt x 696.6025pt>
 File: netfreq.png Graphic file (type png)
  <use netfreq.png>
-Package pdftex.def Info: netfreq.png used on input line 2936.
+Package pdftex.def Info: netfreq.png used on input line 2950.
 (pdftex.def)             Requested size: 912.40652pt x 696.6008pt.
 File: netfreq.png Graphic file (type png)
 
 <use netfreq.png>
-Package pdftex.def Info: netfreq.png used on input line 2936.
+Package pdftex.def Info: netfreq.png used on input line 2950.
 (pdftex.def)             Requested size: 469.755pt x 358.64268pt.
- [61 <./name_freq.png>]
+ [63 <./name_freq.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[62 <./word_freq.png>]
+[64 <./word_freq.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[63 <./netfreq.png>]
+[65 <./netfreq.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[64]
+[66]
 Chapter 12.
-<fnn.png, id=784, 907.39pt x 357.335pt>
+<fnn.png, id=796, 907.39pt x 357.335pt>
 File: fnn.png Graphic file (type png)
  <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 2966.
+Package pdftex.def Info: fnn.png used on input line 2980.
 (pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
 File: fnn.png Graphic file (type png)
  <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 2966.
+Package pdftex.def Info: fnn.png used on input line 2980.
 (pdftex.def)             Requested size: 469.755pt x 184.99194pt.
- [65
+ [67
 
  <./fnn.png>]
 
@@ -1671,24 +1696,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[66]
+[68]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[67]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[68
-
-]
-Chapter 13.
 [69]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1699,14 +1713,8 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [70
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 3148--3150
-[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
-ure and in-ter-nals.
- []
-
-(./pyspark.ind [71
-
-]
+Chapter 13.
+[71]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1715,25 +1723,42 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [72
 
-] [73
+]
+Underfull \hbox (badness 10000) in paragraph at lines 3162--3164
+[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
+ure and in-ter-nals.
+ []
+
+(./pyspark.ind [73
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[74
+
+] [75
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3156.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3156.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3170.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3170.
  (./pyspark.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3156.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3156.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3170.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3170.
 
 Package rerunfilecheck Info: File `pyspark.out' has not changed.
 (rerunfilecheck)             Checksum: BE6200E4CC4E4029D023B1B8E243D67A;3700.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3156.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3170.
  ) 
 Here is how much of TeX's memory you used:
- 10551 strings out of 493304
- 148482 string characters out of 6139871
- 256012 words of memory out of 5000000
- 13405 multiletter control sequences out of 15000+600000
+ 10561 strings out of 493304
+ 148647 string characters out of 6139871
+ 256194 words of memory out of 5000000
+ 13411 multiletter control sequences out of 15000+600000
  72442 words of font info for 101 fonts, out of 8000000 for 9000
  958 hyphenation exceptions out of 8191
  38i,18n,51p,1529b,507s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1754,10 +1779,10 @@ helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uh
 vr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (77 pages, 2722098 bytes).
+Output written on pyspark.pdf (79 pages, 2869310 bytes).
 PDF statistics:
- 971 PDF objects out of 1000 (max. 8388607)
- 819 compressed objects within 9 object streams
- 263 named destinations out of 1000 (max. 500000)
- 597 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 985 PDF objects out of 1000 (max. 8388607)
+ 829 compressed objects within 9 object streams
+ 266 named destinations out of 1000 (max. 500000)
+ 602 words of extra memory for PDF output out of 10000 (max. 10000000)
 
