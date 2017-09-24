@@ -20,30 +20,129 @@ Image to text
 
 .. code-block:: python
 
-	def img2text():
-	    ```
-	    convert images files to text
-	    ```
-
-
-PDF to text
------------
-
-.. code-block:: python
-
-	def pdf2text():
-	    ```
-	    convert pdf files to text
-	    ```
+	def img2txt(img_dir):
+	    """
+	    convert images to text
+	    """
 	    import os, PythonMagick
 	    from datetime import datetime
 	    import PyPDF2
 
 	    from PIL import Image
 	    import pytesseract
-	    
-	    f = open('doc.txt','wa')
 
+	    f = open('doc4img.txt','wa')
+	    for img in [img_file for img_file in os.listdir(img_dir)
+	                if (img_file.endswith(".png") or 
+	                    img_file.endswith(".jpg") or 
+	                    img_file.endswith(".jpeg"))]:
+
+	        start_time = datetime.now()
+
+	        input_img = img_dir + "/" + img
+
+	        print('--------------------------------------------------------------------')
+	        print(img)
+	        print('Converting ' + img +'.......')
+	        print('--------------------------------------------------------------------')     
+
+	        # extract the text information from images
+	        text = pytesseract.image_to_string(Image.open(input_img))
+	        print(text)
+	        
+	        # ouput text file 
+	        f.write( img + "\n")
+	        f.write(text.encode('utf-8'))
+	        
+
+	        print "CPU Time for converting" + img +":"+ str(datetime.now() - start_time) +"\n"
+	        f.write( "\n-------------------------------------------------------------\n")
+
+	    f.close()   
+
+Image Enhnaced to text
+----------------------
+
+.. code-block:: python
+
+	def pdf2txt_enhance(img_dir,scaler):
+	    """
+	    convert images files to text
+	    """
+	    
+	    import numpy as np
+	    import os, PythonMagick
+	    from datetime import datetime
+	    import PyPDF2
+
+	    from PIL import Image, ImageEnhance, ImageFilter
+	    import pytesseract
+
+	    f = open('doc4img.txt','wa')
+	    for img in [img_file for img_file in os.listdir(img_dir)
+	                if (img_file.endswith(".png") or 
+	                    img_file.endswith(".jpg") or 
+	                    img_file.endswith(".jpeg"))]:
+
+	        start_time = datetime.now()
+
+	        input_img = img_dir + "/" + img
+	        enhanced_img = img_dir + "/" +"Enhanced" + "/"+ img
+	        
+	        im = Image.open(input_img) # the second one
+	        im = im.filter(ImageFilter.MedianFilter())
+	        enhancer = ImageEnhance.Contrast(im)
+	        im = enhancer.enhance(1)
+	        im = im.convert('1')
+	        im.save(enhanced_img)
+	        
+	        for scale in np.ones(scaler):
+	            im = Image.open(enhanced_img) # the second one 
+	            im = im.filter(ImageFilter.MedianFilter())
+	            enhancer = ImageEnhance.Contrast(im)
+	            im = enhancer.enhance(scale)
+	            im = im.convert('1')
+	            im.save(enhanced_img)
+	        
+
+
+	        print('--------------------------------------------------------------------')
+	        print(img)
+	        print('Converting ' + img +'.......')
+	        print('--------------------------------------------------------------------')     
+
+	        # extract the text information from images
+	        text = pytesseract.image_to_string(Image.open(enhanced_img))
+	        print(text)
+	        
+	        # ouput text file 
+	        f.write( img + "\n")
+	        f.write(text.encode('utf-8'))
+	        
+
+	        print "CPU Time for converting" + img +":"+ str(datetime.now() - start_time) +"\n"
+	        f.write( "\n-------------------------------------------------------------\n")
+
+	    f.close()   
+
+PDF to text
+-----------
+
+.. code-block:: python
+
+	def pdf2txt(pdf_dir,image_dir):
+	    """
+	    convert PDF to text
+	    """
+	    
+	    import os, PythonMagick
+	    from datetime import datetime
+	    import PyPDF2
+
+	    from PIL import Image
+	    import pytesseract
+
+	    f = open('doc.txt','wa')
 	    for pdf in [pdf_file for pdf_file in os.listdir(pdf_dir) if pdf_file.endswith(".pdf")]:
 
 	        start_time = datetime.now()
@@ -58,28 +157,33 @@ PDF to text
 	        print('Converting %d pages.' % npage)
 	        print('--------------------------------------------------------------------')     
 
+	        f.write( "\n--------------------------------------------------------------------\n")
+	        
 	        for p in range(npage):
 
 	            pdf_file = input_pdf + '[' + str(p) +']'
 	            image_file =  image_dir  + "/" + pdf+ '_' + str(p)+ '.png'
 
+	            # convert PDF files to Images
 	            im = PythonMagick.Image()
 	            im.density('300')
 	            im.read(pdf_file)
 	            im.write(image_file)
 
+	            # extract the text information from images
 	            text = pytesseract.image_to_string(Image.open(image_file))
 
-	            print(text)
+	            #print(text)
 
-	            f.write( "\n--------------------------------------------------------------------\n")
+	            # ouput text file 
 	            f.write( pdf + "\n")
 	            f.write(text.encode('utf-8'))
-	    
-	    print "CPU Time for converting" + pdf +":"+ str(datetime.now() - start_time) +"\n"
+	        
 
-	    f.close()  
+	        print "CPU Time for converting" + pdf +":"+ str(datetime.now() - start_time) +"\n"
 
+	    f.close()   
+    
 
 Text Preprocessing 
 ++++++++++++++++++

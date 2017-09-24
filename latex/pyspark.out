@@ -41,16 +41,17 @@
 \BOOKMARK [0][-]{chapter.9}{Clustering}{}% 41
 \BOOKMARK [1][-]{section.9.1}{K-Means Model}{chapter.9}% 42
 \BOOKMARK [0][-]{chapter.10}{Text Mining}{}% 43
-\BOOKMARK [1][-]{section.10.1}{Text Preprocessing}{chapter.10}% 44
-\BOOKMARK [1][-]{section.10.2}{Text Classification}{chapter.10}% 45
-\BOOKMARK [1][-]{section.10.3}{Sentiment analysis}{chapter.10}% 46
-\BOOKMARK [1][-]{section.10.4}{N-grams and Correlations}{chapter.10}% 47
-\BOOKMARK [1][-]{section.10.5}{Topic Model: Latent Dirichlet Allocation}{chapter.10}% 48
-\BOOKMARK [0][-]{chapter.11}{Social Network Analysis}{}% 49
-\BOOKMARK [1][-]{section.11.1}{Co-occurrence Network}{chapter.11}% 50
-\BOOKMARK [1][-]{section.11.2}{Correlation Network}{chapter.11}% 51
-\BOOKMARK [0][-]{chapter.12}{Neural Network}{}% 52
-\BOOKMARK [1][-]{section.12.1}{Feedforward Neural Network}{chapter.12}% 53
-\BOOKMARK [0][-]{chapter.13}{Main Reference}{}% 54
-\BOOKMARK [0][-]{chapter*.5}{Bibliography}{}% 55
-\BOOKMARK [0][-]{section*.10}{Index}{}% 56
+\BOOKMARK [1][-]{section.10.1}{Source of text}{chapter.10}% 44
+\BOOKMARK [1][-]{section.10.2}{Text Preprocessing}{chapter.10}% 45
+\BOOKMARK [1][-]{section.10.3}{Text Classification}{chapter.10}% 46
+\BOOKMARK [1][-]{section.10.4}{Sentiment analysis}{chapter.10}% 47
+\BOOKMARK [1][-]{section.10.5}{N-grams and Correlations}{chapter.10}% 48
+\BOOKMARK [1][-]{section.10.6}{Topic Model: Latent Dirichlet Allocation}{chapter.10}% 49
+\BOOKMARK [0][-]{chapter.11}{Social Network Analysis}{}% 50
+\BOOKMARK [1][-]{section.11.1}{Co-occurrence Network}{chapter.11}% 51
+\BOOKMARK [1][-]{section.11.2}{Correlation Network}{chapter.11}% 52
+\BOOKMARK [0][-]{chapter.12}{Neural Network}{}% 53
+\BOOKMARK [1][-]{section.12.1}{Feedforward Neural Network}{chapter.12}% 54
+\BOOKMARK [0][-]{chapter.13}{Main Reference}{}% 55
+\BOOKMARK [0][-]{chapter*.5}{Bibliography}{}% 56
+\BOOKMARK [0][-]{section*.10}{Index}{}% 57

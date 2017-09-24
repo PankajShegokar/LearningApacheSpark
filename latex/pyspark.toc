@@ -69,18 +69,21 @@
 \contentsline {chapter}{\numberline {9}Clustering}{51}{chapter.9}
 \contentsline {section}{\numberline {9.1}K-Means Model}{51}{section.9.1}
 \contentsline {chapter}{\numberline {10}Text Mining}{53}{chapter.10}
-\contentsline {section}{\numberline {10.1}Text Preprocessing}{53}{section.10.1}
-\contentsline {section}{\numberline {10.2}Text Classification}{53}{section.10.2}
-\contentsline {section}{\numberline {10.3}Sentiment analysis}{53}{section.10.3}
-\contentsline {section}{\numberline {10.4}N-grams and Correlations}{53}{section.10.4}
-\contentsline {section}{\numberline {10.5}Topic Model: Latent Dirichlet Allocation}{53}{section.10.5}
-\contentsline {chapter}{\numberline {11}Social Network Analysis}{55}{chapter.11}
-\contentsline {section}{\numberline {11.1}Co-occurrence Network}{55}{section.11.1}
-\contentsline {section}{\numberline {11.2}Correlation Network}{58}{section.11.2}
-\contentsline {chapter}{\numberline {12}Neural Network}{59}{chapter.12}
-\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{59}{section.12.1}
-\contentsline {subsection}{\numberline {12.1.1}Introduction}{59}{subsection.12.1.1}
-\contentsline {subsection}{\numberline {12.1.2}Demo}{60}{subsection.12.1.2}
-\contentsline {chapter}{\numberline {13}Main Reference}{63}{chapter.13}
-\contentsline {chapter}{Bibliography}{65}{chapter*.5}
-\contentsline {chapter}{Index}{67}{section*.10}
+\contentsline {section}{\numberline {10.1}Source of text}{53}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}Image to text}{53}{subsection.10.1.1}
+\contentsline {subsection}{\numberline {10.1.2}PDF to text}{53}{subsection.10.1.2}
+\contentsline {section}{\numberline {10.2}Text Preprocessing}{54}{section.10.2}
+\contentsline {section}{\numberline {10.3}Text Classification}{57}{section.10.3}
+\contentsline {section}{\numberline {10.4}Sentiment analysis}{57}{section.10.4}
+\contentsline {section}{\numberline {10.5}N-grams and Correlations}{57}{section.10.5}
+\contentsline {section}{\numberline {10.6}Topic Model: Latent Dirichlet Allocation}{57}{section.10.6}
+\contentsline {chapter}{\numberline {11}Social Network Analysis}{59}{chapter.11}
+\contentsline {section}{\numberline {11.1}Co-occurrence Network}{59}{section.11.1}
+\contentsline {section}{\numberline {11.2}Correlation Network}{62}{section.11.2}
+\contentsline {chapter}{\numberline {12}Neural Network}{63}{chapter.12}
+\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{63}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}Introduction}{63}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}Demo}{64}{subsection.12.1.2}
+\contentsline {chapter}{\numberline {13}Main Reference}{67}{chapter.13}
+\contentsline {chapter}{Bibliography}{69}{chapter*.5}
+\contentsline {chapter}{Index}{71}{section*.10}

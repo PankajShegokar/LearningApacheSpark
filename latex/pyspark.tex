@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{September 20, 2017}
+\date{September 23, 2017}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -2549,11 +2549,246 @@ Sharpening the knife longer can make it easier to hack the firewood -- old Chine
 I want to answer this question in two folders:
 
 
+\section{Source of text}
+\label{textmining:source-of-text}
+
+\subsection{Image to text}
+\label{textmining:image-to-text}
+\begin{Verbatim}[commandchars=\\\{\}]
+def img2text():
+    {}`{}`{}`
+    convert images files to text
+    {}`{}`{}`
+\end{Verbatim}
+
+
+\subsection{PDF to text}
+\label{textmining:pdf-to-text}
+\begin{Verbatim}[commandchars=\\\{\}]
+def pdf2text():
+    {}`{}`{}`
+    convert pdf files to text
+    {}`{}`{}`
+    import os, PythonMagick
+    from datetime import datetime
+    import PyPDF2
+
+    from PIL import Image
+    import pytesseract
+
+    f = open(\PYGZsq{}doc.txt\PYGZsq{},\PYGZsq{}wa\PYGZsq{})
+
+    for pdf in [pdf\PYGZus{}file for pdf\PYGZus{}file in os.listdir(pdf\PYGZus{}dir) if pdf\PYGZus{}file.endswith(\PYGZdq{}.pdf\PYGZdq{})]:
+
+        start\PYGZus{}time = datetime.now()
+
+        input\PYGZus{}pdf = pdf\PYGZus{}dir + \PYGZdq{}/\PYGZdq{} + pdf
+
+        pdf\PYGZus{}im = PyPDF2.PdfFileReader(file(input\PYGZus{}pdf, \PYGZdq{}rb\PYGZdq{}))
+        npage = pdf\PYGZus{}im.getNumPages()
+
+        print(\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZsq{})
+        print(pdf)
+        print(\PYGZsq{}Converting \PYGZpc{}d pages.\PYGZsq{} \PYGZpc{} npage)
+        print(\PYGZsq{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZsq{})
+
+        for p in range(npage):
+
+            pdf\PYGZus{}file = input\PYGZus{}pdf + \PYGZsq{}[\PYGZsq{} + str(p) +\PYGZsq{}]\PYGZsq{}
+            image\PYGZus{}file =  image\PYGZus{}dir  + \PYGZdq{}/\PYGZdq{} + pdf+ \PYGZsq{}\PYGZus{}\PYGZsq{} + str(p)+ \PYGZsq{}.png\PYGZsq{}
+
+            im = PythonMagick.Image()
+            im.density(\PYGZsq{}300\PYGZsq{})
+            im.read(pdf\PYGZus{}file)
+            im.write(image\PYGZus{}file)
+
+            text = pytesseract.image\PYGZus{}to\PYGZus{}string(Image.open(image\PYGZus{}file))
+
+            print(text)
+
+            f.write( \PYGZdq{}\PYGZbs{}n\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZbs{}n\PYGZdq{})
+            f.write( pdf + \PYGZdq{}\PYGZbs{}n\PYGZdq{})
+            f.write(text.encode(\PYGZsq{}utf\PYGZhy{}8\PYGZsq{}))
+
+    print \PYGZdq{}CPU Time for converting\PYGZdq{} + pdf +\PYGZdq{}:\PYGZdq{}+ str(datetime.now() \PYGZhy{} start\PYGZus{}time) +\PYGZdq{}\PYGZbs{}n\PYGZdq{}
+
+    f.close()
+\end{Verbatim}
+
+
 \section{Text Preprocessing}
-\label{textmining:text-preprocessing}
+\label{textmining:text-preprocessing}\begin{itemize}
+\item {} 
+check to see if a row only contains whitespace
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{check\PYGZus{}blanks}\PYG{p}{(}\PYG{n}{data\PYGZus{}str}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{is\PYGZus{}blank} \PYG{o}{=} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{data\PYGZus{}str}\PYG{o}{.}\PYG{n}{isspace}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{is\PYGZus{}blank}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Determine whether the language of the text content is english or not: Use langid module to classify the language to make sure we are applying the correct cleanup actions for English langid
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{check\PYGZus{}lang}\PYG{p}{(}\PYG{n}{data\PYGZus{}str}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{predict\PYGZus{}lang} \PYG{o}{=} \PYG{n}{langid}\PYG{o}{.}\PYG{n}{classify}\PYG{p}{(}\PYG{n}{data\PYGZus{}str}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{predict\PYGZus{}lang}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZgt{}}\PYG{o}{=} \PYG{o}{.}\PYG{l+m+mi}{9}\PYG{p}{:}
+        \PYG{n}{language} \PYG{o}{=} \PYG{n}{predict\PYGZus{}lang}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n}{language} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{NA}\PYG{l+s}{\PYGZsq{}}
+    \PYG{k}{return} \PYG{n}{language}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Remove features
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{remove\PYGZus{}features}\PYG{p}{(}\PYG{n}{data\PYGZus{}str}\PYG{p}{)}\PYG{p}{:}
+    \PYG{c}{\PYGZsh{} compile regex}
+    \PYG{n}{url\PYGZus{}re} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{compile}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{https?://(www.)?}\PYG{l+s}{\PYGZbs{}}\PYG{l+s}{w+}\PYG{l+s}{\PYGZbs{}}\PYG{l+s}{.}\PYG{l+s}{\PYGZbs{}}\PYG{l+s}{w+(/}\PYG{l+s}{\PYGZbs{}}\PYG{l+s}{w+)*/?}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{punc\PYGZus{}re} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{compile}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{[}\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s}{]}\PYG{l+s}{\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{re}\PYG{o}{.}\PYG{n}{escape}\PYG{p}{(}\PYG{n}{string}\PYG{o}{.}\PYG{n}{punctuation}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{num\PYGZus{}re} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{compile}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{(}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s}{d+)}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{mention\PYGZus{}re} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{compile}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{@(}\PYG{l+s}{\PYGZbs{}}\PYG{l+s}{w+)}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{alpha\PYGZus{}num\PYGZus{}re} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{compile}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\PYGZca{}[a\PYGZhy{}z0\PYGZhy{}9\PYGZus{}.]+\PYGZdl{}}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{} convert to lowercase}
+    \PYG{n}{data\PYGZus{}str} \PYG{o}{=} \PYG{n}{data\PYGZus{}str}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{(}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{} remove hyperlinks}
+    \PYG{n}{data\PYGZus{}str} \PYG{o}{=} \PYG{n}{url\PYGZus{}re}\PYG{o}{.}\PYG{n}{sub}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{data\PYGZus{}str}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{} remove @mentions}
+    \PYG{n}{data\PYGZus{}str} \PYG{o}{=} \PYG{n}{mention\PYGZus{}re}\PYG{o}{.}\PYG{n}{sub}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{data\PYGZus{}str}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{} remove puncuation}
+    \PYG{n}{data\PYGZus{}str} \PYG{o}{=} \PYG{n}{punc\PYGZus{}re}\PYG{o}{.}\PYG{n}{sub}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{data\PYGZus{}str}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{} remove numeric \PYGZsq{}words\PYGZsq{}}
+    \PYG{n}{data\PYGZus{}str} \PYG{o}{=} \PYG{n}{num\PYGZus{}re}\PYG{o}{.}\PYG{n}{sub}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{data\PYGZus{}str}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{} remove non a\PYGZhy{}z 0\PYGZhy{}9 characters and words shorter than 3 characters}
+    \PYG{n}{list\PYGZus{}pos} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{\PYGZsq{}}
+    \PYG{k}{for} \PYG{n}{word} \PYG{o+ow}{in} \PYG{n}{data\PYGZus{}str}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n}{list\PYGZus{}pos} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{alpha\PYGZus{}num\PYGZus{}re}\PYG{o}{.}\PYG{n}{match}\PYG{p}{(}\PYG{n}{word}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{word}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{2}\PYG{p}{:}
+                \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{n}{word}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{alpha\PYGZus{}num\PYGZus{}re}\PYG{o}{.}\PYG{n}{match}\PYG{p}{(}\PYG{n}{word}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{word}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{2}\PYG{p}{:}
+                \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{+} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}} \PYG{o}{+} \PYG{n}{word}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{+}\PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}}
+        \PYG{n}{list\PYGZus{}pos} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{k}{return} \PYG{n}{cleaned\PYGZus{}str}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+removes stop words
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{remove\PYGZus{}stops}\PYG{p}{(}\PYG{n}{data\PYGZus{}str}\PYG{p}{)}\PYG{p}{:}
+    \PYG{c}{\PYGZsh{} expects a string}
+    \PYG{n}{stops} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{stopwords}\PYG{o}{.}\PYG{n}{words}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{english}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{list\PYGZus{}pos} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{\PYGZsq{}}
+    \PYG{n}{text} \PYG{o}{=} \PYG{n}{data\PYGZus{}str}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{word} \PYG{o+ow}{in} \PYG{n}{text}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n}{word} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{stops}\PYG{p}{:}
+            \PYG{c}{\PYGZsh{} rebuild cleaned\PYGZus{}str}
+            \PYG{k}{if} \PYG{n}{list\PYGZus{}pos} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{n}{word}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{+} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}} \PYG{o}{+} \PYG{n}{word}
+            \PYG{n}{list\PYGZus{}pos} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{k}{return} \PYG{n}{cleaned\PYGZus{}str}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+tagging text
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{tag\PYGZus{}and\PYGZus{}remove}\PYG{p}{(}\PYG{n}{data\PYGZus{}str}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}}
+    \PYG{c}{\PYGZsh{} noun tags}
+    \PYG{n}{nn\PYGZus{}tags} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{NN}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{NNP}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{NNP}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{NNPS}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{NNS}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}
+    \PYG{c}{\PYGZsh{} adjectives}
+    \PYG{n}{jj\PYGZus{}tags} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{JJ}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{JJR}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{JJS}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}
+    \PYG{c}{\PYGZsh{} verbs}
+    \PYG{n}{vb\PYGZus{}tags} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{VB}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{VBD}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{VBG}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{VBN}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{VBP}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{VBZ}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}
+    \PYG{n}{nltk\PYGZus{}tags} \PYG{o}{=} \PYG{n}{nn\PYGZus{}tags} \PYG{o}{+} \PYG{n}{jj\PYGZus{}tags} \PYG{o}{+} \PYG{n}{vb\PYGZus{}tags}
+
+    \PYG{c}{\PYGZsh{} break string into \PYGZsq{}words\PYGZsq{}}
+    \PYG{n}{text} \PYG{o}{=} \PYG{n}{data\PYGZus{}str}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{p}{)}
+
+    \PYG{c}{\PYGZsh{} tag the text and keep only those with the right tags}
+    \PYG{n}{tagged\PYGZus{}text} \PYG{o}{=} \PYG{n}{pos\PYGZus{}tag}\PYG{p}{(}\PYG{n}{text}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{tagged\PYGZus{}word} \PYG{o+ow}{in} \PYG{n}{tagged\PYGZus{}text}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n}{tagged\PYGZus{}word}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o+ow}{in} \PYG{n}{nltk\PYGZus{}tags}\PYG{p}{:}
+            \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{+}\PYG{o}{=} \PYG{n}{tagged\PYGZus{}word}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}}
+
+    \PYG{k}{return} \PYG{n}{cleaned\PYGZus{}str}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+lemmatization
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{lemmatize}\PYG{p}{(}\PYG{n}{data\PYGZus{}str}\PYG{p}{)}\PYG{p}{:}
+    \PYG{c}{\PYGZsh{} expects a string}
+    \PYG{n}{list\PYGZus{}pos} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{\PYGZsq{}}
+    \PYG{n}{lmtzr} \PYG{o}{=} \PYG{n}{WordNetLemmatizer}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{text} \PYG{o}{=} \PYG{n}{data\PYGZus{}str}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{tagged\PYGZus{}words} \PYG{o}{=} \PYG{n}{pos\PYGZus{}tag}\PYG{p}{(}\PYG{n}{text}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{word} \PYG{o+ow}{in} \PYG{n}{tagged\PYGZus{}words}\PYG{p}{:}
+        \PYG{k}{if} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{v}\PYG{l+s}{\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{word}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+            \PYG{n}{lemma} \PYG{o}{=} \PYG{n}{lmtzr}\PYG{o}{.}\PYG{n}{lemmatize}\PYG{p}{(}\PYG{n}{word}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{pos}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{v}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{lemma} \PYG{o}{=} \PYG{n}{lmtzr}\PYG{o}{.}\PYG{n}{lemmatize}\PYG{p}{(}\PYG{n}{word}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{pos}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{n}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{list\PYGZus{}pos} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{n}{lemma}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{=} \PYG{n}{cleaned\PYGZus{}str} \PYG{o}{+} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{ }\PYG{l+s}{\PYGZsq{}} \PYG{o}{+} \PYG{n}{lemma}
+        \PYG{n}{list\PYGZus{}pos} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{k}{return} \PYG{n}{cleaned\PYGZus{}str}
+\end{Verbatim}
+
+\textbf{define the preprocessing function in PySpark}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n}{udf}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.types} \PYG{k+kn}{import} \PYG{n}{StringType}
+\PYG{k+kn}{import} \PYG{n+nn}{preproc} \PYG{k+kn}{as} \PYG{n+nn}{pp}
+
+\PYG{n}{check\PYGZus{}lang\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{check\PYGZus{}lang}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{remove\PYGZus{}stops\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{remove\PYGZus{}stops}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{remove\PYGZus{}features\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{remove\PYGZus{}features}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{tag\PYGZus{}and\PYGZus{}remove\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{tag\PYGZus{}and\PYGZus{}remove}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{lemmatize\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{lemmatize}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{check\PYGZus{}blanks\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{check\PYGZus{}blanks}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\end{Verbatim}
+
 
 \section{Text Classification}
 \label{textmining:text-classification}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{nltk.stem.wordnet} \PYG{k+kn}{import} \PYG{n}{WordNetLemmatizer}
+\PYG{k+kn}{from} \PYG{n+nn}{nltk.corpus} \PYG{k+kn}{import} \PYG{n}{stopwords}
+\PYG{k+kn}{from} \PYG{n+nn}{nltk} \PYG{k+kn}{import} \PYG{n}{pos\PYGZus{}tag}
+\PYG{k+kn}{import} \PYG{n+nn}{string}
+\PYG{k+kn}{import} \PYG{n+nn}{re}
+\PYG{k+kn}{import} \PYG{n+nn}{langid}
+\end{Verbatim}
+
 
 \section{Sentiment analysis}
 \label{textmining:sentiment-analysis}
