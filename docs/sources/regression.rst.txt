@@ -396,7 +396,7 @@ Then you will get
 
 	r2_score: 0.854486655585
 
-.. note::
+.. warning::
 
    You should know most softwares are using different formula to calculate the 
    :math:`R^2` value when no intercept is included in the model. You can get more

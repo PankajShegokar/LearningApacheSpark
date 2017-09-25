@@ -159,7 +159,7 @@ Install Java SE Runtime Environment
 
 I installed ORACLE `Java JDK`_.  
 
-.. note::
+.. warning::
 
   **Installing Java and Java SE Runtime Environment steps are very important, since Spark is a domain-specific language written in Java.**
 

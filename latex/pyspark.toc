@@ -81,11 +81,11 @@
 \contentsline {section}{\numberline {10.6}Topic Model: Latent Dirichlet Allocation}{61}{section.10.6}
 \contentsline {chapter}{\numberline {11}Social Network Analysis}{63}{chapter.11}
 \contentsline {section}{\numberline {11.1}Co-occurrence Network}{63}{section.11.1}
-\contentsline {section}{\numberline {11.2}Correlation Network}{66}{section.11.2}
-\contentsline {chapter}{\numberline {12}Neural Network}{67}{chapter.12}
-\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{67}{section.12.1}
-\contentsline {subsection}{\numberline {12.1.1}Introduction}{67}{subsection.12.1.1}
-\contentsline {subsection}{\numberline {12.1.2}Demo}{68}{subsection.12.1.2}
-\contentsline {chapter}{\numberline {13}Main Reference}{71}{chapter.13}
-\contentsline {chapter}{Bibliography}{73}{chapter*.5}
-\contentsline {chapter}{Index}{75}{section*.10}
+\contentsline {section}{\numberline {11.2}Correlation Network}{63}{section.11.2}
+\contentsline {chapter}{\numberline {12}Neural Network}{65}{chapter.12}
+\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{65}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}Introduction}{65}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}Demo}{66}{subsection.12.1.2}
+\contentsline {chapter}{\numberline {13}Main Reference}{69}{chapter.13}
+\contentsline {chapter}{Bibliography}{71}{chapter*.5}
+\contentsline {chapter}{Index}{73}{section*.10}

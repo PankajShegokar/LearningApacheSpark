@@ -44,7 +44,7 @@ Gradient-boosted tree Classification
 
 * For more details, please visit `GBTClassifier API`_ .
 
-.. note::
+.. warning::
 
 	Unfortunately, the GBTClassifier currently only supports binary labels.
 
