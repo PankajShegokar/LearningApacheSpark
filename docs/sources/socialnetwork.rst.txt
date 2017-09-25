@@ -20,6 +20,12 @@ Co-occurrence Network
 
     Name frequency
 
+  .. _fig_wordfreq_ze:
+  .. figure:: images/freq_word_ze.png
+    :align: center
+
+    Word frequency
+
   .. _fig_wordfreq:
   .. figure:: images/word_freq.png
     :align: center
