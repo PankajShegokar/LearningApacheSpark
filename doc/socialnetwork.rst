@@ -15,7 +15,7 @@ Co-occurrence Network
 
 
   .. _fig_namefreq:
-  .. figure:: images/name_freq.png
+  .. figure:: images/demo_freq.png
     :align: center
 
     Name frequency
@@ -26,11 +26,6 @@ Co-occurrence Network
 
     Word frequency
 
-  .. _fig_wordfreq:
-  .. figure:: images/word_freq.png
-    :align: center
-
-    Word frequency
 
   .. _fig_netfreq:
   .. figure:: images/netfreq.png
