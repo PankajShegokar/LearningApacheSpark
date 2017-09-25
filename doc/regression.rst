@@ -134,6 +134,13 @@ Then you will get
 	+-------+-----------------+------------------+------------------+------------------+
 
 
+.. _fig_adfreq:
+.. figure:: images/ad.png
+   :align: center
+
+   Sales distribution 
+
+
 3. Convert the data to dense vector (**features** and **label**)
 
 .. code-block:: python
