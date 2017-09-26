@@ -9,10 +9,12 @@ Text Mining
 
    Sharpening the knife longer can make it easier to hack the firewood -- old Chinese proverb
 
-I want to answer this question in two folders:
+.. figure:: images/sen_word_freq.png
+   :align: center
 
-Source of text 
-++++++++++++++
+
+Text Collection 
++++++++++++++++
 
 
 Image to text
@@ -348,6 +350,329 @@ Text Classification
 Sentiment analysis
 ++++++++++++++++++
 
+Introduction
+------------
+
+`Sentiment analysis`_ (sometimes known as opinion mining or emotion AI) refers to the use of natural language processing, text analysis, computational linguistics, and biometrics to systematically identify, extract, quantify, and study affective states and subjective information. Sentiment analysis is widely applied to voice of the customer materials such as reviews and survey responses, online and social media, and healthcare materials for applications that range from marketing to customer service to clinical medicine.
+
+Generally speaking, sentiment analysis aims to **determine the attitude** of a speaker, writer, or other subject with respect to some topic or the overall contextual polarity or emotional reaction to a document, interaction, or event. The attitude may be a judgment or evaluation (see appraisal theory), affective state (that is to say, the emotional state of the author or speaker), or the intended emotional communication (that is to say, the emotional effect intended by the author or interlocutor).
+
+Sentiment analysis in business, also known as opinion mining is a process of identifying and cataloging a piece of text according to the tone conveyed by it. It has broad application:
+
+* Sentiment Analysis in Business Intelligence Build up
+* Sentiment Analysis in Business for Competitive Advantage
+* Enhancing the Customer Experience through Sentiment Analysis in Business
+
+Pipeline
+--------
+
+.. _fig_sa_pipeline:
+.. figure:: images/sentiment_analysis_pipeline.png
+   :align: center
+
+   Sentiment Analysis Pipeline
+
+Demo
+----
+
+1. Set up spark context and SparkSession
+
+.. code-block:: python
+
+	from pyspark.sql import SparkSession
+
+	spark = SparkSession \
+	    .builder \
+	    .appName("Python Spark Sentiment Analysis example") \
+	    .config("spark.some.config.option", "some-value") \
+	    .getOrCreate()
+
+2. Load dataset
+
+.. code-block:: python
+
+	df = spark.read.format('com.databricks.spark.csv').\
+	                               options(header='true', \
+	                               inferschema='true').\
+	            load("../data/newtwitter.csv",header=True);
+
+.. code-block:: python
+
+	+--------------------+----------+-------+
+	|                text|        id|pubdate|
+	+--------------------+----------+-------+
+	|10 Things Missing...|2602860537|  18536|
+	|RT @_NATURALBWINN...|2602850443|  18536|
+	|RT @HBO24 yo the ...|2602761852|  18535|
+	|Aaaaaaaand I have...|2602738438|  18535|
+	|can I please have...|2602684185|  18535|
+	+--------------------+----------+-------+
+	only showing top 5 rows
+
+3. Text Preprocessing
+
+* remove non ASCII characters
+
+.. code-block:: python
+
+	from pyspark.sql.functions import udf
+	from pyspark.sql.types import StringType
+
+	from nltk.stem.wordnet import WordNetLemmatizer
+	from nltk.corpus import stopwords
+	from nltk import pos_tag
+	import string
+	import re
+
+	# remove non ASCII characters
+	def strip_non_ascii(data_str):
+	    ''' Returns the string without non ASCII characters'''
+	    stripped = (c for c in data_str if 0 < ord(c) < 127)
+	    return ''.join(stripped)
+	# setup pyspark udf function    
+	strip_non_ascii_udf = udf(strip_non_ascii, StringType()) 
+
+check:
+.. code-block:: python
+
+	df = df.withColumn('text_non_asci',strip_non_ascii_udf(df['text']))
+	df.show(5,True)
+
+ouput:
+
+.. code-block:: python
+
+	+--------------------+----------+-------+--------------------+
+	|                text|        id|pubdate|       text_non_asci|
+	+--------------------+----------+-------+--------------------+
+	|10 Things Missing...|2602860537|  18536|10 Things Missing...|
+	|RT @_NATURALBWINN...|2602850443|  18536|RT @_NATURALBWINN...|
+	|RT @HBO24 yo the ...|2602761852|  18535|RT @HBO24 yo the ...|
+	|Aaaaaaaand I have...|2602738438|  18535|Aaaaaaaand I have...|
+	|can I please have...|2602684185|  18535|can I please have...|
+	+--------------------+----------+-------+--------------------+
+	only showing top 5 rows
+
+
+* fixed abbreviation
+
+.. code-block:: python
+
+	# fixed abbreviation
+	def fix_abbreviation(data_str):
+	    data_str = data_str.lower()
+	    data_str = re.sub(r'\bthats\b', 'that is', data_str)
+	    data_str = re.sub(r'\bive\b', 'i have', data_str)
+	    data_str = re.sub(r'\bim\b', 'i am', data_str)
+	    data_str = re.sub(r'\bya\b', 'yeah', data_str)
+	    data_str = re.sub(r'\bcant\b', 'can not', data_str)
+	    data_str = re.sub(r'\bdont\b', 'do not', data_str)
+	    data_str = re.sub(r'\bwont\b', 'will not', data_str)
+	    data_str = re.sub(r'\bid\b', 'i would', data_str)
+	    data_str = re.sub(r'wtf', 'what the fuck', data_str)
+	    data_str = re.sub(r'\bwth\b', 'what the hell', data_str)
+	    data_str = re.sub(r'\br\b', 'are', data_str)
+	    data_str = re.sub(r'\bu\b', 'you', data_str)
+	    data_str = re.sub(r'\bk\b', 'OK', data_str)
+	    data_str = re.sub(r'\bsux\b', 'sucks', data_str)
+	    data_str = re.sub(r'\bno+\b', 'no', data_str)
+	    data_str = re.sub(r'\bcoo+\b', 'cool', data_str)
+	    data_str = re.sub(r'rt\b', '', data_str)
+	    data_str = data_str.strip()
+	    return data_str
+	    
+	fix_abbreviation_udf = udf(fix_abbreviation, StringType())     
+ 
+check: 
+ .. code-block:: python
+
+	df = df.withColumn('fixed_abbrev',fix_abbreviation_udf(df['text_non_asci']))
+	df.show(5,True)
+
+ouput:
+
+.. code-block:: python
+
+	+--------------------+----------+-------+--------------------+--------------------+
+	|                text|        id|pubdate|       text_non_asci|        fixed_abbrev|
+	+--------------------+----------+-------+--------------------+--------------------+
+	|10 Things Missing...|2602860537|  18536|10 Things Missing...|10 things missing...|
+	|RT @_NATURALBWINN...|2602850443|  18536|RT @_NATURALBWINN...|@_naturalbwinner ...|
+	|RT @HBO24 yo the ...|2602761852|  18535|RT @HBO24 yo the ...|@hbo24 yo the #ne...|
+	|Aaaaaaaand I have...|2602738438|  18535|Aaaaaaaand I have...|aaaaaaaand i have...|
+	|can I please have...|2602684185|  18535|can I please have...|can i please have...|
+	+--------------------+----------+-------+--------------------+--------------------+
+	only showing top 5 rows
+
+* remove irrelevant features
+
+.. code-block:: python
+
+	def remove_features(data_str):
+	    # compile regex
+	    url_re = re.compile('https?://(www.)?\w+\.\w+(/\w+)*/?')
+	    punc_re = re.compile('[%s]' % re.escape(string.punctuation))
+	    num_re = re.compile('(\\d+)')
+	    mention_re = re.compile('@(\w+)')
+	    alpha_num_re = re.compile("^[a-z0-9_.]+$")
+	    # convert to lowercase
+	    data_str = data_str.lower()
+	    # remove hyperlinks
+	    data_str = url_re.sub(' ', data_str)
+	    # remove @mentions
+	    data_str = mention_re.sub(' ', data_str)
+	    # remove puncuation
+	    data_str = punc_re.sub(' ', data_str)
+	    # remove numeric 'words'
+	    data_str = num_re.sub(' ', data_str)
+	    # remove non a-z 0-9 characters and words shorter than 1 characters
+	    list_pos = 0
+	    cleaned_str = ''
+	    for word in data_str.split():
+	        if list_pos == 0:
+	            if alpha_num_re.match(word) and len(word) > 1:
+	                cleaned_str = word
+	            else:
+	                cleaned_str = ' '
+	        else:
+	            if alpha_num_re.match(word) and len(word) > 1:
+	                cleaned_str = cleaned_str + ' ' + word
+	            else:
+	                cleaned_str += ' '
+	        list_pos += 1
+	    # remove unwanted space, *.split() will automatically split on 
+	    # whitespace and discard duplicates, the " ".join() joins the 
+	    # resulting list into one string.    
+	    return " ".join(cleaned_str.split()) 
+	# setup pyspark udf function     
+	remove_features_udf = udf(remove_features, StringType())  
+
+check: 
+ .. code-block:: python
+
+	df = df.withColumn('removed',remove_features_udf(df['fixed_abbrev']))
+	df.show(5,True)
+
+ouput:
+
+.. code-block:: python
+
+	+--------------------+----------+-------+--------------------+--------------------+--------------------+
+	|                text|        id|pubdate|       text_non_asci|        fixed_abbrev|             removed|
+	+--------------------+----------+-------+--------------------+--------------------+--------------------+
+	|10 Things Missing...|2602860537|  18536|10 Things Missing...|10 things missing...|things missing in...|
+	|RT @_NATURALBWINN...|2602850443|  18536|RT @_NATURALBWINN...|@_naturalbwinner ...|oh and do not lik...|
+	|RT @HBO24 yo the ...|2602761852|  18535|RT @HBO24 yo the ...|@hbo24 yo the #ne...|yo the newtwitter...|
+	|Aaaaaaaand I have...|2602738438|  18535|Aaaaaaaand I have...|aaaaaaaand i have...|aaaaaaaand have t...|
+	|can I please have...|2602684185|  18535|can I please have...|can i please have...|can please have t...|
+	+--------------------+----------+-------+--------------------+--------------------+--------------------+
+	only showing top 5 rows
+
+4. Sentiment Analysis  main function
+
+.. code-block:: python
+
+	from pyspark.sql.types import FloatType
+
+	from textblob import TextBlob
+
+	def sentiment_analysis(text):
+	    return TextBlob(text).sentiment.polarity
+	    
+	sentiment_analysis_udf = udf(sentiment_analysis , FloatType())    
+
+
+.. code-block:: python
+
+	df  = df.withColumn("sentiment_score", sentiment_analysis_udf( df['removed'] ))
+	df.show(5,True)
+
+
+* Sentiment score
+
+.. code-block:: python
+
+	+--------------------+---------------+
+	|             removed|sentiment_score|
+	+--------------------+---------------+
+	|things missing in...|    -0.03181818|
+	|oh and do not lik...|    -0.03181818|
+	|yo the newtwitter...|      0.3181818|
+	|aaaaaaaand have t...|     0.11818182|
+	|can please have t...|     0.13636364|
+	+--------------------+---------------+
+	only showing top 5 rows
+
+* Words frequency 
+
+.. figure:: images/sen_word_freq.png
+   :align: center
+
+
+* Sentiment Classification
+
+ .. code-block:: python
+
+	def condition(r):
+	    if (r >=0.1):
+	        label = "positive" 
+	    elif(r <= -0.1):
+	        label = "negative"
+	    else: 
+	        label = "neutral" 
+	    return label
+	    
+	sentiment_udf = udf(lambda x: condition(x), StringType())  
+
+5. Output
+
+*  Sentiment Class
+
+.. figure:: images/sen_class.png
+   :align: center
+
+* Top tweets from each sentiment class
+
+ .. code-block:: python
+
+	+--------------------+---------------+---------+
+	|                text|sentiment_score|sentiment|
+	+--------------------+---------------+---------+
+	|and this #newtwit...|            1.0| positive|
+	|"RT @SarahsJokes:...|            1.0| positive|
+	|#newtwitter using...|            1.0| positive|
+	|The #NewTwitter h...|            1.0| positive|
+	|You can now undo ...|            1.0| positive|
+	+--------------------+---------------+---------+
+	only showing top 5 rows
+
+ .. code-block:: python
+
+	+--------------------+---------------+---------+
+	|                text|sentiment_score|sentiment|
+	+--------------------+---------------+---------+
+	|Lists on #NewTwit...|           -0.1|  neutral|
+	|Too bad most of m...|           -0.1|  neutral|
+	|the #newtwitter i...|           -0.1|  neutral|
+	|Looks like our re...|           -0.1|  neutral|
+	|i switched to the...|           -0.1|  neutral|
+	+--------------------+---------------+---------+
+	only showing top 5 rows
+
+
+ .. code-block:: python 
+
+	+--------------------+---------------+---------+
+	|                text|sentiment_score|sentiment|
+	+--------------------+---------------+---------+
+	|oh. #newtwitter i...|           -1.0| negative|
+	|RT @chqwn: #NewTw...|           -1.0| negative|
+	|Copy that - its W...|           -1.0| negative|
+	|RT @chqwn: #NewTw...|           -1.0| negative|
+	|#NewTwitter has t...|           -1.0| negative|
+	+--------------------+---------------+---------+
+	only showing top 5 rows
+
 
 N-grams and Correlations
 ++++++++++++++++++++++++
@@ -358,10 +683,8 @@ Topic Model: Latent Dirichlet Allocation
 
 
 
-.. _Spark vs. Hadoop MapReduce: https://www.xplenty.com/blog/2014/11/apache-spark-vs-hadoop-mapreduce/
+.. _Sentiment analysis: https://en.wikipedia.org/wiki/Sentiment_analysis
 
-.. _Vipin Tyagi: https://www.quora.com/profile/Vipin-Tyagi-9
-.. _Yassine Alouini: https://www.quora.com/profile/Yassine-Alouini
 
 
 
