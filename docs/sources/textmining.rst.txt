@@ -13,6 +13,8 @@ Text Mining
    :align: center
 
 
+.. _textcollection:
+
 Text Collection 
 +++++++++++++++
 
@@ -187,6 +189,8 @@ PDF to text
 	    f.close()   
     
 
+.. _textPreprocessing:
+
 Text Preprocessing 
 ++++++++++++++++++
 
@@ -334,6 +338,7 @@ Text Preprocessing
 	lemmatize_udf = udf(pp.lemmatize, StringType())
 	check_blanks_udf = udf(pp.check_blanks, StringType())
 
+.. _textClassification:
 
 Text Classification 
 +++++++++++++++++++
@@ -346,6 +351,9 @@ Text Classification
 	import string
 	import re
 	import langid
+
+
+.. _sentimentAnalysis:
 
 Sentiment analysis
 ++++++++++++++++++
@@ -678,6 +686,8 @@ ouput:
 N-grams and Correlations
 ++++++++++++++++++++++++
 
+
+.. _topicModel:
 
 Topic Model: Latent Dirichlet Allocation
 ++++++++++++++++++++++++++++++++++++++++
