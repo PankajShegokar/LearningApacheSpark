@@ -123,7 +123,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#n-grams-and-correlations">N-grams and Correlations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#topic-model-latent-dirichlet-allocation">Topic Model: Latent Dirichlet Allocation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#topic-model-latent-dirichlet-allocation">Topic Model: Latent Dirichlet Allocation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Demo</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="socialnetwork.html">Social Network Analysis</a></li>
@@ -538,7 +542,7 @@
 </div>
 <div class="section" id="pipeline">
 <h3>Pipeline<a class="headerlink" href="#pipeline" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-center" id="id2">
+<div class="figure align-center" id="id4">
 <span id="fig-sa-pipeline"></span><img alt="images/sentiment_analysis_pipeline.png" src="images/sentiment_analysis_pipeline.png" />
 <p class="caption"><span class="caption-number">Fig. 23 </span><span class="caption-text">Sentiment Analysis Pipeline</span></p>
 </div>
@@ -846,6 +850,336 @@ df.show(5,True)</div></blockquote>
 </div>
 <div class="section" id="topic-model-latent-dirichlet-allocation">
 <h2>Topic Model: Latent Dirichlet Allocation<a class="headerlink" href="#topic-model-latent-dirichlet-allocation" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="images/topic_time.png" src="images/topic_time.png" />
+</div>
+<div class="section" id="id1">
+<h3>Introduction<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>In text mining, a topic model is a unsupervised model for discovering the abstract &#8220;topics&#8221; that occur in a collection of documents.</p>
+<p>Latent Dirichlet Allocation (LDA) is a mathematical method for estimating both of these at the same time: finding the mixture of words that is associated with each topic, while also determining the mixture of topics that describes each document.</p>
+</div>
+<div class="section" id="id2">
+<h3>Demo<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Load data</li>
+</ol>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rawdata</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../data/airlines.csv&quot;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">rawdata</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----+---------------+---------+--------+------+--------+-----+-----------+--------------------+</span>
+<span class="o">|</span>   <span class="nb">id</span><span class="o">|</span>        <span class="n">airline</span><span class="o">|</span>     <span class="n">date</span><span class="o">|</span><span class="n">location</span><span class="o">|</span><span class="n">rating</span><span class="o">|</span>   <span class="n">cabin</span><span class="o">|</span><span class="n">value</span><span class="o">|</span><span class="n">recommended</span><span class="o">|</span>              <span class="n">review</span><span class="o">|</span>
+<span class="o">+-----+---------------+---------+--------+------+--------+-----+-----------+--------------------+</span>
+<span class="o">|</span><span class="mi">10001</span><span class="o">|</span><span class="n">Delta</span> <span class="n">Air</span> <span class="n">Lines</span><span class="o">|</span><span class="mi">21</span><span class="o">-</span><span class="n">Jun</span><span class="o">-</span><span class="mi">14</span><span class="o">|</span><span class="n">Thailand</span><span class="o">|</span>     <span class="mi">7</span><span class="o">|</span> <span class="n">Economy</span><span class="o">|</span>    <span class="mi">4</span><span class="o">|</span>        <span class="n">YES</span><span class="o">|</span><span class="n">Flew</span> <span class="n">Mar</span> <span class="mi">30</span> <span class="n">NRT</span> <span class="n">t</span><span class="o">...|</span>
+<span class="o">|</span><span class="mi">10002</span><span class="o">|</span><span class="n">Delta</span> <span class="n">Air</span> <span class="n">Lines</span><span class="o">|</span><span class="mi">19</span><span class="o">-</span><span class="n">Jun</span><span class="o">-</span><span class="mi">14</span><span class="o">|</span>     <span class="n">USA</span><span class="o">|</span>     <span class="mi">0</span><span class="o">|</span> <span class="n">Economy</span><span class="o">|</span>    <span class="mi">2</span><span class="o">|</span>         <span class="n">NO</span><span class="o">|</span><span class="n">Flight</span> <span class="mi">2463</span> <span class="n">leavi</span><span class="o">...|</span>
+<span class="o">|</span><span class="mi">10003</span><span class="o">|</span><span class="n">Delta</span> <span class="n">Air</span> <span class="n">Lines</span><span class="o">|</span><span class="mi">18</span><span class="o">-</span><span class="n">Jun</span><span class="o">-</span><span class="mi">14</span><span class="o">|</span>     <span class="n">USA</span><span class="o">|</span>     <span class="mi">0</span><span class="o">|</span> <span class="n">Economy</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>         <span class="n">NO</span><span class="o">|</span><span class="n">Delta</span> <span class="n">Website</span> <span class="n">fro</span><span class="o">...|</span>
+<span class="o">|</span><span class="mi">10004</span><span class="o">|</span><span class="n">Delta</span> <span class="n">Air</span> <span class="n">Lines</span><span class="o">|</span><span class="mi">17</span><span class="o">-</span><span class="n">Jun</span><span class="o">-</span><span class="mi">14</span><span class="o">|</span>     <span class="n">USA</span><span class="o">|</span>     <span class="mi">9</span><span class="o">|</span><span class="n">Business</span><span class="o">|</span>    <span class="mi">4</span><span class="o">|</span>        <span class="n">YES</span><span class="o">|</span><span class="s2">&quot;I just returned ...|</span>
+<span class="o">|</span><span class="mi">10005</span><span class="o">|</span><span class="n">Delta</span> <span class="n">Air</span> <span class="n">Lines</span><span class="o">|</span><span class="mi">17</span><span class="o">-</span><span class="n">Jun</span><span class="o">-</span><span class="mi">14</span><span class="o">|</span> <span class="n">Ecuador</span><span class="o">|</span>     <span class="mi">7</span><span class="o">|</span> <span class="n">Economy</span><span class="o">|</span>    <span class="mi">3</span><span class="o">|</span>        <span class="n">YES</span><span class="o">|</span><span class="s2">&quot;Round-trip fligh...|</span>
+<span class="o">+-----+---------------+---------+--------+------+--------+-----+-----------+--------------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple">
+<li>Text preprocessing</li>
+</ol>
+<p>I will use the following raw column names to keep my table concise:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">raw_cols</span> <span class="o">=</span>  <span class="n">rawdata</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">raw_cols</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;airline&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="s1">&#39;cabin&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;recommended&#39;</span><span class="p">,</span> <span class="s1">&#39;review&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rawdata</span> <span class="o">=</span> <span class="n">rawdata</span><span class="o">.</span><span class="n">dropDuplicates</span><span class="p">([</span><span class="s1">&#39;review&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span><span class="p">,</span> <span class="n">col</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">DoubleType</span><span class="p">,</span> <span class="n">DateType</span>
+
+<span class="kn">from</span> <span class="nn">nltk.stem.wordnet</span> <span class="kn">import</span> <span class="n">WordNetLemmatizer</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">pos_tag</span>
+<span class="kn">import</span> <span class="nn">langid</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">re</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>remove non ASCII characters</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># remove non ASCII characters</span>
+<span class="k">def</span> <span class="nf">strip_non_ascii</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Returns the string without non ASCII characters&#39;&#39;&#39;</span>
+    <span class="n">stripped</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data_str</span> <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">127</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stripped</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>check it blank line or not</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># check to see if a row only contains whitespace</span>
+<span class="k">def</span> <span class="nf">check_blanks</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="n">is_blank</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data_str</span><span class="o">.</span><span class="n">isspace</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">is_blank</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>check the language (a little bit slow, I skited this step)</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># check the language (only apply to english)</span>
+<span class="k">def</span> <span class="nf">check_lang</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">langid.langid</span> <span class="kn">import</span> <span class="n">LanguageIdentifier</span><span class="p">,</span> <span class="n">model</span>
+    <span class="n">identifier</span> <span class="o">=</span> <span class="n">LanguageIdentifier</span><span class="o">.</span><span class="n">from_modelstring</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">norm_probs</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">predict_lang</span> <span class="o">=</span> <span class="n">identifier</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">data_str</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">predict_lang</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">.</span><span class="mi">9</span><span class="p">:</span>
+        <span class="n">language</span> <span class="o">=</span> <span class="n">predict_lang</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">language</span> <span class="o">=</span> <span class="n">predict_lang</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">language</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>fixed abbreviation</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># fixed abbreviation</span>
+<span class="k">def</span> <span class="nf">fix_abbreviation</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bthats\b&#39;</span><span class="p">,</span> <span class="s1">&#39;that is&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bive\b&#39;</span><span class="p">,</span> <span class="s1">&#39;i have&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bim\b&#39;</span><span class="p">,</span> <span class="s1">&#39;i am&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bya\b&#39;</span><span class="p">,</span> <span class="s1">&#39;yeah&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bcant\b&#39;</span><span class="p">,</span> <span class="s1">&#39;can not&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bdont\b&#39;</span><span class="p">,</span> <span class="s1">&#39;do not&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bwont\b&#39;</span><span class="p">,</span> <span class="s1">&#39;will not&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bid\b&#39;</span><span class="p">,</span> <span class="s1">&#39;i would&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;wtf&#39;</span><span class="p">,</span> <span class="s1">&#39;what the fuck&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bwth\b&#39;</span><span class="p">,</span> <span class="s1">&#39;what the hell&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\br\b&#39;</span><span class="p">,</span> <span class="s1">&#39;are&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bu\b&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bk\b&#39;</span><span class="p">,</span> <span class="s1">&#39;OK&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bsux\b&#39;</span><span class="p">,</span> <span class="s1">&#39;sucks&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bno+\b&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bcoo+\b&#39;</span><span class="p">,</span> <span class="s1">&#39;cool&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;rt\b&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">data_str</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>remove irrelevant features</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># remove irrelevant features</span>
+<span class="k">def</span> <span class="nf">remove_features</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="c1"># compile regex</span>
+    <span class="n">url_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;https?://(www.)?\w+\.\w+(/\w+)*/?&#39;</span><span class="p">)</span>
+    <span class="n">punc_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+    <span class="n">num_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(</span><span class="se">\\</span><span class="s1">d+)&#39;</span><span class="p">)</span>
+    <span class="n">mention_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;@(\w+)&#39;</span><span class="p">)</span>
+    <span class="n">alpha_num_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;^[a-z0-9_.]+$&quot;</span><span class="p">)</span>
+    <span class="c1"># convert to lowercase</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="c1"># remove hyperlinks</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">url_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="c1"># remove @mentions</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">mention_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="c1"># remove puncuation</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">punc_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="c1"># remove numeric &#39;words&#39;</span>
+    <span class="n">data_str</span> <span class="o">=</span> <span class="n">num_re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">data_str</span><span class="p">)</span>
+    <span class="c1"># remove non a-z 0-9 characters and words shorter than 1 characters</span>
+    <span class="n">list_pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">data_str</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">list_pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alpha_num_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">word</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alpha_num_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">cleaned_str</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">word</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span>
+        <span class="n">list_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1"># remove unwanted space, *.split() will automatically split on</span>
+    <span class="c1"># whitespace and discard duplicates, the &quot; &quot;.join() joins the</span>
+    <span class="c1"># resulting list into one string.</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cleaned_str</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>removes stop words</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># removes stop words</span>
+<span class="k">def</span> <span class="nf">remove_stops</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="c1"># expects a string</span>
+    <span class="n">stops</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;english&quot;</span><span class="p">))</span>
+    <span class="n">list_pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stops</span><span class="p">:</span>
+            <span class="c1"># rebuild cleaned_str</span>
+            <span class="k">if</span> <span class="n">list_pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">word</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">cleaned_str</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">word</span>
+            <span class="n">list_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">cleaned_str</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>Part-of-Speech Tagging</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Part-of-Speech Tagging</span>
+<span class="k">def</span> <span class="nf">tag_and_remove</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+    <span class="c1"># noun tags</span>
+    <span class="n">nn_tags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">,</span> <span class="s1">&#39;NNP&#39;</span><span class="p">,</span> <span class="s1">&#39;NNP&#39;</span><span class="p">,</span> <span class="s1">&#39;NNPS&#39;</span><span class="p">,</span> <span class="s1">&#39;NNS&#39;</span><span class="p">]</span>
+    <span class="c1"># adjectives</span>
+    <span class="n">jj_tags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;JJ&#39;</span><span class="p">,</span> <span class="s1">&#39;JJR&#39;</span><span class="p">,</span> <span class="s1">&#39;JJS&#39;</span><span class="p">]</span>
+    <span class="c1"># verbs</span>
+    <span class="n">vb_tags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;VB&#39;</span><span class="p">,</span> <span class="s1">&#39;VBD&#39;</span><span class="p">,</span> <span class="s1">&#39;VBG&#39;</span><span class="p">,</span> <span class="s1">&#39;VBN&#39;</span><span class="p">,</span> <span class="s1">&#39;VBP&#39;</span><span class="p">,</span> <span class="s1">&#39;VBZ&#39;</span><span class="p">]</span>
+    <span class="n">nltk_tags</span> <span class="o">=</span> <span class="n">nn_tags</span> <span class="o">+</span> <span class="n">jj_tags</span> <span class="o">+</span> <span class="n">vb_tags</span>
+
+    <span class="c1"># break string into &#39;words&#39;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="c1"># tag the text and keep only those with the right tags</span>
+    <span class="n">tagged_text</span> <span class="o">=</span> <span class="n">pos_tag</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tagged_word</span> <span class="ow">in</span> <span class="n">tagged_text</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tagged_word</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">nltk_tags</span><span class="p">:</span>
+            <span class="n">cleaned_str</span> <span class="o">+=</span> <span class="n">tagged_word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+
+    <span class="k">return</span> <span class="n">cleaned_str</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>lemmatization</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># lemmatization</span>
+<span class="k">def</span> <span class="nf">lemmatize</span><span class="p">(</span><span class="n">data_str</span><span class="p">):</span>
+    <span class="c1"># expects a string</span>
+    <span class="n">list_pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cleaned_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">lmtzr</span> <span class="o">=</span> <span class="n">WordNetLemmatizer</span><span class="p">()</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">data_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">tagged_words</span> <span class="o">=</span> <span class="n">pos_tag</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tagged_words</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;v&#39;</span> <span class="ow">in</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">lemma</span> <span class="o">=</span> <span class="n">lmtzr</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lemma</span> <span class="o">=</span> <span class="n">lmtzr</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;n&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">list_pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">lemma</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cleaned_str</span> <span class="o">=</span> <span class="n">cleaned_str</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">lemma</span>
+        <span class="n">list_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">cleaned_str</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li>setup pyspark udf function</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># setup pyspark udf function</span>
+<span class="n">strip_non_ascii_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">strip_non_ascii</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">check_blanks_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">check_blanks</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">check_lang_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">check_lang</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">fix_abbreviation_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">fix_abbreviation</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">remove_stops_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">remove_stops</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">remove_features_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">remove_features</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">tag_and_remove_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">tag_and_remove</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">lemmatize_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">lemmatize</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rawdata</span> <span class="o">=</span> <span class="n">rawdata</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="n">rawdata</span><span class="o">.</span><span class="n">rating</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rawdata</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">root</span>
+<span class="o">|--</span> <span class="nb">id</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<span class="o">|--</span> <span class="n">airline</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<span class="o">|--</span> <span class="n">date</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<span class="o">|--</span> <span class="n">location</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<span class="o">|--</span> <span class="n">rating</span><span class="p">:</span> <span class="nb">float</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<span class="o">|--</span> <span class="n">cabin</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<span class="o">|--</span> <span class="n">value</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<span class="o">|--</span> <span class="n">recommended</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<span class="o">|--</span> <span class="n">review</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span>
+
+<span class="c1"># https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior</span>
+<span class="c1"># 21-Jun-14 &lt;----&gt; %d-%b-%y</span>
+<span class="n">to_date</span> <span class="o">=</span>  <span class="n">udf</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">-%b-%y&#39;</span><span class="p">),</span> <span class="n">DateType</span><span class="p">())</span>
+
+<span class="n">rawdata</span> <span class="o">=</span> <span class="n">rawdata</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">to_date</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rawdata</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">root</span>
+ <span class="o">|--</span> <span class="nb">id</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">airline</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">date</span><span class="p">:</span> <span class="n">date</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">location</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">rating</span><span class="p">:</span> <span class="nb">float</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">cabin</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">value</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">recommended</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">review</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple">
+<li>Results presentation</li>
+</ol>
+<ul class="simple">
+<li>Average rating and airlines for each day</li>
+</ul>
+<div class="figure align-center">
+<img alt="images/avg_rating_airlines.png" src="images/avg_rating_airlines.png" />
+</div>
+<ul class="simple">
+<li>Average rating and airlines for each month</li>
+</ul>
+<div class="figure align-center">
+<img alt="images/avg_rating_mon.png" src="images/avg_rating_mon.png" />
+</div>
+<ul class="simple">
+<li>Topic 1 corresponding to time line</li>
+</ul>
+<div class="figure align-center">
+<img alt="images/topic_time.png" src="images/topic_time.png" />
+</div>
+</div>
 </div>
 </div>
 
@@ -872,7 +1206,7 @@ df.show(5,True)</div></blockquote>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Sep 25, 2017.
+      Last updated on Sep 27, 2017.
 
     </p>
   </div>

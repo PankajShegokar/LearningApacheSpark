@@ -681,7 +681,332 @@ N-grams and Correlations
 Topic Model: Latent Dirichlet Allocation
 ++++++++++++++++++++++++++++++++++++++++
 
+.. figure:: images/topic_time.png
+   :align: center
 
+Introduction
+------------
+
+In text mining, a topic model is a unsupervised model for discovering the abstract "topics" that occur in a collection of documents. 
+
+Latent Dirichlet Allocation (LDA) is a mathematical method for estimating both of these at the same time: finding the mixture of words that is associated with each topic, while also determining the mixture of topics that describes each document. 
+
+Demo
+----
+
+#. Load data
+
+ .. code-block:: python
+
+	rawdata = spark.read.load("../data/airlines.csv", format="csv", header=True)
+	rawdata.show(5) 
+
+ .. code-block:: python
+
+	+-----+---------------+---------+--------+------+--------+-----+-----------+--------------------+
+	|   id|        airline|     date|location|rating|   cabin|value|recommended|              review|
+	+-----+---------------+---------+--------+------+--------+-----+-----------+--------------------+
+	|10001|Delta Air Lines|21-Jun-14|Thailand|     7| Economy|    4|        YES|Flew Mar 30 NRT t...|
+	|10002|Delta Air Lines|19-Jun-14|     USA|     0| Economy|    2|         NO|Flight 2463 leavi...|
+	|10003|Delta Air Lines|18-Jun-14|     USA|     0| Economy|    1|         NO|Delta Website fro...|
+	|10004|Delta Air Lines|17-Jun-14|     USA|     9|Business|    4|        YES|"I just returned ...|
+	|10005|Delta Air Lines|17-Jun-14| Ecuador|     7| Economy|    3|        YES|"Round-trip fligh...|
+	+-----+---------------+---------+--------+------+--------+-----+-----------+--------------------+
+	only showing top 5 rows 
+
+
+#. Text preprocessing 
+
+I will use the following raw column names to keep my table concise:
+
+ .. code-block:: python
+
+ 	raw_cols =  rawdata.columns
+ 	raw_cols
+
+
+ .. code-block:: python
+
+	['id', 'airline', 'date', 'location', 'rating', 'cabin', 'value', 'recommended', 'review'] 
+
+
+ .. code-block:: python
+
+ 	rawdata = rawdata.dropDuplicates(['review'])
+
+
+ .. code-block:: python
+
+	from pyspark.sql.functions import udf, col
+	from pyspark.sql.types import StringType, DoubleType, DateType
+
+	from nltk.stem.wordnet import WordNetLemmatizer
+	from nltk.corpus import stopwords
+	from nltk import pos_tag
+	import langid
+	import string
+	import re
+
+* remove non ASCII characters
+
+ .. code-block:: python
+    
+	# remove non ASCII characters
+	def strip_non_ascii(data_str):
+	    ''' Returns the string without non ASCII characters'''
+	    stripped = (c for c in data_str if 0 < ord(c) < 127)
+	    return ''.join(stripped)
+
+* check it blank line or not
+
+ .. code-block:: python
+
+	# check to see if a row only contains whitespace
+	def check_blanks(data_str):
+	    is_blank = str(data_str.isspace())
+	    return is_blank
+
+* check the language (a little bit slow, I skited this step)
+
+ .. code-block:: python
+
+	# check the language (only apply to english)    
+	def check_lang(data_str):
+	    from langid.langid import LanguageIdentifier, model
+	    identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
+	    predict_lang = identifier.classify(data_str)
+	    
+	    if predict_lang[1] >= .9:
+	        language = predict_lang[0]
+	    else:
+	        language = predict_lang[0]
+	    return language
+
+* fixed abbreviation
+
+ .. code-block:: python
+
+	# fixed abbreviation
+	def fix_abbreviation(data_str):
+	    data_str = data_str.lower()
+	    data_str = re.sub(r'\bthats\b', 'that is', data_str)
+	    data_str = re.sub(r'\bive\b', 'i have', data_str)
+	    data_str = re.sub(r'\bim\b', 'i am', data_str)
+	    data_str = re.sub(r'\bya\b', 'yeah', data_str)
+	    data_str = re.sub(r'\bcant\b', 'can not', data_str)
+	    data_str = re.sub(r'\bdont\b', 'do not', data_str)
+	    data_str = re.sub(r'\bwont\b', 'will not', data_str)
+	    data_str = re.sub(r'\bid\b', 'i would', data_str)
+	    data_str = re.sub(r'wtf', 'what the fuck', data_str)
+	    data_str = re.sub(r'\bwth\b', 'what the hell', data_str)
+	    data_str = re.sub(r'\br\b', 'are', data_str)
+	    data_str = re.sub(r'\bu\b', 'you', data_str)
+	    data_str = re.sub(r'\bk\b', 'OK', data_str)
+	    data_str = re.sub(r'\bsux\b', 'sucks', data_str)
+	    data_str = re.sub(r'\bno+\b', 'no', data_str)
+	    data_str = re.sub(r'\bcoo+\b', 'cool', data_str)
+	    data_str = re.sub(r'rt\b', '', data_str)
+	    data_str = data_str.strip()
+	    return data_str
+
+* remove irrelevant features  
+
+ .. code-block:: python
+
+	# remove irrelevant features     
+	def remove_features(data_str):
+	    # compile regex
+	    url_re = re.compile('https?://(www.)?\w+\.\w+(/\w+)*/?')
+	    punc_re = re.compile('[%s]' % re.escape(string.punctuation))
+	    num_re = re.compile('(\\d+)')
+	    mention_re = re.compile('@(\w+)')
+	    alpha_num_re = re.compile("^[a-z0-9_.]+$")
+	    # convert to lowercase
+	    data_str = data_str.lower()
+	    # remove hyperlinks
+	    data_str = url_re.sub(' ', data_str)
+	    # remove @mentions
+	    data_str = mention_re.sub(' ', data_str)
+	    # remove puncuation
+	    data_str = punc_re.sub(' ', data_str)
+	    # remove numeric 'words'
+	    data_str = num_re.sub(' ', data_str)
+	    # remove non a-z 0-9 characters and words shorter than 1 characters
+	    list_pos = 0
+	    cleaned_str = ''
+	    for word in data_str.split():
+	        if list_pos == 0:
+	            if alpha_num_re.match(word) and len(word) > 1:
+	                cleaned_str = word
+	            else:
+	                cleaned_str = ' '
+	        else:
+	            if alpha_num_re.match(word) and len(word) > 1:
+	                cleaned_str = cleaned_str + ' ' + word
+	            else:
+	                cleaned_str += ' '
+	        list_pos += 1
+	    # remove unwanted space, *.split() will automatically split on 
+	    # whitespace and discard duplicates, the " ".join() joins the 
+	    # resulting list into one string.    
+	    return " ".join(cleaned_str.split()) 
+
+* removes stop words
+
+ .. code-block:: python
+
+	# removes stop words
+	def remove_stops(data_str):
+	    # expects a string
+	    stops = set(stopwords.words("english"))
+	    list_pos = 0
+	    cleaned_str = ''
+	    text = data_str.split()
+	    for word in text:
+	        if word not in stops:
+	            # rebuild cleaned_str
+	            if list_pos == 0:
+	                cleaned_str = word
+	            else:
+	                cleaned_str = cleaned_str + ' ' + word
+	            list_pos += 1
+	    return cleaned_str
+
+* Part-of-Speech Tagging
+
+ .. code-block:: python
+
+	# Part-of-Speech Tagging
+	def tag_and_remove(data_str):
+	    cleaned_str = ' '
+	    # noun tags
+	    nn_tags = ['NN', 'NNP', 'NNP', 'NNPS', 'NNS']
+	    # adjectives
+	    jj_tags = ['JJ', 'JJR', 'JJS']
+	    # verbs
+	    vb_tags = ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']
+	    nltk_tags = nn_tags + jj_tags + vb_tags
+
+	    # break string into 'words'
+	    text = data_str.split()
+
+	    # tag the text and keep only those with the right tags
+	    tagged_text = pos_tag(text)
+	    for tagged_word in tagged_text:
+	        if tagged_word[1] in nltk_tags:
+	            cleaned_str += tagged_word[0] + ' '
+
+	    return cleaned_str
+
+* lemmatization
+
+ .. code-block:: python
+
+	# lemmatization 
+	def lemmatize(data_str):
+	    # expects a string
+	    list_pos = 0
+	    cleaned_str = ''
+	    lmtzr = WordNetLemmatizer()
+	    text = data_str.split()
+	    tagged_words = pos_tag(text)
+	    for word in tagged_words:
+	        if 'v' in word[1].lower():
+	            lemma = lmtzr.lemmatize(word[0], pos='v')
+	        else:
+	            lemma = lmtzr.lemmatize(word[0], pos='n')
+	        if list_pos == 0:
+	            cleaned_str = lemma
+	        else:
+	            cleaned_str = cleaned_str + ' ' + lemma
+	        list_pos += 1
+	    return cleaned_str
+
+* setup pyspark udf function
+
+ .. code-block:: python
+
+	# setup pyspark udf function    
+	strip_non_ascii_udf = udf(strip_non_ascii, StringType())    
+	check_blanks_udf = udf(check_blanks, StringType())
+	check_lang_udf = udf(check_lang, StringType())
+	fix_abbreviation_udf = udf(fix_abbreviation, StringType())
+	remove_stops_udf = udf(remove_stops, StringType())
+	remove_features_udf = udf(remove_features, StringType()) 
+	tag_and_remove_udf = udf(tag_and_remove, StringType())
+	lemmatize_udf = udf(lemmatize, StringType())
+
+
+
+
+ .. code-block:: python
+
+	rawdata = rawdata.withColumn('rating', rawdata.rating.cast('float'))
+
+
+ .. code-block:: python
+
+ 	rawdata.printSchema()
+
+
+ .. code-block:: python
+
+	 root
+	 |-- id: string (nullable = true)
+	 |-- airline: string (nullable = true)
+	 |-- date: string (nullable = true)
+	 |-- location: string (nullable = true)
+	 |-- rating: float (nullable = true)
+	 |-- cabin: string (nullable = true)
+	 |-- value: string (nullable = true)
+	 |-- recommended: string (nullable = true)
+	 |-- review: string (nullable = true)
+    	
+ .. code-block:: python
+
+	from datetime import datetime
+	from pyspark.sql.functions import col
+
+	# https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
+	# 21-Jun-14 <----> %d-%b-%y
+	to_date =  udf (lambda x: datetime.strptime(x, '%d-%b-%y'), DateType())
+
+	rawdata = rawdata.withColumn('date', to_date(col('date')))
+
+ .. code-block:: python
+
+	rawdata.printSchema()
+
+
+ .. code-block:: python
+
+	root
+	 |-- id: string (nullable = true)
+	 |-- airline: string (nullable = true)
+	 |-- date: date (nullable = true)
+	 |-- location: string (nullable = true)
+	 |-- rating: float (nullable = true)
+	 |-- cabin: string (nullable = true)
+	 |-- value: string (nullable = true)
+	 |-- recommended: string (nullable = true)
+	 |-- review: string (nullable = true)
+
+#. Results presentation 
+
+* Average rating and airlines for each day
+
+.. figure:: images/avg_rating_airlines.png
+   :align: center
+
+* Average rating and airlines for each month
+
+.. figure:: images/avg_rating_mon.png
+   :align: center
+
+* Topic 1 corresponding to time line
+
+.. figure:: images/topic_time.png
+   :align: center
 
 .. _Sentiment analysis: https://en.wikipedia.org/wiki/Sentiment_analysis
 
