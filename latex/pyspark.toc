@@ -82,15 +82,17 @@
 \contentsline {subsection}{\numberline {10.4.3}Demo}{62}{subsection.10.4.3}
 \contentsline {section}{\numberline {10.5}N-grams and Correlations}{67}{section.10.5}
 \contentsline {section}{\numberline {10.6}Topic Model: Latent Dirichlet Allocation}{67}{section.10.6}
-\contentsline {chapter}{\numberline {11}Social Network Analysis}{69}{chapter.11}
-\contentsline {section}{\numberline {11.1}Co-occurrence Network}{69}{section.11.1}
-\contentsline {subsection}{\numberline {11.1.1}Methodology}{70}{subsection.11.1.1}
-\contentsline {subsection}{\numberline {11.1.2}Coding Puzzle from my interview}{72}{subsection.11.1.2}
-\contentsline {section}{\numberline {11.2}Correlation Network}{74}{section.11.2}
-\contentsline {chapter}{\numberline {12}Neural Network}{75}{chapter.12}
-\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{75}{section.12.1}
-\contentsline {subsection}{\numberline {12.1.1}Introduction}{75}{subsection.12.1.1}
-\contentsline {subsection}{\numberline {12.1.2}Demo}{76}{subsection.12.1.2}
-\contentsline {chapter}{\numberline {13}Main Reference}{79}{chapter.13}
-\contentsline {chapter}{Bibliography}{81}{chapter*.5}
-\contentsline {chapter}{Index}{83}{section*.10}
+\contentsline {subsection}{\numberline {10.6.1}Introduction}{67}{subsection.10.6.1}
+\contentsline {subsection}{\numberline {10.6.2}Demo}{68}{subsection.10.6.2}
+\contentsline {chapter}{\numberline {11}Social Network Analysis}{81}{chapter.11}
+\contentsline {section}{\numberline {11.1}Co-occurrence Network}{81}{section.11.1}
+\contentsline {subsection}{\numberline {11.1.1}Methodology}{82}{subsection.11.1.1}
+\contentsline {subsection}{\numberline {11.1.2}Coding Puzzle from my interview}{84}{subsection.11.1.2}
+\contentsline {section}{\numberline {11.2}Correlation Network}{86}{section.11.2}
+\contentsline {chapter}{\numberline {12}Neural Network}{87}{chapter.12}
+\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{87}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}Introduction}{87}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}Demo}{88}{subsection.12.1.2}
+\contentsline {chapter}{\numberline {13}Main Reference}{91}{chapter.13}
+\contentsline {chapter}{Bibliography}{93}{chapter*.5}
+\contentsline {chapter}{Index}{95}{section*.10}
