@@ -433,6 +433,7 @@ Demo
 	strip_non_ascii_udf = udf(strip_non_ascii, StringType()) 
 
 check:
+
 .. code-block:: python
 
 	df = df.withColumn('text_non_asci',strip_non_ascii_udf(df['text']))
@@ -1297,6 +1298,13 @@ I will use the following raw column names to keep my table concise:
 
 .. figure:: images/topic_time.png
    :align: center
+
+
+* reviews (documents) relate to topic 1
+
+.. figure:: images/review2topic.png
+   :align: center
+
 
 .. _Sentiment analysis: https://en.wikipedia.org/wiki/Sentiment_analysis
 

@@ -606,11 +606,11 @@
 <span class="n">strip_non_ascii_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">strip_non_ascii</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>check:
-.. code-block:: python</p>
-<blockquote>
-<div>df = df.withColumn(&#8216;text_non_asci&#8217;,strip_non_ascii_udf(df[&#8216;text&#8217;]))
-df.show(5,True)</div></blockquote>
+<p>check:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;text_non_asci&#39;</span><span class="p">,</span><span class="n">strip_non_ascii_udf</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]))</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>ouput:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+----------+-------+--------------------+</span>
 <span class="o">|</span>                <span class="n">text</span><span class="o">|</span>        <span class="nb">id</span><span class="o">|</span><span class="n">pubdate</span><span class="o">|</span>       <span class="n">text_non_asci</span><span class="o">|</span>
@@ -1460,6 +1460,12 @@ df.show(5,True)</div></blockquote>
 </ul>
 <div class="figure align-center">
 <img alt="images/topic_time.png" src="images/topic_time.png" />
+</div>
+<ul class="simple">
+<li>reviews (documents) relate to topic 1</li>
+</ul>
+<div class="figure align-center">
+<img alt="images/review2topic.png" src="images/review2topic.png" />
 </div>
 </div>
 </div>
