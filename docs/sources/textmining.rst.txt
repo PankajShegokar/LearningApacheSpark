@@ -557,6 +557,15 @@ Text Preprocessing
 
 Text Classification 
 +++++++++++++++++++
+Theoretically speaking, you may apply any classification algorithms to do classification. I will only 
+present Naive Bayes method is the following. 
+
+Introduction
+------------
+
+
+Demo
+----
 
 .. code-block:: python
 
@@ -566,6 +575,136 @@ Text Classification
 	import string
 	import re
 	import langid
+
+.. code-block:: python
+
+	from pyspark.sql.functions import udf
+	from pyspark.sql.types import StringType
+	import preproc as pp
+	# Register all the functions in Preproc with Spark Context
+	check_lang_udf = udf(pp.check_lang, StringType())
+	remove_stops_udf = udf(pp.remove_stops, StringType())
+	remove_features_udf = udf(pp.remove_features, StringType())
+	tag_and_remove_udf = udf(pp.tag_and_remove, StringType())
+	lemmatize_udf = udf(pp.lemmatize, StringType())
+	check_blanks_udf = udf(pp.check_blanks, StringType())
+
+
+.. code-block:: python
+
+	# Load a text file and convert each line to a Row.
+	data_rdd = sc.textFile("data/nlpdata/raw_data.txt")
+	parts_rdd = data_rdd.map(lambda l: l.split("\t"))
+	# Filter bad rows out
+	garantee_col_rdd = parts_rdd.filter(lambda l: len(l) == 3)
+	typed_rdd = garantee_col_rdd.map(lambda p: (p[0], p[1], float(p[2])))
+	#Create DataFrame
+	data_df = sqlContext.createDataFrame(typed_rdd, ["text", "id", "label"])
+	#data_df.show()
+	data_df.printSchema()
+
+
+
+.. code-block:: python
+
+	root
+	 |-- text: string (nullable = true)
+	 |-- id: string (nullable = true)
+	 |-- label: double (nullable = true)
+
+
+.. code-block:: python
+
+	data_df.show(4)
+
+	+--------------------+------------------+-----+
+	|                text|                id|label|
+	+--------------------+------------------+-----+
+	|Fresh install of ...|        1018769417|  1.0|
+	|Well. Now I know ...|       10284216536|  1.0|
+	|"Literally six we...|       10298589026|  1.0|
+	|Mitsubishi i MiEV...|109017669432377344|  1.0|
+	+--------------------+------------------+-----+
+	only showing top 4 rows
+
+
+
+
+.. code-block:: python
+
+	# predict language and filter out those with less than 90% chance of being English
+	lang_df = data_df.withColumn("lang", check_lang_udf(data_df["text"]))
+	en_df = lang_df.filter(lang_df["lang"] == "en")
+
+
+.. code-block:: python
+
+	en_df.printSchema()
+
+.. code-block:: python
+
+	root
+	 |-- text: string (nullable = true)
+	 |-- id: string (nullable = true)
+	 |-- label: double (nullable = true)
+	 |-- lang: string (nullable = true)
+
+.. code-block:: python
+	
+	en_df.show(4)
+
+
+
+.. code-block:: python
+
+
+
+.. code-block:: python
+
+	# remove stop words to reduce dimensionality
+	rm_stops_df = en_df.withColumn("stop_text", remove_stops_udf(en_df["text"]))
+
+.. code-block:: python
+
+	rm_stops_df.printSchema()
+
+.. code-block:: python
+
+	root
+	 |-- text: string (nullable = true)
+	 |-- id: string (nullable = true)
+	 |-- label: double (nullable = true)
+	 |-- lang: string (nullable = true)
+	 |-- stop_text: string (nullable = true)
+
+
+.. code-block:: python
+
+	rm_stops_df.show(4)
+
+
+.. code-block:: python
+
+	+--------------------+-----+----------+
+	|                text|label|prediction|
+	+--------------------+-----+----------+
+	|           hurt much|  1.0|       1.0|
+	|teforia use machi...|  1.0|       1.0|
+	|              finish|  1.0|       1.0|
+	|future blase vice...|  1.0|       1.0|
+	|              divine|  1.0|       1.0|
+	+--------------------+-----+----------+
+	only showing top 5 rows
+
+.. code-block:: python
+
+	from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+	evaluator = MulticlassClassificationEvaluator(predictionCol="prediction")
+	evaluator.evaluate(predictions)
+
+.. code-block:: python
+
+	0.912655971479501
 
 
 .. _sentimentAnalysis:

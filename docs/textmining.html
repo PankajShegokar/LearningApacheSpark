@@ -116,17 +116,21 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#text-preprocessing">Text Preprocessing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#text-classification">Text Classification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sentiment-analysis">Sentiment analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#text-classification">Text Classification</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pipeline">Pipeline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#demo">Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sentiment-analysis">Sentiment analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipeline">Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Demo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#n-grams-and-correlations">N-grams and Correlations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#topic-model-latent-dirichlet-allocation">Topic Model: Latent Dirichlet Allocation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Demo</a></li>
 </ul>
 </li>
 </ul>
@@ -713,6 +717,13 @@ CPU Time <span class="k">for</span> convertingfeng.pdf:0:00:03.143800
 </div>
 <div class="section" id="text-classification">
 <span id="textclassification"></span><h2>Text Classification<a class="headerlink" href="#text-classification" title="Permalink to this headline">¶</a></h2>
+<p>Theoretically speaking, you may apply any classification algorithms to do classification. I will only
+present Naive Bayes method is the following.</p>
+<div class="section" id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="demo">
+<h3>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.stem.wordnet</span> <span class="kn">import</span> <span class="n">WordNetLemmatizer</span>
 <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
 <span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">pos_tag</span>
@@ -721,11 +732,114 @@ CPU Time <span class="k">for</span> convertingfeng.pdf:0:00:03.143800
 <span class="kn">import</span> <span class="nn">langid</span>
 </pre></div>
 </div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StringType</span>
+<span class="kn">import</span> <span class="nn">preproc</span> <span class="kn">as</span> <span class="nn">pp</span>
+<span class="c1"># Register all the functions in Preproc with Spark Context</span>
+<span class="n">check_lang_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">check_lang</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">remove_stops_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">remove_stops</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">remove_features_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">remove_features</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">tag_and_remove_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">tag_and_remove</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">lemmatize_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">check_blanks_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">check_blanks</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Load a text file and convert each line to a Row.</span>
+<span class="n">data_rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;data/nlpdata/raw_data.txt&quot;</span><span class="p">)</span>
+<span class="n">parts_rdd</span> <span class="o">=</span> <span class="n">data_rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">l</span><span class="p">:</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">))</span>
+<span class="c1"># Filter bad rows out</span>
+<span class="n">garantee_col_rdd</span> <span class="o">=</span> <span class="n">parts_rdd</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">l</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">typed_rdd</span> <span class="o">=</span> <span class="n">garantee_col_rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
+<span class="c1">#Create DataFrame</span>
+<span class="n">data_df</span> <span class="o">=</span> <span class="n">sqlContext</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">typed_rdd</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">])</span>
+<span class="c1">#data_df.show()</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">root</span>
+ <span class="o">|--</span> <span class="n">text</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="nb">id</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">label</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="o">+--------------------+------------------+-----+</span>
+<span class="o">|</span>                <span class="n">text</span><span class="o">|</span>                <span class="nb">id</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>
+<span class="o">+--------------------+------------------+-----+</span>
+<span class="o">|</span><span class="n">Fresh</span> <span class="n">install</span> <span class="n">of</span> <span class="o">...|</span>        <span class="mi">1018769417</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span><span class="n">Well</span><span class="o">.</span> <span class="n">Now</span> <span class="n">I</span> <span class="n">know</span> <span class="o">...|</span>       <span class="mi">10284216536</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span><span class="s2">&quot;Literally six we...|       10298589026|  1.0|</span>
+<span class="o">|</span><span class="n">Mitsubishi</span> <span class="n">i</span> <span class="n">MiEV</span><span class="o">...|</span><span class="mi">109017669432377344</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">+--------------------+------------------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># predict language and filter out those with less than 90% chance of being English</span>
+<span class="n">lang_df</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;lang&quot;</span><span class="p">,</span> <span class="n">check_lang_udf</span><span class="p">(</span><span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]))</span>
+<span class="n">en_df</span> <span class="o">=</span> <span class="n">lang_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">lang_df</span><span class="p">[</span><span class="s2">&quot;lang&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">en_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">root</span>
+ <span class="o">|--</span> <span class="n">text</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="nb">id</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">label</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">lang</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">en_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># remove stop words to reduce dimensionality</span>
+<span class="n">rm_stops_df</span> <span class="o">=</span> <span class="n">en_df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;stop_text&quot;</span><span class="p">,</span> <span class="n">remove_stops_udf</span><span class="p">(</span><span class="n">en_df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rm_stops_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">root</span>
+ <span class="o">|--</span> <span class="n">text</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="nb">id</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">label</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">lang</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">stop_text</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rm_stops_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+-----+----------+</span>
+<span class="o">|</span>                <span class="n">text</span><span class="o">|</span><span class="n">label</span><span class="o">|</span><span class="n">prediction</span><span class="o">|</span>
+<span class="o">+--------------------+-----+----------+</span>
+<span class="o">|</span>           <span class="n">hurt</span> <span class="n">much</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span><span class="n">teforia</span> <span class="n">use</span> <span class="n">machi</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span>              <span class="n">finish</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span><span class="n">future</span> <span class="n">blase</span> <span class="n">vice</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span>              <span class="n">divine</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">+--------------------+-----+----------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">MulticlassClassificationEvaluator</span>
+<span class="n">evaluator</span> <span class="o">=</span> <span class="n">MulticlassClassificationEvaluator</span><span class="p">(</span><span class="n">predictionCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span>
+<span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="mf">0.912655971479501</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="sentiment-analysis">
 <span id="sentimentanalysis"></span><h2>Sentiment analysis<a class="headerlink" href="#sentiment-analysis" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="introduction">
-<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h3>Introduction<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Sentiment_analysis">Sentiment analysis</a> (sometimes known as opinion mining or emotion AI) refers to the use of natural language processing, text analysis, computational linguistics, and biometrics to systematically identify, extract, quantify, and study affective states and subjective information. Sentiment analysis is widely applied to voice of the customer materials such as reviews and survey responses, online and social media, and healthcare materials for applications that range from marketing to customer service to clinical medicine.</p>
 <p>Generally speaking, sentiment analysis aims to <strong>determine the attitude</strong> of a speaker, writer, or other subject with respect to some topic or the overall contextual polarity or emotional reaction to a document, interaction, or event. The attitude may be a judgment or evaluation (see appraisal theory), affective state (that is to say, the emotional state of the author or speaker), or the intended emotional communication (that is to say, the emotional effect intended by the author or interlocutor).</p>
 <p>Sentiment analysis in business, also known as opinion mining is a process of identifying and cataloging a piece of text according to the tone conveyed by it. It has broad application:</p>
@@ -737,13 +851,13 @@ CPU Time <span class="k">for</span> convertingfeng.pdf:0:00:03.143800
 </div>
 <div class="section" id="pipeline">
 <h3>Pipeline<a class="headerlink" href="#pipeline" title="Permalink to this headline">¶</a></h3>
-<div class="figure align-center" id="id4">
+<div class="figure align-center" id="id6">
 <span id="fig-sa-pipeline"></span><img alt="images/sentiment_analysis_pipeline.png" src="images/sentiment_analysis_pipeline.png" />
 <p class="caption"><span class="caption-number">Fig. 23 </span><span class="caption-text">Sentiment Analysis Pipeline</span></p>
 </div>
 </div>
-<div class="section" id="demo">
-<h3>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>Demo<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li>Set up spark context and SparkSession</li>
 </ol>
@@ -1048,13 +1162,13 @@ CPU Time <span class="k">for</span> convertingfeng.pdf:0:00:03.143800
 <div class="figure align-center">
 <img alt="images/topic_time.png" src="images/topic_time.png" />
 </div>
-<div class="section" id="id1">
-<h3>Introduction<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>In text mining, a topic model is a unsupervised model for discovering the abstract &#8220;topics&#8221; that occur in a collection of documents.</p>
 <p>Latent Dirichlet Allocation (LDA) is a mathematical method for estimating both of these at the same time: finding the mixture of words that is associated with each topic, while also determining the mixture of topics that describes each document.</p>
 </div>
-<div class="section" id="id2">
-<h3>Demo<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>Demo<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li>Load data</li>
 </ol>
@@ -1689,7 +1803,7 @@ CPU Time <span class="k">for</span> convertingfeng.pdf:0:00:03.143800
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Sep 27, 2017.
+      Last updated on Sep 28, 2017.
 
     </p>
   </div>
