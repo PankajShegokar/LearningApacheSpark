@@ -2580,7 +2580,12 @@ Sharpening the knife longer can make it easier to hack the firewood -- old Chine
 \label{textmining:textcollection}\label{textmining:text-collection}
 
 \subsection{Image to text}
-\label{textmining:image-to-text}
+\label{textmining:img2text}\label{textmining:image-to-text}\begin{itemize}
+\item {} 
+My \code{img2txt} function
+
+\end{itemize}
+
 \begin{Verbatim}[commandchars=\\\{\}]
 \PYG{k}{def} \PYG{n+nf}{img2txt}\PYG{p}{(}\PYG{n}{img\PYGZus{}dir}\PYG{p}{)}\PYG{p}{:}
     \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
@@ -2622,12 +2627,63 @@ Sharpening the knife longer can make it easier to hack the firewood -- old Chine
 
     \PYG{n}{f}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
 \end{Verbatim}
+\begin{itemize}
+\item {} 
+Demo
+
+\end{itemize}
+
+I applied my \code{img2txt} function to the  image in Image folder.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{image\PYGZus{}dir} \PYG{o}{=} \PYG{l+s}{r\PYGZdq{}}\PYG{l+s}{Image}\PYG{l+s}{\PYGZdq{}}
+
+\PYG{n}{img2txt}\PYG{p}{(}\PYG{n}{image\PYGZus{}dir}\PYG{p}{)}
+\end{Verbatim}
+
+Then I got the following results:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+feng.pdf\PYGZus{}0.png
+Converting feng.pdf\PYGZus{}0.png.......
+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+l I l w
+
+Wenqiang Feng
+Data Scientist
+DST APPLIED ANALYTICS GROUP
+
+
+
+Wenqiang Feng is Data Scientist \PYG{k}{for }DST’s Applied Analytics Group. Dr. Feng’s responsibilities
+include providing DST clients with access to cutting—edge skills and technologies, including Big
+Data analytic solutions, advanced analytic and data enhancement techniques and modeling.
+
+Dr. Feng has deep analytic expertise in data mining, analytic systems, machine learning
+algorithms, business intelligence, and applying Big Data tools to strategically solve industry
+problems in a cross—functional business. Before joining the DST Applied Analytics Group, Dr.
+Feng holds a MA Data Science Fellow at The Institute \PYG{k}{for }Mathematics and Its Applications
+\PYG{o}{\PYGZob{}}IMA\PYG{o}{)} at the University of Minnesota. While there, he helped startup companies make
+marketing decisions based on deep predictive analytics.
+
+Dr. Feng graduated from University of Tennessee, Knoxville with PhD in Computational
+mathematics and Master’s degree in Statistics. He also holds Master’s degree in Computational
+Mathematics at Missouri University of Science and Technology \PYG{o}{(}MST\PYG{o}{)} and Master’s degree in
+Applied Mathematics at University of science and technology of China \PYG{o}{(}USTC\PYG{o}{)}.
+CPU Time \PYG{k}{for }convertingfeng.pdf\PYGZus{}0.png:0:00:02.061208
+\end{Verbatim}
 
 
 \subsection{Image Enhnaced to text}
-\label{textmining:image-enhnaced-to-text}
+\label{textmining:image-enhnaced-to-text}\begin{itemize}
+\item {} 
+My \code{img2txt\_enhance} function
+
+\end{itemize}
+
 \begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{pdf2txt\PYGZus{}enhance}\PYG{p}{(}\PYG{n}{img\PYGZus{}dir}\PYG{p}{,}\PYG{n}{scaler}\PYG{p}{)}\PYG{p}{:}
+\PYG{k}{def} \PYG{n+nf}{img2txt\PYGZus{}enhance}\PYG{p}{(}\PYG{n}{img\PYGZus{}dir}\PYG{p}{,}\PYG{n}{scaler}\PYG{p}{)}\PYG{p}{:}
     \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
 \PYG{l+s+sd}{    convert images files to text}
 \PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
@@ -2687,10 +2743,57 @@ Sharpening the knife longer can make it easier to hack the firewood -- old Chine
 
     \PYG{n}{f}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
 \end{Verbatim}
+\begin{itemize}
+\item {} 
+Demo
+
+\end{itemize}
+
+I applied my \code{img2txt\_enhance} function to the following noised image in Enhance folder.
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{noised.jpg}
+\end{figure}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{image\PYGZus{}dir} \PYG{o}{=} \PYG{l+s}{r\PYGZdq{}}\PYG{l+s}{Enhance}\PYG{l+s}{\PYGZdq{}}
+
+\PYG{n}{pdf2txt\PYGZus{}enhance}\PYG{p}{(}\PYG{n}{image\PYGZus{}dir}\PYG{p}{)}
+\end{Verbatim}
+
+Then I got the following results:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+noised.jpg
+Converting noised.jpg.......
+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+zHHH
+CPU Time \PYG{k}{for }convertingnoised.jpg:0:00:00.135465
+\end{Verbatim}
+
+while the result from \code{img2txt} function is
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+noised.jpg
+Converting noised.jpg.......
+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+,2 WW
+CPU Time \PYG{k}{for }convertingnoised.jpg:0:00:00.133508
+\end{Verbatim}
+
+which is not correct.
 
 
 \subsection{PDF to text}
-\label{textmining:pdf-to-text}
+\label{textmining:pdf2text}\label{textmining:pdf-to-text}\begin{itemize}
+\item {} 
+My \code{pdf2txt} function
+
+\end{itemize}
+
 \begin{Verbatim}[commandchars=\\\{\}]
 \PYG{k}{def} \PYG{n+nf}{pdf2txt}\PYG{p}{(}\PYG{n}{pdf\PYGZus{}dir}\PYG{p}{,}\PYG{n}{image\PYGZus{}dir}\PYG{p}{)}\PYG{p}{:}
     \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
@@ -2745,6 +2848,117 @@ Sharpening the knife longer can make it easier to hack the firewood -- old Chine
         \PYG{k}{print} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{CPU Time for converting}\PYG{l+s}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{pdf} \PYG{o}{+}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{:}\PYG{l+s}{\PYGZdq{}}\PYG{o}{+} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{datetime}\PYG{o}{.}\PYG{n}{now}\PYG{p}{(}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{start\PYGZus{}time}\PYG{p}{)} \PYG{o}{+}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}
 
     \PYG{n}{f}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Demo
+
+\end{itemize}
+
+I applied my \code{pdf2txt} function to my scaned bio pdf file in pdf folder.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{pdf\PYGZus{}dir} \PYG{o}{=} \PYG{l+s}{r\PYGZdq{}}\PYG{l+s}{pdf}\PYG{l+s}{\PYGZdq{}}
+\PYG{n}{image\PYGZus{}dir} \PYG{o}{=} \PYG{l+s}{r\PYGZdq{}}\PYG{l+s}{Image}\PYG{l+s}{\PYGZdq{}}
+
+\PYG{n}{pdf2txt}\PYG{p}{(}\PYG{n}{pdf\PYGZus{}dir}\PYG{p}{,}\PYG{n}{image\PYGZus{}dir}\PYG{p}{)}
+\end{Verbatim}
+
+Then I got the following results:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+feng.pdf
+Converting 1 pages.
+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}
+l I l w
+
+Wenqiang Feng
+Data Scientist
+DST APPLIED ANALYTICS GROUP
+
+
+
+Wenqiang Feng is Data Scientist \PYG{k}{for }DST’s Applied Analytics Group. Dr. Feng’s responsibilities
+include providing DST clients with access to cutting—edge skills and technologies, including Big
+Data analytic solutions, advanced analytic and data enhancement techniques and modeling.
+
+Dr. Feng has deep analytic expertise in data mining, analytic systems, machine learning
+algorithms, business intelligence, and applying Big Data tools to strategically solve industry
+problems in a cross—functional business. Before joining the DST Applied Analytics Group, Dr.
+Feng holds a MA Data Science Fellow at The Institute \PYG{k}{for }Mathematics and Its Applications
+\PYG{o}{\PYGZob{}}IMA\PYG{o}{)} at the University of Minnesota. While there, he helped startup companies make
+marketing decisions based on deep predictive analytics.
+
+Dr. Feng graduated from University of Tennessee, Knoxville with PhD in Computational
+mathematics and Master’s degree in Statistics. He also holds Master’s degree in Computational
+Mathematics at Missouri University of Science and Technology \PYG{o}{(}MST\PYG{o}{)} and Master’s degree in
+Applied Mathematics at University of science and technology of China \PYG{o}{(}USTC\PYG{o}{)}.
+CPU Time \PYG{k}{for }convertingfeng.pdf:0:00:03.143800
+\end{Verbatim}
+
+
+\subsection{Audio to text}
+\label{textmining:audio-to-text}\label{textmining:audio2text}\begin{itemize}
+\item {} 
+My \code{audio2txt} function
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{audio2txt}\PYG{p}{(}\PYG{n}{audio\PYGZus{}dir}\PYG{p}{)}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{} convert audio to text\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+
+    \PYG{k+kn}{import} \PYG{n+nn}{speech\PYGZus{}recognition} \PYG{k+kn}{as} \PYG{n+nn}{sr}
+    \PYG{n}{r} \PYG{o}{=} \PYG{n}{sr}\PYG{o}{.}\PYG{n}{Recognizer}\PYG{p}{(}\PYG{p}{)}
+
+    \PYG{n}{f} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{doc.txt}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{wa}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{audio\PYGZus{}n} \PYG{o+ow}{in} \PYG{p}{[}\PYG{n}{audio\PYGZus{}file} \PYG{k}{for} \PYG{n}{audio\PYGZus{}file} \PYG{o+ow}{in} \PYG{n}{os}\PYG{o}{.}\PYG{n}{listdir}\PYG{p}{(}\PYG{n}{audio\PYGZus{}dir}\PYG{p}{)} \PYGZbs{}
+                  \PYG{k}{if} \PYG{n}{audio\PYGZus{}file}\PYG{o}{.}\PYG{n}{endswith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{.wav}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{]}\PYG{p}{:}
+
+        \PYG{n}{filename} \PYG{o}{=} \PYG{n}{audio\PYGZus{}dir} \PYG{o}{+} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{/}\PYG{l+s}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{audio\PYGZus{}n}
+
+        \PYG{c}{\PYGZsh{} Read audio data}
+        \PYG{k}{with} \PYG{n}{sr}\PYG{o}{.}\PYG{n}{AudioFile}\PYG{p}{(}\PYG{n}{filename}\PYG{p}{)} \PYG{k}{as} \PYG{n}{source}\PYG{p}{:}
+            \PYG{n}{audio} \PYG{o}{=} \PYG{n}{r}\PYG{o}{.}\PYG{n}{record}\PYG{p}{(}\PYG{n}{source}\PYG{p}{)}  \PYG{c}{\PYGZsh{} read the entire audio file}
+
+        \PYG{c}{\PYGZsh{} Google Speech Recognition}
+        \PYG{n}{text} \PYG{o}{=} \PYG{n}{r}\PYG{o}{.}\PYG{n}{recognize\PYGZus{}google}\PYG{p}{(}\PYG{n}{audio}\PYG{p}{)}
+
+        \PYG{c}{\PYGZsh{} ouput text file}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(} \PYG{n}{audio\PYGZus{}n} \PYG{o}{+} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{: }\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{text}\PYG{o}{.}\PYG{n}{encode}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{utf\PYGZhy{}8}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{)}
+        \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{You said: }\PYG{l+s}{\PYGZsq{}} \PYG{o}{+} \PYG{n}{text}\PYG{p}{)}
+
+    \PYG{n}{f}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Demo
+
+\end{itemize}
+
+I applied my \code{audio2txt} function to my audio records in audio folder.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{audio\PYGZus{}dir} \PYG{o}{=} \PYG{l+s}{r\PYGZdq{}}\PYG{l+s}{audio}\PYG{l+s}{\PYGZdq{}}
+
+\PYG{n}{audio2txt}\PYG{p}{(}\PYG{n}{audio\PYGZus{}dir}\PYG{p}{)}
+\end{Verbatim}
+
+Then I got the following results:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{hello} \PYG{n}{this} \PYG{o+ow}{is} \PYG{n}{George} \PYG{n}{welcome} \PYG{n}{to} \PYG{n}{my} \PYG{n}{tutorial}
+\PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{mathematics} \PYG{o+ow}{is} \PYG{n}{important} \PYG{o+ow}{in} \PYG{n}{daily} \PYG{n}{life}
+\PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{call} \PYG{n}{me} \PYG{n}{tomorrow}
+\PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{do} \PYG{n}{you} \PYG{n}{want} \PYG{n}{something} \PYG{n}{to} \PYG{n}{eat}
+\PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{I} \PYG{n}{want} \PYG{n}{to} \PYG{n}{speak} \PYG{k}{with} \PYG{n}{him}
+\PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{nice} \PYG{n}{to} \PYG{n}{see} \PYG{n}{you}
+\PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{can} \PYG{n}{you} \PYG{n}{speak} \PYG{n}{slowly}
+\PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{have} \PYG{n}{a} \PYG{n}{good} \PYG{n}{day}
 \end{Verbatim}
 
 

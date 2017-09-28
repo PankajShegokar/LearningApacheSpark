@@ -18,9 +18,12 @@ Text Mining
 Text Collection 
 +++++++++++++++
 
+.. _img2text:
 
 Image to text
 -------------
+
+* My ``img2txt`` function
 
 .. code-block:: python
 
@@ -64,12 +67,58 @@ Image to text
 
 	    f.close()   
 
-Image Enhnaced to text
-----------------------
+* Demo
+
+I applied my ``img2txt`` function to the  image in `Image folder <static/feng.pdf_0.png>`_.
 
 .. code-block:: python
 
-	def pdf2txt_enhance(img_dir,scaler):
+	image_dir = r"Image"
+
+	img2txt(image_dir)
+
+Then I got the following results:
+
+.. code-block:: bash
+
+	--------------------------------------------------------------------
+	feng.pdf_0.png
+	Converting feng.pdf_0.png.......
+	--------------------------------------------------------------------
+	l I l w
+
+	Wenqiang Feng
+	Data Scientist
+	DST APPLIED ANALYTICS GROUP
+
+	 
+
+	Wenqiang Feng is Data Scientist for DST’s Applied Analytics Group. Dr. Feng’s responsibilities
+	include providing DST clients with access to cutting—edge skills and technologies, including Big
+	Data analytic solutions, advanced analytic and data enhancement techniques and modeling.
+
+	Dr. Feng has deep analytic expertise in data mining, analytic systems, machine learning
+	algorithms, business intelligence, and applying Big Data tools to strategically solve industry
+	problems in a cross—functional business. Before joining the DST Applied Analytics Group, Dr.
+	Feng holds a MA Data Science Fellow at The Institute for Mathematics and Its Applications
+	{IMA) at the University of Minnesota. While there, he helped startup companies make
+	marketing decisions based on deep predictive analytics.
+
+	Dr. Feng graduated from University of Tennessee, Knoxville with PhD in Computational
+	mathematics and Master’s degree in Statistics. He also holds Master’s degree in Computational
+	Mathematics at Missouri University of Science and Technology (MST) and Master’s degree in
+	Applied Mathematics at University of science and technology of China (USTC).
+	CPU Time for convertingfeng.pdf_0.png:0:00:02.061208
+
+
+Image Enhnaced to text
+----------------------
+
+* My ``img2txt_enhance`` function
+
+.. code-block:: python
+
+	def img2txt_enhance(img_dir,scaler):
 	    """
 	    convert images files to text
 	    """
@@ -129,8 +178,49 @@ Image Enhnaced to text
 
 	    f.close()   
 
+* Demo
+
+I applied my ``img2txt_enhance`` function to the following noised image in `Enhance folder <images/noised.jpg>`_.
+
+.. figure:: images/noised.jpg
+   :align: center
+
+.. code-block:: python
+
+	image_dir = r"Enhance"
+
+	pdf2txt_enhance(image_dir)
+
+Then I got the following results:
+
+.. code-block:: bash
+
+	--------------------------------------------------------------------
+	noised.jpg
+	Converting noised.jpg.......
+	--------------------------------------------------------------------
+	zHHH
+	CPU Time for convertingnoised.jpg:0:00:00.135465
+
+while the result from ``img2txt`` function is 
+
+.. code-block:: bash
+
+	--------------------------------------------------------------------
+	noised.jpg
+	Converting noised.jpg.......
+	--------------------------------------------------------------------
+	,2 WW
+	CPU Time for convertingnoised.jpg:0:00:00.133508
+
+which is not correct.
+
+.. _pdf2text:
+
 PDF to text
 -----------
+
+* My ``pdf2txt`` function
 
 .. code-block:: python
 
@@ -187,7 +277,113 @@ PDF to text
 	        print "CPU Time for converting" + pdf +":"+ str(datetime.now() - start_time) +"\n"
 
 	    f.close()   
-    
+
+* Demo 
+
+I applied my ``pdf2txt`` function to my scaned bio pdf file in `pdf folder <static/pdf>`_.
+
+.. code-block:: python
+
+	pdf_dir = r"pdf"
+	image_dir = r"Image"
+
+	pdf2txt(pdf_dir,image_dir)
+
+Then I got the following results:
+
+.. code-block:: bash
+
+	--------------------------------------------------------------------
+	feng.pdf
+	Converting 1 pages.
+	--------------------------------------------------------------------
+	l I l w
+
+	Wenqiang Feng
+	Data Scientist
+	DST APPLIED ANALYTICS GROUP
+
+	 
+
+	Wenqiang Feng is Data Scientist for DST’s Applied Analytics Group. Dr. Feng’s responsibilities
+	include providing DST clients with access to cutting—edge skills and technologies, including Big
+	Data analytic solutions, advanced analytic and data enhancement techniques and modeling.
+
+	Dr. Feng has deep analytic expertise in data mining, analytic systems, machine learning
+	algorithms, business intelligence, and applying Big Data tools to strategically solve industry
+	problems in a cross—functional business. Before joining the DST Applied Analytics Group, Dr.
+	Feng holds a MA Data Science Fellow at The Institute for Mathematics and Its Applications
+	{IMA) at the University of Minnesota. While there, he helped startup companies make
+	marketing decisions based on deep predictive analytics.
+
+	Dr. Feng graduated from University of Tennessee, Knoxville with PhD in Computational
+	mathematics and Master’s degree in Statistics. He also holds Master’s degree in Computational
+	Mathematics at Missouri University of Science and Technology (MST) and Master’s degree in
+	Applied Mathematics at University of science and technology of China (USTC).
+	CPU Time for convertingfeng.pdf:0:00:03.143800
+
+
+.. _audio2text:
+
+Audio to text
+-------------
+
+* My ``audio2txt`` function
+
+.. code-block:: python
+
+	def audio2txt(audio_dir):
+	    ''' convert audio to text'''
+	    
+	    import speech_recognition as sr
+	    r = sr.Recognizer()
+	    
+	    f = open('doc.txt','wa')
+	    for audio_n in [audio_file for audio_file in os.listdir(audio_dir) \
+	                  if audio_file.endswith(".wav")]:
+	        
+	        filename = audio_dir + "/" + audio_n
+	        
+	        # Read audio data
+	        with sr.AudioFile(filename) as source:
+	            audio = r.record(source)  # read the entire audio file
+
+	        # Google Speech Recognition
+	        text = r.recognize_google(audio)
+	        
+	        # ouput text file 
+	        f.write( audio_n + ": ")
+	        f.write(text.encode('utf-8'))
+	        f.write("\n")
+	        
+	        print('You said: ' + text)
+	    
+	    f.close() 
+
+* Demo 
+
+I applied my ``audio2txt`` function to my audio records in `audio folder <static/audio>`_.
+
+.. code-block:: python
+
+	audio_dir = r"audio"
+
+	audio2txt(audio_dir)
+
+Then I got the following results:
+
+.. code-block:: python
+
+	You said: hello this is George welcome to my tutorial
+	You said: mathematics is important in daily life
+	You said: call me tomorrow
+	You said: do you want something to eat
+	You said: I want to speak with him
+	You said: nice to see you
+	You said: can you speak slowly
+	You said: have a good day
+
+
 
 .. _textPreprocessing:
 

@@ -360,8 +360,8 @@ free to contact with me.
 Demo Code in this Section
 +++++++++++++++++++++++++
 
-The code for this section is available for download `test_pyspark <_static/test_pyspark.py>`_, 
-and the Jupyter notebook can be download from `test_pyspark_ipynb <_static/test_pyspark.ipynb>`_.
+The code for this section is available for download `test_pyspark <static/test_pyspark.py>`_, 
+and the Jupyter notebook can be download from `test_pyspark_ipynb <static/test_pyspark.ipynb>`_.
 
 * Python Source code
 
