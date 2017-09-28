@@ -2961,6 +2961,24 @@ Then I got the following results:
 \PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{have} \PYG{n}{a} \PYG{n}{good} \PYG{n}{day}
 \end{Verbatim}
 
+By the way, you can use my following python code to record your own audio and play with \code{audio2txt} function:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{speech\PYGZus{}recognition} \PYG{k+kn}{as} \PYG{n+nn}{sr}
+
+\PYG{n}{audio\PYGZus{}filename} \PYG{o}{=} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{test9.wav}\PYG{l+s}{\PYGZdq{}}
+
+\PYG{n}{r} \PYG{o}{=} \PYG{n}{sr}\PYG{o}{.}\PYG{n}{Recognizer}\PYG{p}{(}\PYG{p}{)}
+\PYG{k}{with} \PYG{n}{sr}\PYG{o}{.}\PYG{n}{Microphone}\PYG{p}{(}\PYG{p}{)} \PYG{k}{as} \PYG{n}{source}\PYG{p}{:}
+    \PYG{n}{r}\PYG{o}{.}\PYG{n}{adjust\PYGZus{}for\PYGZus{}ambient\PYGZus{}noise}\PYG{p}{(}\PYG{n}{source}\PYG{p}{)}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Hey there, say something, I am recording!}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{audio} \PYG{o}{=} \PYG{n}{r}\PYG{o}{.}\PYG{n}{listen}\PYG{p}{(}\PYG{n}{source}\PYG{p}{)}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Done listening!}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{audio\PYGZus{}filename}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{wb}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+    \PYG{n}{f}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{audio}\PYG{o}{.}\PYG{n}{get\PYGZus{}wav\PYGZus{}data}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\end{Verbatim}
+
 
 \section{Text Preprocessing}
 \label{textmining:textpreprocessing}\label{textmining:text-preprocessing}\begin{itemize}

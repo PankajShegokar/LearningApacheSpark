@@ -383,6 +383,23 @@ Then I got the following results:
 	You said: can you speak slowly
 	You said: have a good day
 
+By the way, you can use my following python code to record your own audio and play with ``audio2txt`` function:
+
+.. code-block:: python
+
+	import speech_recognition as sr
+
+	audio_filename = "test9.wav"
+
+	r = sr.Recognizer()    
+	with sr.Microphone() as source:
+	    r.adjust_for_ambient_noise(source)
+	    print("Hey there, say something, I am recording!")
+	    audio = r.listen(source)
+	    print("Done listening!")
+
+	with open(audio_filename, "wb") as f:
+	    f.write(audio.get_wav_data())
 
 
 .. _textPreprocessing:

@@ -77,8 +77,8 @@
 \contentsline {subsection}{\numberline {10.1.4}Audio to text}{61}{subsection.10.1.4}
 \contentsline {section}{\numberline {10.2}Text Preprocessing}{62}{section.10.2}
 \contentsline {section}{\numberline {10.3}Text Classification}{64}{section.10.3}
-\contentsline {section}{\numberline {10.4}Sentiment analysis}{64}{section.10.4}
-\contentsline {subsection}{\numberline {10.4.1}Introduction}{64}{subsection.10.4.1}
+\contentsline {section}{\numberline {10.4}Sentiment analysis}{65}{section.10.4}
+\contentsline {subsection}{\numberline {10.4.1}Introduction}{65}{subsection.10.4.1}
 \contentsline {subsection}{\numberline {10.4.2}Pipeline}{65}{subsection.10.4.2}
 \contentsline {subsection}{\numberline {10.4.3}Demo}{65}{subsection.10.4.3}
 \contentsline {section}{\numberline {10.5}N-grams and Correlations}{71}{section.10.5}
