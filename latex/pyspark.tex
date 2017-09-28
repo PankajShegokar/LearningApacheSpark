@@ -2977,12 +2977,14 @@ Then I got the following results:
 \PYG{n}{You} \PYG{n}{said}\PYG{p}{:} \PYG{n}{have} \PYG{n}{a} \PYG{n}{good} \PYG{n}{day}
 \end{Verbatim}
 
-By the way, you can use my following python code to record your own audio and play with \code{audio2txt} function:
+By the way, you can use my following python code to record your own audio and play with \code{audio2txt} function in Command-line \code{python record.py "demo2.wav"}:
 
 \begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{sys}\PYG{o}{,} \PYG{n+nn}{getopt}
+
 \PYG{k+kn}{import} \PYG{n+nn}{speech\PYGZus{}recognition} \PYG{k+kn}{as} \PYG{n+nn}{sr}
 
-\PYG{n}{audio\PYGZus{}filename} \PYG{o}{=} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{test9.wav}\PYG{l+s}{\PYGZdq{}}
+\PYG{n}{audio\PYGZus{}filename} \PYG{o}{=} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
 
 \PYG{n}{r} \PYG{o}{=} \PYG{n}{sr}\PYG{o}{.}\PYG{n}{Recognizer}\PYG{p}{(}\PYG{p}{)}
 \PYG{k}{with} \PYG{n}{sr}\PYG{o}{.}\PYG{n}{Microphone}\PYG{p}{(}\PYG{p}{)} \PYG{k}{as} \PYG{n}{source}\PYG{p}{:}
