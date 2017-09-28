@@ -42,7 +42,7 @@ About the authors
 	* University of Tennessee at Knoxville
 	* Email: wfeng1@utk.edu
 
-* Biography
+* **Biography**
 
 Wenqiang Feng is Data Scientist within DST’s Applied Analytics Group. Dr. Feng’s responsibilities include providing DST clients with access to cutting-edge skills and technologies, including Big Data analytic solutions, advanced analytic and data enhancement techniques and modeling.
 
@@ -50,9 +50,9 @@ Dr. Feng has deep analytic expertise in data mining, analytic systems, machine l
 
 Dr. Feng graduated from University of Tennessee, Knoxville, with Ph.D. in Computational Mathematics and Master’s degree in Statistics. He also holds Master’s degree in Computational Mathematics from Missouri University of Science and Technology (MST) and Master’s degree in Applied Mathematics from the University of Science and Technology of China (USTC).	
 
-* Declaration
+* **Declaration**
 
-The work of Wenqiang Feng was supported by the IMA, while working at IMA. However, any opinion, finding, and conclusions or recommendations expressed in this material are those of the author and do not necessarily reflect the views of the IMA and DST.
+The work of Wenqiang Feng was supported by the IMA, while working at IMA. However, any opinion, finding, and conclusions or recommendations expressed in this material are those of the author and do not necessarily reflect the views of the IMA, UTK and DST.
 
 Motivation for this tutorial 
 ++++++++++++++++++++++++++++
