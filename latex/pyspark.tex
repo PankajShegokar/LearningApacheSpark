@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{September 27, 2017}
+\date{September 28, 2017}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -3162,13 +3162,378 @@ lemmatization
 
 \section{Text Classification}
 \label{textmining:text-classification}\label{textmining:textclassification}
+Theoretically speaking, you may apply any classification algorithms to do classification. I will only
+present Naive Bayes method is the following.
+
+
+\subsection{Introduction}
+\label{textmining:introduction}
+
+\subsection{Demo}
+\label{textmining:demo}\begin{enumerate}
+\item {} 
+create spark contexts
+
+\end{enumerate}
+
 \begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{from} \PYG{n+nn}{nltk.stem.wordnet} \PYG{k+kn}{import} \PYG{n}{WordNetLemmatizer}
-\PYG{k+kn}{from} \PYG{n+nn}{nltk.corpus} \PYG{k+kn}{import} \PYG{n}{stopwords}
-\PYG{k+kn}{from} \PYG{n+nn}{nltk} \PYG{k+kn}{import} \PYG{n}{pos\PYGZus{}tag}
-\PYG{k+kn}{import} \PYG{n+nn}{string}
-\PYG{k+kn}{import} \PYG{n+nn}{re}
-\PYG{k+kn}{import} \PYG{n+nn}{langid}
+\PYG{k+kn}{import} \PYG{n+nn}{pyspark}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql} \PYG{k+kn}{import} \PYG{n}{SQLContext}
+
+\PYG{c}{\PYGZsh{} create spark contexts}
+\PYG{n}{sc} \PYG{o}{=} \PYG{n}{pyspark}\PYG{o}{.}\PYG{n}{SparkContext}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{sqlContext} \PYG{o}{=} \PYG{n}{SQLContext}\PYG{p}{(}\PYG{n}{sc}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+load dataset
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} Load a text file and convert each line to a Row.}
+\PYG{n}{data\PYGZus{}rdd} \PYG{o}{=} \PYG{n}{sc}\PYG{o}{.}\PYG{n}{textFile}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{../data/raw\PYGZus{}data.txt}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{parts\PYGZus{}rdd} \PYG{o}{=} \PYG{n}{data\PYGZus{}rdd}\PYG{o}{.}\PYG{n}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{l}\PYG{p}{:} \PYG{n}{l}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{)}
+
+\PYG{c}{\PYGZsh{} Filter bad rows out}
+\PYG{n}{garantee\PYGZus{}col\PYGZus{}rdd} \PYG{o}{=} \PYG{n}{parts\PYGZus{}rdd}\PYG{o}{.}\PYG{n}{filter}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{l}\PYG{p}{:} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{l}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{3}\PYG{p}{)}
+\PYG{n}{typed\PYGZus{}rdd} \PYG{o}{=} \PYG{n}{garantee\PYGZus{}col\PYGZus{}rdd}\PYG{o}{.}\PYG{n}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{p}\PYG{p}{:} \PYG{p}{(}\PYG{n}{p}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{p}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{p}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+
+\PYG{c}{\PYGZsh{}Create DataFrame}
+\PYG{n}{data\PYGZus{}df} \PYG{o}{=} \PYG{n}{sqlContext}\PYG{o}{.}\PYG{n}{createDataFrame}\PYG{p}{(}\PYG{n}{typed\PYGZus{}rdd}\PYG{p}{,} \PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{id}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}
+
+\PYG{c}{\PYGZsh{} get the raw columns}
+\PYG{n}{raw\PYGZus{}cols} \PYG{o}{=} \PYG{n}{data\PYGZus{}df}\PYG{o}{.}\PYG{n}{columns}
+
+\PYG{c}{\PYGZsh{}data\PYGZus{}df.show()}
+\PYG{n}{data\PYGZus{}df}\PYG{o}{.}\PYG{n}{printSchema}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{root}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{text}\PYG{p}{:} \PYG{n}{string} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n+nb}{id}\PYG{p}{:} \PYG{n}{string} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{label}\PYG{p}{:} \PYG{n}{double} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}                \PYG{n}{text}\PYG{o}{\textbar{}}                \PYG{n+nb}{id}\PYG{o}{\textbar{}}\PYG{n}{label}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{Fresh} \PYG{n}{install} \PYG{n}{of} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{1018769417}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{n}{Well}\PYG{o}{.} \PYG{n}{Now} \PYG{n}{I} \PYG{n}{know} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}       \PYG{l+m+mi}{10284216536}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Literally six we...\textbar{}       10298589026\textbar{}  1.0\textbar{}}
+\PYG{o}{\textbar{}}\PYG{n}{Mitsubishi} \PYG{n}{i} \PYG{n}{MiEV}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}\PYG{l+m+mi}{109017669432377344}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+setup pyspark udf function
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n}{udf}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.types} \PYG{k+kn}{import} \PYG{n}{StringType}
+\PYG{k+kn}{import} \PYG{n+nn}{preproc} \PYG{k+kn}{as} \PYG{n+nn}{pp}
+
+\PYG{c}{\PYGZsh{} Register all the functions in Preproc with Spark Context}
+\PYG{n}{check\PYGZus{}lang\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{check\PYGZus{}lang}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{remove\PYGZus{}stops\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{remove\PYGZus{}stops}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{remove\PYGZus{}features\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{remove\PYGZus{}features}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{tag\PYGZus{}and\PYGZus{}remove\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{tag\PYGZus{}and\PYGZus{}remove}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{lemmatize\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{lemmatize}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{check\PYGZus{}blanks\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{n}{pp}\PYG{o}{.}\PYG{n}{check\PYGZus{}blanks}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item {} 
+language identification
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{lang\PYGZus{}df} \PYG{o}{=} \PYG{n}{data\PYGZus{}df}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{lang}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{check\PYGZus{}lang\PYGZus{}udf}\PYG{p}{(}\PYG{n}{data\PYGZus{}df}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{en\PYGZus{}df} \PYG{o}{=} \PYG{n}{lang\PYGZus{}df}\PYG{o}{.}\PYG{n}{filter}\PYG{p}{(}\PYG{n}{lang\PYGZus{}df}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{lang}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{en}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{en\PYGZus{}df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}                text\textbar{}                id\textbar{}label\textbar{}lang\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}RT @goeentertain:...\textbar{}665305154954989568\textbar{}  1.0\textbar{}  en\textbar{}
+\textbar{}Teforia Uses Mach...\textbar{}660668007975268352\textbar{}  1.0\textbar{}  en\textbar{}
+\textbar{}   Apple TV or Roku?\textbar{}       25842461136\textbar{}  1.0\textbar{}  en\textbar{}
+\textbar{}Finished http://t...\textbar{}        9412369614\textbar{}  1.0\textbar{}  en\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+only showing top 4 rows
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{4}
+\item {} 
+remove stop words
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{rm\PYGZus{}stops\PYGZus{}df} \PYG{o}{=} \PYG{n}{en\PYGZus{}df}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{raw\PYGZus{}cols}\PYG{p}{)}\PYGZbs{}
+                   \PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{stop\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{remove\PYGZus{}stops\PYGZus{}udf}\PYG{p}{(}\PYG{n}{en\PYGZus{}df}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{rm\PYGZus{}stops\PYGZus{}df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}                text\textbar{}                id\textbar{}label\textbar{}           stop\PYGZus{}text\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}RT @goeentertain:...\textbar{}665305154954989568\textbar{}  1.0\textbar{}RT @goeentertain:...\textbar{}
+\textbar{}Teforia Uses Mach...\textbar{}660668007975268352\textbar{}  1.0\textbar{}Teforia Uses Mach...\textbar{}
+\textbar{}   Apple TV or Roku?\textbar{}       25842461136\textbar{}  1.0\textbar{}      Apple TV Roku?\textbar{}
+\textbar{}Finished http://t...\textbar{}        9412369614\textbar{}  1.0\textbar{}Finished http://t...\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+only showing top 4 rows
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{5}
+\item {} 
+remove irrelevant features
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{rm\PYGZus{}features\PYGZus{}df} \PYG{o}{=} \PYG{n}{rm\PYGZus{}stops\PYGZus{}df}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{raw\PYGZus{}cols}\PYG{o}{+}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{stop\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}\PYGZbs{}
+                            \PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{feat\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYGZbs{}
+                            \PYG{n}{remove\PYGZus{}features\PYGZus{}udf}\PYG{p}{(}\PYG{n}{rm\PYGZus{}stops\PYGZus{}df}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{stop\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{rm\PYGZus{}features\PYGZus{}df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}                text\textbar{}                id\textbar{}label\textbar{}           stop\PYGZus{}text\textbar{}           feat\PYGZus{}text\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}RT @goeentertain:...\textbar{}665305154954989568\textbar{}  1.0\textbar{}RT @goeentertain:...\textbar{}  future blase   ...\textbar{}
+\textbar{}Teforia Uses Mach...\textbar{}660668007975268352\textbar{}  1.0\textbar{}Teforia Uses Mach...\textbar{}teforia uses mach...\textbar{}
+\textbar{}   Apple TV or Roku?\textbar{}       25842461136\textbar{}  1.0\textbar{}      Apple TV Roku?\textbar{}         apple  roku\textbar{}
+\textbar{}Finished http://t...\textbar{}        9412369614\textbar{}  1.0\textbar{}Finished http://t...\textbar{}            finished\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+only showing top 4 rows
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{6}
+\item {} 
+tag the words
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{tagged\PYGZus{}df} \PYG{o}{=} \PYG{n}{rm\PYGZus{}features\PYGZus{}df}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{raw\PYGZus{}cols}\PYG{o}{+}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{feat\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)} \PYGZbs{}
+                          \PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{tagged\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYGZbs{}
+                           \PYG{n}{tag\PYGZus{}and\PYGZus{}remove\PYGZus{}udf}\PYG{p}{(}\PYG{n}{rm\PYGZus{}features\PYGZus{}df}\PYG{o}{.}\PYG{n}{feat\PYGZus{}text}\PYG{p}{)}\PYG{p}{)}
+
+\PYG{n}{tagged\PYGZus{}df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}                text\textbar{}                id\textbar{}label\textbar{}           feat\PYGZus{}text\textbar{}         tagged\PYGZus{}text\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}RT @goeentertain:...\textbar{}665305154954989568\textbar{}  1.0\textbar{}  future blase   ...\textbar{} future blase vic...\textbar{}
+\textbar{}Teforia Uses Mach...\textbar{}660668007975268352\textbar{}  1.0\textbar{}teforia uses mach...\textbar{} teforia uses mac...\textbar{}
+\textbar{}   Apple TV or Roku?\textbar{}       25842461136\textbar{}  1.0\textbar{}         apple  roku\textbar{}         apple roku \textbar{}
+\textbar{}Finished http://t...\textbar{}        9412369614\textbar{}  1.0\textbar{}            finished\textbar{}           finished \textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+only showing top 4 rows
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{7}
+\item {} 
+lemmatization of words
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{lemm\PYGZus{}df} \PYG{o}{=} \PYG{n}{tagged\PYGZus{}df}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{raw\PYGZus{}cols}\PYG{o}{+}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{tagged\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)} \PYGZbs{}
+                   \PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{lemm\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{lemmatize\PYGZus{}udf}\PYG{p}{(}\PYG{n}{tagged\PYGZus{}df}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{tagged\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{lemm\PYGZus{}df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}                text\textbar{}                id\textbar{}label\textbar{}         tagged\PYGZus{}text\textbar{}           lemm\PYGZus{}text\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}RT @goeentertain:...\textbar{}665305154954989568\textbar{}  1.0\textbar{} future blase vic...\textbar{}future blase vice...\textbar{}
+\textbar{}Teforia Uses Mach...\textbar{}660668007975268352\textbar{}  1.0\textbar{} teforia uses mac...\textbar{}teforia use machi...\textbar{}
+\textbar{}   Apple TV or Roku?\textbar{}       25842461136\textbar{}  1.0\textbar{}         apple roku \textbar{}          apple roku\textbar{}
+\textbar{}Finished http://t...\textbar{}        9412369614\textbar{}  1.0\textbar{}           finished \textbar{}              finish\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+only showing top 4 rows
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{8}
+\item {} 
+remove blank rows and drop duplicates
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{n}{check\PYGZus{}blanks\PYGZus{}df} \PYG{o}{=} \PYG{n}{lemm\PYGZus{}df}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{raw\PYGZus{}cols}\PYG{o}{+}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{lemm\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}\PYGZbs{}
+                             \PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{is\PYGZus{}blank}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{check\PYGZus{}blanks\PYGZus{}udf}\PYG{p}{(}\PYG{n}{lemm\PYGZus{}df}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{lemm\PYGZus{}text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{} remove blanks}
+    \PYG{n}{no\PYGZus{}blanks\PYGZus{}df} \PYG{o}{=} \PYG{n}{check\PYGZus{}blanks\PYGZus{}df}\PYG{o}{.}\PYG{n}{filter}\PYG{p}{(}\PYG{n}{check\PYGZus{}blanks\PYGZus{}df}\PYG{p}{[}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{is\PYGZus{}blank}\PYG{l+s}{\PYGZdq{}}\PYG{p}{]} \PYG{o}{==} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{False}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c}{\PYGZsh{} drop duplicates}
+\PYG{n}{dedup\PYGZus{}df} \PYG{o}{=} \PYG{n}{no\PYGZus{}blanks\PYGZus{}df}\PYG{o}{.}\PYG{n}{dropDuplicates}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{text}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+
+    \PYG{n}{dedup\PYGZus{}df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}                text\textbar{}                id\textbar{}label\textbar{}           lemm\PYGZus{}text\textbar{}is\PYGZus{}blank\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+\textbar{}RT @goeentertain:...\textbar{}665305154954989568\textbar{}  1.0\textbar{}future blase vice...\textbar{}   False\textbar{}
+\textbar{}Teforia Uses Mach...\textbar{}660668007975268352\textbar{}  1.0\textbar{}teforia use machi...\textbar{}   False\textbar{}
+\textbar{}   Apple TV or Roku?\textbar{}       25842461136\textbar{}  1.0\textbar{}          apple roku\textbar{}   False\textbar{}
+\textbar{}Finished http://t...\textbar{}        9412369614\textbar{}  1.0\textbar{}              finish\textbar{}   False\textbar{}
++\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+
+only showing top 4 rows
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{9}
+\item {} 
+add unieuq ID
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n}{monotonically\PYGZus{}increasing\PYGZus{}id}
+\PYG{c}{\PYGZsh{} Create Unique ID}
+\PYG{n}{dedup\PYGZus{}df} \PYG{o}{=} \PYG{n}{dedup\PYGZus{}df}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{uid}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{monotonically\PYGZus{}increasing\PYGZus{}id}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{dedup\PYGZus{}df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}                \PYG{n}{text}\PYG{o}{\textbar{}}                \PYG{n+nb}{id}\PYG{o}{\textbar{}}\PYG{n}{label}\PYG{o}{\textbar{}}           \PYG{n}{lemm\PYGZus{}text}\PYG{o}{\textbar{}}\PYG{n}{is\PYGZus{}blank}\PYG{o}{\textbar{}}         \PYG{n}{uid}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}              \PYG{n}{dragon}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{1546813742}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}              \PYG{n}{dragon}\PYG{o}{\textbar{}}   \PYG{n+nb+bp}{False}\PYG{o}{\textbar{}} \PYG{l+m+mi}{85899345920}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}           \PYG{n}{hurt} \PYG{n}{much}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{1558492525}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}           \PYG{n}{hurt} \PYG{n}{much}\PYG{o}{\textbar{}}   \PYG{n+nb+bp}{False}\PYG{o}{\textbar{}}\PYG{l+m+mi}{111669149696}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{n}{seth} \PYG{n}{blog} \PYG{n}{word} \PYG{n}{se}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}\PYG{l+m+mi}{383221484023709697}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}\PYG{n}{seth} \PYG{n}{blog} \PYG{n}{word} \PYG{n}{se}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}   \PYG{n+nb+bp}{False}\PYG{o}{\textbar{}}\PYG{l+m+mi}{128849018880}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{n}{teforia} \PYG{n}{use} \PYG{n}{machi}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}\PYG{l+m+mi}{660668007975268352}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}\PYG{n}{teforia} \PYG{n}{use} \PYG{n}{machi}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}   \PYG{n+nb+bp}{False}\PYG{o}{\textbar{}}\PYG{l+m+mi}{137438953472}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{10}
+\item {} 
+create final dataset
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{data} \PYG{o}{=} \PYG{n}{dedup\PYGZus{}df}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{uid}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{id}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{text}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{data}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}         \PYG{n}{uid}\PYG{o}{\textbar{}}                \PYG{n+nb}{id}\PYG{o}{\textbar{}}                \PYG{n}{text}\PYG{o}{\textbar{}}\PYG{n}{label}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}} \PYG{l+m+mi}{85899345920}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{1546813742}\PYG{o}{\textbar{}}              \PYG{n}{dragon}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mi}{111669149696}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{1558492525}\PYG{o}{\textbar{}}           \PYG{n}{hurt} \PYG{n}{much}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mi}{128849018880}\PYG{o}{\textbar{}}\PYG{l+m+mi}{383221484023709697}\PYG{o}{\textbar{}}\PYG{n}{seth} \PYG{n}{blog} \PYG{n}{word} \PYG{n}{se}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mi}{137438953472}\PYG{o}{\textbar{}}\PYG{l+m+mi}{660668007975268352}\PYG{o}{\textbar{}}\PYG{n}{teforia} \PYG{n}{use} \PYG{n}{machi}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{11}
+\item {} 
+Create taining and test sets
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} Split the data into training and test sets (40\PYGZpc{} held out for testing)}
+\PYG{p}{(}\PYG{n}{trainingData}\PYG{p}{,} \PYG{n}{testData}\PYG{p}{)} \PYG{o}{=} \PYG{n}{data}\PYG{o}{.}\PYG{n}{randomSplit}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mf}{0.6}\PYG{p}{,} \PYG{l+m+mf}{0.4}\PYG{p}{]}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{12}
+\item {} 
+NaiveBayes Pipeline
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.feature} \PYG{k+kn}{import} \PYG{n}{HashingTF}\PYG{p}{,} \PYG{n}{IDF}\PYG{p}{,} \PYG{n}{Tokenizer}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml} \PYG{k+kn}{import} \PYG{n}{Pipeline}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.classification} \PYG{k+kn}{import} \PYG{n}{NaiveBayes}\PYG{p}{,} \PYG{n}{RandomForestClassifier}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.classification} \PYG{k+kn}{import} \PYG{n}{DecisionTreeClassifier}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.evaluation} \PYG{k+kn}{import} \PYG{n}{MulticlassClassificationEvaluator}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.tuning} \PYG{k+kn}{import} \PYG{n}{ParamGridBuilder}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.tuning} \PYG{k+kn}{import} \PYG{n}{CrossValidator}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.feature} \PYG{k+kn}{import} \PYG{n}{IndexToString}\PYG{p}{,} \PYG{n}{StringIndexer}\PYG{p}{,} \PYG{n}{VectorIndexer}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.feature} \PYG{k+kn}{import} \PYG{n}{CountVectorizer}
+
+\PYG{c}{\PYGZsh{} Configure an ML pipeline, which consists of tree stages: tokenizer, hashingTF, and nb.}
+\PYG{n}{tokenizer} \PYG{o}{=} \PYG{n}{Tokenizer}\PYG{p}{(}\PYG{n}{inputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{words}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{hashingTF} \PYG{o}{=} \PYG{n}{HashingTF}\PYG{p}{(}\PYG{n}{inputCol}\PYG{o}{=}\PYG{n}{tokenizer}\PYG{o}{.}\PYG{n}{getOutputCol}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,} \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{rawFeatures}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{} vectorizer = CountVectorizer(inputCol= \PYGZdq{}words\PYGZdq{}, outputCol=\PYGZdq{}rawFeatures\PYGZdq{})}
+\PYG{n}{idf} \PYG{o}{=} \PYG{n}{IDF}\PYG{p}{(}\PYG{n}{minDocFreq}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{inputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{rawFeatures}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c}{\PYGZsh{} Naive Bayes model}
+\PYG{n}{nb} \PYG{o}{=} \PYG{n}{NaiveBayes}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{c}{\PYGZsh{} Pipeline Architecture}
+\PYG{n}{pipeline} \PYG{o}{=} \PYG{n}{Pipeline}\PYG{p}{(}\PYG{n}{stages}\PYG{o}{=}\PYG{p}{[}\PYG{n}{tokenizer}\PYG{p}{,} \PYG{n}{hashingTF}\PYG{p}{,} \PYG{n}{idf}\PYG{p}{,} \PYG{n}{nb}\PYG{p}{]}\PYG{p}{)}
+
+\PYG{c}{\PYGZsh{} Train model.  This also runs the indexers.}
+\PYG{n}{model} \PYG{o}{=} \PYG{n}{pipeline}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{trainingData}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{13}
+\item {} 
+Make predictions
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{predictions} \PYG{o}{=} \PYG{n}{model}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{testData}\PYG{p}{)}
+
+\PYG{c}{\PYGZsh{} Select example rows to display.}
+\PYG{n}{predictions}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{text}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}                \PYG{n}{text}\PYG{o}{\textbar{}}\PYG{n}{label}\PYG{o}{\textbar{}}\PYG{n}{prediction}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}              \PYG{n}{dragon}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}       \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}              \PYG{n}{finish}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}       \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{n}{meet} \PYG{n}{bucky} \PYG{n}{dogsof}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}       \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{n}{meet} \PYG{n}{vixie} \PYG{n}{dogsof}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}       \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}          \PYG{n}{daily} \PYG{n}{news}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}       \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{14}
+\item {} 
+evaluation
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.evaluation} \PYG{k+kn}{import} \PYG{n}{MulticlassClassificationEvaluator}
+\PYG{n}{evaluator} \PYG{o}{=} \PYG{n}{MulticlassClassificationEvaluator}\PYG{p}{(}\PYG{n}{predictionCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{evaluator}\PYG{o}{.}\PYG{n}{evaluate}\PYG{p}{(}\PYG{n}{predictions}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{l+m+mf}{0.912655971479501}
 \end{Verbatim}
 
 
@@ -3176,7 +3541,7 @@ lemmatization
 \label{textmining:sentimentanalysis}\label{textmining:sentiment-analysis}
 
 \subsection{Introduction}
-\label{textmining:introduction}
+\label{textmining:id1}
 \href{https://en.wikipedia.org/wiki/Sentiment\_analysis}{Sentiment analysis} (sometimes known as opinion mining or emotion AI) refers to the use of natural language processing, text analysis, computational linguistics, and biometrics to systematically identify, extract, quantify, and study affective states and subjective information. Sentiment analysis is widely applied to voice of the customer materials such as reviews and survey responses, online and social media, and healthcare materials for applications that range from marketing to customer service to clinical medicine.
 
 Generally speaking, sentiment analysis aims to \textbf{determine the attitude} of a speaker, writer, or other subject with respect to some topic or the overall contextual polarity or emotional reaction to a document, interaction, or event. The attitude may be a judgment or evaluation (see appraisal theory), affective state (that is to say, the emotional state of the author or speaker), or the intended emotional communication (that is to say, the emotional effect intended by the author or interlocutor).
@@ -3205,7 +3570,7 @@ Enhancing the Customer Experience through Sentiment Analysis in Business
 
 
 \subsection{Demo}
-\label{textmining:demo}\begin{enumerate}
+\label{textmining:id2}\begin{enumerate}
 \item {} 
 Set up spark context and SparkSession
 
@@ -3568,14 +3933,14 @@ Top tweets from each sentiment class
 
 
 \subsection{Introduction}
-\label{textmining:id1}
+\label{textmining:id3}
 In text mining, a topic model is a unsupervised model for discovering the abstract ``topics'' that occur in a collection of documents.
 
 Latent Dirichlet Allocation (LDA) is a mathematical method for estimating both of these at the same time: finding the mixture of words that is associated with each topic, while also determining the mixture of topics that describes each document.
 
 
 \subsection{Demo}
-\label{textmining:id2}\begin{enumerate}
+\label{textmining:id4}\begin{enumerate}
 \item {} 
 Load data
 
@@ -4273,7 +4638,7 @@ reviews (documents) relate to topic 1
 
 
 \chapter{Social Network Analysis}
-\label{socialnetwork:socialnetwork}\label{socialnetwork:social-network-analysis}\label{socialnetwork::doc}\label{socialnetwork:id3}
+\label{socialnetwork:socialnetwork}\label{socialnetwork:id5}\label{socialnetwork::doc}\label{socialnetwork:social-network-analysis}
 \begin{notice}{note}{Note:}
 A Touch of Cloth,linked in countless ways. -- old Chinese proverb
 \end{notice}

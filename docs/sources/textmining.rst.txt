@@ -567,43 +567,37 @@ Introduction
 Demo
 ----
 
-.. code-block:: python
-
-	from nltk.stem.wordnet import WordNetLemmatizer
-	from nltk.corpus import stopwords
-	from nltk import pos_tag
-	import string
-	import re
-	import langid
+1. create spark contexts 
 
 .. code-block:: python
 
-	from pyspark.sql.functions import udf
-	from pyspark.sql.types import StringType
-	import preproc as pp
-	# Register all the functions in Preproc with Spark Context
-	check_lang_udf = udf(pp.check_lang, StringType())
-	remove_stops_udf = udf(pp.remove_stops, StringType())
-	remove_features_udf = udf(pp.remove_features, StringType())
-	tag_and_remove_udf = udf(pp.tag_and_remove, StringType())
-	lemmatize_udf = udf(pp.lemmatize, StringType())
-	check_blanks_udf = udf(pp.check_blanks, StringType())
+	import pyspark
+	from pyspark.sql import SQLContext
 
+	# create spark contexts
+	sc = pyspark.SparkContext()
+	sqlContext = SQLContext(sc)
+
+2. load dataset 
 
 .. code-block:: python
 
 	# Load a text file and convert each line to a Row.
-	data_rdd = sc.textFile("data/nlpdata/raw_data.txt")
+	data_rdd = sc.textFile("../data/raw_data.txt")
 	parts_rdd = data_rdd.map(lambda l: l.split("\t"))
+	
 	# Filter bad rows out
 	garantee_col_rdd = parts_rdd.filter(lambda l: len(l) == 3)
 	typed_rdd = garantee_col_rdd.map(lambda p: (p[0], p[1], float(p[2])))
+	
 	#Create DataFrame
 	data_df = sqlContext.createDataFrame(typed_rdd, ["text", "id", "label"])
+
+	# get the raw columns
+	raw_cols = data_df.columns
+
 	#data_df.show()
 	data_df.printSchema()
-
-
 
 .. code-block:: python
 
@@ -614,8 +608,6 @@ Demo
 
 
 .. code-block:: python
-
-	data_df.show(4)
 
 	+--------------------+------------------+-----+
 	|                text|                id|label|
@@ -628,73 +620,252 @@ Demo
 	only showing top 4 rows
 
 
-
+3. setup pyspark udf function
 
 .. code-block:: python
 
-	# predict language and filter out those with less than 90% chance of being English
+	from pyspark.sql.functions import udf
+	from pyspark.sql.types import StringType
+	import preproc as pp
+
+	# Register all the functions in Preproc with Spark Context
+	check_lang_udf = udf(pp.check_lang, StringType())
+	remove_stops_udf = udf(pp.remove_stops, StringType())
+	remove_features_udf = udf(pp.remove_features, StringType())
+	tag_and_remove_udf = udf(pp.tag_and_remove, StringType())
+	lemmatize_udf = udf(pp.lemmatize, StringType())
+	check_blanks_udf = udf(pp.check_blanks, StringType())
+
+4. language identification
+
+.. code-block:: python
+
 	lang_df = data_df.withColumn("lang", check_lang_udf(data_df["text"]))
 	en_df = lang_df.filter(lang_df["lang"] == "en")
-
-
-.. code-block:: python
-
-	en_df.printSchema()
-
-.. code-block:: python
-
-	root
-	 |-- text: string (nullable = true)
-	 |-- id: string (nullable = true)
-	 |-- label: double (nullable = true)
-	 |-- lang: string (nullable = true)
-
-.. code-block:: python
-	
 	en_df.show(4)
 
+.. code-block:: bash
+
+	+--------------------+------------------+-----+----+
+	|                text|                id|label|lang|
+	+--------------------+------------------+-----+----+
+	|RT @goeentertain:...|665305154954989568|  1.0|  en|
+	|Teforia Uses Mach...|660668007975268352|  1.0|  en|
+	|   Apple TV or Roku?|       25842461136|  1.0|  en|
+	|Finished http://t...|        9412369614|  1.0|  en|
+	+--------------------+------------------+-----+----+
+	only showing top 4 rows
+
+5. remove stop words 
+
+.. code-block:: python
+
+	rm_stops_df = en_df.select(raw_cols)\
+	                   .withColumn("stop_text", remove_stops_udf(en_df["text"]))
+	rm_stops_df.show(4)                   
+
+.. code-block:: bash
+
+	+--------------------+------------------+-----+--------------------+
+	|                text|                id|label|           stop_text|
+	+--------------------+------------------+-----+--------------------+
+	|RT @goeentertain:...|665305154954989568|  1.0|RT @goeentertain:...|
+	|Teforia Uses Mach...|660668007975268352|  1.0|Teforia Uses Mach...|
+	|   Apple TV or Roku?|       25842461136|  1.0|      Apple TV Roku?|
+	|Finished http://t...|        9412369614|  1.0|Finished http://t...|
+	+--------------------+------------------+-----+--------------------+
+	only showing top 4 rows
+
+6. remove irrelevant features
+
+.. code-block:: python
+
+	rm_features_df = rm_stops_df.select(raw_cols+["stop_text"])\
+	                            .withColumn("feat_text", \
+	                            remove_features_udf(rm_stops_df["stop_text"]))
+	rm_features_df.show(4)                            
+
+.. code-block:: bash
+
+	+--------------------+------------------+-----+--------------------+--------------------+
+	|                text|                id|label|           stop_text|           feat_text|
+	+--------------------+------------------+-----+--------------------+--------------------+
+	|RT @goeentertain:...|665305154954989568|  1.0|RT @goeentertain:...|  future blase   ...|
+	|Teforia Uses Mach...|660668007975268352|  1.0|Teforia Uses Mach...|teforia uses mach...|
+	|   Apple TV or Roku?|       25842461136|  1.0|      Apple TV Roku?|         apple  roku|
+	|Finished http://t...|        9412369614|  1.0|Finished http://t...|            finished|
+	+--------------------+------------------+-----+--------------------+--------------------+
+	only showing top 4 rows
+
+7. tag the words
+
+.. code-block:: python
+
+	tagged_df = rm_features_df.select(raw_cols+["feat_text"]) \
+	                          .withColumn("tagged_text", \
+	                           tag_and_remove_udf(rm_features_df.feat_text))
+
+	tagged_df.show(4)                          
+
+.. code-block:: bash
+	
+	+--------------------+------------------+-----+--------------------+--------------------+
+	|                text|                id|label|           feat_text|         tagged_text|
+	+--------------------+------------------+-----+--------------------+--------------------+
+	|RT @goeentertain:...|665305154954989568|  1.0|  future blase   ...| future blase vic...|
+	|Teforia Uses Mach...|660668007975268352|  1.0|teforia uses mach...| teforia uses mac...|
+	|   Apple TV or Roku?|       25842461136|  1.0|         apple  roku|         apple roku |
+	|Finished http://t...|        9412369614|  1.0|            finished|           finished |
+	+--------------------+------------------+-----+--------------------+--------------------+
+	only showing top 4 rows
+
+8. lemmatization of words
+
+.. code-block:: python
+
+	lemm_df = tagged_df.select(raw_cols+["tagged_text"]) \
+	                   .withColumn("lemm_text", lemmatize_udf(tagged_df["tagged_text"]))
+	lemm_df.show(4)                   
+
+
+.. code-block:: bash
+
+	+--------------------+------------------+-----+--------------------+--------------------+
+	|                text|                id|label|         tagged_text|           lemm_text|
+	+--------------------+------------------+-----+--------------------+--------------------+
+	|RT @goeentertain:...|665305154954989568|  1.0| future blase vic...|future blase vice...|
+	|Teforia Uses Mach...|660668007975268352|  1.0| teforia uses mac...|teforia use machi...|
+	|   Apple TV or Roku?|       25842461136|  1.0|         apple roku |          apple roku|
+	|Finished http://t...|        9412369614|  1.0|           finished |              finish|
+	+--------------------+------------------+-----+--------------------+--------------------+
+	only showing top 4 rows
+
+9. remove blank rows and drop duplicates
+
+.. code-block:: python
+
+	check_blanks_df = lemm_df.select(raw_cols+["lemm_text"])\
+	                         .withColumn("is_blank", check_blanks_udf(lemm_df["lemm_text"]))
+	# remove blanks
+	no_blanks_df = check_blanks_df.filter(check_blanks_df["is_blank"] == "False")   
+    
+    # drop duplicates
+    dedup_df = no_blanks_df.dropDuplicates(['text', 'label'])
+
+	dedup_df.show(4)                         
+
+.. code-block:: bash
+
+	+--------------------+------------------+-----+--------------------+--------+
+	|                text|                id|label|           lemm_text|is_blank|
+	+--------------------+------------------+-----+--------------------+--------+
+	|RT @goeentertain:...|665305154954989568|  1.0|future blase vice...|   False|
+	|Teforia Uses Mach...|660668007975268352|  1.0|teforia use machi...|   False|
+	|   Apple TV or Roku?|       25842461136|  1.0|          apple roku|   False|
+	|Finished http://t...|        9412369614|  1.0|              finish|   False|
+	+--------------------+------------------+-----+--------------------+--------+
+	only showing top 4 rows
+
+10. add unieuq ID 
+
+.. code-block:: python
+
+	from pyspark.sql.functions import monotonically_increasing_id
+	# Create Unique ID
+	dedup_df = dedup_df.withColumn("uid", monotonically_increasing_id())
+	dedup_df.show(4)
 
 
 .. code-block:: python
 
+	+--------------------+------------------+-----+--------------------+--------+------------+
+	|                text|                id|label|           lemm_text|is_blank|         uid|
+	+--------------------+------------------+-----+--------------------+--------+------------+
+	|              dragon|        1546813742|  1.0|              dragon|   False| 85899345920|
+	|           hurt much|        1558492525|  1.0|           hurt much|   False|111669149696|
+	|seth blog word se...|383221484023709697|  1.0|seth blog word se...|   False|128849018880|
+	|teforia use machi...|660668007975268352|  1.0|teforia use machi...|   False|137438953472|
+	+--------------------+------------------+-----+--------------------+--------+------------+
+	only showing top 4 rows
 
-
-.. code-block:: python
-
-	# remove stop words to reduce dimensionality
-	rm_stops_df = en_df.withColumn("stop_text", remove_stops_udf(en_df["text"]))
-
-.. code-block:: python
-
-	rm_stops_df.printSchema()
-
-.. code-block:: python
-
-	root
-	 |-- text: string (nullable = true)
-	 |-- id: string (nullable = true)
-	 |-- label: double (nullable = true)
-	 |-- lang: string (nullable = true)
-	 |-- stop_text: string (nullable = true)
-
+11. create final dataset 
 
 .. code-block:: python
 
-	rm_stops_df.show(4)
+	data = dedup_df.select('uid','id', 'text','label')
+	data.show(4)
 
+.. code-block:: python
+
+	+------------+------------------+--------------------+-----+
+	|         uid|                id|                text|label|
+	+------------+------------------+--------------------+-----+
+	| 85899345920|        1546813742|              dragon|  1.0|
+	|111669149696|        1558492525|           hurt much|  1.0|
+	|128849018880|383221484023709697|seth blog word se...|  1.0|
+	|137438953472|660668007975268352|teforia use machi...|  1.0|
+	+------------+------------------+--------------------+-----+
+	only showing top 4 rows
+
+12. Create taining and test sets
+
+.. code-block:: python
+
+	# Split the data into training and test sets (40% held out for testing)
+	(trainingData, testData) = data.randomSplit([0.6, 0.4])
+
+13. NaiveBayes Pipeline
+
+.. code-block:: python
+
+	from pyspark.ml.feature import HashingTF, IDF, Tokenizer
+	from pyspark.ml import Pipeline
+	from pyspark.ml.classification import NaiveBayes, RandomForestClassifier 
+	from pyspark.ml.classification import DecisionTreeClassifier
+	from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+	from pyspark.ml.tuning import ParamGridBuilder
+	from pyspark.ml.tuning import CrossValidator
+	from pyspark.ml.feature import IndexToString, StringIndexer, VectorIndexer
+	from pyspark.ml.feature import CountVectorizer
+
+	# Configure an ML pipeline, which consists of tree stages: tokenizer, hashingTF, and nb.
+	tokenizer = Tokenizer(inputCol="text", outputCol="words")
+	hashingTF = HashingTF(inputCol=tokenizer.getOutputCol(), outputCol="rawFeatures")
+	# vectorizer = CountVectorizer(inputCol= "words", outputCol="rawFeatures")
+	idf = IDF(minDocFreq=3, inputCol="rawFeatures", outputCol="features")
+
+	# Naive Bayes model
+	nb = NaiveBayes()
+
+	# Pipeline Architecture
+	pipeline = Pipeline(stages=[tokenizer, hashingTF, idf, nb])
+
+	# Train model.  This also runs the indexers.
+	model = pipeline.fit(trainingData)
+
+14. Make predictions
+
+.. code-block:: python
+
+	predictions = model.transform(testData)
+
+	# Select example rows to display.
+	predictions.select("text", "label", "prediction").show(5)
 
 .. code-block:: python
 
 	+--------------------+-----+----------+
 	|                text|label|prediction|
 	+--------------------+-----+----------+
-	|           hurt much|  1.0|       1.0|
-	|teforia use machi...|  1.0|       1.0|
+	|              dragon|  1.0|       1.0|
 	|              finish|  1.0|       1.0|
-	|future blase vice...|  1.0|       1.0|
-	|              divine|  1.0|       1.0|
+	|meet bucky dogsof...|  1.0|       1.0|
+	|meet vixie dogsof...|  1.0|       1.0|
+	|          daily news|  1.0|       1.0|
 	+--------------------+-----+----------+
 	only showing top 5 rows
+
+15. evaluation
 
 .. code-block:: python
 
@@ -702,10 +873,10 @@ Demo
 	evaluator = MulticlassClassificationEvaluator(predictionCol="prediction")
 	evaluator.evaluate(predictions)
 
+
 .. code-block:: python
 
 	0.912655971479501
-
 
 .. _sentimentAnalysis:
 

@@ -724,34 +724,34 @@ present Naive Bayes method is the following.</p>
 </div>
 <div class="section" id="demo">
 <h3>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk.stem.wordnet</span> <span class="kn">import</span> <span class="n">WordNetLemmatizer</span>
-<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
-<span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">pos_tag</span>
-<span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">langid</span>
+<ol class="arabic simple">
+<li>create spark contexts</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspark</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SQLContext</span>
+
+<span class="c1"># create spark contexts</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">SparkContext</span><span class="p">()</span>
+<span class="n">sqlContext</span> <span class="o">=</span> <span class="n">SQLContext</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span>
-<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StringType</span>
-<span class="kn">import</span> <span class="nn">preproc</span> <span class="kn">as</span> <span class="nn">pp</span>
-<span class="c1"># Register all the functions in Preproc with Spark Context</span>
-<span class="n">check_lang_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">check_lang</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
-<span class="n">remove_stops_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">remove_stops</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
-<span class="n">remove_features_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">remove_features</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
-<span class="n">tag_and_remove_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">tag_and_remove</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
-<span class="n">lemmatize_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
-<span class="n">check_blanks_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">check_blanks</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
-</pre></div>
-</div>
+<ol class="arabic simple" start="2">
+<li>load dataset</li>
+</ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Load a text file and convert each line to a Row.</span>
-<span class="n">data_rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;data/nlpdata/raw_data.txt&quot;</span><span class="p">)</span>
+<span class="n">data_rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;../data/raw_data.txt&quot;</span><span class="p">)</span>
 <span class="n">parts_rdd</span> <span class="o">=</span> <span class="n">data_rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">l</span><span class="p">:</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">))</span>
+
 <span class="c1"># Filter bad rows out</span>
 <span class="n">garantee_col_rdd</span> <span class="o">=</span> <span class="n">parts_rdd</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">l</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">typed_rdd</span> <span class="o">=</span> <span class="n">garantee_col_rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
+
 <span class="c1">#Create DataFrame</span>
 <span class="n">data_df</span> <span class="o">=</span> <span class="n">sqlContext</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">typed_rdd</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">])</span>
+
+<span class="c1"># get the raw columns</span>
+<span class="n">raw_cols</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">columns</span>
+
 <span class="c1">#data_df.show()</span>
 <span class="n">data_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
 </pre></div>
@@ -762,9 +762,7 @@ present Naive Bayes method is the following.</p>
  <span class="o">|--</span> <span class="n">label</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-
-<span class="o">+--------------------+------------------+-----+</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+------------------+-----+</span>
 <span class="o">|</span>                <span class="n">text</span><span class="o">|</span>                <span class="nb">id</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>
 <span class="o">+--------------------+------------------+-----+</span>
 <span class="o">|</span><span class="n">Fresh</span> <span class="n">install</span> <span class="n">of</span> <span class="o">...|</span>        <span class="mi">1018769417</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>
@@ -775,57 +773,243 @@ present Naive Bayes method is the following.</p>
 <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># predict language and filter out those with less than 90% chance of being English</span>
-<span class="n">lang_df</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;lang&quot;</span><span class="p">,</span> <span class="n">check_lang_udf</span><span class="p">(</span><span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]))</span>
+<ol class="arabic simple" start="3">
+<li>setup pyspark udf function</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StringType</span>
+<span class="kn">import</span> <span class="nn">preproc</span> <span class="kn">as</span> <span class="nn">pp</span>
+
+<span class="c1"># Register all the functions in Preproc with Spark Context</span>
+<span class="n">check_lang_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">check_lang</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">remove_stops_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">remove_stops</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">remove_features_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">remove_features</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">tag_and_remove_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">tag_and_remove</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">lemmatize_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">check_blanks_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">check_blanks</span><span class="p">,</span> <span class="n">StringType</span><span class="p">())</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>language identification</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lang_df</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;lang&quot;</span><span class="p">,</span> <span class="n">check_lang_udf</span><span class="p">(</span><span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]))</span>
 <span class="n">en_df</span> <span class="o">=</span> <span class="n">lang_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">lang_df</span><span class="p">[</span><span class="s2">&quot;lang&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>
+<span class="n">en_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">en_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+--------------------+------------------+-----+----+
+<span class="p">|</span>                text<span class="p">|</span>                id<span class="p">|</span>label<span class="p">|</span>lang<span class="p">|</span>
++--------------------+------------------+-----+----+
+<span class="p">|</span>RT @goeentertain:...<span class="p">|</span><span class="m">665305154954989568</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>  en<span class="p">|</span>
+<span class="p">|</span>Teforia Uses Mach...<span class="p">|</span><span class="m">660668007975268352</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>  en<span class="p">|</span>
+<span class="p">|</span>   Apple TV or Roku?<span class="p">|</span>       <span class="m">25842461136</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>  en<span class="p">|</span>
+<span class="p">|</span>Finished http://t...<span class="p">|</span>        <span class="m">9412369614</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>  en<span class="p">|</span>
++--------------------+------------------+-----+----+
+only showing top <span class="m">4</span> rows
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">root</span>
- <span class="o">|--</span> <span class="n">text</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
- <span class="o">|--</span> <span class="nb">id</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
- <span class="o">|--</span> <span class="n">label</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
- <span class="o">|--</span> <span class="n">lang</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<ol class="arabic simple" start="5">
+<li>remove stop words</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rm_stops_df</span> <span class="o">=</span> <span class="n">en_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">raw_cols</span><span class="p">)</span>\
+                   <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;stop_text&quot;</span><span class="p">,</span> <span class="n">remove_stops_udf</span><span class="p">(</span><span class="n">en_df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]))</span>
+<span class="n">rm_stops_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">en_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+--------------------+------------------+-----+--------------------+
+<span class="p">|</span>                text<span class="p">|</span>                id<span class="p">|</span>label<span class="p">|</span>           stop_text<span class="p">|</span>
++--------------------+------------------+-----+--------------------+
+<span class="p">|</span>RT @goeentertain:...<span class="p">|</span><span class="m">665305154954989568</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>RT @goeentertain:...<span class="p">|</span>
+<span class="p">|</span>Teforia Uses Mach...<span class="p">|</span><span class="m">660668007975268352</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>Teforia Uses Mach...<span class="p">|</span>
+<span class="p">|</span>   Apple TV or Roku?<span class="p">|</span>       <span class="m">25842461136</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>      Apple TV Roku?<span class="p">|</span>
+<span class="p">|</span>Finished http://t...<span class="p">|</span>        <span class="m">9412369614</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>Finished http://t...<span class="p">|</span>
++--------------------+------------------+-----+--------------------+
+only showing top <span class="m">4</span> rows
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span>
+<ol class="arabic simple" start="6">
+<li>remove irrelevant features</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rm_features_df</span> <span class="o">=</span> <span class="n">rm_stops_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">raw_cols</span><span class="o">+</span><span class="p">[</span><span class="s2">&quot;stop_text&quot;</span><span class="p">])</span>\
+                            <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;feat_text&quot;</span><span class="p">,</span> \
+                            <span class="n">remove_features_udf</span><span class="p">(</span><span class="n">rm_stops_df</span><span class="p">[</span><span class="s2">&quot;stop_text&quot;</span><span class="p">]))</span>
+<span class="n">rm_features_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># remove stop words to reduce dimensionality</span>
-<span class="n">rm_stops_df</span> <span class="o">=</span> <span class="n">en_df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;stop_text&quot;</span><span class="p">,</span> <span class="n">remove_stops_udf</span><span class="p">(</span><span class="n">en_df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]))</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+--------------------+------------------+-----+--------------------+--------------------+
+<span class="p">|</span>                text<span class="p">|</span>                id<span class="p">|</span>label<span class="p">|</span>           stop_text<span class="p">|</span>           feat_text<span class="p">|</span>
++--------------------+------------------+-----+--------------------+--------------------+
+<span class="p">|</span>RT @goeentertain:...<span class="p">|</span><span class="m">665305154954989568</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>RT @goeentertain:...<span class="p">|</span>  future blase   ...<span class="p">|</span>
+<span class="p">|</span>Teforia Uses Mach...<span class="p">|</span><span class="m">660668007975268352</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>Teforia Uses Mach...<span class="p">|</span>teforia uses mach...<span class="p">|</span>
+<span class="p">|</span>   Apple TV or Roku?<span class="p">|</span>       <span class="m">25842461136</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>      Apple TV Roku?<span class="p">|</span>         apple  roku<span class="p">|</span>
+<span class="p">|</span>Finished http://t...<span class="p">|</span>        <span class="m">9412369614</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>Finished http://t...<span class="p">|</span>            finished<span class="p">|</span>
++--------------------+------------------+-----+--------------------+--------------------+
+only showing top <span class="m">4</span> rows
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rm_stops_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<ol class="arabic simple" start="7">
+<li>tag the words</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">tagged_df</span> <span class="o">=</span> <span class="n">rm_features_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">raw_cols</span><span class="o">+</span><span class="p">[</span><span class="s2">&quot;feat_text&quot;</span><span class="p">])</span> \
+                          <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;tagged_text&quot;</span><span class="p">,</span> \
+                           <span class="n">tag_and_remove_udf</span><span class="p">(</span><span class="n">rm_features_df</span><span class="o">.</span><span class="n">feat_text</span><span class="p">))</span>
+
+<span class="n">tagged_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">root</span>
- <span class="o">|--</span> <span class="n">text</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
- <span class="o">|--</span> <span class="nb">id</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
- <span class="o">|--</span> <span class="n">label</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
- <span class="o">|--</span> <span class="n">lang</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
- <span class="o">|--</span> <span class="n">stop_text</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+--------------------+------------------+-----+--------------------+--------------------+
+<span class="p">|</span>                text<span class="p">|</span>                id<span class="p">|</span>label<span class="p">|</span>           feat_text<span class="p">|</span>         tagged_text<span class="p">|</span>
++--------------------+------------------+-----+--------------------+--------------------+
+<span class="p">|</span>RT @goeentertain:...<span class="p">|</span><span class="m">665305154954989568</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>  future blase   ...<span class="p">|</span> future blase vic...<span class="p">|</span>
+<span class="p">|</span>Teforia Uses Mach...<span class="p">|</span><span class="m">660668007975268352</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>teforia uses mach...<span class="p">|</span> teforia uses mac...<span class="p">|</span>
+<span class="p">|</span>   Apple TV or Roku?<span class="p">|</span>       <span class="m">25842461136</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>         apple  roku<span class="p">|</span>         apple roku <span class="p">|</span>
+<span class="p">|</span>Finished http://t...<span class="p">|</span>        <span class="m">9412369614</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>            finished<span class="p">|</span>           finished <span class="p">|</span>
++--------------------+------------------+-----+--------------------+--------------------+
+only showing top <span class="m">4</span> rows
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rm_stops_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<ol class="arabic simple" start="8">
+<li>lemmatization of words</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lemm_df</span> <span class="o">=</span> <span class="n">tagged_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">raw_cols</span><span class="o">+</span><span class="p">[</span><span class="s2">&quot;tagged_text&quot;</span><span class="p">])</span> \
+                   <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;lemm_text&quot;</span><span class="p">,</span> <span class="n">lemmatize_udf</span><span class="p">(</span><span class="n">tagged_df</span><span class="p">[</span><span class="s2">&quot;tagged_text&quot;</span><span class="p">]))</span>
+<span class="n">lemm_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+--------------------+------------------+-----+--------------------+--------------------+
+<span class="p">|</span>                text<span class="p">|</span>                id<span class="p">|</span>label<span class="p">|</span>         tagged_text<span class="p">|</span>           lemm_text<span class="p">|</span>
++--------------------+------------------+-----+--------------------+--------------------+
+<span class="p">|</span>RT @goeentertain:...<span class="p">|</span><span class="m">665305154954989568</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span> future blase vic...<span class="p">|</span>future blase vice...<span class="p">|</span>
+<span class="p">|</span>Teforia Uses Mach...<span class="p">|</span><span class="m">660668007975268352</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span> teforia uses mac...<span class="p">|</span>teforia use machi...<span class="p">|</span>
+<span class="p">|</span>   Apple TV or Roku?<span class="p">|</span>       <span class="m">25842461136</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>         apple roku <span class="p">|</span>          apple roku<span class="p">|</span>
+<span class="p">|</span>Finished http://t...<span class="p">|</span>        <span class="m">9412369614</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>           finished <span class="p">|</span>              finish<span class="p">|</span>
++--------------------+------------------+-----+--------------------+--------------------+
+only showing top <span class="m">4</span> rows
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li>remove blank rows and drop duplicates</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    <span class="n">check_blanks_df</span> <span class="o">=</span> <span class="n">lemm_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">raw_cols</span><span class="o">+</span><span class="p">[</span><span class="s2">&quot;lemm_text&quot;</span><span class="p">])</span>\
+                             <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;is_blank&quot;</span><span class="p">,</span> <span class="n">check_blanks_udf</span><span class="p">(</span><span class="n">lemm_df</span><span class="p">[</span><span class="s2">&quot;lemm_text&quot;</span><span class="p">]))</span>
+    <span class="c1"># remove blanks</span>
+    <span class="n">no_blanks_df</span> <span class="o">=</span> <span class="n">check_blanks_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">check_blanks_df</span><span class="p">[</span><span class="s2">&quot;is_blank&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;False&quot;</span><span class="p">)</span>
+
+<span class="c1"># drop duplicates</span>
+<span class="n">dedup_df</span> <span class="o">=</span> <span class="n">no_blanks_df</span><span class="o">.</span><span class="n">dropDuplicates</span><span class="p">([</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">])</span>
+
+    <span class="n">dedup_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>+--------------------+------------------+-----+--------------------+--------+
+<span class="p">|</span>                text<span class="p">|</span>                id<span class="p">|</span>label<span class="p">|</span>           lemm_text<span class="p">|</span>is_blank<span class="p">|</span>
++--------------------+------------------+-----+--------------------+--------+
+<span class="p">|</span>RT @goeentertain:...<span class="p">|</span><span class="m">665305154954989568</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>future blase vice...<span class="p">|</span>   False<span class="p">|</span>
+<span class="p">|</span>Teforia Uses Mach...<span class="p">|</span><span class="m">660668007975268352</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>teforia use machi...<span class="p">|</span>   False<span class="p">|</span>
+<span class="p">|</span>   Apple TV or Roku?<span class="p">|</span>       <span class="m">25842461136</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>          apple roku<span class="p">|</span>   False<span class="p">|</span>
+<span class="p">|</span>Finished http://t...<span class="p">|</span>        <span class="m">9412369614</span><span class="p">|</span>  <span class="m">1</span>.0<span class="p">|</span>              finish<span class="p">|</span>   False<span class="p">|</span>
++--------------------+------------------+-----+--------------------+--------+
+only showing top <span class="m">4</span> rows
+</pre></div>
+</div>
+<ol class="arabic simple" start="10">
+<li>add unieuq ID</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">monotonically_increasing_id</span>
+<span class="c1"># Create Unique ID</span>
+<span class="n">dedup_df</span> <span class="o">=</span> <span class="n">dedup_df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">,</span> <span class="n">monotonically_increasing_id</span><span class="p">())</span>
+<span class="n">dedup_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+------------------+-----+--------------------+--------+------------+</span>
+<span class="o">|</span>                <span class="n">text</span><span class="o">|</span>                <span class="nb">id</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>           <span class="n">lemm_text</span><span class="o">|</span><span class="n">is_blank</span><span class="o">|</span>         <span class="n">uid</span><span class="o">|</span>
+<span class="o">+--------------------+------------------+-----+--------------------+--------+------------+</span>
+<span class="o">|</span>              <span class="n">dragon</span><span class="o">|</span>        <span class="mi">1546813742</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>              <span class="n">dragon</span><span class="o">|</span>   <span class="bp">False</span><span class="o">|</span> <span class="mi">85899345920</span><span class="o">|</span>
+<span class="o">|</span>           <span class="n">hurt</span> <span class="n">much</span><span class="o">|</span>        <span class="mi">1558492525</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>           <span class="n">hurt</span> <span class="n">much</span><span class="o">|</span>   <span class="bp">False</span><span class="o">|</span><span class="mi">111669149696</span><span class="o">|</span>
+<span class="o">|</span><span class="n">seth</span> <span class="n">blog</span> <span class="n">word</span> <span class="n">se</span><span class="o">...|</span><span class="mi">383221484023709697</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span><span class="n">seth</span> <span class="n">blog</span> <span class="n">word</span> <span class="n">se</span><span class="o">...|</span>   <span class="bp">False</span><span class="o">|</span><span class="mi">128849018880</span><span class="o">|</span>
+<span class="o">|</span><span class="n">teforia</span> <span class="n">use</span> <span class="n">machi</span><span class="o">...|</span><span class="mi">660668007975268352</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span><span class="n">teforia</span> <span class="n">use</span> <span class="n">machi</span><span class="o">...|</span>   <span class="bp">False</span><span class="o">|</span><span class="mi">137438953472</span><span class="o">|</span>
+<span class="o">+--------------------+------------------+-----+--------------------+--------+------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="11">
+<li>create final dataset</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">dedup_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;uid&#39;</span><span class="p">,</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+------------+------------------+--------------------+-----+</span>
+<span class="o">|</span>         <span class="n">uid</span><span class="o">|</span>                <span class="nb">id</span><span class="o">|</span>                <span class="n">text</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>
+<span class="o">+------------+------------------+--------------------+-----+</span>
+<span class="o">|</span> <span class="mi">85899345920</span><span class="o">|</span>        <span class="mi">1546813742</span><span class="o">|</span>              <span class="n">dragon</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span><span class="mi">111669149696</span><span class="o">|</span>        <span class="mi">1558492525</span><span class="o">|</span>           <span class="n">hurt</span> <span class="n">much</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span><span class="mi">128849018880</span><span class="o">|</span><span class="mi">383221484023709697</span><span class="o">|</span><span class="n">seth</span> <span class="n">blog</span> <span class="n">word</span> <span class="n">se</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span><span class="mi">137438953472</span><span class="o">|</span><span class="mi">660668007975268352</span><span class="o">|</span><span class="n">teforia</span> <span class="n">use</span> <span class="n">machi</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">+------------+------------------+--------------------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="12">
+<li>Create taining and test sets</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Split the data into training and test sets (40% held out for testing)</span>
+<span class="p">(</span><span class="n">trainingData</span><span class="p">,</span> <span class="n">testData</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="13">
+<li>NaiveBayes Pipeline</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">HashingTF</span><span class="p">,</span> <span class="n">IDF</span><span class="p">,</span> <span class="n">Tokenizer</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.classification</span> <span class="kn">import</span> <span class="n">NaiveBayes</span><span class="p">,</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.classification</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">MulticlassClassificationEvaluator</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.tuning</span> <span class="kn">import</span> <span class="n">ParamGridBuilder</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.tuning</span> <span class="kn">import</span> <span class="n">CrossValidator</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">IndexToString</span><span class="p">,</span> <span class="n">StringIndexer</span><span class="p">,</span> <span class="n">VectorIndexer</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
+
+<span class="c1"># Configure an ML pipeline, which consists of tree stages: tokenizer, hashingTF, and nb.</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;words&quot;</span><span class="p">)</span>
+<span class="n">hashingTF</span> <span class="o">=</span> <span class="n">HashingTF</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">(),</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;rawFeatures&quot;</span><span class="p">)</span>
+<span class="c1"># vectorizer = CountVectorizer(inputCol= &quot;words&quot;, outputCol=&quot;rawFeatures&quot;)</span>
+<span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">minDocFreq</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;rawFeatures&quot;</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">)</span>
+
+<span class="c1"># Naive Bayes model</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="n">NaiveBayes</span><span class="p">()</span>
+
+<span class="c1"># Pipeline Architecture</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">hashingTF</span><span class="p">,</span> <span class="n">idf</span><span class="p">,</span> <span class="n">nb</span><span class="p">])</span>
+
+<span class="c1"># Train model.  This also runs the indexers.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="14">
+<li>Make predictions</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testData</span><span class="p">)</span>
+
+<span class="c1"># Select example rows to display.</span>
+<span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;prediction&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+-----+----------+</span>
 <span class="o">|</span>                <span class="n">text</span><span class="o">|</span><span class="n">label</span><span class="o">|</span><span class="n">prediction</span><span class="o">|</span>
 <span class="o">+--------------------+-----+----------+</span>
-<span class="o">|</span>           <span class="n">hurt</span> <span class="n">much</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
-<span class="o">|</span><span class="n">teforia</span> <span class="n">use</span> <span class="n">machi</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span>              <span class="n">dragon</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
 <span class="o">|</span>              <span class="n">finish</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
-<span class="o">|</span><span class="n">future</span> <span class="n">blase</span> <span class="n">vice</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
-<span class="o">|</span>              <span class="n">divine</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span><span class="n">meet</span> <span class="n">bucky</span> <span class="n">dogsof</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span><span class="n">meet</span> <span class="n">vixie</span> <span class="n">dogsof</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
+<span class="o">|</span>          <span class="n">daily</span> <span class="n">news</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
 <span class="o">+--------------------+-----+----------+</span>
 <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
 </pre></div>
 </div>
+<ol class="arabic simple" start="15">
+<li>evaluation</li>
+</ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">MulticlassClassificationEvaluator</span>
 <span class="n">evaluator</span> <span class="o">=</span> <span class="n">MulticlassClassificationEvaluator</span><span class="p">(</span><span class="n">predictionCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span>
 <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
