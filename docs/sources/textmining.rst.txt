@@ -560,6 +560,10 @@ Text Classification
 Theoretically speaking, you may apply any classification algorithms to do classification. I will only 
 present Naive Bayes method is the following. 
 
+.. figure:: images/text_classification.png
+   :align: center
+   
+
 Introduction
 ------------
 

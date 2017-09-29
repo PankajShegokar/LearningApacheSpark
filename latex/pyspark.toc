@@ -84,8 +84,8 @@
 \contentsline {section}{\numberline {10.3}Text Classification}{78}{section.10.3}
 \contentsline {subsection}{\numberline {10.3.1}Introduction}{79}{subsection.10.3.1}
 \contentsline {subsection}{\numberline {10.3.2}Demo}{79}{subsection.10.3.2}
-\contentsline {section}{\numberline {10.4}Sentiment analysis}{83}{section.10.4}
-\contentsline {subsection}{\numberline {10.4.1}Introduction}{83}{subsection.10.4.1}
+\contentsline {section}{\numberline {10.4}Sentiment analysis}{84}{section.10.4}
+\contentsline {subsection}{\numberline {10.4.1}Introduction}{84}{subsection.10.4.1}
 \contentsline {subsection}{\numberline {10.4.2}Pipeline}{84}{subsection.10.4.2}
 \contentsline {subsection}{\numberline {10.4.3}Demo}{84}{subsection.10.4.3}
 \contentsline {section}{\numberline {10.5}N-grams and Correlations}{90}{section.10.5}
