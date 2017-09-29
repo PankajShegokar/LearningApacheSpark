@@ -2638,7 +2638,8 @@ Convert the data to dense vector
 \end{enumerate}
 
 \begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.linalg} \PYG{k+kn}{import} \PYG{n}{Vectors} \PYG{c}{\PYGZsh{} !!!!caution: not from pyspark.mllib.linalg import Vectors}
+\PYG{c}{\PYGZsh{} !!!!caution: not from pyspark.mllib.linalg import Vectors}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.linalg} \PYG{k+kn}{import} \PYG{n}{Vectors}
 \PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml} \PYG{k+kn}{import} \PYG{n}{Pipeline}
 \PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.feature} \PYG{k+kn}{import} \PYG{n}{IndexToString}\PYG{p}{,}\PYG{n}{StringIndexer}\PYG{p}{,} \PYG{n}{VectorIndexer}
 \PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.tuning} \PYG{k+kn}{import} \PYG{n}{CrossValidator}\PYG{p}{,} \PYG{n}{ParamGridBuilder}

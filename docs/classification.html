@@ -308,7 +308,8 @@
 <ol class="arabic simple" start="3">
 <li>Convert the data to dense vector</li>
 </ol>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span> <span class="c1"># !!!!caution: not from pyspark.mllib.linalg import Vectors</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># !!!!caution: not from pyspark.mllib.linalg import Vectors</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">IndexToString</span><span class="p">,</span><span class="n">StringIndexer</span><span class="p">,</span> <span class="n">VectorIndexer</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.tuning</span> <span class="kn">import</span> <span class="n">CrossValidator</span><span class="p">,</span> <span class="n">ParamGridBuilder</span>

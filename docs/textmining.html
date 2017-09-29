@@ -992,18 +992,18 @@ only showing top <span class="m">4</span> rows
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testData</span><span class="p">)</span>
 
 <span class="c1"># Select example rows to display.</span>
-<span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;prediction&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;prediction&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+-----+----------+</span>
-<span class="o">|</span>                <span class="n">text</span><span class="o">|</span><span class="n">label</span><span class="o">|</span><span class="n">prediction</span><span class="o">|</span>
-<span class="o">+--------------------+-----+----------+</span>
-<span class="o">|</span>              <span class="n">dragon</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
-<span class="o">|</span>              <span class="n">finish</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
-<span class="o">|</span><span class="n">meet</span> <span class="n">bucky</span> <span class="n">dogsof</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
-<span class="o">|</span><span class="n">meet</span> <span class="n">vixie</span> <span class="n">dogsof</span><span class="o">...|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
-<span class="o">|</span>          <span class="n">daily</span> <span class="n">news</span><span class="o">|</span>  <span class="mf">1.0</span><span class="o">|</span>       <span class="mf">1.0</span><span class="o">|</span>
-<span class="o">+--------------------+-----+----------+</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----------------------------------------------+-----+----------+</span>
+<span class="o">|</span><span class="n">text</span>                                           <span class="o">|</span><span class="n">label</span><span class="o">|</span><span class="n">prediction</span><span class="o">|</span>
+<span class="o">+-----------------------------------------------+-----+----------+</span>
+<span class="o">|</span><span class="n">finish</span>                                         <span class="o">|</span><span class="mf">1.0</span>  <span class="o">|</span><span class="mf">1.0</span>       <span class="o">|</span>
+<span class="o">|</span><span class="n">meet</span> <span class="n">rolo</span> <span class="n">dogsofthinkgeek</span> <span class="n">happy</span> <span class="n">nationaldogday</span> <span class="o">|</span><span class="mf">1.0</span>  <span class="o">|</span><span class="mf">1.0</span>       <span class="o">|</span>
+<span class="o">|</span><span class="n">pumpkin</span> <span class="n">family</span>                                 <span class="o">|</span><span class="mf">1.0</span>  <span class="o">|</span><span class="mf">1.0</span>       <span class="o">|</span>
+<span class="o">|</span><span class="n">meet</span> <span class="n">jet</span> <span class="n">dogsofthinkgeek</span> <span class="n">happy</span> <span class="n">nationaldogday</span>  <span class="o">|</span><span class="mf">1.0</span>  <span class="o">|</span><span class="mf">1.0</span>       <span class="o">|</span>
+<span class="o">|</span><span class="n">meet</span> <span class="n">vixie</span> <span class="n">dogsofthinkgeek</span> <span class="n">happy</span> <span class="n">nationaldogday</span><span class="o">|</span><span class="mf">1.0</span>  <span class="o">|</span><span class="mf">1.0</span>       <span class="o">|</span>
+<span class="o">+-----------------------------------------------+-----+----------+</span>
 <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
 </pre></div>
 </div>

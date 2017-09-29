@@ -127,7 +127,8 @@ Demo
 
 .. code-block:: python
 
-	from pyspark.ml.linalg import Vectors # !!!!caution: not from pyspark.mllib.linalg import Vectors
+ 	# !!!!caution: not from pyspark.mllib.linalg import Vectors
+	from pyspark.ml.linalg import Vectors
 	from pyspark.ml import Pipeline
 	from pyspark.ml.feature import IndexToString,StringIndexer, VectorIndexer
 	from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
@@ -424,7 +425,7 @@ Demo
 
 .. figure:: images/dt_cm_c3.png
    :align: center
-	 
+
 
 Random forest Classification
 ++++++++++++++++++++++++++++
