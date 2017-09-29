@@ -8,7 +8,7 @@
 Welcome to our **Learning Apache Spark with Python** note! 
 In these note, you will learn a wide array of concepts about
 **PySpark** in Data Mining, Text Mining, Machine Leanring
-and Deep Learning.
+and Deep Learning. The PDF version can be downloaded from `HERE <pyspark.pdf>`_.
 
 ========
 Contents
