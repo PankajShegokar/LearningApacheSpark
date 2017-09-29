@@ -850,19 +850,19 @@ Demo
 	predictions = model.transform(testData)
 
 	# Select example rows to display.
-	predictions.select("text", "label", "prediction").show(5)
+	predictions.select("text", "label", "prediction").show(5,False)
 
 .. code-block:: python
 
-	+--------------------+-----+----------+
-	|                text|label|prediction|
-	+--------------------+-----+----------+
-	|              dragon|  1.0|       1.0|
-	|              finish|  1.0|       1.0|
-	|meet bucky dogsof...|  1.0|       1.0|
-	|meet vixie dogsof...|  1.0|       1.0|
-	|          daily news|  1.0|       1.0|
-	+--------------------+-----+----------+
+	+-----------------------------------------------+-----+----------+
+	|text                                           |label|prediction|
+	+-----------------------------------------------+-----+----------+
+	|finish                                         |1.0  |1.0       |
+	|meet rolo dogsofthinkgeek happy nationaldogday |1.0  |1.0       |
+	|pumpkin family                                 |1.0  |1.0       |
+	|meet jet dogsofthinkgeek happy nationaldogday  |1.0  |1.0       |
+	|meet vixie dogsofthinkgeek happy nationaldogday|1.0  |1.0       |
+	+-----------------------------------------------+-----+----------+
 	only showing top 5 rows
 
 15. evaluation
