@@ -594,6 +594,368 @@
 <li>The Jupyter notebook can be download from <a class="reference external" href="static/RandomForestC3.ipynb">Random forest Classification</a>.</li>
 <li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.RandomForestClassifier.html">RandomForestClassifier API</a> .</li>
 </ul>
+<ol class="arabic simple">
+<li>Set up spark context and SparkSession</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+        <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+            <span class="o">.</span><span class="n">builder</span> \
+            <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark Decision Tree classification&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Load dataset</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;com.databricks.spark.csv&#39;</span><span class="p">)</span><span class="o">.</span>\
+                               <span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> \
+                               <span class="n">inferschema</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../data/WineData2.csv&quot;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">);</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----+--------+------+-----+---------+----+-----+-------+----+---------+-------+-------+</span>
+<span class="o">|</span><span class="n">fixed</span><span class="o">|</span><span class="n">volatile</span><span class="o">|</span><span class="n">citric</span><span class="o">|</span><span class="n">sugar</span><span class="o">|</span><span class="n">chlorides</span><span class="o">|</span><span class="n">free</span><span class="o">|</span><span class="n">total</span><span class="o">|</span><span class="n">density</span><span class="o">|</span>  <span class="n">pH</span><span class="o">|</span><span class="n">sulphates</span><span class="o">|</span><span class="n">alcohol</span><span class="o">|</span><span class="n">quality</span><span class="o">|</span>
+<span class="o">+-----+--------+------+-----+---------+----+-----+-------+----+---------+-------+-------+</span>
+<span class="o">|</span>  <span class="mf">7.4</span><span class="o">|</span>     <span class="mf">0.7</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span>  <span class="mf">1.9</span><span class="o">|</span>    <span class="mf">0.076</span><span class="o">|</span><span class="mf">11.0</span><span class="o">|</span> <span class="mf">34.0</span><span class="o">|</span> <span class="mf">0.9978</span><span class="o">|</span><span class="mf">3.51</span><span class="o">|</span>     <span class="mf">0.56</span><span class="o">|</span>    <span class="mf">9.4</span><span class="o">|</span>      <span class="mi">5</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mf">7.8</span><span class="o">|</span>    <span class="mf">0.88</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span>  <span class="mf">2.6</span><span class="o">|</span>    <span class="mf">0.098</span><span class="o">|</span><span class="mf">25.0</span><span class="o">|</span> <span class="mf">67.0</span><span class="o">|</span> <span class="mf">0.9968</span><span class="o">|</span> <span class="mf">3.2</span><span class="o">|</span>     <span class="mf">0.68</span><span class="o">|</span>    <span class="mf">9.8</span><span class="o">|</span>      <span class="mi">5</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mf">7.8</span><span class="o">|</span>    <span class="mf">0.76</span><span class="o">|</span>  <span class="mf">0.04</span><span class="o">|</span>  <span class="mf">2.3</span><span class="o">|</span>    <span class="mf">0.092</span><span class="o">|</span><span class="mf">15.0</span><span class="o">|</span> <span class="mf">54.0</span><span class="o">|</span>  <span class="mf">0.997</span><span class="o">|</span><span class="mf">3.26</span><span class="o">|</span>     <span class="mf">0.65</span><span class="o">|</span>    <span class="mf">9.8</span><span class="o">|</span>      <span class="mi">5</span><span class="o">|</span>
+<span class="o">|</span> <span class="mf">11.2</span><span class="o">|</span>    <span class="mf">0.28</span><span class="o">|</span>  <span class="mf">0.56</span><span class="o">|</span>  <span class="mf">1.9</span><span class="o">|</span>    <span class="mf">0.075</span><span class="o">|</span><span class="mf">17.0</span><span class="o">|</span> <span class="mf">60.0</span><span class="o">|</span>  <span class="mf">0.998</span><span class="o">|</span><span class="mf">3.16</span><span class="o">|</span>     <span class="mf">0.58</span><span class="o">|</span>    <span class="mf">9.8</span><span class="o">|</span>      <span class="mi">6</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mf">7.4</span><span class="o">|</span>     <span class="mf">0.7</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span>  <span class="mf">1.9</span><span class="o">|</span>    <span class="mf">0.076</span><span class="o">|</span><span class="mf">11.0</span><span class="o">|</span> <span class="mf">34.0</span><span class="o">|</span> <span class="mf">0.9978</span><span class="o">|</span><span class="mf">3.51</span><span class="o">|</span>     <span class="mf">0.56</span><span class="o">|</span>    <span class="mf">9.4</span><span class="o">|</span>      <span class="mi">5</span><span class="o">|</span>
+<span class="o">+-----+--------+------+-----+---------+----+-----+-------+----+---------+-------+-------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Convert to float format</span>
+<span class="k">def</span> <span class="nf">string_to_float</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="k">def</span> <span class="nf">condition</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;low&quot;</span>
+    <span class="k">elif</span><span class="p">(</span><span class="mi">4</span><span class="o">&lt;</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">):</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;high&quot;</span>
+    <span class="k">return</span> <span class="n">label</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">DoubleType</span>
+<span class="n">string_to_float_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="n">string_to_float</span><span class="p">,</span> <span class="n">DoubleType</span><span class="p">())</span>
+<span class="n">quality_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">condition</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">StringType</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="n">quality_udf</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">))</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----+--------+------+-----+---------+----+-----+-------+----+---------+-------+-------+</span>
+<span class="o">|</span><span class="n">fixed</span><span class="o">|</span><span class="n">volatile</span><span class="o">|</span><span class="n">citric</span><span class="o">|</span><span class="n">sugar</span><span class="o">|</span><span class="n">chlorides</span><span class="o">|</span><span class="n">free</span><span class="o">|</span><span class="n">total</span><span class="o">|</span><span class="n">density</span><span class="o">|</span>  <span class="n">pH</span><span class="o">|</span><span class="n">sulphates</span><span class="o">|</span><span class="n">alcohol</span><span class="o">|</span><span class="n">quality</span><span class="o">|</span>
+<span class="o">+-----+--------+------+-----+---------+----+-----+-------+----+---------+-------+-------+</span>
+<span class="o">|</span>  <span class="mf">7.4</span><span class="o">|</span>     <span class="mf">0.7</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span>  <span class="mf">1.9</span><span class="o">|</span>    <span class="mf">0.076</span><span class="o">|</span><span class="mf">11.0</span><span class="o">|</span> <span class="mf">34.0</span><span class="o">|</span> <span class="mf">0.9978</span><span class="o">|</span><span class="mf">3.51</span><span class="o">|</span>     <span class="mf">0.56</span><span class="o">|</span>    <span class="mf">9.4</span><span class="o">|</span> <span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mf">7.8</span><span class="o">|</span>    <span class="mf">0.88</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span>  <span class="mf">2.6</span><span class="o">|</span>    <span class="mf">0.098</span><span class="o">|</span><span class="mf">25.0</span><span class="o">|</span> <span class="mf">67.0</span><span class="o">|</span> <span class="mf">0.9968</span><span class="o">|</span> <span class="mf">3.2</span><span class="o">|</span>     <span class="mf">0.68</span><span class="o">|</span>    <span class="mf">9.8</span><span class="o">|</span> <span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mf">7.8</span><span class="o">|</span>    <span class="mf">0.76</span><span class="o">|</span>  <span class="mf">0.04</span><span class="o">|</span>  <span class="mf">2.3</span><span class="o">|</span>    <span class="mf">0.092</span><span class="o">|</span><span class="mf">15.0</span><span class="o">|</span> <span class="mf">54.0</span><span class="o">|</span>  <span class="mf">0.997</span><span class="o">|</span><span class="mf">3.26</span><span class="o">|</span>     <span class="mf">0.65</span><span class="o">|</span>    <span class="mf">9.8</span><span class="o">|</span> <span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span> <span class="mf">11.2</span><span class="o">|</span>    <span class="mf">0.28</span><span class="o">|</span>  <span class="mf">0.56</span><span class="o">|</span>  <span class="mf">1.9</span><span class="o">|</span>    <span class="mf">0.075</span><span class="o">|</span><span class="mf">17.0</span><span class="o">|</span> <span class="mf">60.0</span><span class="o">|</span>  <span class="mf">0.998</span><span class="o">|</span><span class="mf">3.16</span><span class="o">|</span>     <span class="mf">0.58</span><span class="o">|</span>    <span class="mf">9.8</span><span class="o">|</span> <span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mf">7.4</span><span class="o">|</span>     <span class="mf">0.7</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span>  <span class="mf">1.9</span><span class="o">|</span>    <span class="mf">0.076</span><span class="o">|</span><span class="mf">11.0</span><span class="o">|</span> <span class="mf">34.0</span><span class="o">|</span> <span class="mf">0.9978</span><span class="o">|</span><span class="mf">3.51</span><span class="o">|</span>     <span class="mf">0.56</span><span class="o">|</span>    <span class="mf">9.4</span><span class="o">|</span> <span class="n">medium</span><span class="o">|</span>
+<span class="o">+-----+--------+------+-----+---------+----+-----+-------+----+---------+-------+-------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">root</span>
+ <span class="o">|--</span> <span class="n">fixed</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">volatile</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">citric</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">sugar</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">chlorides</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">free</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">total</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">density</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">pH</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">sulphates</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">alcohol</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">quality</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Convert the data to dense vector</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># !!!!caution: not from pyspark.mllib.linalg import Vectors</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">IndexToString</span><span class="p">,</span><span class="n">StringIndexer</span><span class="p">,</span> <span class="n">VectorIndexer</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.tuning</span> <span class="kn">import</span> <span class="n">CrossValidator</span><span class="p">,</span> <span class="n">ParamGridBuilder</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">MulticlassClassificationEvaluator</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">transData</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">[</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">([</span><span class="s1">&#39;features&#39;</span><span class="p">,</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Transform the dataset to DataFrame</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">transformed</span> <span class="o">=</span> <span class="n">transData</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">transformed</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+------+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span> <span class="n">label</span><span class="o">|</span>
+<span class="o">+--------------------+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.4</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">2.6</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">0.76</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">2.</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">11.2</span><span class="p">,</span><span class="mf">0.28</span><span class="p">,</span><span class="mf">0.56</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.4</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">+--------------------+------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>Deal with Categorical Label and Variables</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Index labels, adding metadata to the label column</span>
+<span class="n">labelIndexer</span> <span class="o">=</span> <span class="n">StringIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span>
+                             <span class="n">outputCol</span><span class="o">=</span><span class="s1">&#39;indexedLabel&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span>
+<span class="n">labelIndexer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+------+------------+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span> <span class="n">label</span><span class="o">|</span><span class="n">indexedLabel</span><span class="o">|</span>
+<span class="o">+--------------------+------+------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.4</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">2.6</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">0.76</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">2.</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">11.2</span><span class="p">,</span><span class="mf">0.28</span><span class="p">,</span><span class="mf">0.56</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span><span class="n">medium</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.4</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">+--------------------+------+------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    <span class="c1"># Automatically identify categorical features, and index them.</span>
+    <span class="c1"># Set maxCategories so features with &gt; 4 distinct values are treated as continuous.</span>
+    <span class="n">featureIndexer</span> <span class="o">=</span><span class="n">VectorIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">,</span> \
+                                  <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;indexedFeatures&quot;</span><span class="p">,</span> \
+                                  <span class="n">maxCategories</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span>
+<span class="n">featureIndexer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transformed</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+------+--------------------+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span> <span class="n">label</span><span class="o">|</span>     <span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+--------------------+------+--------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.4</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span><span class="p">[</span><span class="mf">7.4</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="o">...|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">2.6</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">2.6</span><span class="o">...|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">0.76</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">2.</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span><span class="p">[</span><span class="mf">7.8</span><span class="p">,</span><span class="mf">0.76</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">2.</span><span class="o">...|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">11.2</span><span class="p">,</span><span class="mf">0.28</span><span class="p">,</span><span class="mf">0.56</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span><span class="n">medium</span><span class="o">|</span><span class="p">[</span><span class="mf">11.2</span><span class="p">,</span><span class="mf">0.28</span><span class="p">,</span><span class="mf">0.56</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">7.4</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span><span class="p">[</span><span class="mf">7.4</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="o">...|</span>
+<span class="o">+--------------------+------+--------------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li>Split the data to training and test data sets</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Split the data into training and test sets (40% held out for testing)</span>
+<span class="p">(</span><span class="n">trainingData</span><span class="p">,</span> <span class="n">testData</span><span class="p">)</span> <span class="o">=</span> <span class="n">transformed</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+
+<span class="n">trainingData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">testData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+------+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span> <span class="n">label</span><span class="o">|</span>
+<span class="o">+--------------------+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">4.6</span><span class="p">,</span><span class="mf">0.52</span><span class="p">,</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">2.</span><span class="o">...|</span>   <span class="n">low</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">4.7</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.17</span><span class="p">,</span><span class="mf">2.3</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">1.02</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">1.</span><span class="o">...|</span>   <span class="n">low</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">1.04</span><span class="p">,</span><span class="mf">0.24</span><span class="p">,</span><span class="mf">1.</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.1</span><span class="p">,</span><span class="mf">0.585</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.</span><span class="o">...|</span>  <span class="n">high</span><span class="o">|</span>
+<span class="o">+--------------------+------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+
+<span class="o">+--------------------+------+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span> <span class="n">label</span><span class="o">|</span>
+<span class="o">+--------------------+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">4.9</span><span class="p">,</span><span class="mf">0.42</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">2.1</span><span class="o">...|</span>  <span class="n">high</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.38</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">1.</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">4.3</span><span class="p">,</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.42</span><span class="p">,</span><span class="mf">0.24</span><span class="p">,</span><span class="mf">2.</span><span class="o">...|</span>  <span class="n">high</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.74</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.2</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>
+<span class="o">+--------------------+------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="7">
+<li>Fit Random Forest Classification Model</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.classification</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="c1"># Train a RandomForest model.</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;indexedLabel&quot;</span><span class="p">,</span> <span class="n">featuresCol</span><span class="o">=</span><span class="s2">&quot;indexedFeatures&quot;</span><span class="p">,</span> <span class="n">numTrees</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li>Pipeline Architecture</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Convert indexed labels back to original labels.</span>
+<span class="n">labelConverter</span> <span class="o">=</span> <span class="n">IndexToString</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">,</span>
+                               <span class="n">labels</span><span class="o">=</span><span class="n">labelIndexer</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Chain indexers and tree in a Pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">labelIndexer</span><span class="p">,</span> <span class="n">featureIndexer</span><span class="p">,</span> <span class="n">dTree</span><span class="p">,</span><span class="n">labelConverter</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Train model.  This also runs the indexers.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li>Make predictions</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Make predictions.</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testData</span><span class="p">)</span>
+<span class="c1"># Select example rows to display.</span>
+<span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">,</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+------+--------------+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span> <span class="n">label</span><span class="o">|</span><span class="n">predictedLabel</span><span class="o">|</span>
+<span class="o">+--------------------+------+--------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">4.9</span><span class="p">,</span><span class="mf">0.42</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">2.1</span><span class="o">...|</span>  <span class="n">high</span><span class="o">|</span>          <span class="n">high</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.38</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">1.</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>        <span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">4.3</span><span class="p">,</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>        <span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.42</span><span class="p">,</span><span class="mf">0.24</span><span class="p">,</span><span class="mf">2.</span><span class="o">...|</span>  <span class="n">high</span><span class="o">|</span>        <span class="n">medium</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.74</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.2</span><span class="o">...|</span><span class="n">medium</span><span class="o">|</span>        <span class="n">medium</span><span class="o">|</span>
+<span class="o">+--------------------+------+--------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="10">
+<li>Evaluation</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">MulticlassClassificationEvaluator</span>
+
+<span class="c1"># Select (prediction, true label) and compute test error</span>
+<span class="n">evaluator</span> <span class="o">=</span> <span class="n">MulticlassClassificationEvaluator</span><span class="p">(</span>
+    <span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;indexedLabel&quot;</span><span class="p">,</span> <span class="n">predictionCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span> <span class="n">metricName</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Test Error = </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">))</span>
+
+<span class="n">rfModel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rfModel</span><span class="p">)</span>  <span class="c1"># summary only</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">Error</span> <span class="o">=</span> <span class="mf">0.173502</span>
+<span class="n">RandomForestClassificationModel</span> <span class="p">(</span><span class="n">uid</span><span class="o">=</span><span class="n">rfc_a3395531f1d2</span><span class="p">)</span> <span class="k">with</span> <span class="mi">10</span> <span class="n">trees</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="11">
+<li>visualization</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="k">def</span> <span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span>
+                          <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Confusion matrix&#39;</span><span class="p">,</span>
+                          <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function prints and plots the confusion matrix.</span>
+<span class="sd">    Normalization can be applied by setting `normalize=True`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">cm</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">cm</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Normalized confusion matrix&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Confusion matrix, without normalization&#39;</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+    <span class="n">tick_marks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">classes</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">,</span> <span class="n">classes</span><span class="p">)</span>
+
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;.2f&#39;</span> <span class="k">if</span> <span class="n">normalize</span> <span class="k">else</span> <span class="s1">&#39;d&#39;</span>
+    <span class="n">thresh</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mf">2.</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">range</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">format</span><span class="p">(</span><span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">fmt</span><span class="p">),</span>
+                 <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">thresh</span> <span class="k">else</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True label&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted label&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">class_temp</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>\
+                        <span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+<span class="n">class_temp</span> <span class="o">=</span> <span class="n">class_temp</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">class_names</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">class_temp</span><span class="p">)</span>
+<span class="c1"># # # print(class_name)</span>
+<span class="n">class_names</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">y_true</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+
+<span class="n">cnf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">class_names</span><span class="p">)</span>
+<span class="n">cnf_matrix</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mi">502</span><span class="p">,</span>   <span class="mi">9</span><span class="p">,</span>   <span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mi">73</span><span class="p">,</span>  <span class="mi">22</span><span class="p">,</span>   <span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mi">28</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Plot non-normalized confusion matrix</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">cnf_matrix</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">class_names</span><span class="p">,</span>
+                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Confusion matrix, without normalization&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Confusion</span> <span class="n">matrix</span><span class="p">,</span> <span class="n">without</span> <span class="n">normalization</span>
+<span class="p">[[</span><span class="mi">502</span>   <span class="mi">9</span>   <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mi">73</span>  <span class="mi">22</span>   <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mi">28</span>   <span class="mi">0</span>   <span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<img alt="images/rf_cm_c3.png" src="images/rf_cm_c3.png" />
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Plot normalized confusion matrix</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">cnf_matrix</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">class_names</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Normalized confusion matrix&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Normalized</span> <span class="n">confusion</span> <span class="n">matrix</span>
+<span class="p">[[</span> <span class="mf">0.98238748</span>  <span class="mf">0.01761252</span>  <span class="mf">0.</span>        <span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.76842105</span>  <span class="mf">0.23157895</span>  <span class="mf">0.</span>        <span class="p">]</span>
+ <span class="p">[</span> <span class="mf">1.</span>          <span class="mf">0.</span>          <span class="mf">0.</span>        <span class="p">]]</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<img alt="images/rf_cm_c3.png" src="images/rf_cm_c3.png" />
+</div>
 </div>
 </div>
 <div class="section" id="gradient-boosted-tree-classification">
