@@ -672,7 +672,7 @@ Demo
 .. code-block:: python
 
 	# Chain indexers and tree in a Pipeline
-	pipeline = Pipeline(stages=[labelIndexer, featureIndexer, dTree,labelConverter])
+	pipeline = Pipeline(stages=[labelIndexer, featureIndexer, rf,labelConverter])
 
 .. code-block:: python
 
