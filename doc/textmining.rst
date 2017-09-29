@@ -562,7 +562,7 @@ present Naive Bayes method is the following.
 
 .. figure:: images/text_classification.png
    :align: center
-   
+
 
 Introduction
 ------------
@@ -887,6 +887,9 @@ Demo
 Sentiment analysis
 ++++++++++++++++++
 
+.. figure:: images/sen_class.png
+   :align: center
+   
 Introduction
 ------------
 
