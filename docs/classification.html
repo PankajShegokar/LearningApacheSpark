@@ -465,6 +465,30 @@
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">Error</span> <span class="o">=</span> <span class="mf">0.0987688</span>
 </pre></div>
 </div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lrModel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">trainingSummary</span> <span class="o">=</span> <span class="n">lrModel</span><span class="o">.</span><span class="n">summary</span>
+
+<span class="c1"># Obtain the objective per iteration</span>
+<span class="c1"># objectiveHistory = trainingSummary.objectiveHistory</span>
+<span class="c1"># print(&quot;objectiveHistory:&quot;)</span>
+<span class="c1"># for objective in objectiveHistory:</span>
+<span class="c1">#     print(objective)</span>
+
+<span class="c1"># Obtain the receiver-operating characteristic as a dataframe and areaUnderROC.</span>
+<span class="n">trainingSummary</span><span class="o">.</span><span class="n">roc</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;areaUnderROC: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">trainingSummary</span><span class="o">.</span><span class="n">areaUnderROC</span><span class="p">))</span>
+
+<span class="c1"># Set the model threshold to maximize F-Measure</span>
+<span class="n">fMeasure</span> <span class="o">=</span> <span class="n">trainingSummary</span><span class="o">.</span><span class="n">fMeasureByThreshold</span>
+<span class="n">maxFMeasure</span> <span class="o">=</span> <span class="n">fMeasure</span><span class="o">.</span><span class="n">groupBy</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="s1">&#39;F-Measure&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;max(F-Measure)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1"># bestThreshold = fMeasure.where(fMeasure[&#39;F-Measure&#39;] == maxFMeasure[&#39;max(F-Measure)&#39;]) \</span>
+<span class="c1">#     .select(&#39;threshold&#39;).head()[&#39;threshold&#39;]</span>
+<span class="c1"># lr.setThreshold(bestThreshold)</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<img alt="images/roc.png" src="images/roc.png" />
+</div>
 <ol class="arabic simple" start="10">
 <li>visualization</li>
 </ol>
@@ -1372,7 +1396,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Oct 02, 2017.
+      Last updated on Oct 03, 2017.
 
     </p>
   </div>

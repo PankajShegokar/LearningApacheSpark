@@ -292,6 +292,32 @@ Demo
 
 	Test Error = 0.0987688
 
+.. code-block:: python
+
+	lrModel = model.stages[2]
+	trainingSummary = lrModel.summary
+
+	# Obtain the objective per iteration
+	# objectiveHistory = trainingSummary.objectiveHistory
+	# print("objectiveHistory:")
+	# for objective in objectiveHistory:
+	#     print(objective)
+
+	# Obtain the receiver-operating characteristic as a dataframe and areaUnderROC.
+	trainingSummary.roc.show(5)
+	print("areaUnderROC: " + str(trainingSummary.areaUnderROC))
+
+	# Set the model threshold to maximize F-Measure
+	fMeasure = trainingSummary.fMeasureByThreshold
+	maxFMeasure = fMeasure.groupBy().max('F-Measure').select('max(F-Measure)').head(5)
+	# bestThreshold = fMeasure.where(fMeasure['F-Measure'] == maxFMeasure['max(F-Measure)']) \
+	#     .select('threshold').head()['threshold']
+	# lr.setThreshold(bestThreshold)
+
+.. figure:: images/roc.png
+   :align: center
+
+
 10. visualization
 
 .. code-block:: python
