@@ -314,9 +314,12 @@ Demo
 	#     .select('threshold').head()['threshold']
 	# lr.setThreshold(bestThreshold)
 
+You can use ``z.show()`` to get the data and plot the ORC curves:
 
 .. figure:: images/roc_z.png
    :align: center
+
+You can also register a TempTable ``data.registerTempTable('tableName')``
 
 .. figure:: images/roc.png
    :align: center
