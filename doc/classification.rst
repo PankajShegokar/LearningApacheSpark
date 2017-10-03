@@ -314,6 +314,10 @@ Demo
 	#     .select('threshold').head()['threshold']
 	# lr.setThreshold(bestThreshold)
 
+
+.. figure:: images/roc_z.png
+   :align: center
+
 .. figure:: images/roc.png
    :align: center
 
