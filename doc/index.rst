@@ -24,6 +24,7 @@ Contents
    rdd
    stats
    regression
+   reg
    classification
    clustering
    textmining

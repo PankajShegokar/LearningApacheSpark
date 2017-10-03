@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -9,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Learning Apache Spark with Python v1.0 documentation</title>
+  <title>Regularization &mdash; Learning Apache Spark with Python v1.0 documentation</title>
   
 
   
@@ -34,9 +33,11 @@
 
   
         <link rel="index" title="Index"
-              href="#"/>
+              href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Learning Apache Spark with Python v1.0 documentation" href="index.html"/>
+        <link rel="next" title="Classification" href="classification.html"/>
+        <link rel="prev" title="Regression" href="regression.html"/>
  
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -96,7 +97,7 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="why.html">Why Spark with Python ?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Configure Running Platform</a></li>
@@ -104,7 +105,12 @@
 <li class="toctree-l1"><a class="reference internal" href="rdd.html">Programming with RDDs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stats.html">Statistics Preliminary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reg.html">Regularization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Regularization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ridge-regression">Ridge regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#least-absolute-shrinkage-and-selection-operator-lasso">Least Absolute Shrinkage and Selection Operator (LASSO)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#elastic-net">Elastic net</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textmining.html">Text Mining</a></li>
@@ -155,12 +161,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Index</li>
+      <li>Regularization</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="sources/reg.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -172,39 +180,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- <a href="#C"><strong>C</strong></a>
- | <a href="#R"><strong>R</strong></a>
- | <a href="#S"><strong>S</strong></a>
- 
+  <div class="section" id="regularization">
+<span id="id1"></span><h1>Regularization<a class="headerlink" href="#regularization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ridge-regression">
+<h2>Ridge regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+<p><img src="images/math/807ef99b4da3fd008a4e1080421cd1a92b90dca4.png" alt="\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda \|\beta\|_{2}^{2}"/></p>
+</div></div>
+<div class="section" id="least-absolute-shrinkage-and-selection-operator-lasso">
+<h2>Least Absolute Shrinkage and Selection Operator (LASSO)<a class="headerlink" href="#least-absolute-shrinkage-and-selection-operator-lasso" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+<p><img src="images/math/32ec9b96c7374443caf217a97bb392d372eece7f.png" alt="\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda\|\beta\|_{1}"/></p>
+</div></div>
+<div class="section" id="elastic-net">
+<h2>Elastic net<a class="headerlink" href="#elastic-net" title="Permalink to this headline">¶</a></h2>
+<div class="math">
+<p><img src="images/math/579c6054a8f616e08e9bd7f0c2af1c00ef312a63.png" alt="\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda (\alpha \|\beta\|_{1}+(1-\alpha )\|\beta\|_{2}^{2}),\alpha \in [0,1]"/></p>
+</div></div>
 </div>
-<h2 id="C">C</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="setup.html#index-1">Configure Spark on Mac and Ubuntu</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="setup.html#index-0">Run on Databricks Community Cloud</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="S">S</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="setup.html#index-2">Set up Spark on Cloud</a>
-</li>
-  </ul></td>
-</tr></table>
-
 
 
            </div>
@@ -213,6 +206,15 @@
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="classification.html" class="btn btn-neutral float-right" title="Classification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="regression.html" class="btn btn-neutral" title="Regression" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

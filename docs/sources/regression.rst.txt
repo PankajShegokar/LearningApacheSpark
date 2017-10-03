@@ -1121,8 +1121,6 @@ Demo
 
 * For more details about the parameters, please visit `Gradient boosted tree API`_ .
 
-
-
 .. _Wikipedia Regression analysis: https://en.wikipedia.org/wiki/Regression_analysis
 
 .. _Vipin Tyagi: https://www.quora.com/profile/Vipin-Tyagi-9
