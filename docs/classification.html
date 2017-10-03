@@ -106,25 +106,29 @@
 <li class="toctree-l1"><a class="reference internal" href="stats.html">Statistics Preliminary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Classification</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#logistic-regression">Logistic regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#decision-tree-classification">Decision tree Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#logistic-regression">Logistic regression</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#demo">Demo</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#random-forest-classification">Random forest Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#decision-tree-classification">Decision tree Classification</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">Demo</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-tree-classification">Gradient-boosted tree Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#random-forest-classification">Random forest Classification</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id6">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id7">Demo</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#naive-bayes-classification">Naive Bayes Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-tree-classification">Gradient-boosted tree Classification</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id9">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id10">Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#naive-bayes-classification">Naive Bayes Classification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Demo</a></li>
 </ul>
 </li>
 </ul>
@@ -205,15 +209,370 @@
 </div>
 <div class="section" id="logistic-regression">
 <h2>Logistic regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h2>
-<p>TO DO...</p>
-</div>
-<div class="section" id="decision-tree-classification">
-<h2>Decision tree Classification<a class="headerlink" href="#decision-tree-classification" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="introduction">
 <h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="demo">
 <h3>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The Jupyter notebook can be download from <a class="reference external" href="static/logisticRegression.ipynb">Logistic Regression</a>.</li>
+<li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.BinaryLogisticRegressionSummary.html">Logistic Regression API</a> .</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In this demo, I introduced a new function <code class="docutils literal"><span class="pre">get_dummy</span></code> to deal with the categorical data. I highly recommend you to use my <code class="docutils literal"><span class="pre">get_dummy</span></code> function in the other cases. This function will save a lot of time for you.</p>
+</div>
+<ol class="arabic simple">
+<li>Set up spark context and SparkSession</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+        <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+            <span class="o">.</span><span class="n">builder</span> \
+            <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark Logistic Regression example&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Load dataset</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;com.databricks.spark.csv&#39;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="n">inferschema</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;./data/bank.csv&quot;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">);</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span><span class="s1">&#39;month&#39;</span><span class="p">,</span><span class="s1">&#39;poutcome&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---+------------+-------+---------+-------+-------+-------+----+-------+--------+--------+-----+--------+---+</span>
+<span class="o">|</span><span class="n">age</span><span class="o">|</span>         <span class="n">job</span><span class="o">|</span><span class="n">marital</span><span class="o">|</span><span class="n">education</span><span class="o">|</span><span class="n">default</span><span class="o">|</span><span class="n">balance</span><span class="o">|</span><span class="n">housing</span><span class="o">|</span><span class="n">loan</span><span class="o">|</span><span class="n">contact</span><span class="o">|</span><span class="n">duration</span><span class="o">|</span><span class="n">campaign</span><span class="o">|</span><span class="n">pdays</span><span class="o">|</span><span class="n">previous</span><span class="o">|</span>  <span class="n">y</span><span class="o">|</span>
+<span class="o">+---+------------+-------+---------+-------+-------+-------+----+-------+--------+--------+-----+--------+---+</span>
+<span class="o">|</span> <span class="mi">58</span><span class="o">|</span>  <span class="n">management</span><span class="o">|</span><span class="n">married</span><span class="o">|</span> <span class="n">tertiary</span><span class="o">|</span>     <span class="n">no</span><span class="o">|</span>   <span class="mi">2143</span><span class="o">|</span>    <span class="n">yes</span><span class="o">|</span>  <span class="n">no</span><span class="o">|</span><span class="n">unknown</span><span class="o">|</span>     <span class="mi">261</span><span class="o">|</span>       <span class="mi">1</span><span class="o">|</span>   <span class="o">-</span><span class="mi">1</span><span class="o">|</span>       <span class="mi">0</span><span class="o">|</span> <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span> <span class="mi">44</span><span class="o">|</span>  <span class="n">technician</span><span class="o">|</span> <span class="n">single</span><span class="o">|</span><span class="n">secondary</span><span class="o">|</span>     <span class="n">no</span><span class="o">|</span>     <span class="mi">29</span><span class="o">|</span>    <span class="n">yes</span><span class="o">|</span>  <span class="n">no</span><span class="o">|</span><span class="n">unknown</span><span class="o">|</span>     <span class="mi">151</span><span class="o">|</span>       <span class="mi">1</span><span class="o">|</span>   <span class="o">-</span><span class="mi">1</span><span class="o">|</span>       <span class="mi">0</span><span class="o">|</span> <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span> <span class="mi">33</span><span class="o">|</span><span class="n">entrepreneur</span><span class="o">|</span><span class="n">married</span><span class="o">|</span><span class="n">secondary</span><span class="o">|</span>     <span class="n">no</span><span class="o">|</span>      <span class="mi">2</span><span class="o">|</span>    <span class="n">yes</span><span class="o">|</span> <span class="n">yes</span><span class="o">|</span><span class="n">unknown</span><span class="o">|</span>      <span class="mi">76</span><span class="o">|</span>       <span class="mi">1</span><span class="o">|</span>   <span class="o">-</span><span class="mi">1</span><span class="o">|</span>       <span class="mi">0</span><span class="o">|</span> <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span> <span class="mi">47</span><span class="o">|</span> <span class="n">blue</span><span class="o">-</span><span class="n">collar</span><span class="o">|</span><span class="n">married</span><span class="o">|</span>  <span class="n">unknown</span><span class="o">|</span>     <span class="n">no</span><span class="o">|</span>   <span class="mi">1506</span><span class="o">|</span>    <span class="n">yes</span><span class="o">|</span>  <span class="n">no</span><span class="o">|</span><span class="n">unknown</span><span class="o">|</span>      <span class="mi">92</span><span class="o">|</span>       <span class="mi">1</span><span class="o">|</span>   <span class="o">-</span><span class="mi">1</span><span class="o">|</span>       <span class="mi">0</span><span class="o">|</span> <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span> <span class="mi">33</span><span class="o">|</span>     <span class="n">unknown</span><span class="o">|</span> <span class="n">single</span><span class="o">|</span>  <span class="n">unknown</span><span class="o">|</span>     <span class="n">no</span><span class="o">|</span>      <span class="mi">1</span><span class="o">|</span>     <span class="n">no</span><span class="o">|</span>  <span class="n">no</span><span class="o">|</span><span class="n">unknown</span><span class="o">|</span>     <span class="mi">198</span><span class="o">|</span>       <span class="mi">1</span><span class="o">|</span>   <span class="o">-</span><span class="mi">1</span><span class="o">|</span>       <span class="mi">0</span><span class="o">|</span> <span class="n">no</span><span class="o">|</span>
+<span class="o">+---+------------+-------+---------+-------+-------+-------+----+-------+--------+--------+-----+--------+---+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">root</span>
+ <span class="o">|--</span> <span class="n">age</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">job</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">marital</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">education</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">default</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">balance</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">housing</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">loan</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">contact</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">day</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">month</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">duration</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">campaign</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">pdays</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">previous</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">poutcome</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">y</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_dummy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">categoricalCols</span><span class="p">,</span><span class="n">continuousCols</span><span class="p">,</span><span class="n">labelCol</span><span class="p">):</span>
+
+    <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+    <span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">StringIndexer</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">,</span> <span class="n">VectorAssembler</span>
+    <span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span>
+
+    <span class="n">indexers</span> <span class="o">=</span> <span class="p">[</span> <span class="n">StringIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;{0}_indexed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+                 <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">categoricalCols</span> <span class="p">]</span>
+
+    <span class="c1"># default setting: dropLast=True</span>
+    <span class="n">encoders</span> <span class="o">=</span> <span class="p">[</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">indexer</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">(),</span>
+                 <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;{0}_encoded&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indexer</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">()))</span>
+                 <span class="k">for</span> <span class="n">indexer</span> <span class="ow">in</span> <span class="n">indexers</span> <span class="p">]</span>
+
+    <span class="n">assembler</span> <span class="o">=</span> <span class="n">VectorAssembler</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="p">[</span><span class="n">encoder</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">()</span> <span class="k">for</span> <span class="n">encoder</span> <span class="ow">in</span> <span class="n">encoders</span><span class="p">]</span>
+                                <span class="o">+</span> <span class="n">continuousCols</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">)</span>
+
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="n">indexers</span> <span class="o">+</span> <span class="n">encoders</span> <span class="o">+</span> <span class="p">[</span><span class="n">assembler</span><span class="p">])</span>
+
+    <span class="n">model</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span><span class="n">col</span><span class="p">(</span><span class="n">labelCol</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;features&#39;</span><span class="p">,</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Deal with categorical data and Convert the data to dense vector</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">catcols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;job&#39;</span><span class="p">,</span><span class="s1">&#39;marital&#39;</span><span class="p">,</span><span class="s1">&#39;education&#39;</span><span class="p">,</span><span class="s1">&#39;default&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;housing&#39;</span><span class="p">,</span><span class="s1">&#39;loan&#39;</span><span class="p">,</span><span class="s1">&#39;contact&#39;</span><span class="p">,</span><span class="s1">&#39;poutcome&#39;</span><span class="p">]</span>
+
+<span class="n">num_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;balance&#39;</span><span class="p">,</span> <span class="s1">&#39;duration&#39;</span><span class="p">,</span><span class="s1">&#39;campaign&#39;</span><span class="p">,</span><span class="s1">&#39;pdays&#39;</span><span class="p">,</span><span class="s1">&#39;previous&#39;</span><span class="p">,]</span>
+<span class="n">labelCol</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">get_dummy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">catcols</span><span class="p">,</span><span class="n">num_cols</span><span class="p">,</span><span class="n">labelCol</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+-----+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>
+<span class="o">+--------------------+-----+</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">12</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="o">...|</span>   <span class="n">no</span><span class="o">|</span>
+<span class="o">+--------------------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Deal with Categorical Label and Variables</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">StringIndexer</span>
+<span class="c1"># Index labels, adding metadata to the label column</span>
+<span class="n">labelIndexer</span> <span class="o">=</span> <span class="n">StringIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span>
+                             <span class="n">outputCol</span><span class="o">=</span><span class="s1">&#39;indexedLabel&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">labelIndexer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+-----+------------+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span><span class="n">indexedLabel</span><span class="o">|</span>
+<span class="o">+--------------------+-----+------------+</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">12</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="o">...|</span>   <span class="n">no</span><span class="o">|</span>         <span class="mf">0.0</span><span class="o">|</span>
+<span class="o">+--------------------+-----+------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">VectorIndexer</span>
+<span class="c1"># Automatically identify categorical features, and index them.</span>
+<span class="c1"># Set maxCategories so features with &gt; 4 distinct values are treated as continuous.</span>
+<span class="n">featureIndexer</span> <span class="o">=</span><span class="n">VectorIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">,</span> \
+                                  <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;indexedFeatures&quot;</span><span class="p">,</span> \
+                                  <span class="n">maxCategories</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">featureIndexer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+-----+--------------------+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span>     <span class="n">indexedFeatures</span><span class="o">|</span>
+<span class="o">+--------------------+-----+--------------------+</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">12</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="o">...|</span>   <span class="n">no</span><span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">12</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="o">...|</span>
+<span class="o">+--------------------+-----+--------------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>Split the data to training and test data sets</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Split the data into training and test sets (40% held out for testing)</span>
+<span class="p">(</span><span class="n">trainingData</span><span class="p">,</span> <span class="n">testData</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">randomSplit</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+
+<span class="n">trainingData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">testData</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-------------------------------------------------------------------------------------------------+-----+</span>
+<span class="o">|</span><span class="n">features</span>                                                                                         <span class="o">|</span><span class="n">label</span><span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------------------+-----+</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">731.0</span><span class="p">,</span><span class="mf">401.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span><span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">723.0</span><span class="p">,</span><span class="mf">112.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span><span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">626.0</span><span class="p">,</span><span class="mf">205.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span><span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">498.0</span><span class="p">,</span><span class="mf">357.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span><span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">477.0</span><span class="p">,</span><span class="mf">473.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span><span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------------------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+
+<span class="o">+-------------------------------------------------------------------------------------------------+-----+</span>
+<span class="o">|</span><span class="n">features</span>                                                                                         <span class="o">|</span><span class="n">label</span><span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------------------+-----+</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">648.0</span><span class="p">,</span><span class="mf">280.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span><span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">596.0</span><span class="p">,</span><span class="mf">147.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span><span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">529.0</span><span class="p">,</span><span class="mf">416.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span><span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">518.0</span><span class="p">,</span><span class="mf">46.0</span><span class="p">,</span><span class="mf">5.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span> <span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">27</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="o">-</span><span class="mf">470.0</span><span class="p">,</span><span class="mf">275.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span><span class="o">|</span><span class="n">no</span>   <span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------------------+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li>Fit Logistic Regression Model</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.classification</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="n">logr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">featuresCol</span><span class="o">=</span><span class="s1">&#39;indexedFeatures&#39;</span><span class="p">,</span> <span class="n">labelCol</span><span class="o">=</span><span class="s1">&#39;indexedLabel&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="7">
+<li>Pipeline Architecture</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Convert indexed labels back to original labels.</span>
+<span class="n">labelConverter</span> <span class="o">=</span> <span class="n">IndexToString</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">,</span>
+                               <span class="n">labels</span><span class="o">=</span><span class="n">labelIndexer</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Chain indexers and tree in a Pipeline</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">labelIndexer</span><span class="p">,</span> <span class="n">featureIndexer</span><span class="p">,</span> <span class="n">logr</span><span class="p">,</span><span class="n">labelConverter</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Train model.  This also runs the indexers.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li>Make predictions</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Make predictions.</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testData</span><span class="p">)</span>
+<span class="c1"># Select example rows to display.</span>
+<span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">,</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------------------+-----+--------------+</span>
+<span class="o">|</span>            <span class="n">features</span><span class="o">|</span><span class="n">label</span><span class="o">|</span><span class="n">predictedLabel</span><span class="o">|</span>
+<span class="o">+--------------------+-----+--------------+</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>            <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>            <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>            <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>            <span class="n">no</span><span class="o">|</span>
+<span class="o">|</span><span class="p">(</span><span class="mi">29</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mf">1.</span><span class="o">..|</span>   <span class="n">no</span><span class="o">|</span>            <span class="n">no</span><span class="o">|</span>
+<span class="o">+--------------------+-----+--------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li>Evaluation</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">MulticlassClassificationEvaluator</span>
+
+<span class="c1"># Select (prediction, true label) and compute test error</span>
+<span class="n">evaluator</span> <span class="o">=</span> <span class="n">MulticlassClassificationEvaluator</span><span class="p">(</span>
+    <span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;indexedLabel&quot;</span><span class="p">,</span> <span class="n">predictionCol</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span> <span class="n">metricName</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Test Error = </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">Error</span> <span class="o">=</span> <span class="mf">0.0987688</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="10">
+<li>visualization</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="k">def</span> <span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span>
+                          <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Confusion matrix&#39;</span><span class="p">,</span>
+                          <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function prints and plots the confusion matrix.</span>
+<span class="sd">    Normalization can be applied by setting `normalize=True`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">cm</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">cm</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Normalized confusion matrix&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Confusion matrix, without normalization&#39;</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+    <span class="n">tick_marks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">classes</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">,</span> <span class="n">classes</span><span class="p">)</span>
+
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;.2f&#39;</span> <span class="k">if</span> <span class="n">normalize</span> <span class="k">else</span> <span class="s1">&#39;d&#39;</span>
+    <span class="n">thresh</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mf">2.</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">range</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">format</span><span class="p">(</span><span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">fmt</span><span class="p">),</span>
+                 <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">thresh</span> <span class="k">else</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True label&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted label&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">class_temp</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>\
+                        <span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+<span class="n">class_temp</span> <span class="o">=</span> <span class="n">class_temp</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">class_names</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">class_temp</span><span class="p">)</span>
+<span class="c1"># # # print(class_name)</span>
+<span class="n">class_names</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">y_true</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;predictedLabel&quot;</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+
+<span class="n">cnf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">class_names</span><span class="p">)</span>
+<span class="n">cnf_matrix</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mi">15657</span><span class="p">,</span>   <span class="mi">379</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mi">1410</span><span class="p">,</span>   <span class="mi">667</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Plot non-normalized confusion matrix</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">cnf_matrix</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">class_names</span><span class="p">,</span>
+                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Confusion matrix, without normalization&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Confusion</span> <span class="n">matrix</span><span class="p">,</span> <span class="n">without</span> <span class="n">normalization</span>
+<span class="p">[[</span><span class="mi">15657</span>   <span class="mi">379</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mi">1410</span>   <span class="mi">667</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<img alt="images/logr_b1.png" src="images/logr_b1.png" />
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Plot normalized confusion matrix</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">cnf_matrix</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">class_names</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Normalized confusion matrix&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Normalized</span> <span class="n">confusion</span> <span class="n">matrix</span>
+<span class="p">[[</span> <span class="mf">0.97636568</span>  <span class="mf">0.02363432</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.67886375</span>  <span class="mf">0.32113625</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<img alt="images/logr_b2.png" src="images/logr_b2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="decision-tree-classification">
+<h2>Decision tree Classification<a class="headerlink" href="#decision-tree-classification" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id4">
+<h3>Demo<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="static/DecisionTreeC.ipynb">Decision Tree Classification</a>.</li>
 <li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.DecisionTreeClassifier.html">DecisionTreeClassifier API</a> .</li>
@@ -585,11 +944,11 @@
 </div>
 <div class="section" id="random-forest-classification">
 <h2>Random forest Classification<a class="headerlink" href="#random-forest-classification" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
-<h3>Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>Introduction<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="id4">
-<h3>Demo<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>Demo<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="static/RandomForestC3.ipynb">Random forest Classification</a>.</li>
 <li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.RandomForestClassifier.html">RandomForestClassifier API</a> .</li>
@@ -960,11 +1319,11 @@
 </div>
 <div class="section" id="gradient-boosted-tree-classification">
 <h2>Gradient-boosted tree Classification<a class="headerlink" href="#gradient-boosted-tree-classification" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id6">
-<h3>Introduction<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Introduction<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="id7">
-<h3>Demo<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>Demo<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="static/gbtC3.ipynb">Gradient boosted tree Classification</a>.</li>
 <li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.GBTClassifier.html">GBTClassifier API</a> .</li>
@@ -977,11 +1336,11 @@
 </div>
 <div class="section" id="naive-bayes-classification">
 <h2>Naive Bayes Classification<a class="headerlink" href="#naive-bayes-classification" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id9">
-<h3>Introduction<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>Introduction<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="id10">
-<h3>Demo<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>Demo<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="static/NaiveBayes.ipynb">Naive Bayes Classification</a>.</li>
 <li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.NaiveBayes.html">NaiveBayes API</a> .</li>
@@ -1013,7 +1372,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Oct 01, 2017.
+      Last updated on Oct 02, 2017.
 
     </p>
   </div>

@@ -60,47 +60,51 @@
 \contentsline {subsection}{\numberline {7.5.3}Demo}{50}{subsection.7.5.3}
 \contentsline {chapter}{\numberline {8}Classification}{51}{chapter.8}
 \contentsline {section}{\numberline {8.1}Logistic regression}{51}{section.8.1}
-\contentsline {section}{\numberline {8.2}Decision tree Classification}{51}{section.8.2}
-\contentsline {subsection}{\numberline {8.2.1}Introduction}{51}{subsection.8.2.1}
-\contentsline {subsection}{\numberline {8.2.2}Demo}{51}{subsection.8.2.2}
-\contentsline {section}{\numberline {8.3}Random forest Classification}{58}{section.8.3}
-\contentsline {subsection}{\numberline {8.3.1}Introduction}{58}{subsection.8.3.1}
-\contentsline {subsection}{\numberline {8.3.2}Demo}{58}{subsection.8.3.2}
-\contentsline {section}{\numberline {8.4}Gradient-boosted tree Classification}{65}{section.8.4}
-\contentsline {subsection}{\numberline {8.4.1}Introduction}{65}{subsection.8.4.1}
-\contentsline {subsection}{\numberline {8.4.2}Demo}{65}{subsection.8.4.2}
-\contentsline {section}{\numberline {8.5}Naive Bayes Classification}{65}{section.8.5}
-\contentsline {subsection}{\numberline {8.5.1}Introduction}{65}{subsection.8.5.1}
-\contentsline {subsection}{\numberline {8.5.2}Demo}{65}{subsection.8.5.2}
-\contentsline {chapter}{\numberline {9}Clustering}{67}{chapter.9}
-\contentsline {section}{\numberline {9.1}K-Means Model}{67}{section.9.1}
-\contentsline {chapter}{\numberline {10}Text Mining}{69}{chapter.10}
-\contentsline {section}{\numberline {10.1}Text Collection}{69}{section.10.1}
-\contentsline {subsection}{\numberline {10.1.1}Image to text}{69}{subsection.10.1.1}
-\contentsline {subsection}{\numberline {10.1.2}Image Enhnaced to text}{71}{subsection.10.1.2}
-\contentsline {subsection}{\numberline {10.1.3}PDF to text}{73}{subsection.10.1.3}
-\contentsline {subsection}{\numberline {10.1.4}Audio to text}{75}{subsection.10.1.4}
-\contentsline {section}{\numberline {10.2}Text Preprocessing}{76}{section.10.2}
-\contentsline {section}{\numberline {10.3}Text Classification}{78}{section.10.3}
-\contentsline {subsection}{\numberline {10.3.1}Introduction}{79}{subsection.10.3.1}
-\contentsline {subsection}{\numberline {10.3.2}Demo}{79}{subsection.10.3.2}
-\contentsline {section}{\numberline {10.4}Sentiment analysis}{84}{section.10.4}
-\contentsline {subsection}{\numberline {10.4.1}Introduction}{84}{subsection.10.4.1}
-\contentsline {subsection}{\numberline {10.4.2}Pipeline}{85}{subsection.10.4.2}
-\contentsline {subsection}{\numberline {10.4.3}Demo}{85}{subsection.10.4.3}
-\contentsline {section}{\numberline {10.5}N-grams and Correlations}{90}{section.10.5}
-\contentsline {section}{\numberline {10.6}Topic Model: Latent Dirichlet Allocation}{90}{section.10.6}
-\contentsline {subsection}{\numberline {10.6.1}Introduction}{90}{subsection.10.6.1}
-\contentsline {subsection}{\numberline {10.6.2}Demo}{90}{subsection.10.6.2}
-\contentsline {chapter}{\numberline {11}Social Network Analysis}{103}{chapter.11}
-\contentsline {section}{\numberline {11.1}Co-occurrence Network}{103}{section.11.1}
-\contentsline {subsection}{\numberline {11.1.1}Methodology}{104}{subsection.11.1.1}
-\contentsline {subsection}{\numberline {11.1.2}Coding Puzzle from my interview}{106}{subsection.11.1.2}
-\contentsline {section}{\numberline {11.2}Correlation Network}{108}{section.11.2}
-\contentsline {chapter}{\numberline {12}Neural Network}{109}{chapter.12}
-\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{109}{section.12.1}
-\contentsline {subsection}{\numberline {12.1.1}Introduction}{109}{subsection.12.1.1}
-\contentsline {subsection}{\numberline {12.1.2}Demo}{110}{subsection.12.1.2}
-\contentsline {chapter}{\numberline {13}Main Reference}{113}{chapter.13}
-\contentsline {chapter}{Bibliography}{115}{chapter*.5}
-\contentsline {chapter}{Index}{117}{section*.10}
+\contentsline {subsection}{\numberline {8.1.1}Introduction}{51}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}Demo}{51}{subsection.8.1.2}
+\contentsline {section}{\numberline {8.2}Decision tree Classification}{57}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}Introduction}{57}{subsection.8.2.1}
+\contentsline {subsection}{\numberline {8.2.2}Demo}{57}{subsection.8.2.2}
+\contentsline {section}{\numberline {8.3}Random forest Classification}{64}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Introduction}{64}{subsection.8.3.1}
+\contentsline {subsection}{\numberline {8.3.2}Demo}{64}{subsection.8.3.2}
+\contentsline {section}{\numberline {8.4}Gradient-boosted tree Classification}{71}{section.8.4}
+\contentsline {subsection}{\numberline {8.4.1}Introduction}{71}{subsection.8.4.1}
+\contentsline {subsection}{\numberline {8.4.2}Demo}{71}{subsection.8.4.2}
+\contentsline {section}{\numberline {8.5}Naive Bayes Classification}{72}{section.8.5}
+\contentsline {subsection}{\numberline {8.5.1}Introduction}{72}{subsection.8.5.1}
+\contentsline {subsection}{\numberline {8.5.2}Demo}{72}{subsection.8.5.2}
+\contentsline {chapter}{\numberline {9}Clustering}{73}{chapter.9}
+\contentsline {section}{\numberline {9.1}K-Means Model}{73}{section.9.1}
+\contentsline {subsection}{\numberline {9.1.1}Introduction}{73}{subsection.9.1.1}
+\contentsline {subsection}{\numberline {9.1.2}Demo}{73}{subsection.9.1.2}
+\contentsline {chapter}{\numberline {10}Text Mining}{79}{chapter.10}
+\contentsline {section}{\numberline {10.1}Text Collection}{79}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}Image to text}{79}{subsection.10.1.1}
+\contentsline {subsection}{\numberline {10.1.2}Image Enhnaced to text}{81}{subsection.10.1.2}
+\contentsline {subsection}{\numberline {10.1.3}PDF to text}{83}{subsection.10.1.3}
+\contentsline {subsection}{\numberline {10.1.4}Audio to text}{85}{subsection.10.1.4}
+\contentsline {section}{\numberline {10.2}Text Preprocessing}{86}{section.10.2}
+\contentsline {section}{\numberline {10.3}Text Classification}{88}{section.10.3}
+\contentsline {subsection}{\numberline {10.3.1}Introduction}{89}{subsection.10.3.1}
+\contentsline {subsection}{\numberline {10.3.2}Demo}{89}{subsection.10.3.2}
+\contentsline {section}{\numberline {10.4}Sentiment analysis}{94}{section.10.4}
+\contentsline {subsection}{\numberline {10.4.1}Introduction}{94}{subsection.10.4.1}
+\contentsline {subsection}{\numberline {10.4.2}Pipeline}{95}{subsection.10.4.2}
+\contentsline {subsection}{\numberline {10.4.3}Demo}{95}{subsection.10.4.3}
+\contentsline {section}{\numberline {10.5}N-grams and Correlations}{100}{section.10.5}
+\contentsline {section}{\numberline {10.6}Topic Model: Latent Dirichlet Allocation}{100}{section.10.6}
+\contentsline {subsection}{\numberline {10.6.1}Introduction}{100}{subsection.10.6.1}
+\contentsline {subsection}{\numberline {10.6.2}Demo}{100}{subsection.10.6.2}
+\contentsline {chapter}{\numberline {11}Social Network Analysis}{113}{chapter.11}
+\contentsline {section}{\numberline {11.1}Co-occurrence Network}{113}{section.11.1}
+\contentsline {subsection}{\numberline {11.1.1}Methodology}{114}{subsection.11.1.1}
+\contentsline {subsection}{\numberline {11.1.2}Coding Puzzle from my interview}{116}{subsection.11.1.2}
+\contentsline {section}{\numberline {11.2}Correlation Network}{118}{section.11.2}
+\contentsline {chapter}{\numberline {12}Neural Network}{119}{chapter.12}
+\contentsline {section}{\numberline {12.1}Feedforward Neural Network}{119}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}Introduction}{119}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}Demo}{120}{subsection.12.1.2}
+\contentsline {chapter}{\numberline {13}Main Reference}{123}{chapter.13}
+\contentsline {chapter}{Bibliography}{125}{chapter*.5}
+\contentsline {chapter}{Index}{127}{section*.10}
