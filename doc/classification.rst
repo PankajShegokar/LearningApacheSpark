@@ -320,7 +320,7 @@ You can use ``z.show()`` to get the data and plot the ROC curves:
    :align: center
 
 You can also register a TempTable ``data.registerTempTable('roc_data')`` and then 
-use``sql`` to plot the ROC curve:
+use ``sql`` to plot the ROC curve:
 
 .. figure:: images/roc.png
    :align: center
