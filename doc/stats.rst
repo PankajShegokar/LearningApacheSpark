@@ -17,7 +17,7 @@ Notations
 * m : the number of the samples 
 * n : the number of the features
 * :math:`y_i` : i-th label 
-* :math:`{\displaystyle {\bar {y}}}`:  the mean of :math:`y`.
+* :math:`{\displaystyle {\bar {y}}} = {\frac {1}{m}}\sum _{i=1}^{n}y_{i}`:  the mean of :math:`y`.
 
 
 Measurement Formula
@@ -45,6 +45,12 @@ In statistical data analysis the **TSS** (`Total Sum of Squares`_) is a quantity
 .. math::
 
    \text{TSS} =  \sum_{i=1}^m\left( y_i-\bar{y}\right)^2
+
+
+* Residual Sum of Squares
+
+
+* Coefficient of determination :math:`R^2`
 
 
 .. _Mean Squared Error: https://en.wikipedia.org/wiki/Mean_squared_error
