@@ -49,9 +49,15 @@ In statistical data analysis the **TSS** (`Total Sum of Squares`_) is a quantity
 
 * Residual Sum of Squares
 
+.. math::
+
+   \text{RSS}=\frac{1}{m}\sum_{i=1}^m\left( \hat{y}_i-y_i\right)^2 
 
 * Coefficient of determination :math:`R^2`
 
+.. math::
+
+	R^{2} := 1-{\text{RSS} \over \text{TSS}}.\,
 
 .. _Mean Squared Error: https://en.wikipedia.org/wiki/Mean_squared_error
 .. _Total Sum of Squares: https://en.wikipedia.org/wiki/Total_sum_of_squares

@@ -446,6 +446,7 @@ Decision tree Classification
 Introduction
 ------------
 
+
 Demo
 ----
 
@@ -1269,6 +1270,8 @@ Gradient-boosted tree Classification
 
 Introduction
 ------------
+
+	
 
 Demo
 ----
