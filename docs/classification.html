@@ -486,11 +486,12 @@
 <span class="c1"># lr.setThreshold(bestThreshold)</span>
 </pre></div>
 </div>
-<p>You can use <code class="docutils literal"><span class="pre">z.show()</span></code> to get the data and plot the ORC curves:</p>
+<p>You can use <code class="docutils literal"><span class="pre">z.show()</span></code> to get the data and plot the ROC curves:</p>
 <div class="figure align-center">
 <img alt="images/roc_z.png" src="images/roc_z.png" />
 </div>
-<p>You can also register a TempTable <code class="docutils literal"><span class="pre">data.registerTempTable('roc_data')</span></code></p>
+<p>You can also register a TempTable <code class="docutils literal"><span class="pre">data.registerTempTable('roc_data')</span></code> and then
+use``sql`` to plot the ROC curve:</p>
 <div class="figure align-center">
 <img alt="images/roc.png" src="images/roc.png" />
 </div>
