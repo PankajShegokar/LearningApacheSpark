@@ -350,7 +350,7 @@ And then you should be good to run your code on Eclipse with PyDev.
 Set up Spark on Cloud
 +++++++++++++++++++++
  
-Folloing the setup steps in :ref:`set-up-Ubuntu`, you can set 
+Following the setup steps in :ref:`set-up-Ubuntu`, you can set 
 up your own cluster on the cloud, for example AWS, Google Cloud.
 Actually, for those clouds, they have their own Big Data tool.
 Yon can run them directly whitout any setting just like 
