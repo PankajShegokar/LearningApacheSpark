@@ -30,5 +30,6 @@ Contents
    textmining
    socialnetwork
    fnn
+   pack
    reference
 
