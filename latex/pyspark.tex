@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{February 21, 2018}
+\date{July 09, 2018}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -1325,10 +1325,79 @@ Then the normal equations are written as
 \subsection{How to solve it?}
 \label{regression:how-to-solve-it}\begin{enumerate}
 \item {} 
-Direct Methods
+Direct Methods (For more information please refer to my \href{http://web.utk.edu/~wfeng1/doc/PrelimNum.pdf}{Prelim Notes for Numerical Analysis})
+\begin{itemize}
+\item {} 
+For squared or rectangular matrices
+\begin{itemize}
+\item {} 
+Singular Value Decomposition
+
+\item {} 
+Gram-Schmidt orthogonalization
+
+\item {} 
+QR Decomposition
+
+\end{itemize}
+
+\item {} 
+For squared matrices
+\begin{itemize}
+\item {} 
+LU Decomposition
+
+\item {} 
+Cholesky Decomposition
+
+\item {} 
+Regular Splittings
+
+\end{itemize}
+
+\end{itemize}
 
 \item {} 
 Iterative Methods
+\begin{itemize}
+\item {} 
+Stationary cases iterative method
+\begin{itemize}
+\item {} 
+Jacobi Method
+
+\item {} 
+Gauss-Seidel Method
+
+\item {} 
+Richardson Method
+
+\item {} 
+Successive Over Relaxation (SOR) Method
+
+\end{itemize}
+
+\item {} 
+Dynamic cases iterative method
+\begin{itemize}
+\item {} 
+Chebyshev iterative Method
+
+\item {} 
+Minimal residuals Method
+
+\item {} 
+Minimal correction iterative method
+
+\item {} 
+Steepest Descent Method
+
+\item {} 
+Conjugate Gradients Method
+
+\end{itemize}
+
+\end{itemize}
 
 \end{enumerate}
 
@@ -2516,7 +2585,7 @@ For more details about the parameters, please visit \href{http://takwatanabe.me/
 
 
 \chapter{Regularization}
-\label{reg:gradient-boosted-tree-api}\label{reg:regularization}\label{reg::doc}\label{reg:id1}
+\label{reg::doc}\label{reg:regularization}\label{reg:prelim-notes-for-numerical-analysis}\label{reg:id1}
 
 \section{Ridge regression}
 \label{reg:ridge-regression}\begin{gather}
