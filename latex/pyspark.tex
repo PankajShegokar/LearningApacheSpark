@@ -1200,24 +1200,91 @@ Then you will get the RDD data:
 \end{Verbatim}
 \end{quote}
 
-\begin{notice}{note}{Note:}
+\begin{notice}{note}{Note:}\begin{quote}
+
 Reading tables from Database needs the proper drive for the corresponding Database.
 For example, the above demo needs \code{org.postgresql.Driver} and \textbf{you need to download
 it and put it in {}`{}`jars{}`{}` folder of your spark installation path.} I download
 \code{postgresql-42.1.1.jar} from the official website and put it in \code{jars} folder.
+\end{quote}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+\textbf{Read dataset from HDFS}
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.conf} \PYG{k+kn}{import} \PYG{n}{SparkConf}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.context} \PYG{k+kn}{import} \PYG{n}{SparkContext}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql} \PYG{k+kn}{import} \PYG{n}{HiveContext}
+
+\PYG{n}{sc}\PYG{o}{=} \PYG{n}{SparkContext}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{local}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{example}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{hc} \PYG{o}{=} \PYG{n}{HiveContext}\PYG{p}{(}\PYG{n}{sc}\PYG{p}{)}
+\PYG{n}{tf1} \PYG{o}{=} \PYG{n}{sc}\PYG{o}{.}\PYG{n}{textFile}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{hdfs://cdhstltest/user/data/demo.CSV}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{tf1}\PYG{o}{.}\PYG{n}{first}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+
+\PYG{n}{hc}\PYG{o}{.}\PYG{n}{sql}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{use intg\PYGZus{}cme\PYGZus{}w}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{spf} \PYG{o}{=} \PYG{n}{hc}\PYG{o}{.}\PYG{n}{sql}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{SELECT * FROM spf LIMIT 100}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{spf}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{p}{)}
+\end{Verbatim}
 \end{notice}
 
 
-\section{Spark Transformations}
+\section{Spark Operations}
+\label{rdd:spark-operations}
+\begin{notice}{warning}{Warning:}
+All the figures below are from Jeffrey Thompson. The interested reader is referred to \href{https://github.com/jkthompson/pyspark-pictures}{pyspark pictures}
+\end{notice}
+
+There are two main types of Spark operations: Transformations and Actions.
+\begin{quote}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{visualapi_006.png}
+\label{rdd:fig-login}\end{figure}
+\end{quote}
+
+\begin{notice}{note}{Note:}
+Some people defined three types of operations: Transformations, Actions and Shuffles.
+\end{notice}
+
+
+\subsection{Spark Transformations}
 \label{rdd:spark-transformations}
 Transformations construct a new RDD from a previous one. For example, one common
 transformation is filtering data that matches a predicate.
+\begin{quote}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{transforms1.png}
+\label{rdd:id1}\end{figure}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{transforms2.png}
+\label{rdd:id2}\end{figure}
+\end{quote}
 
 
-\section{Spark Actions}
+\subsection{Spark Actions}
 \label{rdd:spark-actions}
 Actions, on the other hand, compute a result based on an RDD, and either return it to
 the driver program or save it to an external storage system (e.g., HDFS).
+\begin{quote}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{actions1.png}
+\label{rdd:id3}\end{figure}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{actions2.png}
+\label{rdd:id4}\end{figure}
+\end{quote}
 
 
 \chapter{Statistics Preliminary}

@@ -213,24 +213,78 @@ Once created, RDDs offer two types of operations: transformations and actions.
    ``postgresql-42.1.1.jar`` from the official website and put it in ``jars`` folder.
 
 
+ C. **Read dataset from HDFS** 
+
+
+ .. code-block:: python
+
+	from pyspark.conf import SparkConf
+	from pyspark.context import SparkContext
+	from pyspark.sql import HiveContext
+
+	sc= SparkContext('local','example')
+	hc = HiveContext(sc)
+	tf1 = sc.textFile("hdfs://cdhstltest/user/data/demo.CSV")
+	print(tf1.first())
+
+	hc.sql("use intg_cme_w")
+	spf = hc.sql("SELECT * FROM spf LIMIT 100")
+	print(spf.show(5))
+	
+
+Spark Operations 
+++++++++++++++++
+
+.. warning::
+ 
+  All the figures below are from Jeffrey Thompson. The interested reader is referred to `pyspark pictures`_
+
+There are two main types of Spark operations: Transformations and Actions.
+
+  .. _fig_login:
+  .. figure:: images/visualapi_006.png
+    :align: center
+
+
+.. note::
+
+  Some people defined three types of operations: Transformations, Actions and Shuffles.
+
+
 Spark Transformations
-+++++++++++++++++++++
+---------------------
 
 Transformations construct a new RDD from a previous one. For example, one common
 transformation is filtering data that matches a predicate.
 
+  .. _fig_login:
+  .. figure:: images/transforms1.png
+    :align: center
+
+  .. _fig_login:
+  .. figure:: images/transforms2.png
+    :align: center
+
 
 Spark Actions
-+++++++++++++
+-------------
 
 Actions, on the other hand, compute a result based on an RDD, and either return it to
 the driver program or save it to an external storage system (e.g., HDFS).
 
 
+  .. _fig_login:
+  .. figure:: images/actions1.png
+    :align: center
+
+  .. _fig_login:
+  .. figure:: images/actions2.png
+    :align: center
+
 .. _Spark vs. Hadoop MapReduce: https://www.xplenty.com/blog/2014/11/apache-spark-vs-hadoop-mapreduce/
 
+.. _pyspark pictures: https://github.com/jkthompson/pyspark-pictures
 .. _Vipin Tyagi: https://www.quora.com/profile/Vipin-Tyagi-9
 .. _Yassine Alouini: https://www.quora.com/profile/Yassine-Alouini
-
 
 
