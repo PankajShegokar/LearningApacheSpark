@@ -45,10 +45,38 @@ How to solve it?
 
 
 
-#. Direct Methods 
+#. Direct Methods (For more information please refer to my `Prelim Notes for Numerical Analysis`_)
+
+
+	* For squared or rectangular matrices
+
+		- Singular Value Decomposition 
+		- Gram-Schmidt orthogonalization 
+		- QR Decomposition 
+
+	* For squared matrices
+
+	    - LU Decomposition
+	    - Cholesky Decomposition
+	    - Regular Splittings
 
 
 #. Iterative Methods
+
+	* Stationary cases iterative method 
+
+		- Jacobi Method 
+		- Gauss-Seidel Method
+		- Richardson Method	
+		- Successive Over Relaxation (SOR) Method 
+
+	* Dynamic cases iterative method 
+
+		- Chebyshev iterative Method 
+		- Minimal residuals Method
+		- Minimal correction iterative method 
+		- Steepest Descent Method
+		- Conjugate Gradients Method
 
 
 Demo
@@ -1132,6 +1160,7 @@ Demo
 .. _Decision Tree Regressor API: http://takwatanabe.me/pyspark/generated/generated/ml.regression.DecisionTreeRegressor.html
 .. _Random Forest Regressor API: http://takwatanabe.me/pyspark/generated/generated/ml.regression.RandomForestRegressor.html
 .. _Gradient boosted tree API: http://takwatanabe.me/pyspark/generated/generated/ml.regression.GBTRegressor.html
+.. _Prelim Notes for Numerical Analysis: http://web.utk.edu/~wfeng1/doc/PrelimNum.pdf
 
 
 
