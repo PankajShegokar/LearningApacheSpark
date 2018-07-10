@@ -183,6 +183,13 @@
             
   <div class="section" id="regularization">
 <span id="id1"></span><h1>Regularization<a class="headerlink" href="#regularization" title="Permalink to this headline">¶</a></h1>
+<p>In mathematics, statistics, and computer science, particularly in the fields of machine learning and inverse problems, regularization is a process of introducing additional information in order to solve an ill-posed problem or to prevent overfitting (<a class="reference external" href="https://en.wikipedia.org/wiki/Regularization_(mathematics)">Wikipedia Regularization</a>).</p>
+<p>Due to the sparsity within our data, our training sets will often be ill-posed (singular).  Applying regularization to the regression has many advantages, including:</p>
+<ol class="arabic simple">
+<li>Converting ill-posed problems to well-posed by adding additional information via the penalty parameter <img class="math" src="images/math/74cf2d1d078d79ac9828bf9e63a310dbd7fb2c17.png" alt="\lambda"/></li>
+<li>Preventing overfitting</li>
+<li>Variable selection and the removal of correlated variables (<a class="reference external" href="https://en.wikipedia.org/wiki/Mean_squared_error">Glmnet Vignette</a>).  The Ridge method shrinks the coefficients of correlated variables while the LASSO method picks one variable and discards the others.  The elastic net penalty is a mixture of these two; if variables are correlated in groups then <img class="math" src="images/math/9cd41bb51928cc195cb85f20e836e75d7947f112.png" alt="\alpha=0.5"/> tends to select the groups as in or out. If α is close to 1, the elastic net performs much like the LASSO method and removes any degeneracies and wild behavior caused by extreme correlations.</li>
+</ol>
 <div class="section" id="ridge-regression">
 <h2>Ridge regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h2>
 <div class="math">

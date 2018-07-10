@@ -188,7 +188,19 @@ used in my daily work. You can download and install it from <a class="reference 
 structure and the directory structure of this package are as follows.</p>
 <div class="section" id="hierarchical-structure">
 <h2>Hierarchical Structure<a class="headerlink" href="#hierarchical-structure" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>PySparkTools/
+<div class="highlight-bash"><div class="highlight"><pre><span></span>├── build
+│   ├── bdist.linux-x86_64
+│   └── lib.linux-x86_64-2.7
+│       └── PySparkTools
+│           ├── __init__.py
+│           ├── Manipulation
+│           │   ├── DataManipulation.py
+│           │   └── __init__.py
+│           └── Visualization
+│               ├── __init__.py
+│               └── PyPlots.py
+├── dist
+│   └── PySParkTools-1.0-py2.7.egg
 ├── __init__.py
 ├── PySparkTools
 │   ├── __init__.py
@@ -199,6 +211,12 @@ structure and the directory structure of this package are as follows.</p>
 │       ├── __init__.py
 │       ├── PyPlots.py
 │       └── PyPlots.pyc
+├── PySParkTools.egg-info
+│   ├── dependency_links.txt
+│   ├── PKG-INFO
+│   ├── requires.txt
+│   ├── SOURCES.txt
+│   └── top_level.txt
 ├── README.md
 ├── requirements.txt
 ├── setup.py

@@ -2586,6 +2586,21 @@ For more details about the parameters, please visit \href{http://takwatanabe.me/
 
 \chapter{Regularization}
 \label{reg::doc}\label{reg:regularization}\label{reg:prelim-notes-for-numerical-analysis}\label{reg:id1}
+In mathematics, statistics, and computer science, particularly in the fields of machine learning and inverse problems, regularization is a process of introducing additional information in order to solve an ill-posed problem or to prevent overfitting (\href{https://en.wikipedia.org/wiki/Regularization\_(mathematics)}{Wikipedia Regularization}).
+
+Due to the sparsity within our data, our training sets will often be ill-posed (singular).  Applying regularization to the regression has many advantages, including:
+\begin{enumerate}
+\item {} 
+Converting ill-posed problems to well-posed by adding additional information via the penalty parameter \(\lambda\)
+
+\item {} 
+Preventing overfitting
+
+\item {} 
+Variable selection and the removal of correlated variables (\href{https://en.wikipedia.org/wiki/Mean\_squared\_error}{Glmnet Vignette}).  The Ridge method shrinks the coefficients of correlated variables while the LASSO method picks one variable and discards the others.  The elastic net penalty is a mixture of these two; if variables are correlated in groups then \(\alpha=0.5\) tends to select the groups as in or out. If \(\alpha\) is close to 1, the elastic net performs much like the LASSO method and removes any degeneracies and wild behavior caused by extreme correlations.
+
+\end{enumerate}
+
 
 \section{Ridge regression}
 \label{reg:ridge-regression}\begin{gather}
@@ -2603,7 +2618,7 @@ For more details about the parameters, please visit \href{http://takwatanabe.me/
 \end{gather}
 
 \chapter{Classification}
-\label{classification::doc}\label{classification:classification}\label{classification:wikipedia-regularization}\label{classification:id1}
+\label{classification:glmnet-vignette}\label{classification::doc}\label{classification:classification}\label{classification:id1}
 \begin{notice}{note}{Note:}
 \textbf{Birds of a feather folock together.} -- old Chinese proverb
 \end{notice}
@@ -6787,7 +6802,19 @@ structure and the directory structure of this package are as follows.
 \section{Hierarchical Structure}
 \label{pack:hierarchical-structure}
 \begin{Verbatim}[commandchars=\\\{\}]
-PySparkTools/
+├-- build
+\textbar{}   ├-- bdist.linux\PYGZhy{}x86\PYGZus{}64
+\textbar{}   └-- lib.linux\PYGZhy{}x86\PYGZus{}64\PYGZhy{}2.7
+\textbar{}       └-- PySparkTools
+\textbar{}           ├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}           ├-- Manipulation
+\textbar{}           \textbar{}   ├-- DataManipulation.py
+\textbar{}           \textbar{}   └-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}           └-- Visualization
+\textbar{}               ├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}               └-- PyPlots.py
+├-- dist
+\textbar{}   └-- PySParkTools\PYGZhy{}1.0\PYGZhy{}py2.7.egg
 ├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
 ├-- PySparkTools
 \textbar{}   ├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
@@ -6798,6 +6825,12 @@ PySparkTools/
 \textbar{}       ├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
 \textbar{}       ├-- PyPlots.py
 \textbar{}       └-- PyPlots.pyc
+├-- PySParkTools.egg\PYGZhy{}info
+\textbar{}   ├-- dependency\PYGZus{}links.txt
+\textbar{}   ├-- PKG\PYGZhy{}INFO
+\textbar{}   ├-- requires.txt
+\textbar{}   ├-- SOURCES.txt
+\textbar{}   └-- top\PYGZus{}level.txt
 ├-- README.md
 ├-- requirements.txt
 ├-- setup.py

@@ -17,7 +17,19 @@ Hierarchical Structure
 
 .. code-block:: bash
 
-	PySparkTools/
+	├── build
+	│   ├── bdist.linux-x86_64
+	│   └── lib.linux-x86_64-2.7
+	│       └── PySparkTools
+	│           ├── __init__.py
+	│           ├── Manipulation
+	│           │   ├── DataManipulation.py
+	│           │   └── __init__.py
+	│           └── Visualization
+	│               ├── __init__.py
+	│               └── PyPlots.py
+	├── dist
+	│   └── PySParkTools-1.0-py2.7.egg
 	├── __init__.py
 	├── PySparkTools
 	│   ├── __init__.py
@@ -28,6 +40,12 @@ Hierarchical Structure
 	│       ├── __init__.py
 	│       ├── PyPlots.py
 	│       └── PyPlots.pyc
+	├── PySParkTools.egg-info
+	│   ├── dependency_links.txt
+	│   ├── PKG-INFO
+	│   ├── requires.txt
+	│   ├── SOURCES.txt
+	│   └── top_level.txt
 	├── README.md
 	├── requirements.txt
 	├── setup.py
@@ -35,6 +53,7 @@ Hierarchical Structure
 	    ├── spark-warehouse
 	    ├── test1.py
 	    └── test2.py
+
 
 
 From the above hierarchical structure, you will find that you have to have ``__init__.py`` in each directory. I will explain the ``__init__.py`` file with the example below:
