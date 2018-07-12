@@ -21,9 +21,7 @@ Numerical Variables
 -------------------
 
 
-.. math::
 
-	\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda \|\beta\|_{2}^{2}
 
 Categorical Variables
 ---------------------
@@ -34,9 +32,6 @@ Categorical Variables
 Multivariate Analysis
 +++++++++++++++++++++
 
-.. math::
-
-	\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda\|\beta\|_{1}
 
   .. _fig_vis1:
   .. figure:: images/pie.png
