@@ -241,7 +241,7 @@ Spark Operations
 
 There are two main types of Spark operations: Transformations and Actions.
 
-  .. _fig_login:
+  .. _fig_api1:
   .. figure:: images/visualapi_006.png
     :align: center
 
@@ -257,11 +257,11 @@ Spark Transformations
 Transformations construct a new RDD from a previous one. For example, one common
 transformation is filtering data that matches a predicate.
 
-  .. _fig_login:
+  .. _fig_api2:
   .. figure:: images/transforms1.png
     :align: center
 
-  .. _fig_login:
+  .. _fig_api3:
   .. figure:: images/transforms2.png
     :align: center
 
@@ -273,11 +273,11 @@ Actions, on the other hand, compute a result based on an RDD, and either return 
 the driver program or save it to an external storage system (e.g., HDFS).
 
 
-  .. _fig_login:
+  .. _fig_api4:
   .. figure:: images/actions1.png
     :align: center
 
-  .. _fig_login:
+  .. _fig_api5:
   .. figure:: images/actions2.png
     :align: center
 

@@ -59,5 +59,37 @@ In statistical data analysis the **TSS** (`Total Sum of Squares`_) is a quantity
 
 	R^{2} := 1-{\text{RSS} \over \text{TSS}}.\,
 
+Statistical Tests
++++++++++++++++++
+
+Correlational Test
+------------------
+
+* Pearson correlation: Tests for the strength of the association between two continuous variables.
+
+* Spearman correlation: Tests for the strength of the association between two ordinal variables (does not rely on the assumption of normal distributed data).
+
+* Chi-square: Tests for the strength of the association between two categorical variables.
+
+Comparison of Means test
+------------------------
+
+* Paired T-test: Tests for difference between two related variables.
+
+* Independent T-test: Tests for difference between two independent variables.
+
+* ANOVA: Tests the difference between group means after any other variance in the outcome variable is accounted for.
+
+
+Non-parametric Test
+-------------------
+
+* Wilcoxon rank-sum test: Tests for difference between two independent variables - takes into account magnitude and direction of difference.
+
+* Wilcoxon sign-rank test: Tests for difference between two related variables - takes into account magnitude and direction of difference.
+
+* Sign test: Tests if two related variables are different – ignores magnitude of change, only takes into account direction.
+
+
 .. _Mean Squared Error: https://en.wikipedia.org/wiki/Mean_squared_error
 .. _Total Sum of Squares: https://en.wikipedia.org/wiki/Total_sum_of_squares

@@ -36,7 +36,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Learning Apache Spark with Python v1.0 documentation" href="index.html"/>
-        <link rel="next" title="Regression" href="regression.html"/>
+        <link rel="next" title="Data Exploration" href="exploration.html"/>
         <link rel="prev" title="Programming with RDDs" href="rdd.html"/>
  
 <script type="text/javascript">
@@ -106,8 +106,15 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Statistics Preliminary</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#notations">Notations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#measurement-formula">Measurement Formula</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#statistical-tests">Statistical Tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#correlational-test">Correlational Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comparison-of-means-test">Comparison of Means test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#non-parametric-test">Non-parametric Test</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exploration.html">Data Exploration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reg.html">Regularization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
@@ -227,6 +234,33 @@ If you know neither yourself nor your enemy, you will always endanger yourself</
 <div class="math">
 <p><img src="images/math/af3deec2613e24e8ff434c47fc4c238f1ebbe67b.png" alt="R^{2} := 1-{\text{RSS} \over \text{TSS}}.\,"/></p>
 </div></div>
+<div class="section" id="statistical-tests">
+<h2>Statistical Tests<a class="headerlink" href="#statistical-tests" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="correlational-test">
+<h3>Correlational Test<a class="headerlink" href="#correlational-test" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Pearson correlation: Tests for the strength of the association between two continuous variables.</li>
+<li>Spearman correlation: Tests for the strength of the association between two ordinal variables (does not rely on the assumption of normal distributed data).</li>
+<li>Chi-square: Tests for the strength of the association between two categorical variables.</li>
+</ul>
+</div>
+<div class="section" id="comparison-of-means-test">
+<h3>Comparison of Means test<a class="headerlink" href="#comparison-of-means-test" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Paired T-test: Tests for difference between two related variables.</li>
+<li>Independent T-test: Tests for difference between two independent variables.</li>
+<li>ANOVA: Tests the difference between group means after any other variance in the outcome variable is accounted for.</li>
+</ul>
+</div>
+<div class="section" id="non-parametric-test">
+<h3>Non-parametric Test<a class="headerlink" href="#non-parametric-test" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Wilcoxon rank-sum test: Tests for difference between two independent variables - takes into account magnitude and direction of difference.</li>
+<li>Wilcoxon sign-rank test: Tests for difference between two related variables - takes into account magnitude and direction of difference.</li>
+<li>Sign test: Tests if two related variables are different – ignores magnitude of change, only takes into account direction.</li>
+</ul>
+</div>
+</div>
 </div>
 
 
@@ -239,7 +273,7 @@ If you know neither yourself nor your enemy, you will always endanger yourself</
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="regression.html" class="btn btn-neutral float-right" title="Regression" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="exploration.html" class="btn btn-neutral float-right" title="Data Exploration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="rdd.html" class="btn btn-neutral" title="Programming with RDDs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -252,7 +286,7 @@ If you know neither yourself nor your enemy, you will always endanger yourself</
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Jul 09, 2018.
+      Last updated on Jul 11, 2018.
 
     </p>
   </div>

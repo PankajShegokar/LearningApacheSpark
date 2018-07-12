@@ -23,6 +23,7 @@ Contents
    introduction
    rdd
    stats
+   exploration
    regression
    reg
    classification

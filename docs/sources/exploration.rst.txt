@@ -1,0 +1,68 @@
+.. _exploration:
+
+================
+Data Exploration 
+================
+
+.. note::
+
+   **A journey of a thousand miles begins with a single step** 
+   – idiom, from Laozi
+
+
+I wouldn't say that understanding your dataset is the most difficult thing in data science, but it is really important and time-consuming. Data Exploration is about describing the data by means of statistical and visualization techniques. We explore data in order to understand the features and bring important features to our models.
+
+
+
+Univariate Analysis
++++++++++++++++++++
+
+Numerical Variables
+-------------------
+
+
+.. math::
+
+	\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda \|\beta\|_{2}^{2}
+
+Categorical Variables
+---------------------
+
+
+
+
+Multivariate Analysis
++++++++++++++++++++++
+
+.. math::
+
+	\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda\|\beta\|_{1}
+
+  .. _fig_vis1:
+  .. figure:: images/pie.png
+    :align: center
+
+
+  .. _fig_vis2:
+  .. figure:: images/bar.png
+    :align: center
+
+  .. _fig_vis3:
+  .. figure:: images/stacked.png
+    :align: center
+
+  .. _fig_vis4:
+  .. figure:: images/unequal.png
+    :align: center
+
+Numerical V.S. Numerical
+------------------------
+
+
+
+Categorical V.S. Categorical
+----------------------------
+
+
+Numerical V.S. Categorical
+--------------------------

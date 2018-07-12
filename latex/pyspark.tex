@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{July 09, 2018}
+\date{July 11, 2018}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -1243,7 +1243,7 @@ There are two main types of Spark operations: Transformations and Actions.
 \centering
 
 \includegraphics{visualapi_006.png}
-\label{rdd:fig-login}\end{figure}
+\label{rdd:fig-api1}\end{figure}
 \end{quote}
 
 \begin{notice}{note}{Note:}
@@ -1260,12 +1260,12 @@ transformation is filtering data that matches a predicate.
 \centering
 
 \includegraphics{transforms1.png}
-\label{rdd:id1}\end{figure}
+\label{rdd:fig-api2}\end{figure}
 \begin{figure}[htbp]
 \centering
 
 \includegraphics{transforms2.png}
-\label{rdd:id2}\end{figure}
+\label{rdd:fig-api3}\end{figure}
 \end{quote}
 
 
@@ -1278,12 +1278,12 @@ the driver program or save it to an external storage system (e.g., HDFS).
 \centering
 
 \includegraphics{actions1.png}
-\label{rdd:id3}\end{figure}
+\label{rdd:fig-api4}\end{figure}
 \begin{figure}[htbp]
 \centering
 
 \includegraphics{actions2.png}
-\label{rdd:id4}\end{figure}
+\label{rdd:fig-api5}\end{figure}
 \end{quote}
 
 
@@ -1355,8 +1355,106 @@ Coefficient of determination \(R^2\)
 \begin{split}R^{2} := 1-{\text{RSS} \over \text{TSS}}.\,\end{split}\notag
 \end{gather}
 
+\section{Statistical Tests}
+\label{stats:statistical-tests}
+
+\subsection{Correlational Test}
+\label{stats:correlational-test}\begin{itemize}
+\item {} 
+Pearson correlation: Tests for the strength of the association between two continuous variables.
+
+\item {} 
+Spearman correlation: Tests for the strength of the association between two ordinal variables (does not rely on the assumption of normal distributed data).
+
+\item {} 
+Chi-square: Tests for the strength of the association between two categorical variables.
+
+\end{itemize}
+
+
+\subsection{Comparison of Means test}
+\label{stats:comparison-of-means-test}\begin{itemize}
+\item {} 
+Paired T-test: Tests for difference between two related variables.
+
+\item {} 
+Independent T-test: Tests for difference between two independent variables.
+
+\item {} 
+ANOVA: Tests the difference between group means after any other variance in the outcome variable is accounted for.
+
+\end{itemize}
+
+
+\subsection{Non-parametric Test}
+\label{stats:non-parametric-test}\begin{itemize}
+\item {} 
+Wilcoxon rank-sum test: Tests for difference between two independent variables - takes into account magnitude and direction of difference.
+
+\item {} 
+Wilcoxon sign-rank test: Tests for difference between two related variables - takes into account magnitude and direction of difference.
+
+\item {} 
+Sign test: Tests if two related variables are different – ignores magnitude of change, only takes into account direction.
+
+\end{itemize}
+
+
+\chapter{Data Exploration}
+\label{exploration:data-exploration}\label{exploration:total-sum-of-squares}\label{exploration:exploration}\label{exploration::doc}
+\begin{notice}{note}{Note:}
+\textbf{A journey of a thousand miles begins with a single step}
+– idiom, from Laozi
+\end{notice}
+
+I wouldn't say that understanding your dataset is the most difficult thing in data science, but it is really important and time-consuming. Data Exploration is about describing the data by means of statistical and visualization techniques. We explore data in order to understand the features and bring important features to our models.
+
+
+\section{Univariate Analysis}
+\label{exploration:univariate-analysis}
+
+\subsection{Numerical Variables}
+\label{exploration:numerical-variables}
+
+\subsection{Categorical Variables}
+\label{exploration:categorical-variables}
+
+\section{Multivariate Analysis}
+\label{exploration:multivariate-analysis}\begin{quote}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{pie.png}
+\label{exploration:fig-vis1}\end{figure}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{bar.png}
+\label{exploration:fig-vis2}\end{figure}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{stacked.png}
+\label{exploration:fig-vis3}\end{figure}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{unequal.png}
+\label{exploration:fig-vis4}\end{figure}
+\end{quote}
+
+
+\subsection{Numerical V.S. Numerical}
+\label{exploration:numerical-v-s-numerical}
+
+\subsection{Categorical V.S. Categorical}
+\label{exploration:categorical-v-s-categorical}
+
+\subsection{Numerical V.S. Categorical}
+\label{exploration:numerical-v-s-categorical}
+
 \chapter{Regression}
-\label{regression:total-sum-of-squares}\label{regression::doc}\label{regression:regression}\label{regression:id1}
+\label{regression::doc}\label{regression:regression}\label{regression:id1}
 \begin{notice}{note}{Note:}
 A journey of a thousand miles begins with a single step -- old Chinese proverb
 \end{notice}
