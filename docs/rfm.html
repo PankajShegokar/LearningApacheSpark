@@ -1,0 +1,613 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>RFM Analysis &mdash; Learning Apache Spark with Python v1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Learning Apache Spark with Python v1.0 documentation" href="index.html"/>
+        <link rel="next" title="Text Mining" href="textmining.html"/>
+        <link rel="prev" title="Clustering" href="clustering.html"/>
+ 
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-168290-9']);
+  _gaq.push(['_trackPageview']);
+</script>
+
+
+  
+  <script src="static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Learning Apache Spark with Python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="why.html">Why Spark with Python ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Configure Running Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">An Introduction to Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rdd.html">Programming with RDDs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">Statistics Preliminary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploration.html">Data Exploration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reg.html">Regularization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RFM Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rfm-analysis-methodology">RFM Analysis Methodology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#demo">Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="textmining.html">Text Mining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="socialnetwork.html">Social Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fnn.html">Neural Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pack.html">My PySpark Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Main Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Learning Apache Spark with Python</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>RFM Analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="sources/rfm.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rfm-analysis">
+<span id="rfm"></span><h1>RFM Analysis<a class="headerlink" href="#rfm-analysis" title="Permalink to this headline">¶</a></h1>
+<p>RFM is a method used for analyzing customer value. It is commonly used in database marketing and direct marketing and has received particular attention in retail and professional services industries. More details can be found at
+Wikipedia <a class="reference external" href="https://en.wikipedia.org/wiki/RFM_(customer_value)">RFM_wikipedia</a>.</p>
+<p>RFM stands for the three dimensions:</p>
+<ul class="simple">
+<li>Recency – How recently did the customer purchase? i.e. Duration since last purchase</li>
+<li>Frequency – How often do they purchase?  i.e. Total number of purchases</li>
+<li>Monetary Value – How much do they spend? i.e. Total money this customer spent</li>
+</ul>
+<div class="section" id="rfm-analysis-methodology">
+<h2>RFM Analysis Methodology<a class="headerlink" href="#rfm-analysis-methodology" title="Permalink to this headline">¶</a></h2>
+<p>RFM Analysis contains three main steps:</p>
+<ol class="arabic simple">
+<li>Build the RFM features matrix for each customer</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+----------+-------+---------+---------+</span>
+<span class="o">|</span><span class="n">CustomerID</span><span class="o">|</span><span class="n">Recency</span><span class="o">|</span><span class="n">Frequency</span><span class="o">|</span> <span class="n">Monetary</span><span class="o">|</span>
+<span class="o">+----------+-------+---------+---------+</span>
+<span class="o">|</span>     <span class="mi">14911</span><span class="o">|</span>      <span class="mi">1</span><span class="o">|</span>      <span class="mi">248</span><span class="o">|</span><span class="mf">132572.62</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">12748</span><span class="o">|</span>      <span class="mi">0</span><span class="o">|</span>      <span class="mi">224</span><span class="o">|</span>  <span class="mf">29072.1</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">17841</span><span class="o">|</span>      <span class="mi">1</span><span class="o">|</span>      <span class="mi">169</span><span class="o">|</span> <span class="mf">40340.78</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">14606</span><span class="o">|</span>      <span class="mi">1</span><span class="o">|</span>      <span class="mi">128</span><span class="o">|</span> <span class="mf">11713.85</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">15311</span><span class="o">|</span>      <span class="mi">0</span><span class="o">|</span>      <span class="mi">118</span><span class="o">|</span> <span class="mf">59419.34</span><span class="o">|</span>
+<span class="o">+----------+-------+---------+---------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Determine cutting points for each feature</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+----------+-------+---------+--------+-----+-----+-----+</span>
+<span class="o">|</span><span class="n">CustomerID</span><span class="o">|</span><span class="n">Recency</span><span class="o">|</span><span class="n">Frequency</span><span class="o">|</span><span class="n">Monetary</span><span class="o">|</span><span class="n">r_seg</span><span class="o">|</span><span class="n">f_seg</span><span class="o">|</span><span class="n">m_seg</span><span class="o">|</span>
+<span class="o">+----------+-------+---------+--------+-----+-----+-----+</span>
+<span class="o">|</span>     <span class="mi">17420</span><span class="o">|</span>     <span class="mi">50</span><span class="o">|</span>        <span class="mi">3</span><span class="o">|</span>  <span class="mf">598.83</span><span class="o">|</span>    <span class="mi">2</span><span class="o">|</span>    <span class="mi">3</span><span class="o">|</span>    <span class="mi">2</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">16861</span><span class="o">|</span>     <span class="mi">59</span><span class="o">|</span>        <span class="mi">3</span><span class="o">|</span>  <span class="mf">151.65</span><span class="o">|</span>    <span class="mi">3</span><span class="o">|</span>    <span class="mi">3</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">16503</span><span class="o">|</span>    <span class="mi">106</span><span class="o">|</span>        <span class="mi">5</span><span class="o">|</span> <span class="mf">1421.43</span><span class="o">|</span>    <span class="mi">3</span><span class="o">|</span>    <span class="mi">2</span><span class="o">|</span>    <span class="mi">3</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">15727</span><span class="o">|</span>     <span class="mi">16</span><span class="o">|</span>        <span class="mi">7</span><span class="o">|</span> <span class="mf">5178.96</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">4</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">17389</span><span class="o">|</span>      <span class="mi">0</span><span class="o">|</span>       <span class="mi">43</span><span class="o">|</span><span class="mf">31300.08</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">4</span><span class="o">|</span>
+<span class="o">+----------+-------+---------+--------+-----+-----+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Determine the RFM scores and summarize the corresponding business value.</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+----------+-------+---------+--------+-----+-----+-----+--------+</span>
+<span class="o">|</span><span class="n">CustomerID</span><span class="o">|</span><span class="n">Recency</span><span class="o">|</span><span class="n">Frequency</span><span class="o">|</span><span class="n">Monetary</span><span class="o">|</span><span class="n">r_seg</span><span class="o">|</span><span class="n">f_seg</span><span class="o">|</span><span class="n">m_seg</span><span class="o">|</span><span class="n">RFMScore</span><span class="o">|</span>
+<span class="o">+----------+-------+---------+--------+-----+-----+-----+--------+</span>
+<span class="o">|</span>     <span class="mi">17988</span><span class="o">|</span>     <span class="mi">11</span><span class="o">|</span>        <span class="mi">8</span><span class="o">|</span>  <span class="mf">191.17</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>     <span class="mi">111</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">16892</span><span class="o">|</span>      <span class="mi">1</span><span class="o">|</span>        <span class="mi">7</span><span class="o">|</span>  <span class="mf">496.84</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">2</span><span class="o">|</span>     <span class="mi">112</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">16668</span><span class="o">|</span>     <span class="mi">15</span><span class="o">|</span>        <span class="mi">6</span><span class="o">|</span>  <span class="mf">306.72</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">2</span><span class="o">|</span>     <span class="mi">112</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">16554</span><span class="o">|</span>      <span class="mi">3</span><span class="o">|</span>        <span class="mi">7</span><span class="o">|</span>  <span class="mf">641.55</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">2</span><span class="o">|</span>     <span class="mi">112</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">16500</span><span class="o">|</span>      <span class="mi">4</span><span class="o">|</span>        <span class="mi">6</span><span class="o">|</span>  <span class="mf">400.86</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">1</span><span class="o">|</span>    <span class="mi">2</span><span class="o">|</span>     <span class="mi">112</span><span class="o">|</span>
+<span class="o">+----------+-------+---------+--------+-----+-----+-----+--------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<p>The corresponding business description and marketing value:</p>
+<div class="figure align-center" id="id1">
+<span id="fig-rfm-business"></span><img alt="images/rfm_business.png" src="images/rfm_business.png" />
+<p class="caption"><span class="caption-number">Fig. 38 </span><span class="caption-text">Source: Blast Analytics Marketing</span></p>
+</div>
+</div>
+<div class="section" id="demo">
+<h2>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>The Jupyter notebook can be download from <a class="reference external" href="_static/RFM.ipynb">Data Exploration</a>.</li>
+<li>The data can be downloaf from <a class="reference external" href="_static/OnlineRetail.csv">German Credit</a>.</li>
+</ul>
+<ol class="arabic simple">
+<li>Set up spark context and SparkSession</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark RFM example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Load dataset</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df_raw</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;com.databricks.spark.csv&#39;</span><span class="p">)</span><span class="o">.</span>\
+                       <span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> \
+                       <span class="n">inferschema</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">load</span><span class="p">(</span><span class="s2">&quot;Online Retail.csv&quot;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>check the data set</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df_raw</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">df_raw</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then you will get</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---------+---------+--------------------+--------+------------+---------+----------+--------------+</span>
+<span class="o">|</span><span class="n">InvoiceNo</span><span class="o">|</span><span class="n">StockCode</span><span class="o">|</span>         <span class="n">Description</span><span class="o">|</span><span class="n">Quantity</span><span class="o">|</span> <span class="n">InvoiceDate</span><span class="o">|</span><span class="n">UnitPrice</span><span class="o">|</span><span class="n">CustomerID</span><span class="o">|</span>       <span class="n">Country</span><span class="o">|</span>
+<span class="o">+---------+---------+--------------------+--------+------------+---------+----------+--------------+</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>   <span class="mi">85123</span><span class="n">A</span><span class="o">|</span><span class="n">WHITE</span> <span class="n">HANGING</span> <span class="n">HEA</span><span class="o">...|</span>       <span class="mi">6</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">2.55</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>    <span class="mi">71053</span><span class="o">|</span> <span class="n">WHITE</span> <span class="n">METAL</span> <span class="n">LANTERN</span><span class="o">|</span>       <span class="mi">6</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">3.39</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>   <span class="mi">84406</span><span class="n">B</span><span class="o">|</span><span class="n">CREAM</span> <span class="n">CUPID</span> <span class="n">HEART</span><span class="o">...|</span>       <span class="mi">8</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">2.75</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>   <span class="mi">84029</span><span class="n">G</span><span class="o">|</span><span class="n">KNITTED</span> <span class="n">UNION</span> <span class="n">FLA</span><span class="o">...|</span>       <span class="mi">6</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">3.39</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>   <span class="mi">84029</span><span class="n">E</span><span class="o">|</span><span class="n">RED</span> <span class="n">WOOLLY</span> <span class="n">HOTTIE</span><span class="o">...|</span>       <span class="mi">6</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">3.39</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span>
+<span class="o">+---------+---------+--------------------+--------+------------+---------+----------+--------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+
+<span class="n">root</span>
+ <span class="o">|--</span> <span class="n">InvoiceNo</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">StockCode</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Description</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Quantity</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">InvoiceDate</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">UnitPrice</span><span class="p">:</span> <span class="n">double</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">CustomerID</span><span class="p">:</span> <span class="n">integer</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+ <span class="o">|--</span> <span class="n">Country</span><span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Data clean and data manipulation</li>
+</ol>
+<ul class="simple">
+<li>check and remove the <code class="docutils literal"><span class="pre">null</span></code> values</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">count</span>
+
+<span class="k">def</span> <span class="nf">my_count</span><span class="p">(</span><span class="n">df_in</span><span class="p">):</span>
+    <span class="n">df_in</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span> <span class="o">*</span><span class="p">[</span> <span class="n">count</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_in</span><span class="o">.</span><span class="n">columns</span> <span class="p">]</span> <span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">my_count</span><span class="p">(</span><span class="n">df_raw</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---------+---------+-----------+--------+-----------+---------+----------+-------+</span>
+<span class="o">|</span><span class="n">InvoiceNo</span><span class="o">|</span><span class="n">StockCode</span><span class="o">|</span><span class="n">Description</span><span class="o">|</span><span class="n">Quantity</span><span class="o">|</span><span class="n">InvoiceDate</span><span class="o">|</span><span class="n">UnitPrice</span><span class="o">|</span><span class="n">CustomerID</span><span class="o">|</span><span class="n">Country</span><span class="o">|</span>
+<span class="o">+---------+---------+-----------+--------+-----------+---------+----------+-------+</span>
+<span class="o">|</span>   <span class="mi">541909</span><span class="o">|</span>   <span class="mi">541909</span><span class="o">|</span>     <span class="mi">540455</span><span class="o">|</span>  <span class="mi">541909</span><span class="o">|</span>     <span class="mi">541909</span><span class="o">|</span>   <span class="mi">541909</span><span class="o">|</span>    <span class="mi">406829</span><span class="o">|</span> <span class="mi">541909</span><span class="o">|</span>
+<span class="o">+---------+---------+-----------+--------+-----------+---------+----------+-------+</span>
+</pre></div>
+</div>
+<p>Since the count results are not the same, we have some null value in the <code class="docutils literal"><span class="pre">CustomerID</span></code> column. We can drop these records from the dataset.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df_raw</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">)</span>
+<span class="n">my_count</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+---------+---------+-----------+--------+-----------+---------+----------+-------+</span>
+<span class="o">|</span><span class="n">InvoiceNo</span><span class="o">|</span><span class="n">StockCode</span><span class="o">|</span><span class="n">Description</span><span class="o">|</span><span class="n">Quantity</span><span class="o">|</span><span class="n">InvoiceDate</span><span class="o">|</span><span class="n">UnitPrice</span><span class="o">|</span><span class="n">CustomerID</span><span class="o">|</span><span class="n">Country</span><span class="o">|</span>
+<span class="o">+---------+---------+-----------+--------+-----------+---------+----------+-------+</span>
+<span class="o">|</span>   <span class="mi">406829</span><span class="o">|</span>   <span class="mi">406829</span><span class="o">|</span>     <span class="mi">406829</span><span class="o">|</span>  <span class="mi">406829</span><span class="o">|</span>     <span class="mi">406829</span><span class="o">|</span>   <span class="mi">406829</span><span class="o">|</span>    <span class="mi">406829</span><span class="o">|</span> <span class="mi">406829</span><span class="o">|</span>
+<span class="o">+---------+---------+-----------+--------+-----------+---------+----------+-------+</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Dealwith the InvoiceDate</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">to_utc_timestamp</span><span class="p">,</span> <span class="n">unix_timestamp</span><span class="p">,</span> <span class="n">lit</span><span class="p">,</span> <span class="n">datediff</span><span class="p">,</span> <span class="n">col</span>
+
+<span class="n">timeFmt</span> <span class="o">=</span> <span class="s2">&quot;MM/dd/yy HH:mm&quot;</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;NewInvoiceDate&#39;</span>
+                 <span class="p">,</span> <span class="n">to_utc_timestamp</span><span class="p">(</span><span class="n">unix_timestamp</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;InvoiceDate&#39;</span><span class="p">),</span><span class="n">timeFmt</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;timestamp&#39;</span><span class="p">)</span>
+                 <span class="p">,</span> <span class="s1">&#39;UTC&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="o">+---------+---------+--------------------+--------+------------+---------+----------+--------------+--------------------+</span>
+<span class="o">|</span><span class="n">InvoiceNo</span><span class="o">|</span><span class="n">StockCode</span><span class="o">|</span>         <span class="n">Description</span><span class="o">|</span><span class="n">Quantity</span><span class="o">|</span> <span class="n">InvoiceDate</span><span class="o">|</span><span class="n">UnitPrice</span><span class="o">|</span><span class="n">CustomerID</span><span class="o">|</span>       <span class="n">Country</span><span class="o">|</span>      <span class="n">NewInvoiceDate</span><span class="o">|</span>
+<span class="o">+---------+---------+--------------------+--------+------------+---------+----------+--------------+--------------------+</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>   <span class="mi">85123</span><span class="n">A</span><span class="o">|</span><span class="n">WHITE</span> <span class="n">HANGING</span> <span class="n">HEA</span><span class="o">...|</span>       <span class="mi">6</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">2.55</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span><span class="mi">2010</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">01</span> <span class="mi">08</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="o">...|</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>    <span class="mi">71053</span><span class="o">|</span> <span class="n">WHITE</span> <span class="n">METAL</span> <span class="n">LANTERN</span><span class="o">|</span>       <span class="mi">6</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">3.39</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span><span class="mi">2010</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">01</span> <span class="mi">08</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="o">...|</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>   <span class="mi">84406</span><span class="n">B</span><span class="o">|</span><span class="n">CREAM</span> <span class="n">CUPID</span> <span class="n">HEART</span><span class="o">...|</span>       <span class="mi">8</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">2.75</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span><span class="mi">2010</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">01</span> <span class="mi">08</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="o">...|</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>   <span class="mi">84029</span><span class="n">G</span><span class="o">|</span><span class="n">KNITTED</span> <span class="n">UNION</span> <span class="n">FLA</span><span class="o">...|</span>       <span class="mi">6</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">3.39</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span><span class="mi">2010</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">01</span> <span class="mi">08</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="o">...|</span>
+<span class="o">|</span>   <span class="mi">536365</span><span class="o">|</span>   <span class="mi">84029</span><span class="n">E</span><span class="o">|</span><span class="n">RED</span> <span class="n">WOOLLY</span> <span class="n">HOTTIE</span><span class="o">...|</span>       <span class="mi">6</span><span class="o">|</span><span class="mi">12</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span> <span class="mi">8</span><span class="p">:</span><span class="mi">26</span><span class="o">|</span>     <span class="mf">3.39</span><span class="o">|</span>     <span class="mi">17850</span><span class="o">|</span><span class="n">United</span> <span class="n">Kingdom</span><span class="o">|</span><span class="mi">2010</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">01</span> <span class="mi">08</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="o">...|</span>
+<span class="o">+---------+---------+--------------------+--------+------------+---------+----------+--------------+--------------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The spark is prtty sensitive to the date format!</p>
+</div>
+<ul class="simple">
+<li>calculate total price</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="nb">round</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;TotalPrice&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span> <span class="n">df</span><span class="o">.</span><span class="n">Quantity</span> <span class="o">*</span> <span class="n">df</span><span class="o">.</span><span class="n">UnitPrice</span><span class="p">,</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>calculate the time difference</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">mean</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">datediff</span><span class="p">,</span> <span class="n">to_date</span>
+
+<span class="n">date_max</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="s1">&#39;NewInvoiceDate&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+<span class="n">current</span> <span class="o">=</span> <span class="n">to_utc_timestamp</span><span class="p">(</span> <span class="n">unix_timestamp</span><span class="p">(</span><span class="n">lit</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">date_max</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])),</span> \
+                              <span class="s1">&#39;yy-MM-dd HH:mm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;timestamp&#39;</span><span class="p">),</span> <span class="s1">&#39;UTC&#39;</span> <span class="p">)</span>
+
+<span class="c1"># Calculatre Duration</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;Duration&#39;</span><span class="p">,</span> <span class="n">datediff</span><span class="p">(</span><span class="n">lit</span><span class="p">(</span><span class="n">current</span><span class="p">),</span> <span class="s1">&#39;NewInvoiceDate&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>build the Recency, Frequency and Monetary</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">recency</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="s1">&#39;Duration&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;Recency&#39;</span><span class="p">))</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">,</span> <span class="s1">&#39;InvoiceNo&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>\
+                        <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">)</span>\
+                        <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">))</span>
+<span class="n">monetary</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="s1">&#39;TotalPrice&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;Monetary&#39;</span><span class="p">))</span>
+<span class="n">rfm</span> <span class="o">=</span> <span class="n">recency</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;inner&#39;</span><span class="p">)</span>\
+             <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">monetary</span><span class="p">,</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rfm</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="o">+----------+-------+---------+--------+</span>
+<span class="o">|</span><span class="n">CustomerID</span><span class="o">|</span><span class="n">Recency</span><span class="o">|</span><span class="n">Frequency</span><span class="o">|</span><span class="n">Monetary</span><span class="o">|</span>
+<span class="o">+----------+-------+---------+--------+</span>
+<span class="o">|</span>     <span class="mi">17420</span><span class="o">|</span>     <span class="mi">50</span><span class="o">|</span>        <span class="mi">3</span><span class="o">|</span>  <span class="mf">598.83</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">16861</span><span class="o">|</span>     <span class="mi">59</span><span class="o">|</span>        <span class="mi">3</span><span class="o">|</span>  <span class="mf">151.65</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">16503</span><span class="o">|</span>    <span class="mi">106</span><span class="o">|</span>        <span class="mi">5</span><span class="o">|</span> <span class="mf">1421.43</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">15727</span><span class="o">|</span>     <span class="mi">16</span><span class="o">|</span>        <span class="mi">7</span><span class="o">|</span> <span class="mf">5178.96</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">17389</span><span class="o">|</span>      <span class="mi">0</span><span class="o">|</span>       <span class="mi">43</span><span class="o">|</span><span class="mf">31300.08</span><span class="o">|</span>
+<span class="o">+----------+-------+---------+--------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Determine cutting points</li>
+</ol>
+<p>In this section, you can use the techniques (statistical results and visualizations) in data exploration section to help you determine the cutting points for each attribute. In my opinion, the cutting points are mainly depend on the business sense. You&#8217;s better talk to your makrting people and get feedback and suggestion from them. I will use the quantile as the cutting points in this demo.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Recency&#39;</span><span class="p">,</span><span class="s1">&#39;Frequency&#39;</span><span class="p">,</span><span class="s1">&#39;Monetary&#39;</span><span class="p">]</span>
+<span class="n">describe_pd</span><span class="p">(</span><span class="n">rfm</span><span class="p">,</span><span class="n">cols</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+-------+-----------------+-----------------+------------------+</span>
+<span class="o">|</span><span class="n">summary</span><span class="o">|</span>          <span class="n">Recency</span><span class="o">|</span>        <span class="n">Frequency</span><span class="o">|</span>          <span class="n">Monetary</span><span class="o">|</span>
+<span class="o">+-------+-----------------+-----------------+------------------+</span>
+<span class="o">|</span>  <span class="n">count</span><span class="o">|</span>           <span class="mf">4372.0</span><span class="o">|</span>           <span class="mf">4372.0</span><span class="o">|</span>            <span class="mf">4372.0</span><span class="o">|</span>
+<span class="o">|</span>   <span class="n">mean</span><span class="o">|</span><span class="mf">91.58119853613907</span><span class="o">|</span> <span class="mf">5.07548032936871</span><span class="o">|</span><span class="mf">1898.4597003659655</span><span class="o">|</span>
+<span class="o">|</span> <span class="n">stddev</span><span class="o">|</span><span class="mf">100.7721393138483</span><span class="o">|</span><span class="mf">9.338754163574727</span><span class="o">|</span> <span class="mf">8219.345141139722</span><span class="o">|</span>
+<span class="o">|</span>    <span class="nb">min</span><span class="o">|</span>              <span class="mf">0.0</span><span class="o">|</span>              <span class="mf">1.0</span><span class="o">|</span>          <span class="o">-</span><span class="mf">4287.63</span><span class="o">|</span>
+<span class="o">|</span>    <span class="nb">max</span><span class="o">|</span>            <span class="mf">373.0</span><span class="o">|</span>            <span class="mf">248.0</span><span class="o">|</span>         <span class="mf">279489.02</span><span class="o">|</span>
+<span class="o">|</span>    <span class="mi">25</span><span class="o">%|</span>             <span class="mf">16.0</span><span class="o">|</span>              <span class="mf">1.0</span><span class="o">|</span><span class="mf">293.36249999999995</span><span class="o">|</span>
+<span class="o">|</span>    <span class="mi">50</span><span class="o">%|</span>             <span class="mf">50.0</span><span class="o">|</span>              <span class="mf">3.0</span><span class="o">|</span>           <span class="mf">648.075</span><span class="o">|</span>
+<span class="o">|</span>    <span class="mi">75</span><span class="o">%|</span>            <span class="mf">143.0</span><span class="o">|</span>              <span class="mf">5.0</span><span class="o">|</span>          <span class="mf">1611.725</span><span class="o">|</span>
+<span class="o">+-------+-----------------+-----------------+------------------+</span>
+</pre></div>
+</div>
+<p>The user defined function by using the cutting points:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">RScore</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span>  <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">16</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">x</span><span class="o">&lt;=</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">x</span><span class="o">&lt;=</span> <span class="mi">143</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">3</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">4</span>
+
+<span class="k">def</span> <span class="nf">FScore</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span>  <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">4</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">3</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">MScore</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span>  <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">293</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">4</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">648</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">3</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">1611</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">DoubleType</span>
+
+<span class="n">R_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">RScore</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">F_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">FScore</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">StringType</span><span class="p">())</span>
+<span class="n">M_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">MScore</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">StringType</span><span class="p">())</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>RFM Segmentation</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rfm_seg</span> <span class="o">=</span> <span class="n">rfm</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;r_seg&quot;</span><span class="p">,</span> <span class="n">R_udf</span><span class="p">(</span><span class="s2">&quot;Recency&quot;</span><span class="p">))</span>
+<span class="n">rfm_seg</span> <span class="o">=</span> <span class="n">rfm_seg</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;f_seg&quot;</span><span class="p">,</span> <span class="n">F_udf</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">))</span>
+<span class="n">rfm_seg</span> <span class="o">=</span> <span class="n">rfm_seg</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;m_seg&quot;</span><span class="p">,</span> <span class="n">M_udf</span><span class="p">(</span><span class="s2">&quot;Monetary&quot;</span><span class="p">))</span>
+<span class="n">rfm_seg</span> <span class="o">=</span> <span class="n">rfm_seg</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;RFMScore&#39;</span><span class="p">,</span>
+                             <span class="n">F</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;r_seg&#39;</span><span class="p">),</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;f_seg&#39;</span><span class="p">),</span> <span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;m_seg&#39;</span><span class="p">)))</span>
+<span class="n">rfm_seg</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;RFMScore&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li>Statistical Summary</li>
+</ol>
+<ul class="simple">
+<li>simple summary</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rfm_seg</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s1">&#39;RFMScore&#39;</span><span class="p">)</span>\
+       <span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;Recency&#39;</span><span class="p">:</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Frequency&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Monetary&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">}</span> <span class="p">)</span>\
+        <span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;RFMScore&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+--------+-----------------+------------------+------------------+</span>
+<span class="o">|</span><span class="n">RFMScore</span><span class="o">|</span>     <span class="n">avg</span><span class="p">(</span><span class="n">Recency</span><span class="p">)</span><span class="o">|</span>     <span class="n">avg</span><span class="p">(</span><span class="n">Monetary</span><span class="p">)</span><span class="o">|</span>    <span class="n">avg</span><span class="p">(</span><span class="n">Frequency</span><span class="p">)</span><span class="o">|</span>
+<span class="o">+--------+-----------------+------------------+------------------+</span>
+<span class="o">|</span>     <span class="mi">111</span><span class="o">|</span>             <span class="mf">11.0</span><span class="o">|</span>            <span class="mf">191.17</span><span class="o">|</span>               <span class="mf">8.0</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">112</span><span class="o">|</span>              <span class="mf">8.0</span><span class="o">|</span>          <span class="mf">505.9775</span><span class="o">|</span>               <span class="mf">7.5</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">113</span><span class="o">|</span><span class="mf">7.237113402061856</span><span class="o">|</span><span class="mf">1223.3604123711339</span><span class="o">|</span> <span class="mf">7.752577319587629</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">114</span><span class="o">|</span><span class="mf">6.035123966942149</span><span class="o">|</span> <span class="mf">8828.888595041324</span><span class="o">|</span><span class="mf">18.882231404958677</span><span class="o">|</span>
+<span class="o">|</span>     <span class="mi">121</span><span class="o">|</span>              <span class="mf">9.6</span><span class="o">|</span>            <span class="mf">207.24</span><span class="o">|</span>               <span class="mf">4.4</span><span class="o">|</span>
+<span class="o">+--------+-----------------+------------------+------------------+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">5</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>complex summary</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">grp</span> <span class="o">=</span> <span class="s1">&#39;RFMScore&#39;</span>
+<span class="n">num_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Recency&#39;</span><span class="p">,</span><span class="s1">&#39;Frequency&#39;</span><span class="p">,</span><span class="s1">&#39;Monetary&#39;</span><span class="p">]</span>
+<span class="n">df_input</span> <span class="o">=</span> <span class="n">rfm_seg</span>
+
+<span class="n">quantile_grouped</span> <span class="o">=</span> <span class="n">quantile_agg</span><span class="p">(</span><span class="n">df_input</span><span class="p">,</span><span class="n">grp</span><span class="p">,</span><span class="n">num_cols</span><span class="p">)</span>
+<span class="n">quantile_grouped</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;quantile_grouped.csv&#39;</span><span class="p">)</span>
+
+<span class="n">deciles_grouped</span> <span class="o">=</span> <span class="n">deciles_agg</span><span class="p">(</span><span class="n">df_input</span><span class="p">,</span><span class="n">grp</span><span class="p">,</span><span class="n">num_cols</span><span class="p">)</span>
+<span class="n">deciles_grouped</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;deciles_grouped.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="textmining.html" class="btn btn-neutral float-right" title="Text Mining" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="clustering.html" class="btn btn-neutral" title="Clustering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Wenqiang Feng.
+      Last updated on Dec 06, 2018.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="static/jquery.js"></script>
+      <script type="text/javascript" src="static/underscore.js"></script>
+      <script type="text/javascript" src="static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+
+
+</body>
+</html>

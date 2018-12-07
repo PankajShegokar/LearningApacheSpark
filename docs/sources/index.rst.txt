@@ -28,6 +28,7 @@ Contents
    reg
    classification
    clustering
+   rfm
    textmining
    socialnetwork
    fnn
