@@ -118,6 +118,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#demo">Demo</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#load-and-clean-data">Load and clean data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#train-model">Train model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#make-prediction">Make prediction</a></li>
 </ul>
 </li>
 </ul>
@@ -565,6 +566,9 @@
 <span class="n">model</span> <span class="o">=</span> <span class="n">bestModel</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="make-prediction">
+<h3>Make prediction<a class="headerlink" href="#make-prediction" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>make prediction</li>
 </ul>
@@ -572,7 +576,7 @@
 
 <span class="n">predictions</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">topredict</span><span class="p">)</span>
 <span class="n">predictions</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">prediction</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>\
-           <span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">),</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;Cusip&#39;</span><span class="p">)],</span><span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">),</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s1">&#39;Cusip&#39;</span><span class="p">)],</span><span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+----------+------+------------+------+------------+</span>
@@ -583,11 +587,6 @@
 <span class="o">|</span>     <span class="mi">18282</span><span class="o">|</span> <span class="mi">84879</span><span class="o">|</span>         <span class="mf">1.0</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span> <span class="mf">0.059531752</span><span class="o">|</span>
 <span class="o">|</span>     <span class="mi">18282</span><span class="o">|</span> <span class="mi">23203</span><span class="o">|</span>         <span class="mf">7.0</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span> <span class="mf">0.010502596</span><span class="o">|</span>
 <span class="o">|</span>     <span class="mi">18282</span><span class="o">|</span> <span class="mi">22720</span><span class="o">|</span>         <span class="mf">3.0</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span> <span class="mf">0.053893942</span><span class="o">|</span>
-<span class="o">|</span>     <span class="mi">18282</span><span class="o">|</span> <span class="mi">20725</span><span class="o">|</span>         <span class="mf">2.0</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span><span class="mf">0.0054253186</span><span class="o">|</span>
-<span class="o">|</span>     <span class="mi">18274</span><span class="o">|</span><span class="mi">85099</span><span class="n">B</span><span class="o">|</span>         <span class="mf">5.0</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span> <span class="mf">0.004492881</span><span class="o">|</span>
-<span class="o">|</span>     <span class="mi">18272</span><span class="o">|</span> <span class="mi">84879</span><span class="o">|</span>         <span class="mf">1.0</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span> <span class="mf">0.029040236</span><span class="o">|</span>
-<span class="o">|</span>     <span class="mi">18265</span><span class="o">|</span><span class="mi">85099</span><span class="n">B</span><span class="o">|</span>         <span class="mf">5.0</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span> <span class="mf">0.006360693</span><span class="o">|</span>
-<span class="o">|</span>     <span class="mi">18262</span><span class="o">|</span>  <span class="n">POST</span><span class="o">|</span>         <span class="mf">8.0</span><span class="o">|</span>   <span class="mf">0.0</span><span class="o">|</span> <span class="mf">0.007962364</span><span class="o">|</span>
 <span class="o">+----------+------+------------+------+------------+</span>
 <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">10</span> <span class="n">rows</span>
 </pre></div>

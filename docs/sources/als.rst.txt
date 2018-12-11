@@ -412,6 +412,8 @@ Train model
 	 
 	model = bestModel
 
+Make prediction  
+---------------
 
 * make prediction 
 
@@ -421,7 +423,7 @@ Train model
 
 	predictions=model.transform(topredict)
 	predictions.filter(predictions.prediction>0)\
-	           .sort([F.col('CustomerID'),F.col('Cusip')],ascending=[0,0]).show(10)	
+	           .sort([F.col('CustomerID'),F.col('Cusip')],ascending=[0,0]).show(5)	
 
 .. code-block:: python
 
@@ -433,10 +435,5 @@ Train model
 	|     18282| 84879|         1.0|   0.0| 0.059531752|
 	|     18282| 23203|         7.0|   0.0| 0.010502596|
 	|     18282| 22720|         3.0|   0.0| 0.053893942|
-	|     18282| 20725|         2.0|   0.0|0.0054253186|
-	|     18274|85099B|         5.0|   0.0| 0.004492881|
-	|     18272| 84879|         1.0|   0.0| 0.029040236|
-	|     18265|85099B|         5.0|   0.0| 0.006360693|
-	|     18262|  POST|         8.0|   0.0| 0.007962364|
 	+----------+------+------------+------+------------+
 	only showing top 10 rows
