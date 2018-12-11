@@ -131,14 +131,20 @@
 \contentsline {subsection}{\numberline {14.1.1}Methodology}{152}{subsection.14.1.1}
 \contentsline {subsection}{\numberline {14.1.2}Coding Puzzle from my interview}{154}{subsection.14.1.2}
 \contentsline {section}{\numberline {14.2}Correlation Network}{156}{section.14.2}
-\contentsline {chapter}{\numberline {15}Neural Network}{157}{chapter.15}
-\contentsline {section}{\numberline {15.1}Feedforward Neural Network}{157}{section.15.1}
-\contentsline {subsection}{\numberline {15.1.1}Introduction}{157}{subsection.15.1.1}
-\contentsline {subsection}{\numberline {15.1.2}Demo}{158}{subsection.15.1.2}
-\contentsline {chapter}{\numberline {16}My PySpark Package}{161}{chapter.16}
-\contentsline {section}{\numberline {16.1}Hierarchical Structure}{161}{section.16.1}
-\contentsline {section}{\numberline {16.2}Set Up}{162}{section.16.2}
-\contentsline {section}{\numberline {16.3}ReadMe}{162}{section.16.3}
-\contentsline {chapter}{\numberline {17}Main Reference}{165}{chapter.17}
-\contentsline {chapter}{Bibliography}{167}{chapter*.5}
-\contentsline {chapter}{Index}{169}{section*.10}
+\contentsline {chapter}{\numberline {15}Stock Portfolio Recommendations}{157}{chapter.15}
+\contentsline {section}{\numberline {15.1}Recommender systems}{157}{section.15.1}
+\contentsline {section}{\numberline {15.2}Alternating Least Squares}{157}{section.15.2}
+\contentsline {section}{\numberline {15.3}Demo}{157}{section.15.3}
+\contentsline {subsection}{\numberline {15.3.1}Load and clean data}{157}{subsection.15.3.1}
+\contentsline {subsection}{\numberline {15.3.2}Train model}{162}{subsection.15.3.2}
+\contentsline {chapter}{\numberline {16}Neural Network}{165}{chapter.16}
+\contentsline {section}{\numberline {16.1}Feedforward Neural Network}{165}{section.16.1}
+\contentsline {subsection}{\numberline {16.1.1}Introduction}{165}{subsection.16.1.1}
+\contentsline {subsection}{\numberline {16.1.2}Demo}{166}{subsection.16.1.2}
+\contentsline {chapter}{\numberline {17}My PySpark Package}{169}{chapter.17}
+\contentsline {section}{\numberline {17.1}Hierarchical Structure}{169}{section.17.1}
+\contentsline {section}{\numberline {17.2}Set Up}{170}{section.17.2}
+\contentsline {section}{\numberline {17.3}ReadMe}{170}{section.17.3}
+\contentsline {chapter}{\numberline {18}Main Reference}{173}{chapter.18}
+\contentsline {chapter}{Bibliography}{175}{chapter*.5}
+\contentsline {chapter}{Index}{177}{section*.10}

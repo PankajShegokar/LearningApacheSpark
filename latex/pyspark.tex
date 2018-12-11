@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{December 07, 2018}
+\date{December 11, 2018}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -8102,8 +8102,490 @@ Then you will get Figure {\hyperref[socialnetwork:fig-netfreq]{\emph{Co-occurren
 \section{Correlation Network}
 \label{socialnetwork:correlation-network}
 
+\chapter{Stock Portfolio Recommendations}
+\label{als:co-occurrence-networks}\label{als::doc}\label{als:als}\label{als:stock-portfolio-recommendations}
+
+\section{Recommender systems}
+\label{als:recommender-systems}
+Recommender systems or recommendation systems (sometimes replacing “system” with a synonym such as platform or engine) are a subclass of information filtering system that seek to predict the “rating” or “preference” that a user would give to an item.”
+
+The main idea is to build a matrix users \code{R} items rating values and try to factorize it, to recommend main products rated by other users. A popular approach for this is matrix factorization is Alternating Least Squares (ALS)
+
+
+\section{Alternating Least Squares}
+\label{als:alternating-least-squares}
+Apache Spark ML implements ALS for collaborative filtering, a very popular algorithm for making recommendations.
+
+ALS recommender is a matrix factorization algorithm that uses Alternating Least Squares with Weighted-Lamda-Regularization (ALS-WR). It factors the user to item matrix \code{A} into the user-to-feature matrix \code{U} and the item-to-feature matrix \code{M}: It runs the ALS algorithm in a parallel fashion.  The ALS algorithm should uncover the latent factors that explain the observed user to item ratings and tries to find optimal factor weights to minimize the least squares between predicted and actual ratings.
+
+\href{https://www.elenacuoco.com/2016/12/22/alternating-least-squares-als-spark-ml/}{https://www.elenacuoco.com/2016/12/22/alternating-least-squares-als-spark-ml/}
+
+
+\section{Demo}
+\label{als:demo}\begin{itemize}
+\item {} 
+The Jupyter notebook can be download from ALS Recommender systems.
+
+\item {} 
+The data can be downloaf from German Credit.
+
+\end{itemize}
+
+
+\subsection{Load and clean data}
+\label{als:load-and-clean-data}\begin{enumerate}
+\item {} 
+Set up spark context and SparkSession
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql} \PYG{k+kn}{import} \PYG{n}{SparkSession}
+
+\PYG{n}{spark} \PYG{o}{=} \PYG{n}{SparkSession} \PYGZbs{}
+    \PYG{o}{.}\PYG{n}{builder} \PYGZbs{}
+    \PYG{o}{.}\PYG{n}{appName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Python Spark RFM example}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)} \PYGZbs{}
+    \PYG{o}{.}\PYG{n}{config}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{spark.some.config.option}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{some\PYGZhy{}value}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)} \PYGZbs{}
+    \PYG{o}{.}\PYG{n}{getOrCreate}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+Load dataset
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df\PYGZus{}raw} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{read}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{com.databricks.spark.csv}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYGZbs{}
+                       \PYG{n}{options}\PYG{p}{(}\PYG{n}{header}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{true}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYGZbs{}
+                       \PYG{n}{inferschema}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{true}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYGZbs{}
+            \PYG{n}{load}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Online Retail.csv}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{header}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{p}{;}
+\end{Verbatim}
+
+check the data set
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df\PYGZus{}raw}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\PYG{n}{df\PYGZus{}raw}\PYG{o}{.}\PYG{n}{printSchema}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+Then you will get
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{InvoiceNo}\PYG{o}{\textbar{}}\PYG{n}{StockCode}\PYG{o}{\textbar{}}         \PYG{n}{Description}\PYG{o}{\textbar{}}\PYG{n}{Quantity}\PYG{o}{\textbar{}} \PYG{n}{InvoiceDate}\PYG{o}{\textbar{}}\PYG{n}{UnitPrice}\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}}       \PYG{n}{Country}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}   \PYG{l+m+mi}{536365}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{85123}\PYG{n}{A}\PYG{o}{\textbar{}}\PYG{n}{WHITE} \PYG{n}{HANGING} \PYG{n}{HEA}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}       \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}\PYG{l+m+mi}{12}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{l+m+mi}{10} \PYG{l+m+mi}{8}\PYG{p}{:}\PYG{l+m+mi}{26}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{2.55}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{17850}\PYG{o}{\textbar{}}\PYG{n}{United} \PYG{n}{Kingdom}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}   \PYG{l+m+mi}{536365}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{71053}\PYG{o}{\textbar{}} \PYG{n}{WHITE} \PYG{n}{METAL} \PYG{n}{LANTERN}\PYG{o}{\textbar{}}       \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}\PYG{l+m+mi}{12}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{l+m+mi}{10} \PYG{l+m+mi}{8}\PYG{p}{:}\PYG{l+m+mi}{26}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{3.39}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{17850}\PYG{o}{\textbar{}}\PYG{n}{United} \PYG{n}{Kingdom}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}   \PYG{l+m+mi}{536365}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{84406}\PYG{n}{B}\PYG{o}{\textbar{}}\PYG{n}{CREAM} \PYG{n}{CUPID} \PYG{n}{HEART}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}       \PYG{l+m+mi}{8}\PYG{o}{\textbar{}}\PYG{l+m+mi}{12}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{l+m+mi}{10} \PYG{l+m+mi}{8}\PYG{p}{:}\PYG{l+m+mi}{26}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{2.75}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{17850}\PYG{o}{\textbar{}}\PYG{n}{United} \PYG{n}{Kingdom}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}   \PYG{l+m+mi}{536365}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{84029}\PYG{n}{G}\PYG{o}{\textbar{}}\PYG{n}{KNITTED} \PYG{n}{UNION} \PYG{n}{FLA}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}       \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}\PYG{l+m+mi}{12}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{l+m+mi}{10} \PYG{l+m+mi}{8}\PYG{p}{:}\PYG{l+m+mi}{26}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{3.39}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{17850}\PYG{o}{\textbar{}}\PYG{n}{United} \PYG{n}{Kingdom}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}   \PYG{l+m+mi}{536365}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{84029}\PYG{n}{E}\PYG{o}{\textbar{}}\PYG{n}{RED} \PYG{n}{WOOLLY} \PYG{n}{HOTTIE}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}       \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}\PYG{l+m+mi}{12}\PYG{o}{/}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{l+m+mi}{10} \PYG{l+m+mi}{8}\PYG{p}{:}\PYG{l+m+mi}{26}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{3.39}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{17850}\PYG{o}{\textbar{}}\PYG{n}{United} \PYG{n}{Kingdom}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+
+\PYG{n}{root}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{InvoiceNo}\PYG{p}{:} \PYG{n}{string} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{StockCode}\PYG{p}{:} \PYG{n}{string} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{Description}\PYG{p}{:} \PYG{n}{string} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{Quantity}\PYG{p}{:} \PYG{n}{integer} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{InvoiceDate}\PYG{p}{:} \PYG{n}{string} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{UnitPrice}\PYG{p}{:} \PYG{n}{double} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{CustomerID}\PYG{p}{:} \PYG{n}{integer} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{Country}\PYG{p}{:} \PYG{n}{string} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+Data clean and data manipulation
+
+\end{enumerate}
+\begin{itemize}
+\item {} 
+check and remove the \code{null} values
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n}{count}
+
+\PYG{k}{def} \PYG{n+nf}{my\PYGZus{}count}\PYG{p}{(}\PYG{n}{df\PYGZus{}in}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{df\PYGZus{}in}\PYG{o}{.}\PYG{n}{agg}\PYG{p}{(} \PYG{o}{*}\PYG{p}{[} \PYG{n}{count}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)}\PYG{o}{.}\PYG{n}{alias}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)} \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{df\PYGZus{}in}\PYG{o}{.}\PYG{n}{columns} \PYG{p}{]} \PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{as} \PYG{n+nn}{F}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n+nb}{round}
+\PYG{n}{df\PYGZus{}raw} \PYG{o}{=} \PYG{n}{df\PYGZus{}raw}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Asset}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n+nb}{round}\PYG{p}{(} \PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Quantity}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)} \PYG{o}{*} \PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{UnitPrice}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,} \PYG{l+m+mi}{2} \PYG{p}{)}\PYG{p}{)}
+\PYG{n}{df} \PYG{o}{=} \PYG{n}{df\PYGZus{}raw}\PYG{o}{.}\PYG{n}{withColumnRenamed}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{StockCode}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYGZbs{}
+           \PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{CustomerID}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Quantity}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{UnitPrice}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Asset}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{my\PYGZus{}count}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}} \PYG{n}{Cusip}\PYG{o}{\textbar{}}\PYG{n}{Quantity}\PYG{o}{\textbar{}}\PYG{n}{UnitPrice}\PYG{o}{\textbar{}} \PYG{n}{Asset}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}    \PYG{l+m+mi}{406829}\PYG{o}{\textbar{}}\PYG{l+m+mi}{541909}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{541909}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{541909}\PYG{o}{\textbar{}}\PYG{l+m+mi}{541909}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+Since the count results are not the same, we have some null value in the \code{CustomerID} column. We can drop these records from the dataset.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df} \PYG{o}{=}  \PYG{n}{df}\PYG{o}{.}\PYG{n}{filter}\PYG{p}{(}\PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Asset}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{df} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{dropna}\PYG{p}{(}\PYG{n}{how}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{any}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{my\PYGZus{}count}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}} \PYG{n}{Cusip}\PYG{o}{\textbar{}}\PYG{n}{Quantity}\PYG{o}{\textbar{}}\PYG{n}{UnitPrice}\PYG{o}{\textbar{}} \PYG{n}{Asset}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}    \PYG{l+m+mi}{397924}\PYG{o}{\textbar{}}\PYG{l+m+mi}{397924}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{397924}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{397924}\PYG{o}{\textbar{}}\PYG{l+m+mi}{397924}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}
+
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}} \PYG{n}{Cusip}\PYG{o}{\textbar{}}\PYG{n}{Quantity}\PYG{o}{\textbar{}}\PYG{n}{UnitPrice}\PYG{o}{\textbar{}}\PYG{n}{Asset}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{17850}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85123}\PYG{n}{A}\PYG{o}{\textbar{}}       \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{2.55}\PYG{o}{\textbar{}} \PYG{l+m+mf}{15.3}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{17850}\PYG{o}{\textbar{}} \PYG{l+m+mi}{71053}\PYG{o}{\textbar{}}       \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{3.39}\PYG{o}{\textbar{}}\PYG{l+m+mf}{20.34}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{17850}\PYG{o}{\textbar{}}\PYG{l+m+mi}{84406}\PYG{n}{B}\PYG{o}{\textbar{}}       \PYG{l+m+mi}{8}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{2.75}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{3} \PYG{n}{rows}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Convert the \code{Cusip} to consistent format
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n}{udf}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.types} \PYG{k+kn}{import} \PYG{n}{StringType}\PYG{p}{,} \PYG{n}{DoubleType}
+
+\PYG{k}{def} \PYG{n+nf}{toUpper}\PYG{p}{(}\PYG{n}{s}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{return} \PYG{n}{s}\PYG{o}{.}\PYG{n}{upper}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{n}{upper\PYGZus{}udf} \PYG{o}{=} \PYG{n}{udf}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{toUpper}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{,} \PYG{n}{StringType}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Find the most top \code{n} stockes
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{pop} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{groupBy}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYGZbs{}
+  \PYG{o}{.}\PYG{n}{agg}\PYG{p}{(}\PYG{n}{F}\PYG{o}{.}\PYG{n}{count}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{CustomerID}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{alias}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Customers}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}\PYG{n}{F}\PYG{o}{.}\PYG{n}{round}\PYG{p}{(}\PYG{n}{F}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Asset}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{.}\PYG{n}{alias}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{TotalAsset}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{)}\PYGZbs{}
+  \PYG{o}{.}\PYG{n}{sort}\PYG{p}{(}\PYG{p}{[}\PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Customers}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}\PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{TotalAsset}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{]}\PYG{p}{,}\PYG{n}{ascending}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}
+
+\PYG{n}{pop}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}} \PYG{n}{Cusip}\PYG{o}{\textbar{}}\PYG{n}{Customers}\PYG{o}{\textbar{}}\PYG{n}{TotalAsset}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{l+m+mi}{85123}\PYG{n}{A}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{2035}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{100603.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mi}{22423}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{1724}\PYG{o}{\textbar{}} \PYG{l+m+mf}{142592.95}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mi}{85099}\PYG{n}{B}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{1618}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{85220.78}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{1408}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{56580.34}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mi}{47566}\PYG{o}{\textbar{}}     \PYG{l+m+mi}{1397}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{68844.33}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+
+Build feature matrix
+-------------------+
+\begin{itemize}
+\item {} 
+Fetch the top \code{n} cusip list
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{top} \PYG{o}{=} \PYG{l+m+mi}{10}
+\PYG{n}{cusip\PYGZus{}lst} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{pop}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{n}{top}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{astype}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{str}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tolist}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{cusip\PYGZus{}lst}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{CustomerID}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Create the portfolio table for each customer
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{pivot\PYGZus{}tab} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{groupBy}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{CustomerID}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{pivot}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Asset}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{pivot\PYGZus{}tab} \PYG{o}{=} \PYG{n}{pivot\PYGZus{}tab}\PYG{o}{.}\PYG{n}{fillna}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Fetch the most \code{n} stock's portfolio table for each customer
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{selected\PYGZus{}tab}  \PYG{o}{=} \PYG{n}{pivot\PYGZus{}tab}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{cusip\PYGZus{}lst}\PYG{p}{)}
+\PYG{n}{selected\PYGZus{}tab}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85123}\PYG{n}{A}\PYG{o}{\textbar{}}\PYG{l+m+mi}{22423}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85099}\PYG{n}{B}\PYG{o}{\textbar{}}\PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}\PYG{l+m+mi}{47566}\PYG{o}{\textbar{}}\PYG{l+m+mi}{20725}\PYG{o}{\textbar{}}\PYG{l+m+mi}{22720}\PYG{o}{\textbar{}}\PYG{l+m+mi}{20727}\PYG{o}{\textbar{}}\PYG{n}{POST}\PYG{o}{\textbar{}}\PYG{l+m+mi}{23203}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{33.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{15727}\PYG{o}{\textbar{}} \PYG{l+m+mf}{123.9}\PYG{o}{\textbar{}} \PYG{l+m+mf}{25.5}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{33.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{99.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{14570}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{14450}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{8.32}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{49.5}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Build the \code{rating} matrix
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{elemwiseDiv}\PYG{p}{(}\PYG{n}{df\PYGZus{}in}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{num} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{df\PYGZus{}in}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{)}
+    \PYG{n}{temp} \PYG{o}{=} \PYG{n}{df\PYGZus{}in}\PYG{o}{.}\PYG{n}{rdd}\PYG{o}{.}\PYG{n}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{flatten}\PYG{p}{(}\PYG{p}{[}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{n}{x}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{/}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}
+                                                       \PYG{k}{if} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{p}{]}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{0} \PYG{k}{else} \PYG{n}{x}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}
+                                                       \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{num}\PYG{p}{)}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{createDataFrame}\PYG{p}{(}\PYG{n}{temp}\PYG{p}{,}\PYG{n}{df\PYGZus{}in}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{)}
+
+\PYG{n}{ratings} \PYG{o}{=} \PYG{n}{elemwiseDiv}\PYG{p}{(}\PYG{n}{selected\PYGZus{}tab}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{ratings}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85123}\PYG{n}{A}\PYG{o}{\textbar{}}\PYG{l+m+mi}{22423}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85099}\PYG{n}{B}\PYG{o}{\textbar{}}\PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}\PYG{l+m+mi}{47566}\PYG{o}{\textbar{}}\PYG{l+m+mi}{20725}\PYG{o}{\textbar{}}\PYG{l+m+mi}{22720}\PYG{o}{\textbar{}}\PYG{l+m+mi}{20727}\PYG{o}{\textbar{}}\PYG{n}{POST}\PYG{o}{\textbar{}}\PYG{l+m+mi}{23203}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{15727}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.44}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.09}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.12}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.35}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{14570}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{14450}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.14}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.86}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Convert \code{rating} matrix to long table
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n}{array}\PYG{p}{,} \PYG{n}{col}\PYG{p}{,} \PYG{n}{explode}\PYG{p}{,} \PYG{n}{struct}\PYG{p}{,} \PYG{n}{lit}
+
+\PYG{k}{def} \PYG{n+nf}{to\PYGZus{}long}\PYG{p}{(}\PYG{n}{df}\PYG{p}{,} \PYG{n}{by}\PYG{p}{)}\PYG{p}{:}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        reference: https://stackoverflow.com/questions/37864222/transpose\PYGZhy{}column\PYGZhy{}to\PYGZhy{}row\PYGZhy{}with\PYGZhy{}spark}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{c}{\PYGZsh{} Filter dtypes and split into column names and type description}
+    \PYG{n}{cols}\PYG{p}{,} \PYG{n}{dtypes} \PYG{o}{=} \PYG{n+nb}{zip}\PYG{p}{(}\PYG{o}{*}\PYG{p}{(}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{n}{t}\PYG{p}{)} \PYG{k}{for} \PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{n}{t}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n}{df}\PYG{o}{.}\PYG{n}{dtypes} \PYG{k}{if} \PYG{n}{c} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{by}\PYG{p}{)}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{} Spark SQL supports only homogeneous columns}
+    \PYG{k}{assert} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{dtypes}\PYG{p}{)}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{All columns have to be of the same type}\PYG{l+s}{\PYGZdq{}}
+
+    \PYG{c}{\PYGZsh{} Create and explode an array of (column\PYGZus{}name, column\PYGZus{}value) structs}
+    \PYG{n}{kvs} \PYG{o}{=} \PYG{n}{explode}\PYG{p}{(}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}
+      \PYG{n}{struct}\PYG{p}{(}\PYG{n}{lit}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)}\PYG{o}{.}\PYG{n}{alias}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{,} \PYG{n}{col}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)}\PYG{o}{.}\PYG{n}{alias}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{rating}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{)} \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{cols}
+    \PYG{p}{]}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{alias}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{kvs}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df\PYGZus{}all} \PYG{o}{=} \PYG{n}{to\PYGZus{}long}\PYG{p}{(}\PYG{n}{ratings}\PYG{p}{,}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{CustomerID}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{n}{df\PYGZus{}all}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}} \PYG{n}{Cusip}\PYG{o}{\textbar{}}\PYG{n}{rating}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85123}\PYG{n}{A}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}} \PYG{l+m+mi}{22423}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85099}\PYG{n}{B}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}} \PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}} \PYG{l+m+mi}{47566}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+Convert the string \code{Cusip} to numerical index
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.feature} \PYG{k+kn}{import} \PYG{n}{StringIndexer}
+\PYG{c}{\PYGZsh{} Index labels, adding metadata to the label column}
+\PYG{n}{labelIndexer} \PYG{o}{=} \PYG{n}{StringIndexer}\PYG{p}{(}\PYG{n}{inputCol}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}
+                             \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{indexedCusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{df\PYGZus{}all}\PYG{p}{)}
+\PYG{n}{df\PYGZus{}all} \PYG{o}{=} \PYG{n}{labelIndexer}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{df\PYGZus{}all}\PYG{p}{)}
+
+\PYG{n}{df\PYGZus{}all}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n+nb+bp}{True}\PYG{p}{)}
+\PYG{n}{df\PYGZus{}all}\PYG{o}{.}\PYG{n}{printSchema}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}} \PYG{n}{Cusip}\PYG{o}{\textbar{}}\PYG{n}{rating}\PYG{o}{\textbar{}}\PYG{n}{indexedCusip}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85123}\PYG{n}{A}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{6.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}} \PYG{l+m+mi}{22423}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{9.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85099}\PYG{n}{B}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{5.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}} \PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{16503}\PYG{o}{\textbar{}} \PYG{l+m+mi}{47566}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+
+\PYG{n}{root}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{CustomerID}\PYG{p}{:} \PYG{n+nb}{long} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{Cusip}\PYG{p}{:} \PYG{n}{string} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{false}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{rating}\PYG{p}{:} \PYG{n}{double} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+ \PYG{o}{\textbar{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}} \PYG{n}{indexedCusip}\PYG{p}{:} \PYG{n}{double} \PYG{p}{(}\PYG{n}{nullable} \PYG{o}{=} \PYG{n}{true}\PYG{p}{)}
+\end{Verbatim}
+
+
+\subsection{Train model}
+\label{als:train-model}\begin{itemize}
+\item {} 
+build \code{train} and \code{test} dataset
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{train}\PYG{p}{,} \PYG{n}{test} \PYG{o}{=} \PYG{n}{df\PYGZus{}all}\PYG{o}{.}\PYG{n}{randomSplit}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mf}{0.8}\PYG{p}{,}\PYG{l+m+mf}{0.2}\PYG{p}{]}\PYG{p}{)}
+
+\PYG{n}{train}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\PYG{n}{test}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}}\PYG{n}{Cusip}\PYG{o}{\textbar{}}\PYG{n}{indexedCusip}\PYG{o}{\textbar{}}             \PYG{n}{rating}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{12940}\PYG{o}{\textbar{}}\PYG{l+m+mi}{20725}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{2.0}\PYG{o}{\textbar{}}                \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{12940}\PYG{o}{\textbar{}}\PYG{l+m+mi}{20727}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{4.0}\PYG{o}{\textbar{}}                \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{12940}\PYG{o}{\textbar{}}\PYG{l+m+mi}{22423}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{9.0}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.49990198000392083}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{12940}\PYG{o}{\textbar{}}\PYG{l+m+mi}{22720}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{3.0}\PYG{o}{\textbar{}}                \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{12940}\PYG{o}{\textbar{}}\PYG{l+m+mi}{23203}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{7.0}\PYG{o}{\textbar{}}                \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}}\PYG{n}{Cusip}\PYG{o}{\textbar{}}\PYG{n}{indexedCusip}\PYG{o}{\textbar{}}            \PYG{n}{rating}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{12940}\PYG{o}{\textbar{}}\PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.1325230346990786}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{13285}\PYG{o}{\textbar{}}\PYG{l+m+mi}{20725}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{2.0}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.2054154995331466}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{13285}\PYG{o}{\textbar{}}\PYG{l+m+mi}{20727}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{4.0}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.2054154995331466}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{13285}\PYG{o}{\textbar{}}\PYG{l+m+mi}{47566}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}               \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{13623}\PYG{o}{\textbar{}}\PYG{l+m+mi}{23203}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{7.0}\PYG{o}{\textbar{}}               \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+train model
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{itertools}
+\PYG{k+kn}{from} \PYG{n+nn}{math} \PYG{k+kn}{import} \PYG{n}{sqrt}
+\PYG{k+kn}{from} \PYG{n+nn}{operator} \PYG{k+kn}{import} \PYG{n}{add}
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.recommendation} \PYG{k+kn}{import} \PYG{n}{ALS}
+
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.evaluation} \PYG{k+kn}{import} \PYG{n}{RegressionEvaluator}
+
+\PYG{n}{evaluator} \PYG{o}{=} \PYG{n}{RegressionEvaluator}\PYG{p}{(}\PYG{n}{metricName}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{rmse}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{labelCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{rating}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}
+                                \PYG{n}{predictionCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{def} \PYG{n+nf}{computeRmse}\PYG{p}{(}\PYG{n}{model}\PYG{p}{,} \PYG{n}{data}\PYG{p}{)}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Compute RMSE (Root mean Squared Error).}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{predictions} \PYG{o}{=} \PYG{n}{model}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}
+    \PYG{n}{rmse} \PYG{o}{=} \PYG{n}{evaluator}\PYG{o}{.}\PYG{n}{evaluate}\PYG{p}{(}\PYG{n}{predictions}\PYG{p}{)}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Root\PYGZhy{}mean\PYGZhy{}square error = }\PYG{l+s}{\PYGZdq{}} \PYG{o}{+} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{rmse}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{rmse}
+
+\PYG{c}{\PYGZsh{}train models and evaluate them on the validation set}
+
+\PYG{n}{ranks} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{]}
+\PYG{n}{lambdas} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mf}{0.05}\PYG{p}{]}
+\PYG{n}{numIters} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{30}\PYG{p}{]}
+\PYG{n}{bestModel} \PYG{o}{=} \PYG{n+nb+bp}{None}
+\PYG{n}{bestValidationRmse} \PYG{o}{=} \PYG{n+nb}{float}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{inf}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{bestRank} \PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{n}{bestLambda} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0}
+\PYG{n}{bestNumIter} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}
+
+\PYG{n}{val} \PYG{o}{=} \PYG{n}{test}\PYG{o}{.}\PYG{n}{na}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{(}\PYG{p}{)}
+\PYG{k}{for} \PYG{n}{rank}\PYG{p}{,} \PYG{n}{lmbda}\PYG{p}{,} \PYG{n}{numIter} \PYG{o+ow}{in} \PYG{n}{itertools}\PYG{o}{.}\PYG{n}{product}\PYG{p}{(}\PYG{n}{ranks}\PYG{p}{,} \PYG{n}{lambdas}\PYG{p}{,} \PYG{n}{numIters}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{als} \PYG{o}{=} \PYG{n}{ALS}\PYG{p}{(}\PYG{n}{rank}\PYG{o}{=}\PYG{n}{rank}\PYG{p}{,} \PYG{n}{maxIter}\PYG{o}{=}\PYG{n}{numIter}\PYG{p}{,} \PYG{n}{regParam}\PYG{o}{=}\PYG{n}{lmbda}\PYG{p}{,} \PYG{n}{numUserBlocks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{numItemBlocks}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{n}{implicitPrefs}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{,}
+              \PYG{n}{alpha}\PYG{o}{=}\PYG{l+m+mf}{1.0}\PYG{p}{,}
+              \PYG{n}{userCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{CustomerID}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{itemCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{indexedCusip}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{seed}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{ratingCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{rating}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{nonnegative}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}
+    \PYG{n}{model}\PYG{o}{=}\PYG{n}{als}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{train}\PYG{p}{)}
+
+    \PYG{n}{validationRmse} \PYG{o}{=} \PYG{n}{computeRmse}\PYG{p}{(}\PYG{n}{model}\PYG{p}{,} \PYG{n}{val}\PYG{p}{)}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{RMSE (validation) = }\PYG{l+s+si}{\PYGZpc{}f}\PYG{l+s}{ for the model trained with }\PYG{l+s}{\PYGZdq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{validationRmse} \PYG{o}{+} \PYGZbs{}
+            \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{rank = }\PYG{l+s+si}{\PYGZpc{}d}\PYG{l+s}{, lambda = }\PYG{l+s+si}{\PYGZpc{}.1f}\PYG{l+s}{, and numIter = }\PYG{l+s+si}{\PYGZpc{}d}\PYG{l+s}{.}\PYG{l+s}{\PYGZdq{}} \PYG{o}{\PYGZpc{}} \PYG{p}{(}\PYG{n}{rank}\PYG{p}{,} \PYG{n}{lmbda}\PYG{p}{,} \PYG{n}{numIter}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{validationRmse}\PYG{p}{,} \PYG{n}{bestValidationRmse}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n}{bestModel} \PYG{o}{=} \PYG{n}{model}
+        \PYG{n}{bestValidationRmse} \PYG{o}{=} \PYG{n}{validationRmse}
+        \PYG{n}{bestRank} \PYG{o}{=} \PYG{n}{rank}
+        \PYG{n}{bestLambda} \PYG{o}{=} \PYG{n}{lmbda}
+        \PYG{n}{bestNumIter} \PYG{o}{=} \PYG{n}{numIter}
+
+\PYG{n}{model} \PYG{o}{=} \PYG{n}{bestModel}
+\end{Verbatim}
+\begin{itemize}
+\item {} 
+make prediction
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{topredict}\PYG{o}{=}\PYG{n}{test}\PYG{p}{[}\PYG{n}{test}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{rating}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{==}\PYG{l+m+mi}{0}\PYG{p}{]}
+
+\PYG{n}{predictions}\PYG{o}{=}\PYG{n}{model}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{topredict}\PYG{p}{)}
+\PYG{n}{predictions}\PYG{o}{.}\PYG{n}{filter}\PYG{p}{(}\PYG{n}{predictions}\PYG{o}{.}\PYG{n}{prediction}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{0}\PYG{p}{)}\PYGZbs{}
+           \PYG{o}{.}\PYG{n}{sort}\PYG{p}{(}\PYG{p}{[}\PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{CustomerID}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}\PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{]}\PYG{p}{,}\PYG{n}{ascending}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{CustomerID}\PYG{o}{\textbar{}} \PYG{n}{Cusip}\PYG{o}{\textbar{}}\PYG{n}{indexedCusip}\PYG{o}{\textbar{}}\PYG{n}{rating}\PYG{o}{\textbar{}}  \PYG{n}{prediction}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18283}\PYG{o}{\textbar{}} \PYG{l+m+mi}{47566}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{0.01625076}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18282}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85123}\PYG{n}{A}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{6.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.057172246}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18282}\PYG{o}{\textbar{}} \PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.059531752}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18282}\PYG{o}{\textbar{}} \PYG{l+m+mi}{23203}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{7.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.010502596}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18282}\PYG{o}{\textbar{}} \PYG{l+m+mi}{22720}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{3.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.053893942}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18282}\PYG{o}{\textbar{}} \PYG{l+m+mi}{20725}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{2.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.0054253186}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18274}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85099}\PYG{n}{B}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{5.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.004492881}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18272}\PYG{o}{\textbar{}} \PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.029040236}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18265}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85099}\PYG{n}{B}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{5.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.006360693}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18262}\PYG{o}{\textbar{}}  \PYG{n}{POST}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{8.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.007962364}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{10} \PYG{n}{rows}
+\end{Verbatim}
+
+
 \chapter{Neural Network}
-\label{fnn:fnn}\label{fnn:co-occurrence-networks}\label{fnn::doc}\label{fnn:neural-network}
+\label{fnn:fnn}\label{fnn::doc}\label{fnn:neural-network}
 \begin{notice}{note}{Note:}
 Sharpening the knife longer can make it easier to hack the firewood -- old Chinese proverb
 \end{notice}

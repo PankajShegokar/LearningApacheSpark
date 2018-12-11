@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  7 DEC 2018 14:20
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  11 DEC 2018 11:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -921,7 +921,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 128--128
 
  []
 
-<logo.jpg, id=290, 377.41pt x 200.75pt>
+<logo.jpg, id=306, 377.41pt x 200.75pt>
 File: logo.jpg Graphic file (type jpg)
  <use logo.jpg>
 Package pdftex.def Info: logo.jpg used on input line 128.
@@ -1022,7 +1022,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [4]
 Chapter 2.
-<logistic-regression.png, id=431, 250.9375pt x 129.48375pt>
+<logistic-regression.png, id=451, 250.9375pt x 129.48375pt>
 File: logistic-regression.png Graphic file (type png)
 
 <use logistic-regression.png>
@@ -1034,7 +1034,7 @@ Package pdftex.def Info: logistic-regression.png used on input line 276.
 (pdftex.def)             Requested size: 250.93687pt x 129.48341pt.
  [5
 
- <./logistic-regression.png>] <stack.png, id=439, 759.83875pt x 426.59375pt>
+ <./logistic-regression.png>] <stack.png, id=459, 759.83875pt x 426.59375pt>
 File: stack.png Graphic file (type png)
  <use stack.png>
 Package pdftex.def Info: stack.png used on input line 301.
@@ -1044,7 +1044,7 @@ File: stack.png Graphic file (type png)
 <use stack.png>
 Package pdftex.def Info: stack.png used on input line 301.
 (pdftex.def)             Requested size: 469.755pt x 263.73682pt.
- <spark-runs-everywhere.png, id=441, 547.04375pt x 426.59375pt>
+ <spark-runs-everywhere.png, id=461, 547.04375pt x 426.59375pt>
 File: spark-runs-everywhere.png Graphic file (type png)
 
 <use spark-runs-everywhere.png>
@@ -1062,7 +1062,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [6 <./stack.png> <./spark-runs-everywhere.png>]
-<languages.jpg, id=451, 658.46pt x 529.98pt>
+<languages.jpg, id=471, 658.46pt x 529.98pt>
 File: languages.jpg Graphic file (type jpg)
  <use languages.jpg>
 Package pdftex.def Info: languages.jpg used on input line 330.
@@ -1090,7 +1090,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Chapter 3.
-<login.png, id=464, 921.4425pt x 671.50874pt>
+<login.png, id=485, 921.4425pt x 671.50874pt>
 File: login.png Graphic file (type png)
  <use login.png>
 Package pdftex.def Info: login.png used on input line 368.
@@ -1100,7 +1100,7 @@ File: login.png Graphic file (type png)
 Package pdftex.def Info: login.png used on input line 368.
 (pdftex.def)             Requested size: 469.755pt x 342.33173pt.
 
-<workspace.png, id=465, 1104.125pt x 760.8425pt>
+<workspace.png, id=486, 1104.125pt x 760.8425pt>
 File: workspace.png Graphic file (type png)
  <use workspace.png>
 Package pdftex.def Info: workspace.png used on input line 382.
@@ -1110,7 +1110,7 @@ File: workspace.png Graphic file (type png)
 <use workspace.png>
 Package pdftex.def Info: workspace.png used on input line 382.
 (pdftex.def)             Requested size: 469.755pt x 323.70787pt.
- <cluster.png, id=466, 1194.4625pt x 763.85374pt>
+ <cluster.png, id=487, 1194.4625pt x 763.85374pt>
 File: cluster.png Graphic file (type png)
 
 <use cluster.png>
@@ -1121,7 +1121,7 @@ File: cluster.png Graphic file (type png)
 Package pdftex.def Info: cluster.png used on input line 395.
 (pdftex.def)             Requested size: 469.755pt x 300.40768pt.
 
-<table.png, id=467, 1194.4625pt x 763.85374pt>
+<table.png, id=488, 1194.4625pt x 763.85374pt>
 File: table.png Graphic file (type png)
  <use table.png>
 Package pdftex.def Info: table.png used on input line 408.
@@ -1131,7 +1131,7 @@ File: table.png Graphic file (type png)
 Package pdftex.def Info: table.png used on input line 408.
 (pdftex.def)             Requested size: 469.755pt x 300.40768pt.
 
-<dataset1.png, id=468, 1355.0625pt x 835.12pt>
+<dataset1.png, id=489, 1355.0625pt x 835.12pt>
 File: dataset1.png Graphic file (type png)
  <use dataset1.png>
 Package pdftex.def Info: dataset1.png used on input line 413.
@@ -1141,7 +1141,7 @@ File: dataset1.png Graphic file (type png)
 <use dataset1.png>
 Package pdftex.def Info: dataset1.png used on input line 413.
 (pdftex.def)             Requested size: 469.755pt x 289.50568pt.
- <notebook.png, id=469, 1355.0625pt x 835.12pt>
+ <notebook.png, id=490, 1355.0625pt x 835.12pt>
 File: notebook.png Graphic file (type png)
 
 <use notebook.png>
@@ -1152,7 +1152,7 @@ File: notebook.png Graphic file (type png)
 Package pdftex.def Info: notebook.png used on input line 433.
 (pdftex.def)             Requested size: 469.755pt x 289.50568pt.
 
-<codenotebook.png, id=470, 1342.01375pt x 835.12pt>
+<codenotebook.png, id=491, 1342.01375pt x 835.12pt>
 File: codenotebook.png Graphic file (type png)
  <use codenotebook.png>
 Package pdftex.def Info: codenotebook.png used on input line 438.
@@ -1230,7 +1230,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[16] <jupyterWithPySpark.png, id=540, 1342.01375pt x 902.37125pt>
+[16] <jupyterWithPySpark.png, id=560, 1342.01375pt x 902.37125pt>
 File: jupyterWithPySpark.png Graphic file (type png)
 
 <use jupyterWithPySpark.png>
@@ -1241,7 +1241,7 @@ File: jupyterWithPySpark.png Graphic file (type png)
 Package pdftex.def Info: jupyterWithPySpark.png used on input line 676.
 (pdftex.def)             Requested size: 469.755pt x 315.8622pt.
 
-<zeppelin.png, id=542, 1319.93124pt x 1059.96pt>
+<zeppelin.png, id=562, 1319.93124pt x 1059.96pt>
 File: zeppelin.png Graphic file (type png)
  <use zeppelin.png>
 Package pdftex.def Info: zeppelin.png used on input line 690.
@@ -1266,7 +1266,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [18 <./zeppelin.png>]
-<sublimeWithPySpark.png, id=557, 1299.85625pt x 467.7475pt>
+<sublimeWithPySpark.png, id=577, 1299.85625pt x 467.7475pt>
 File: sublimeWithPySpark.png Graphic file (type png)
 
 <use sublimeWithPySpark.png>
@@ -1277,7 +1277,7 @@ File: sublimeWithPySpark.png Graphic file (type png)
 Package pdftex.def Info: sublimeWithPySpark.png used on input line 712.
 (pdftex.def)             Requested size: 469.755pt x 169.03845pt.
 
-<PyDevProperties.png, id=558, 1602.98875pt x 1034.86626pt>
+<PyDevProperties.png, id=578, 1602.98875pt x 1034.86626pt>
 File: PyDevProperties.png Graphic file (type png)
 
 <use PyDevProperties.png>
@@ -1288,7 +1288,7 @@ File: PyDevProperties.png Graphic file (type png)
 Package pdftex.def Info: PyDevProperties.png used on input line 732.
 (pdftex.def)             Requested size: 469.755pt x 303.26167pt.
 
-<pydevPath.png, id=559, 791.95876pt x 562.1pt>
+<pydevPath.png, id=579, 791.95876pt x 562.1pt>
 File: pydevPath.png Graphic file (type png)
  <use pydevPath.png>
 Package pdftex.def Info: pydevPath.png used on input line 745.
@@ -1298,7 +1298,7 @@ File: pydevPath.png Graphic file (type png)
 <use pydevPath.png>
 Package pdftex.def Info: pydevPath.png used on input line 745.
 (pdftex.def)             Requested size: 469.755pt x 333.42014pt.
- <pysparkWithEclipse.png, id=560, 1609.01125pt x 1035.87pt>
+ <pysparkWithEclipse.png, id=580, 1609.01125pt x 1035.87pt>
 File: pysparkWithEclipse.png Graphic file (type png)
 
 <use pysparkWithEclipse.png>
@@ -1340,7 +1340,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Chapter 4.
-<spark-components.png, id=588, 545.03625pt x 440.64626pt>
+<spark-components.png, id=608, 545.03625pt x 440.64626pt>
 File: spark-components.png Graphic file (type png)
 
 <use spark-components.png>
@@ -1358,7 +1358,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [24 <./spark-components.png>]
-<spark-components1.png, id=600, 848.16875pt x 285.065pt>
+<spark-components1.png, id=620, 848.16875pt x 285.065pt>
 File: spark-components1.png Graphic file (type png)
 
 <use spark-components1.png>
@@ -1375,7 +1375,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[25 <./spark-components1.png>] <work_flow.png, id=609, 653.44125pt x 353.32pt>
+[25 <./spark-components1.png>] <work_flow.png, id=630, 653.44125pt x 353.32pt>
 File: work_flow.png Graphic file (type png)
 
 <use work_flow.png>
@@ -1421,7 +1421,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[30] <visualapi_006.png, id=638, 963.6pt x 542.025pt>
+[30] <visualapi_006.png, id=658, 963.6pt x 542.025pt>
 File: visualapi_006.png Graphic file (type png)
  <use visualapi_006.png>
 Package pdftex.def Info: visualapi_006.png used on input line 1245.
@@ -1431,7 +1431,7 @@ File: visualapi_006.png Graphic file (type png)
 <use visualapi_006.png>
 Package pdftex.def Info: visualapi_006.png used on input line 1245.
 (pdftex.def)             Requested size: 469.755pt x 264.23819pt.
- <transforms1.png, id=639, 1161.33875pt x 372.39125pt>
+ <transforms1.png, id=659, 1161.33875pt x 372.39125pt>
 File: transforms1.png Graphic file (type png)
 
 <use transforms1.png>
@@ -1442,7 +1442,7 @@ File: transforms1.png Graphic file (type png)
 Package pdftex.def Info: transforms1.png used on input line 1262.
 (pdftex.def)             Requested size: 469.755pt x 150.63011pt.
 
-<transforms2.png, id=640, 1163.34625pt x 369.38pt>
+<transforms2.png, id=660, 1163.34625pt x 369.38pt>
 File: transforms2.png Graphic file (type png)
  <use transforms2.png>
 Package pdftex.def Info: transforms2.png used on input line 1267.
@@ -1452,7 +1452,7 @@ File: transforms2.png Graphic file (type png)
 <use transforms2.png>
 Package pdftex.def Info: transforms2.png used on input line 1267.
 (pdftex.def)             Requested size: 469.755pt x 149.1528pt.
- <actions1.png, id=641, 1161.33875pt x 259.97125pt>
+ <actions1.png, id=661, 1161.33875pt x 259.97125pt>
 File: actions1.png Graphic file (type png)
 
 <use actions1.png>
@@ -1463,7 +1463,7 @@ File: actions1.png Graphic file (type png)
 Package pdftex.def Info: actions1.png used on input line 1280.
 (pdftex.def)             Requested size: 469.755pt x 105.15686pt.
 
-<actions2.png, id=642, 1153.30875pt x 249.93375pt>
+<actions2.png, id=662, 1153.30875pt x 249.93375pt>
 File: actions2.png Graphic file (type png)
  <use actions2.png>
 Package pdftex.def Info: actions2.png used on input line 1285.
@@ -1547,7 +1547,7 @@ l.1557 ...\kappa\)\(\upsilon\)\(\rho\)\(\tau\)ός
                                                   , kyrtos or kurtos, meanin...
 
 ? 
-<skewed.png, id=697, 1284.8pt x 457.71pt>
+<skewed.png, id=717, 1284.8pt x 457.71pt>
 File: skewed.png Graphic file (type png)
  <use skewed.png>
 Package pdftex.def Info: skewed.png used on input line 1563.
@@ -1561,7 +1561,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1579--1582
 
  []
 
-<misleading.png, id=700, 2383.4646pt x 1665.1008pt>
+<misleading.png, id=720, 2383.4646pt x 1665.1008pt>
 File: misleading.png Graphic file (type png)
  <use misleading.png>
 Package pdftex.def Info: misleading.png used on input line 1589.
@@ -1589,7 +1589,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[39 <./misleading.png>] <his_s.png, id=713, 606.265pt x 481.8pt>
+[39 <./misleading.png>] <his_s.png, id=733, 606.265pt x 481.8pt>
 File: his_s.png Graphic file (type png)
 
 <use his_s.png>
@@ -1606,7 +1606,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[40 <./his_s.png>] <his_d.png, id=719, 1166.3575pt x 539.01375pt>
+[40 <./his_s.png>] <his_d.png, id=739, 1166.3575pt x 539.01375pt>
 File: his_d.png Graphic file (type png)
 
 <use his_d.png>
@@ -1626,7 +1626,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[41] <unequal.png, id=724, 606.265pt x 481.8pt>
+[41] <unequal.png, id=744, 606.265pt x 481.8pt>
 File: unequal.png Graphic file (type png)
  <use unequal.png>
 Package pdftex.def Info: unequal.png used on input line 1712.
@@ -1650,7 +1650,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[43 <./unequal.png>] <box_vio.png, id=737, 1152.305pt x 467.7475pt>
+[43 <./unequal.png>] <box_vio.png, id=757, 1152.305pt x 467.7475pt>
 File: box_vio.png Graphic file (type png)
 
 <use box_vio.png>
@@ -1667,7 +1667,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[44 <./box_vio.png>] <pie.png, id=744, 581.17125pt x 457.71pt>
+[44 <./box_vio.png>] <pie.png, id=764, 581.17125pt x 457.71pt>
 File: pie.png Graphic file (type png)
  <use pie.png>
 Package pdftex.def Info: pie.png used on input line 1804.
@@ -1677,7 +1677,7 @@ File: pie.png Graphic file (type png)
 <use pie.png>
 Package pdftex.def Info: pie.png used on input line 1804.
 (pdftex.def)             Requested size: 469.755pt x 369.96785pt.
- <bar.png, id=745, 606.265pt x 467.7475pt>
+ <bar.png, id=765, 606.265pt x 467.7475pt>
 File: bar.png Graphic file (type png)
  <use bar.png>
 Package pdftex.def Info: bar.png used on input line 1828.
@@ -1687,7 +1687,7 @@ File: bar.png Graphic file (type png)
 <use bar.png>
 Package pdftex.def Info: bar.png used on input line 1828.
 (pdftex.def)             Requested size: 469.755pt x 362.42918pt.
- <stacked.png, id=746, 615.29875pt x 482.80376pt>
+ <stacked.png, id=766, 615.29875pt x 482.80376pt>
 File: stacked.png Graphic file (type png)
 
 <use stacked.png>
@@ -1725,7 +1725,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[48 <./stacked.png>] <pairplot.png, id=766, 791.95876pt x 710.655pt>
+[48 <./stacked.png>] <pairplot.png, id=787, 791.95876pt x 710.655pt>
 File: pairplot.png Graphic file (type png)
 
 <use pairplot.png>
@@ -1787,7 +1787,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[54] <ad.png, id=810, 1104.125pt x 606.265pt>
+[54] <ad.png, id=830, 1104.125pt x 606.265pt>
 File: ad.png Graphic file (type png)
  <use ad.png>
 Package pdftex.def Info: ad.png used on input line 2214.
@@ -1951,7 +1951,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[76] <roc_z.png, id=972, 1333.98375pt x 428.60126pt>
+[76] <roc_z.png, id=992, 1333.98375pt x 428.60126pt>
 File: roc_z.png Graphic file (type png)
  <use roc_z.png>
 Package pdftex.def Info: roc_z.png used on input line 3677.
@@ -1961,7 +1961,7 @@ File: roc_z.png Graphic file (type png)
 <use roc_z.png>
 Package pdftex.def Info: roc_z.png used on input line 3677.
 (pdftex.def)             Requested size: 469.755pt x 150.92827pt.
- <roc.png, id=973, 1320.935pt x 545.03625pt>
+ <roc.png, id=993, 1320.935pt x 545.03625pt>
 File: roc.png Graphic file (type png)
  <use roc.png>
 Package pdftex.def Info: roc.png used on input line 3685.
@@ -1985,14 +1985,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[78 <./roc_z.png> <./roc.png>] <logr_b1.png, id=987, 348.30125pt x 295.1025pt>
+[78 <./roc_z.png> <./roc.png>]
+<logr_b1.png, id=1007, 348.30125pt x 295.1025pt>
 File: logr_b1.png Graphic file (type png)
-
-<use logr_b1.png>
+ <use logr_b1.png>
 Package pdftex.def Info: logr_b1.png used on input line 3780.
 (pdftex.def)             Requested size: 348.3004pt x 295.10176pt.
 File: logr_b1.png Graphic file (type png)
- <use logr_b1.png>
+
+<use logr_b1.png>
 Package pdftex.def Info: logr_b1.png used on input line 3780.
 (pdftex.def)             Requested size: 348.3004pt x 295.10176pt.
 
@@ -2002,7 +2003,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[79] <logr_b2.png, id=993, 332.24126pt x 295.1025pt>
+[79] <logr_b2.png, id=1013, 332.24126pt x 295.1025pt>
 File: logr_b2.png Graphic file (type png)
  <use logr_b2.png>
 Package pdftex.def Info: logr_b2.png used on input line 3800.
@@ -2064,7 +2065,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[86] <dt_cm_c3.png, id=1040, 341.275pt x 295.1025pt>
+[86] <dt_cm_c3.png, id=1060, 341.275pt x 295.1025pt>
 File: dt_cm_c3.png Graphic file (type png)
  <use dt_cm_c3.png>
 Package pdftex.def Info: dt_cm_c3.png used on input line 4230.
@@ -2124,7 +2125,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[92] <rf_cm_c3.png, id=1081, 341.275pt x 295.1025pt>
+[92] <rf_cm_c3.png, id=1101, 341.275pt x 295.1025pt>
 File: rf_cm_c3.png Graphic file (type png)
  <use rf_cm_c3.png>
 Package pdftex.def Info: rf_cm_c3.png used on input line 4680.
@@ -2193,7 +2194,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[99] <elbow.png, id=1126, 499.8675pt x 372.39125pt>
+[99] <elbow.png, id=1147, 499.8675pt x 372.39125pt>
 File: elbow.png Graphic file (type png)
  <use elbow.png>
 Package pdftex.def Info: elbow.png used on input line 4952.
@@ -2228,7 +2229,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Chapter 12.
-[103] <rfm_business.png, id=1151, 591.20876pt x 524.96124pt>
+[103] <rfm_business.png, id=1171, 591.20876pt x 524.96124pt>
 File: rfm_business.png Graphic file (type png)
 
 <use rfm_business.png>
@@ -2294,7 +2295,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[111] <elbow_rfm.png, id=1203, 494.84875pt x 372.39125pt>
+[111] <elbow_rfm.png, id=1223, 494.84875pt x 372.39125pt>
 File: elbow_rfm.png Graphic file (type png)
  <use elbow_rfm.png>
 Package pdftex.def Info: elbow_rfm.png used on input line 5580.
@@ -2350,7 +2351,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Chapter 13.
-<sen_word_freq.png, id=1232, 1283.79625pt x 611.28375pt>
+<sen_word_freq.png, id=1252, 1283.79625pt x 611.28375pt>
 File: sen_word_freq.png Graphic file (type png)
 
 <use sen_word_freq.png>
@@ -2374,7 +2375,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[119] <noised.jpg, id=1247, 120.45pt x 60.225pt>
+[119] <noised.jpg, id=1268, 120.45pt x 60.225pt>
 File: noised.jpg Graphic file (type jpg)
  <use noised.jpg>
 Package pdftex.def Info: noised.jpg used on input line 5979.
@@ -2426,7 +2427,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[125] <text_classification.png, id=1276, 1464.47125pt x 522.95375pt>
+[125] <text_classification.png, id=1296, 1464.47125pt x 522.95375pt>
 File: text_classification.png Graphic file (type png)
 
 <use text_classification.png>
@@ -2478,7 +2479,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[131] <sen_class.png, id=1319, 1282.7925pt x 610.28pt>
+[131] <sen_class.png, id=1339, 1282.7925pt x 610.28pt>
 File: sen_class.png Graphic file (type png)
  <use sen_class.png>
 Package pdftex.def Info: sen_class.png used on input line 6756.
@@ -2489,7 +2490,7 @@ File: sen_class.png Graphic file (type png)
 Package pdftex.def Info: sen_class.png used on input line 6756.
 (pdftex.def)             Requested size: 469.755pt x 223.48134pt.
 
-<sentiment_analysis_pipeline.png, id=1321, 523.9575pt x 79.04532pt>
+<sentiment_analysis_pipeline.png, id=1341, 523.9575pt x 79.04532pt>
 File: sentiment_analysis_pipeline.png Graphic file (type png)
 
 <use sentiment_analysis_pipeline.png>
@@ -2561,7 +2562,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[137] <topic_time.png, id=1357, 1160.335pt x 482.80376pt>
+[137] <topic_time.png, id=1377, 1160.335pt x 482.80376pt>
 File: topic_time.png Graphic file (type png)
  <use topic_time.png>
 Package pdftex.def Info: topic_time.png used on input line 7148.
@@ -2647,7 +2648,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[147] <avg_rating_airlines.png, id=1408, 1284.8pt x 494.84875pt>
+[147] <avg_rating_airlines.png, id=1428, 1284.8pt x 494.84875pt>
 File: avg_rating_airlines.png Graphic file (type png)
 
 <use avg_rating_airlines.png>
@@ -2658,7 +2659,7 @@ File: avg_rating_airlines.png Graphic file (type png)
 Package pdftex.def Info: avg_rating_airlines.png used on input line 7823.
 (pdftex.def)             Requested size: 469.755pt x 180.9241pt.
 
-<avg_rating_mon.png, id=1409, 1287.81125pt x 481.8pt>
+<avg_rating_mon.png, id=1429, 1287.81125pt x 481.8pt>
 File: avg_rating_mon.png Graphic file (type png)
  <use avg_rating_mon.png>
 Package pdftex.def Info: avg_rating_mon.png used on input line 7833.
@@ -2677,7 +2678,7 @@ File: topic_time.png Graphic file (type png)
 Package pdftex.def Info: topic_time.png used on input line 7843.
 (pdftex.def)             Requested size: 469.755pt x 195.46078pt.
 
-<review2topic.png, id=1410, 1112.155pt x 334.24875pt>
+<review2topic.png, id=1430, 1112.155pt x 334.24875pt>
 File: review2topic.png Graphic file (type png)
  <use review2topic.png>
 Package pdftex.def Info: review2topic.png used on input line 7853.
@@ -2710,7 +2711,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [150 <./review2topic.png>]
 Chapter 14.
-<net_work.png, id=1426, 837.1275pt x 541.02126pt>
+<net_work.png, id=1446, 837.1275pt x 541.02126pt>
 File: net_work.png Graphic file (type png)
  <use net_work.png>
 Package pdftex.def Info: net_work.png used on input line 7865.
@@ -2723,7 +2724,7 @@ Package pdftex.def Info: net_work.png used on input line 7865.
  [151
 
  <./net_work.png>]
-<demo_freq.png, id=1434, 1282.7925pt x 561.09625pt>
+<demo_freq.png, id=1454, 1282.7925pt x 561.09625pt>
 File: demo_freq.png Graphic file (type png)
  <use demo_freq.png>
 Package pdftex.def Info: demo_freq.png used on input line 7926.
@@ -2747,7 +2748,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[153] <freq_word_ze.png, id=1447, 1280.785pt x 548.0475pt>
+[153] <freq_word_ze.png, id=1467, 1280.785pt x 548.0475pt>
 File: freq_word_ze.png Graphic file (type png)
 
 <use freq_word_ze.png>
@@ -2764,7 +2765,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[154 <./freq_word_ze.png>] <netfreq.png, id=1454, 912.40875pt x 696.6025pt>
+[154 <./freq_word_ze.png>] <netfreq.png, id=1474, 912.40875pt x 696.6025pt>
 File: netfreq.png Graphic file (type png)
 
 <use netfreq.png>
@@ -2790,18 +2791,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [156]
 Chapter 15.
-<fnn.png, id=1467, 907.39pt x 357.335pt>
-File: fnn.png Graphic file (type png)
- <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 8125.
-(pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
-File: fnn.png Graphic file (type png)
- <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 8125.
-(pdftex.def)             Requested size: 469.755pt x 184.99194pt.
- [157
+[157
 
- <./fnn.png>]
+]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2816,376 +2808,29 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [159]
+! FancyVerb Error:
+  Empty verbatim environment
+.
+\FV@Error ... {FancyVerb Error:
+\space \space #1
+}
+                                                  
+l.8320 \end{Verbatim}
+                     
+? 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[160
+[160]
 
-]
-Chapter 16.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8292 ├-- build
-                  
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8293 ...├-- bdist.linux\PYGZhy{}x86\PYGZus{}64
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8294 ...linux\PYGZhy{}x86\PYGZus{}64\PYGZhy{}2.7
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8295 \textbar{}       └-- PySparkTools
-                                            
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8296 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8297 \textbar{}           ├-- Manipulation
-                                                
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8298 ...\textbar{}   ├-- DataManipulation.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8299 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8300 \textbar{}           └-- Visualization
-                                                 
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8301 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8302 \textbar{}               └-- PyPlots.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8303 ├-- dist
-                 
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8304 ...SParkTools\PYGZhy{}1.0\PYGZhy{}py2.7.egg
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8305 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8306 ├-- PySparkTools
-                         
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8307 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8308 \textbar{}   ├-- Manipulation
-                                        
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8309 ...\textbar{}   ├-- DataManipulation.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8310 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8311 \textbar{}   └-- Visualization
-                                         
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8312 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8313 \textbar{}       ├-- PyPlots.py
-                                          
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8314 \textbar{}       └-- PyPlots.pyc
-                                           
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8315 ├-- PySParkTools.egg\PYGZhy{}info
-                                          
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8316 ...}   ├-- dependency\PYGZus{}links.txt
-                                                  
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8317 \textbar{}   ├-- PKG\PYGZhy{}INFO
-                                            
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8318 \textbar{}   ├-- requires.txt
-                                        
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8319 \textbar{}   ├-- SOURCES.txt
-                                       
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8320 \textbar{}   └-- top\PYGZus{}level.txt
-                                                 
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8321 ├-- README.md
-                      
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8322 ├-- requirements.txt
-                             
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8323 ├-- setup.py
-                     
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8324 └-- \PYG{n+nb}{test}
-                             
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8325     ├-- spark\PYGZhy{}warehouse
-                                        
-? 
-
-! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8326     ├-- test1.py
-                         
-? 
-
-! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.8327     └-- test2.py
-                         
-? 
 [161]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3194,6 +2839,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [162]
+Overfull \vbox (1.12476pt too high) detected at line 8566
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -3207,28 +2855,34 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[164
+[164]
+Chapter 16.
+<fnn.png, id=1527, 907.39pt x 357.335pt>
+File: fnn.png Graphic file (type png)
+ <use fnn.png>
+Package pdftex.def Info: fnn.png used on input line 8607.
+(pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
+File: fnn.png Graphic file (type png)
+ <use fnn.png>
+Package pdftex.def Info: fnn.png used on input line 8607.
+(pdftex.def)             Requested size: 469.755pt x 184.99194pt.
+ [165
 
-]
-Chapter 17.
-[165]
+ <./fnn.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[166
+[166]
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 8417--8419
-[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
-ure and in-ter-nals.
- []
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-(./pyspark.ind [167
-
-]
+[167]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -3237,25 +2891,438 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [168
 
-] [169
+]
+Chapter 17.
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8774 ├-- build
+                  
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8775 ...├-- bdist.linux\PYGZhy{}x86\PYGZus{}64
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8776 ...linux\PYGZhy{}x86\PYGZus{}64\PYGZhy{}2.7
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8777 \textbar{}       └-- PySparkTools
+                                            
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8778 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8779 \textbar{}           ├-- Manipulation
+                                                
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8780 ...\textbar{}   ├-- DataManipulation.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8781 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8782 \textbar{}           └-- Visualization
+                                                 
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8783 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8784 \textbar{}               └-- PyPlots.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8785 ├-- dist
+                 
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8786 ...SParkTools\PYGZhy{}1.0\PYGZhy{}py2.7.egg
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8787 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8788 ├-- PySparkTools
+                         
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8789 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8790 \textbar{}   ├-- Manipulation
+                                        
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8791 ...\textbar{}   ├-- DataManipulation.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8792 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8793 \textbar{}   └-- Visualization
+                                         
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8794 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8795 \textbar{}       ├-- PyPlots.py
+                                          
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8796 \textbar{}       └-- PyPlots.pyc
+                                           
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8797 ├-- PySParkTools.egg\PYGZhy{}info
+                                          
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8798 ...}   ├-- dependency\PYGZus{}links.txt
+                                                  
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8799 \textbar{}   ├-- PKG\PYGZhy{}INFO
+                                            
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8800 \textbar{}   ├-- requires.txt
+                                        
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8801 \textbar{}   ├-- SOURCES.txt
+                                       
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8802 \textbar{}   └-- top\PYGZus{}level.txt
+                                                 
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8803 ├-- README.md
+                      
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8804 ├-- requirements.txt
+                             
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8805 ├-- setup.py
+                     
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8806 └-- \PYG{n+nb}{test}
+                             
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8807     ├-- spark\PYGZhy{}warehouse
+                                        
+? 
+
+! Package inputenc Error: Unicode char \u8:├ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8808     ├-- test1.py
+                         
+? 
+
+! Package inputenc Error: Unicode char \u8:└ not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.8809     └-- test2.py
+                         
+? 
+[169]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[170]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[171]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[172
+
+]
+Chapter 18.
+[173]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[174
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 8899--8901
+[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
+ure and in-ter-nals.
+ []
+
+(./pyspark.ind [175
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[176
+
+] [177
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 8425.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 8425.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 8907.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 8907.
  (./pyspark.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 8425.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 8425.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 8907.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 8907.
 
 Package rerunfilecheck Info: File `pyspark.out' has not changed.
-(rerunfilecheck)             Checksum: D358D11783BEA191EABF23A6737BE0B3;4559.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 8425.
+(rerunfilecheck)             Checksum: 58BF843B55C50EA029E8974E465090A5;4822.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 8907.
  ) 
 Here is how much of TeX's memory you used:
- 11082 strings out of 493304
- 156199 string characters out of 6139871
- 354742 words of memory out of 5000000
- 13661 multiletter control sequences out of 15000+600000
+ 11111 strings out of 493304
+ 156585 string characters out of 6139871
+ 355185 words of memory out of 5000000
+ 13673 multiletter control sequences out of 15000+600000
  72442 words of font info for 101 fonts, out of 8000000 for 9000
  958 hyphenation exceptions out of 8191
  36i,18n,48p,2555b,510s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -3278,10 +3345,10 @@ urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (175 pages, 5761194 bytes).
+Output written on pyspark.pdf (183 pages, 5778671 bytes).
 PDF statistics:
- 1729 PDF objects out of 2073 (max. 8388607)
- 1405 compressed objects within 15 object streams
- 503 named destinations out of 1000 (max. 500000)
- 889 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1793 PDF objects out of 2073 (max. 8388607)
+ 1461 compressed objects within 15 object streams
+ 520 named destinations out of 1000 (max. 500000)
+ 921 words of extra memory for PDF output out of 10000 (max. 10000000)
 
