@@ -1,0 +1,290 @@
+
+.. _rdd:
+
+=====================
+Programming with RDDs
+=====================
+
+.. note::
+
+   **If you only know yourself, but not your opponent, you may win or may lose.
+   If you know neither yourself nor your enemy, you will always endanger yourself** 
+   – idiom, from Sunzi’s Art of War
+
+
+RDD represents **Resilient Distributed Dataset**. An RDD in Spark is simply an immutable 
+distributed collection of objects sets. Each RDD is split into multiple partitions (similar pattern
+with smaller sets), which may be computed on different nodes of the cluster.
+
+Create RDD
+++++++++++
+
+Usually, there are two popular way to create the RDDs: loading an external dataset, or distributing 
+a set of collection of objects. The following examples show some simplest ways to create RDDs by using 
+``parallelize()`` fucntion which takes an already existing collection in your program and pass the same 
+to the Spark Context.
+
+1. By using ``parallelize( )`` fucntion
+
+.. code-block:: python
+
+	from pyspark.sql import SparkSession
+
+	spark = SparkSession \
+	    .builder \
+	    .appName("Python Spark create RDD example") \
+	    .config("spark.some.config.option", "some-value") \
+	    .getOrCreate()
+
+	df = spark.sparkContext.parallelize([(1, 2, 3, 'a b c'),
+                     (4, 5, 6, 'd e f'),
+                     (7, 8, 9, 'g h i')]).toDF(['col1', 'col2', 'col3','col4'])   
+
+Then you will get the RDD data:
+
+.. code-block:: python
+
+	df.show()
+
+	+----+----+----+-----+
+	|col1|col2|col3| col4|
+	+----+----+----+-----+
+	|   1|   2|   3|a b c|
+	|   4|   5|   6|d e f|
+	|   7|   8|   9|g h i|
+	+----+----+----+-----+
+
+.. code-block:: python
+
+	from pyspark.sql import SparkSession
+
+	spark = SparkSession \
+	    .builder \
+	    .appName("Python Spark create RDD example") \
+	    .config("spark.some.config.option", "some-value") \
+	    .getOrCreate()
+
+	myData = spark.sparkContext.parallelize([(1,2), (3,4), (5,6), (7,8), (9,10)])
+       
+
+Then you will get the RDD data:
+
+.. code-block:: python
+
+	myData.collect() 
+
+	[(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]
+
+2. By using ``createDataFrame( )`` function 
+
+.. code-block:: python
+
+	from pyspark.sql import SparkSession
+
+	spark = SparkSession \
+	    .builder \
+	    .appName("Python Spark create RDD example") \
+	    .config("spark.some.config.option", "some-value") \
+	    .getOrCreate()
+
+	Employee = spark.createDataFrame([
+                                ('1', 'Joe',   '70000', '1'),
+                                ('2', 'Henry', '80000', '2'),
+                                ('3', 'Sam',   '60000', '2'),
+                                ('4', 'Max',   '90000', '1')],
+                                ['Id', 'Name', 'Sallary','DepartmentId']
+                               )    
+
+Then you will get the RDD data:
+
+.. code-block:: python
+
+	+---+-----+-------+------------+
+	| Id| Name|Sallary|DepartmentId|
+	+---+-----+-------+------------+
+	|  1|  Joe|  70000|           1|
+	|  2|Henry|  80000|           2|
+	|  3|  Sam|  60000|           2|
+	|  4|  Max|  90000|           1|
+	+---+-----+-------+------------+
+
+3. By using ``read`` and ``load`` functions
+
+ a. **Read dataset from .csv file** 
+
+ .. code-block:: python
+
+	## set up  SparkSession
+	from pyspark.sql import SparkSession
+
+	spark = SparkSession \
+	    .builder \
+	    .appName("Python Spark create RDD example") \
+	    .config("spark.some.config.option", "some-value") \
+	    .getOrCreate()
+
+	df = spark.read.format('com.databricks.spark.csv').\
+	                               options(header='true', \
+	                               inferschema='true').\
+	                load("/home/feng/Spark/Code/data/Advertising.csv",header=True)
+
+	df.show(5)
+	df.printSchema()                     
+
+ Then you will get the RDD data:
+
+ .. code-block:: python
+
+	+---+-----+-----+---------+-----+
+	|_c0|   TV|Radio|Newspaper|Sales|
+	+---+-----+-----+---------+-----+
+	|  1|230.1| 37.8|     69.2| 22.1|
+	|  2| 44.5| 39.3|     45.1| 10.4|
+	|  3| 17.2| 45.9|     69.3|  9.3|
+	|  4|151.5| 41.3|     58.5| 18.5|
+	|  5|180.8| 10.8|     58.4| 12.9|
+	+---+-----+-----+---------+-----+
+	only showing top 5 rows
+
+	root
+	 |-- _c0: integer (nullable = true)
+	 |-- TV: double (nullable = true)
+	 |-- Radio: double (nullable = true)
+	 |-- Newspaper: double (nullable = true)
+	 |-- Sales: double (nullable = true) 
+
+
+Once created, RDDs offer two types of operations: transformations and actions.
+
+ b. **Read dataset from DataBase** 
+
+ .. code-block:: python
+
+    ## set up  SparkSession
+    from pyspark.sql import SparkSession
+
+    spark = SparkSession \
+	        .builder \
+	        .appName("Python Spark create RDD example") \
+	        .config("spark.some.config.option", "some-value") \
+	        .getOrCreate()
+ 
+    ## User information
+    user = 'your_username' 
+    pw   = 'your_password'
+
+    ## Database information
+    table_name = 'table_name'
+    url = 'jdbc:postgresql://##.###.###.##:5432/dataset?user='+user+'&password='+pw
+    properties ={'driver': 'org.postgresql.Driver', 'password': pw,'user': user}
+
+    df = spark.read.jdbc(url=url, table=table_name, properties=properties)
+
+    df.show(5)
+    df.printSchema()  
+
+ Then you will get the RDD data:
+
+ .. code-block:: python
+
+	+---+-----+-----+---------+-----+
+	|_c0|   TV|Radio|Newspaper|Sales|
+	+---+-----+-----+---------+-----+
+	|  1|230.1| 37.8|     69.2| 22.1|
+	|  2| 44.5| 39.3|     45.1| 10.4|
+	|  3| 17.2| 45.9|     69.3|  9.3|
+	|  4|151.5| 41.3|     58.5| 18.5|
+	|  5|180.8| 10.8|     58.4| 12.9|
+	+---+-----+-----+---------+-----+
+	only showing top 5 rows
+
+	root
+	 |-- _c0: integer (nullable = true)
+	 |-- TV: double (nullable = true)
+	 |-- Radio: double (nullable = true)
+	 |-- Newspaper: double (nullable = true)
+	 |-- Sales: double (nullable = true) 
+
+.. note::
+
+   Reading tables from Database needs the proper drive for the corresponding Database. 
+   For example, the above demo needs ``org.postgresql.Driver`` and **you need to download 
+   it and put it in ``jars`` folder of your spark installation path.** I download 
+   ``postgresql-42.1.1.jar`` from the official website and put it in ``jars`` folder.
+
+
+ C. **Read dataset from HDFS** 
+
+
+ .. code-block:: python
+
+	from pyspark.conf import SparkConf
+	from pyspark.context import SparkContext
+	from pyspark.sql import HiveContext
+
+	sc= SparkContext('local','example')
+	hc = HiveContext(sc)
+	tf1 = sc.textFile("hdfs://cdhstltest/user/data/demo.CSV")
+	print(tf1.first())
+
+	hc.sql("use intg_cme_w")
+	spf = hc.sql("SELECT * FROM spf LIMIT 100")
+	print(spf.show(5))
+	
+
+Spark Operations 
+++++++++++++++++
+
+.. warning::
+ 
+  All the figures below are from Jeffrey Thompson. The interested reader is referred to `pyspark pictures`_
+
+There are two main types of Spark operations: Transformations and Actions.
+
+  .. _fig_api1:
+  .. figure:: images/visualapi_006.png
+    :align: center
+
+
+.. note::
+
+  Some people defined three types of operations: Transformations, Actions and Shuffles.
+
+
+Spark Transformations
+---------------------
+
+Transformations construct a new RDD from a previous one. For example, one common
+transformation is filtering data that matches a predicate.
+
+  .. _fig_api2:
+  .. figure:: images/transforms1.png
+    :align: center
+
+  .. _fig_api3:
+  .. figure:: images/transforms2.png
+    :align: center
+
+
+Spark Actions
+-------------
+
+Actions, on the other hand, compute a result based on an RDD, and either return it to
+the driver program or save it to an external storage system (e.g., HDFS).
+
+
+  .. _fig_api4:
+  .. figure:: images/actions1.png
+    :align: center
+
+  .. _fig_api5:
+  .. figure:: images/actions2.png
+    :align: center
+
+.. _Spark vs. Hadoop MapReduce: https://www.xplenty.com/blog/2014/11/apache-spark-vs-hadoop-mapreduce/
+
+.. _pyspark pictures: https://github.com/jkthompson/pyspark-pictures
+.. _Vipin Tyagi: https://www.quora.com/profile/Vipin-Tyagi-9
+.. _Yassine Alouini: https://www.quora.com/profile/Yassine-Alouini
+
+
