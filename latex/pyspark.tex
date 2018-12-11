@@ -1414,8 +1414,7 @@ I wouldn't say that understanding your dataset is the most difficult thing in da
 \label{exploration:univariate-analysis}
 In mathematics, univariate refers to an expression, equation, function or polynomial of only one variable.  “Uni” means “one”, so in other words your data has only one variable. So you do not need to deal with the causes or relationships in this step. Univariate analysis takes data, summarizes that variables (attributes) one by one and finds patterns in the data.
 
-There are many ways that can describe patterns found in univariate data include central tendency (mean, mode and median) and dispersion: range, variance, maximum, minimum, quartiles (including the interquartile range), coefficient of variation and standard deviation. You also have several options for visualizing and describing data with univariate data. Such as frequency Distribution Tables, bar Charts,
-histograms, frequency Polygons, pie Charts.
+There are many ways that can describe patterns found in univariate data include central tendency (mean, mode and median) and dispersion: range, variance, maximum, minimum, quartiles (including the interquartile range), coefficient of variation and standard deviation. You also have several options for visualizing and describing data with univariate data. Such as \code{frequency Distribution Tables}, \code{bar Charts}, \code{histograms}, \code{frequency Polygon{}`{}`s, {}`{}`pie Charts}.
 
 The variable could be either categorical or numerical, I will demostrate the different statistical and visulization techniques to investigate each type of the variable.
 \begin{itemize}
@@ -8551,7 +8550,10 @@ train model
 
 \PYG{n}{model} \PYG{o}{=} \PYG{n}{bestModel}
 \end{Verbatim}
-\begin{itemize}
+
+
+\subsection{Make prediction}
+\label{als:make-prediction}\begin{itemize}
 \item {} 
 make prediction
 
@@ -8562,7 +8564,7 @@ make prediction
 
 \PYG{n}{predictions}\PYG{o}{=}\PYG{n}{model}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{topredict}\PYG{p}{)}
 \PYG{n}{predictions}\PYG{o}{.}\PYG{n}{filter}\PYG{p}{(}\PYG{n}{predictions}\PYG{o}{.}\PYG{n}{prediction}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{0}\PYG{p}{)}\PYGZbs{}
-           \PYG{o}{.}\PYG{n}{sort}\PYG{p}{(}\PYG{p}{[}\PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{CustomerID}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}\PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{]}\PYG{p}{,}\PYG{n}{ascending}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}
+           \PYG{o}{.}\PYG{n}{sort}\PYG{p}{(}\PYG{p}{[}\PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{CustomerID}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}\PYG{n}{F}\PYG{o}{.}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Cusip}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{]}\PYG{p}{,}\PYG{n}{ascending}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
 \end{Verbatim}
 
 \begin{Verbatim}[commandchars=\\\{\}]
@@ -8574,13 +8576,8 @@ make prediction
 \PYG{o}{\textbar{}}     \PYG{l+m+mi}{18282}\PYG{o}{\textbar{}} \PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.059531752}\PYG{o}{\textbar{}}
 \PYG{o}{\textbar{}}     \PYG{l+m+mi}{18282}\PYG{o}{\textbar{}} \PYG{l+m+mi}{23203}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{7.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.010502596}\PYG{o}{\textbar{}}
 \PYG{o}{\textbar{}}     \PYG{l+m+mi}{18282}\PYG{o}{\textbar{}} \PYG{l+m+mi}{22720}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{3.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.053893942}\PYG{o}{\textbar{}}
-\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18282}\PYG{o}{\textbar{}} \PYG{l+m+mi}{20725}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{2.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.0054253186}\PYG{o}{\textbar{}}
-\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18274}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85099}\PYG{n}{B}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{5.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.004492881}\PYG{o}{\textbar{}}
-\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18272}\PYG{o}{\textbar{}} \PYG{l+m+mi}{84879}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.029040236}\PYG{o}{\textbar{}}
-\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18265}\PYG{o}{\textbar{}}\PYG{l+m+mi}{85099}\PYG{n}{B}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{5.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.006360693}\PYG{o}{\textbar{}}
-\PYG{o}{\textbar{}}     \PYG{l+m+mi}{18262}\PYG{o}{\textbar{}}  \PYG{n}{POST}\PYG{o}{\textbar{}}         \PYG{l+m+mf}{8.0}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.007962364}\PYG{o}{\textbar{}}
 \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
-\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{10} \PYG{n}{rows}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
 \end{Verbatim}
 
 

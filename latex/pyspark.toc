@@ -137,6 +137,7 @@
 \contentsline {section}{\numberline {15.3}Demo}{157}{section.15.3}
 \contentsline {subsection}{\numberline {15.3.1}Load and clean data}{157}{subsection.15.3.1}
 \contentsline {subsection}{\numberline {15.3.2}Train model}{162}{subsection.15.3.2}
+\contentsline {subsection}{\numberline {15.3.3}Make prediction}{163}{subsection.15.3.3}
 \contentsline {chapter}{\numberline {16}Neural Network}{165}{chapter.16}
 \contentsline {section}{\numberline {16.1}Feedforward Neural Network}{165}{section.16.1}
 \contentsline {subsection}{\numberline {16.1.1}Introduction}{165}{subsection.16.1.1}
