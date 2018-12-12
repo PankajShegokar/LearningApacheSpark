@@ -1,0 +1,20 @@
+.. _mc:
+
+======================
+Monte Carlo Simulation
+======================
+
+
+
+Simulating Casino Win
++++++++++++++++++++++
+
+
+Simulating a Random Walk
+++++++++++++++++++++++++
+
+.. _fig_mc_stock_rw:
+.. figure:: images/stock_rw.png
+   :align: center
+
+   Simulated Stock Price 

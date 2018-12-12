@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Regularization &mdash; Learning Apache Spark with Python v1.0 documentation</title>
+  <title>Monte Carlo Simulation &mdash; Learning Apache Spark with Python v1.0 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Learning Apache Spark with Python v1.0 documentation" href="index.html"/>
-        <link rel="next" title="Classification" href="classification.html"/>
-        <link rel="prev" title="Regression" href="regression.html"/>
+        <link rel="next" title="Neural Network" href="fnn.html"/>
+        <link rel="prev" title="ALS: Stock Portfolio Recommendations" href="als.html"/>
  
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -106,19 +106,18 @@
 <li class="toctree-l1"><a class="reference internal" href="stats.html">Statistics Preliminary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="exploration.html">Data Exploration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Regularization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#ridge-regression">Ridge regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#least-absolute-shrinkage-and-selection-operator-lasso">Least Absolute Shrinkage and Selection Operator (LASSO)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#elastic-net">Elastic net</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="reg.html">Regularization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rfm.html">RFM Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textmining.html">Text Mining</a></li>
 <li class="toctree-l1"><a class="reference internal" href="socialnetwork.html">Social Network Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="als.html">ALS: Stock Portfolio Recommendations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mc.html">Monte Carlo Simulation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Monte Carlo Simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simulating-casino-win">Simulating Casino Win</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simulating-a-random-walk">Simulating a Random Walk</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="fnn.html">Neural Network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pack.html">My PySpark Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Main Reference</a></li>
@@ -166,13 +165,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Regularization</li>
+      <li>Monte Carlo Simulation</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="sources/reg.rst.txt" rel="nofollow"> View page source</a>
+            <a href="sources/mc.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -185,30 +184,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="regularization">
-<span id="id1"></span><h1>Regularization<a class="headerlink" href="#regularization" title="Permalink to this headline">¶</a></h1>
-<p>In mathematics, statistics, and computer science, particularly in the fields of machine learning and inverse problems, regularization is a process of introducing additional information in order to solve an ill-posed problem or to prevent overfitting (<a class="reference external" href="https://en.wikipedia.org/wiki/Regularization_(mathematics)">Wikipedia Regularization</a>).</p>
-<p>Due to the sparsity within our data, our training sets will often be ill-posed (singular).  Applying regularization to the regression has many advantages, including:</p>
-<ol class="arabic simple">
-<li>Converting ill-posed problems to well-posed by adding additional information via the penalty parameter <img class="math" src="images/math/74cf2d1d078d79ac9828bf9e63a310dbd7fb2c17.png" alt="\lambda"/></li>
-<li>Preventing overfitting</li>
-<li>Variable selection and the removal of correlated variables (<a class="reference external" href="https://en.wikipedia.org/wiki/Mean_squared_error">Glmnet Vignette</a>).  The Ridge method shrinks the coefficients of correlated variables while the LASSO method picks one variable and discards the others.  The elastic net penalty is a mixture of these two; if variables are correlated in groups then <img class="math" src="images/math/9cd41bb51928cc195cb85f20e836e75d7947f112.png" alt="\alpha=0.5"/> tends to select the groups as in or out. If α is close to 1, the elastic net performs much like the LASSO method and removes any degeneracies and wild behavior caused by extreme correlations.</li>
-</ol>
-<div class="section" id="ridge-regression">
-<h2>Ridge regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h2>
-<div class="math">
-<p><img src="images/math/807ef99b4da3fd008a4e1080421cd1a92b90dca4.png" alt="\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda \|\beta\|_{2}^{2}"/></p>
-</div></div>
-<div class="section" id="least-absolute-shrinkage-and-selection-operator-lasso">
-<h2>Least Absolute Shrinkage and Selection Operator (LASSO)<a class="headerlink" href="#least-absolute-shrinkage-and-selection-operator-lasso" title="Permalink to this headline">¶</a></h2>
-<div class="math">
-<p><img src="images/math/32ec9b96c7374443caf217a97bb392d372eece7f.png" alt="\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda\|\beta\|_{1}"/></p>
-</div></div>
-<div class="section" id="elastic-net">
-<h2>Elastic net<a class="headerlink" href="#elastic-net" title="Permalink to this headline">¶</a></h2>
-<div class="math">
-<p><img src="images/math/579c6054a8f616e08e9bd7f0c2af1c00ef312a63.png" alt="\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda (\alpha \|\beta\|_{1}+(1-\alpha )\|\beta\|_{2}^{2}),\alpha \in [0,1]"/></p>
-</div></div>
+  <div class="section" id="monte-carlo-simulation">
+<span id="mc"></span><h1>Monte Carlo Simulation<a class="headerlink" href="#monte-carlo-simulation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="simulating-casino-win">
+<h2>Simulating Casino Win<a class="headerlink" href="#simulating-casino-win" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="simulating-a-random-walk">
+<h2>Simulating a Random Walk<a class="headerlink" href="#simulating-a-random-walk" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id1">
+<span id="fig-mc-stock-rw"></span><img alt="images/stock_rw.png" src="images/stock_rw.png" />
+<p class="caption"><span class="caption-number">Fig. 44 </span><span class="caption-text">Simulated Stock Price</span></p>
+</div>
+</div>
 </div>
 
 
@@ -221,10 +208,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="classification.html" class="btn btn-neutral float-right" title="Classification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="fnn.html" class="btn btn-neutral float-right" title="Neural Network" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="regression.html" class="btn btn-neutral" title="Regression" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="als.html" class="btn btn-neutral" title="ALS: Stock Portfolio Recommendations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

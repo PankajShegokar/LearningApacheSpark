@@ -1,8 +1,8 @@
 .. _als:
 
-===============================
-Stock Portfolio Recommendations
-===============================
+====================================
+ALS: Stock Portfolio Recommendations
+====================================
 
 Recommender systems
 +++++++++++++++++++
