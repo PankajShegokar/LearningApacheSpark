@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{December 11, 2018}
+\date{December 13, 2018}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -1414,7 +1414,7 @@ I wouldn't say that understanding your dataset is the most difficult thing in da
 \label{exploration:univariate-analysis}
 In mathematics, univariate refers to an expression, equation, function or polynomial of only one variable.  “Uni” means “one”, so in other words your data has only one variable. So you do not need to deal with the causes or relationships in this step. Univariate analysis takes data, summarizes that variables (attributes) one by one and finds patterns in the data.
 
-There are many ways that can describe patterns found in univariate data include central tendency (mean, mode and median) and dispersion: range, variance, maximum, minimum, quartiles (including the interquartile range), coefficient of variation and standard deviation. You also have several options for visualizing and describing data with univariate data. Such as \code{frequency Distribution Tables}, \code{bar Charts}, \code{histograms}, \code{frequency Polygon{}`{}`s, {}`{}`pie Charts}.
+There are many ways that can describe patterns found in univariate data include central tendency (mean, mode and median) and dispersion: range, variance, maximum, minimum, quartiles (including the interquartile range), coefficient of variation and standard deviation. You also have several options for visualizing and describing data with univariate data. Such as \code{frequency Distribution Tables}, \code{bar Charts}, \code{histograms}, \code{frequency Polygons}, \code{pie Charts}.
 
 The variable could be either categorical or numerical, I will demostrate the different statistical and visulization techniques to investigate each type of the variable.
 \begin{itemize}
@@ -8101,8 +8101,8 @@ Then you will get Figure {\hyperref[socialnetwork:fig-netfreq]{\emph{Co-occurren
 \section{Correlation Network}
 \label{socialnetwork:correlation-network}
 
-\chapter{Stock Portfolio Recommendations}
-\label{als:co-occurrence-networks}\label{als::doc}\label{als:als}\label{als:stock-portfolio-recommendations}
+\chapter{ALS: Stock Portfolio Recommendations}
+\label{als:als-stock-portfolio-recommendations}\label{als:co-occurrence-networks}\label{als::doc}\label{als:als}
 
 \section{Recommender systems}
 \label{als:recommender-systems}
@@ -8581,8 +8581,303 @@ make prediction
 \end{Verbatim}
 
 
+\chapter{Monte Carlo Simulation}
+\label{mc:monte-carlo-simulation}\label{mc::doc}\label{mc:mc}
+
+\section{Simulating Casino Win}
+\label{mc:simulating-casino-win}
+
+\section{Simulating a Random Walk}
+\label{mc:simulating-a-random-walk}
+
+\subsection{Fetch the histrical stock price}
+\label{mc:fetch-the-histrical-stock-price}\begin{enumerate}
+\item {} 
+Fecth the data. If you need the code for this piece, you can contact with me.
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}      \PYG{n}{Date}\PYG{o}{\textbar{}}      \PYG{n}{Open}\PYG{o}{\textbar{}}      \PYG{n}{High}\PYG{o}{\textbar{}}       \PYG{n}{Low}\PYG{o}{\textbar{}}     \PYG{n}{Close}\PYG{o}{\textbar{}} \PYG{n}{Adj} \PYG{n}{Close}\PYG{o}{\textbar{}}  \PYG{n}{Volume}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mo}{07}\PYG{o}{\textbar{}}\PYG{l+m+mf}{155.399994}\PYG{o}{\textbar{}}\PYG{l+m+mf}{158.050003}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.729996}\PYG{o}{\textbar{}}\PYG{l+m+mf}{153.059998}\PYG{o}{\textbar{}}\PYG{l+m+mf}{153.059998}\PYG{o}{\textbar{}}\PYG{l+m+mi}{17447900}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{10}\PYG{o}{\textbar{}}\PYG{l+m+mf}{150.389999}\PYG{o}{\textbar{}}\PYG{l+m+mf}{152.809998}\PYG{o}{\textbar{}}\PYG{l+m+mf}{147.479996}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.429993}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.429993}\PYG{o}{\textbar{}}\PYG{l+m+mi}{15525500}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{11}\PYG{o}{\textbar{}}\PYG{l+m+mf}{155.259995}\PYG{o}{\textbar{}}\PYG{l+m+mf}{156.240005}\PYG{o}{\textbar{}}\PYG{l+m+mf}{150.899994}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.830002}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.830002}\PYG{o}{\textbar{}}\PYG{l+m+mi}{13651900}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\textbar{}}\PYG{l+m+mf}{155.240005}\PYG{o}{\textbar{}}\PYG{l+m+mf}{156.169998}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.429993}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mi}{16597900}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+Convert the \code{str} type date to date type
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Date}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{to\PYGZus{}datetime}\PYG{p}{(}\PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Date}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+Data visualization
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} Plot everything by leveraging the very powerful matplotlib package}
+\PYG{n}{width} \PYG{o}{=} \PYG{l+m+mi}{10}
+\PYG{n}{height} \PYG{o}{=} \PYG{l+m+mi}{6}
+\PYG{n}{data} \PYG{o}{=} \PYG{n}{stock}
+\PYG{n}{fig} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{n}{width}\PYG{p}{,} \PYG{n}{height}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{ax} \PYG{o}{=} \PYG{n}{fig}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{data}\PYG{o}{.}\PYG{n}{Date}\PYG{p}{,} \PYG{n}{data}\PYG{o}{.}\PYG{n}{Close}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Close}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{data}\PYG{o}{.}\PYG{n}{Date}\PYG{p}{,} \PYG{n}{data}\PYG{o}{.}\PYG{n}{High}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{High}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{} ax.plot(data.Date, data.Low, label=\PYGZsq{}Low\PYGZsq{})}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Date}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{price (\PYGZdl{})}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Stock price: }\PYG{l+s}{\PYGZsq{}} \PYG{o}{+} \PYG{n}{ticker}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{l+m+mf}{1.01}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}plt.xticks(rotation=70)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\PYG{c}{\PYGZsh{} Plot everything by leveraging the very powerful matplotlib package}
+\PYG{n}{fig} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{n}{width}\PYG{p}{,} \PYG{n}{height}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{ax} \PYG{o}{=} \PYG{n}{fig}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{data}\PYG{o}{.}\PYG{n}{Date}\PYG{p}{,} \PYG{n}{data}\PYG{o}{.}\PYG{n}{Volume}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Volume}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}ax.plot(data.Date, data.High, label=\PYGZsq{}High\PYGZsq{})}
+\PYG{c}{\PYGZsh{} ax.plot(data.Date, data.Low, label=\PYGZsq{}Low\PYGZsq{})}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Date}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Volume}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Stock volume: }\PYG{l+s}{\PYGZsq{}} \PYG{o}{+} \PYG{n}{ticker}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{l+m+mf}{1.01}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}plt.xticks(rotation=70)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\includegraphics{baba_history.png}
+\caption{Historical Stock Price}\label{mc:fig-mc-stock-his-price}\end{figure}
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\includegraphics{baba_history_vol.png}
+\caption{Historical Stock Volume}\label{mc:fig-mc-stock-his-vol}\end{figure}
+
+
+\subsection{Calulate the Compound Annual Growth Rate}
+\label{mc:calulate-the-compound-annual-growth-rate}
+The formula for Compound Annual Growth Rate (CAGR) is very useful for investment analysis. It may also be referred to as the annualized rate of return or annual percent yield or effective annual rate, depending on the algebraic form of the equation. Many investments such as stocks have returns that can vary wildly. The CAGR formula allows you to calculate a ``smoothed'' rate of return that you can use to compare to other investments. The formula is defined as (more details can be found at \href{https://www.vertex42.com/Calculators/cagr-calculator.html}{CAGR Calculator and Formula})
+\begin{gather}
+\begin{split}\text{CAGR}=\left(\frac{\text{End Value}}{\text{Start Value}}\right)^{\frac{365}{\text{Days}}} -1\end{split}\notag
+\end{gather}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{days} \PYG{o}{=}  \PYG{p}{(}\PYG{n}{stock}\PYG{o}{.}\PYG{n}{Date}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{stock}\PYG{o}{.}\PYG{n}{Date}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{days}
+\PYG{n}{cagr} \PYG{o}{=} \PYG{p}{(}\PYG{p}{(}\PYG{p}{(}\PYG{p}{(}\PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Adj Close}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)} \PYG{o}{/} \PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Adj Close}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)} \PYG{o}{*}\PYG{o}{*} \PYG{p}{(}\PYG{l+m+mf}{365.0}\PYG{o}{/}\PYG{n}{days}\PYG{p}{)}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}
+\PYG{k}{print} \PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{CAGR =}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb}{round}\PYG{p}{(}\PYG{n}{cagr}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{o}{*}\PYG{l+m+mi}{100}\PYG{p}{)}\PYG{o}{+}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\PYGZpc{}}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{mu} \PYG{o}{=} \PYG{n}{cagr}
+\end{Verbatim}
+
+
+\subsection{Calulate the annual volatility}
+\label{mc:calulate-the-annual-volatility}
+A stock's volatility is the variation in its price over a period of time. For example, one stock may have a tendency to swing wildly higher and lower, while another stock may move in much steadier, less turbulent way. Both stocks may end up at the same price at the end of day, but their path to that point can vary wildly. First, we create a series of percentage returns and calculate the annual volatility of returns Annualizing volatility. To present this volatility in annualized terms,
+we simply need to multiply our daily standard deviation
+by the square root of 252. This assumes there are 252
+trading days in a given year.  More details can be found at \href{https://www.fool.com/knowledge-center/how-to-calculate-annualized-volatility.aspx}{How to Calculate Annualized Volatility}.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Returns}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Adj Close}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{pct\PYGZus{}change}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{vol} \PYG{o}{=} \PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Returns}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{std}\PYG{p}{(}\PYG{p}{)}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{252}\PYG{p}{)}
+\end{Verbatim}
+
+
+\subsection{Create matrix of daily returns}
+\label{mc:create-matrix-of-daily-returns}\begin{enumerate}
+\item {} 
+Create matrix of daily returns using random normal distribution Generates an RDD matrix comprised of i.i.d. samples from the uniform distribution U(0.0, 1.0).
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{S} \PYG{o}{=} \PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Adj Close}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{c}{\PYGZsh{}starting stock price (i.e. last available real stock price)}
+\PYG{n}{T} \PYG{o}{=} \PYG{l+m+mi}{5} \PYG{c}{\PYGZsh{}Number of trading days}
+\PYG{n}{mu} \PYG{o}{=} \PYG{n}{cagr} \PYG{c}{\PYGZsh{}Return}
+\PYG{n}{vol} \PYG{o}{=} \PYG{n}{vol} \PYG{c}{\PYGZsh{}Volatility}
+\PYG{n}{trials} \PYG{o}{=} \PYG{l+m+mi}{10000}
+
+\PYG{n}{mat} \PYG{o}{=} \PYG{n}{RandomRDDs}\PYG{o}{.}\PYG{n}{normalVectorRDD}\PYG{p}{(}\PYG{n}{sc}\PYG{p}{,} \PYG{n}{trials}\PYG{p}{,} \PYG{n}{T}\PYG{p}{,} \PYG{n}{seed}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+Transform the distribution in the generated RDD from U(0.0, 1.0) to U(a, b), use RandomRDDs.uniformRDD(sc, n, p, seed) .map(lambda v: a + (b - a) * v)
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{a} \PYG{o}{=} \PYG{n}{mu}\PYG{o}{/}\PYG{n}{T}
+\PYG{n}{b} \PYG{o}{=} \PYG{n}{vol}\PYG{o}{/}\PYG{n}{math}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{T}\PYG{p}{)}
+\PYG{n}{v} \PYG{o}{=} \PYG{n}{mat}\PYG{o}{.}\PYG{n}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{a} \PYG{o}{+}  \PYG{p}{(}\PYG{n}{b} \PYG{o}{\PYGZhy{}} \PYG{n}{a}\PYG{p}{)}\PYG{o}{*} \PYG{n}{x}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+Convert Rdd mstrix to dataframe
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df} \PYG{o}{=} \PYG{n}{v}\PYG{o}{.}\PYG{n}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{p}{[}\PYG{n+nb}{round}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{6}\PYG{p}{)}\PYG{o}{+}\PYG{l+m+mi}{1} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{x}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toDF}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}1}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}2}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}3}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}4}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}5}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.935234}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.162894}\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.07972}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.238257}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.066136}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.878456}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.045922}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.990071}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.045552}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.854516}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.186472}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.944777}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.742247}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.940023}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.220934}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.872928}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.030882}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.248644}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.114262}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.063762}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.09742}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.188537}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.137283}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.162548}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.024612}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n}{lit}
+\PYG{n}{S} \PYG{o}{=} \PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Adj Close}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+\PYG{n}{price} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{init\PYGZus{}price}\PYG{l+s}{\PYGZsq{}} \PYG{p}{,}\PYG{n}{lit}\PYG{p}{(}\PYG{n}{S}\PYG{p}{)}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{price}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}1}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}2}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}3}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}4}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}5}\PYG{o}{\textbar{}}\PYG{n}{init\PYGZus{}price}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.935234}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.162894}\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.07972}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.238257}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.066136}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.878456}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.045922}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.990071}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.045552}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.854516}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.186472}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.944777}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.742247}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.940023}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.220934}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.872928}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.030882}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.248644}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.114262}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.063762}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.09742}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.188537}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.137283}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.162548}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.024612}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{price} \PYG{o}{=} \PYG{n}{price}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{day\PYGZus{}0}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{init\PYGZus{}price}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{price}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}1}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}2}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}3}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}4}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}5}\PYG{o}{\textbar{}}\PYG{n}{init\PYGZus{}price}\PYG{o}{\textbar{}}\PYG{n}{day\PYGZus{}0}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.935234}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.162894}\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.07972}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.238257}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.066136}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.878456}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.045922}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.990071}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.045552}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.854516}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.186472}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.944777}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.742247}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.940023}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.220934}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.872928}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.030882}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.248644}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.114262}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.063762}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.09742}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.188537}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.137283}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.162548}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.024612}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+
+
+\subsection{Monte Carlo Simulation}
+\label{mc:id1}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n+nb}{round}
+\PYG{k}{for} \PYG{n}{name} \PYG{o+ow}{in} \PYG{n}{price}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{[}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{p}{:}
+    \PYG{n}{price} \PYG{o}{=} \PYG{n}{price}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{day}\PYG{l+s}{\PYGZsq{}}\PYG{o}{+}\PYG{n}{name}\PYG{p}{,} \PYG{n+nb}{round}\PYG{p}{(}\PYG{n}{col}\PYG{p}{(}\PYG{n}{name}\PYG{p}{)}\PYG{o}{*}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{init\PYGZus{}price}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{price} \PYG{o}{=} \PYG{n}{price}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{init\PYGZus{}price}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{col}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{day}\PYG{l+s}{\PYGZsq{}}\PYG{o}{+}\PYG{n}{name}\PYG{p}{)}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{price}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}1}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}2}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}3}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}4}\PYG{o}{\textbar{}}      \PYG{n}{\PYGZus{}5}\PYG{o}{\textbar{}}\PYG{n}{init\PYGZus{}price}\PYG{o}{\textbar{}}\PYG{n}{day\PYGZus{}0}\PYG{o}{\textbar{}} \PYG{n}{day\PYGZus{}1}\PYG{o}{\textbar{}} \PYG{n}{day\PYGZus{}2}\PYG{o}{\textbar{}} \PYG{n}{day\PYGZus{}3}\PYG{o}{\textbar{}} \PYG{n}{day\PYGZus{}4}\PYG{o}{\textbar{}} \PYG{n}{day\PYGZus{}5}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.935234}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.162894}\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.07972}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.238257}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.066136}\PYG{o}{\textbar{}}    \PYG{l+m+mf}{234.87}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{141.69}\PYG{o}{\textbar{}}\PYG{l+m+mf}{164.77}\PYG{o}{\textbar{}}\PYG{l+m+mf}{177.91}\PYG{o}{\textbar{}} \PYG{l+m+mf}{220.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{234.87}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.878456}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.045922}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.990071}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.045552}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.854516}\PYG{o}{\textbar{}}    \PYG{l+m+mf}{123.14}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{133.09}\PYG{o}{\textbar{}} \PYG{l+m+mf}{139.2}\PYG{o}{\textbar{}}\PYG{l+m+mf}{137.82}\PYG{o}{\textbar{}} \PYG{l+m+mf}{144.1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{123.14}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.186472}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.944777}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.742247}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.940023}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.220934}\PYG{o}{\textbar{}}    \PYG{l+m+mf}{144.67}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{179.75}\PYG{o}{\textbar{}}\PYG{l+m+mf}{169.82}\PYG{o}{\textbar{}}\PYG{l+m+mf}{126.05}\PYG{o}{\textbar{}}\PYG{l+m+mf}{118.49}\PYG{o}{\textbar{}}\PYG{l+m+mf}{144.67}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.872928}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.030882}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.248644}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.114262}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.063762}\PYG{o}{\textbar{}}    \PYG{l+m+mf}{201.77}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{132.25}\PYG{o}{\textbar{}}\PYG{l+m+mf}{136.33}\PYG{o}{\textbar{}}\PYG{l+m+mf}{170.23}\PYG{o}{\textbar{}}\PYG{l+m+mf}{189.68}\PYG{o}{\textbar{}}\PYG{l+m+mf}{201.77}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.09742}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.188537}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.137283}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.162548}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.024612}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{267.7}\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{166.26}\PYG{o}{\textbar{}}\PYG{l+m+mf}{197.61}\PYG{o}{\textbar{}}\PYG{l+m+mf}{224.74}\PYG{o}{\textbar{}}\PYG{l+m+mf}{261.27}\PYG{o}{\textbar{}} \PYG{l+m+mf}{267.7}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{5} \PYG{n}{rows}
+\end{Verbatim}
+
+
+\subsection{Summary}
+\label{mc:summary}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{selected\PYGZus{}col} \PYG{o}{=} \PYG{p}{[}\PYG{n}{name} \PYG{k}{for} \PYG{n}{name} \PYG{o+ow}{in} \PYG{n}{price}\PYG{o}{.}\PYG{n}{columns} \PYG{k}{if} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{day\PYGZus{}}\PYG{l+s}{\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{name}\PYG{p}{]}
+
+\PYG{n}{simulated} \PYG{o}{=} \PYG{n}{price}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{selected\PYGZus{}col}\PYG{p}{)}
+\PYG{n}{simulated}\PYG{o}{.}\PYG{n}{describe}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{summary}\PYG{o}{\textbar{}}\PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{13}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{14}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{17}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{18}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{2018}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{12}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{19}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}  \PYG{n}{count}\PYG{o}{\textbar{}}   \PYG{l+m+mf}{10000.0}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{10000.0}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{10000.0}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{10000.0}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{10000.0}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{10000.0}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}   \PYG{n}{mean}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{155.11643700000002}\PYG{o}{\textbar{}}        \PYG{l+m+mf}{158.489058}\PYG{o}{\textbar{}}\PYG{l+m+mf}{162.23713200000003}\PYG{o}{\textbar{}}        \PYG{l+m+mf}{166.049375}\PYG{o}{\textbar{}}        \PYG{l+m+mf}{170.006525}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}    \PYG{n}{std}\PYG{o}{\textbar{}}       \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}\PYG{l+m+mf}{18.313783237787845}\PYG{o}{\textbar{}}\PYG{l+m+mf}{26.460919262517276}\PYG{o}{\textbar{}} \PYG{l+m+mf}{33.37780495150803}\PYG{o}{\textbar{}}\PYG{l+m+mf}{39.369101074463416}\PYG{o}{\textbar{}}\PYG{l+m+mf}{45.148120695490846}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}    \PYG{n+nb}{min}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}              \PYG{l+m+mf}{88.2}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{74.54}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{65.87}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{68.21}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{58.25}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}    \PYG{l+m+mi}{25}\PYG{o}{\PYGZpc{}}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{142.485}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{140.15}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{138.72}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{138.365}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{137.33}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}    \PYG{l+m+mi}{50}\PYG{o}{\PYGZpc{}}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{154.97}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{157.175}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{159.82}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{162.59}\PYG{o}{\textbar{}}\PYG{l+m+mf}{165.04500000000002}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}    \PYG{l+m+mi}{75}\PYG{o}{\PYGZpc{}}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{167.445}\PYG{o}{\textbar{}}\PYG{l+m+mf}{175.48499999999999}\PYG{o}{\textbar{}}          \PYG{l+m+mf}{182.8625}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{189.725}\PYG{o}{\textbar{}}           \PYG{l+m+mf}{196.975}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}    \PYG{n+nb}{max}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{227.48}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{275.94}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{319.17}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{353.59}\PYG{o}{\textbar{}}            \PYG{l+m+mf}{403.68}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{data\PYGZus{}plt} \PYG{o}{=} \PYG{n}{simulated}\PYG{o}{.}\PYG{n}{toPandas}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{days} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{date\PYGZus{}range}\PYG{p}{(}\PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Date}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,} \PYG{n}{periods}\PYG{o}{=} \PYG{n}{T}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{freq}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{date}
+
+\PYG{n}{width} \PYG{o}{=} \PYG{l+m+mi}{10}
+\PYG{n}{height} \PYG{o}{=} \PYG{l+m+mi}{6}
+\PYG{n}{fig} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{n}{width}\PYG{p}{,} \PYG{n}{height}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{ax} \PYG{o}{=} \PYG{n}{fig}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n}{days} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{date\PYGZus{}range}\PYG{p}{(}\PYG{n}{stock}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Date}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,} \PYG{n}{periods}\PYG{o}{=} \PYG{n}{T}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{freq}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{date}
+
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{trials}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{days}\PYG{p}{,} \PYG{n}{data\PYGZus{}plt}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Date}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{price (\PYGZdl{})}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{ax}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Simulated Stock price: }\PYG{l+s}{\PYGZsq{}} \PYG{o}{+} \PYG{n}{ticker}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{l+m+mf}{1.01}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{baba_sim_price_demo.png}
+\label{mc:fig-mc-stock-price-demo}\end{figure}
+
+
+\subsection{One-year Stock price simulation}
+\label{mc:one-year-stock-price-simulation}\begin{figure}[htbp]
+\centering
+\capstart
+
+\includegraphics{baba_sim_price.png}
+\caption{Simulated Stock Price}\label{mc:fig-mc-stock-price}\end{figure}
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\includegraphics{baba_sim_dis1.png}
+\caption{Simulated Stock Price distribution}\label{mc:fig-mc-stock-dis}\end{figure}
+
+
 \chapter{Neural Network}
-\label{fnn:fnn}\label{fnn::doc}\label{fnn:neural-network}
+\label{fnn:fnn}\label{fnn::doc}\label{fnn:neural-network}\label{fnn:how-to-calculate-annualized-volatility}
 \begin{notice}{note}{Note:}
 Sharpening the knife longer can make it easier to hack the firewood -- old Chinese proverb
 \end{notice}

@@ -60,16 +60,19 @@
 \BOOKMARK [0][-]{chapter.14}{Social Network Analysis}{}% 60
 \BOOKMARK [1][-]{section.14.1}{Co-occurrence Network}{chapter.14}% 61
 \BOOKMARK [1][-]{section.14.2}{Correlation Network}{chapter.14}% 62
-\BOOKMARK [0][-]{chapter.15}{Stock Portfolio Recommendations}{}% 63
+\BOOKMARK [0][-]{chapter.15}{ALS: Stock Portfolio Recommendations}{}% 63
 \BOOKMARK [1][-]{section.15.1}{Recommender systems}{chapter.15}% 64
 \BOOKMARK [1][-]{section.15.2}{Alternating Least Squares}{chapter.15}% 65
 \BOOKMARK [1][-]{section.15.3}{Demo}{chapter.15}% 66
-\BOOKMARK [0][-]{chapter.16}{Neural Network}{}% 67
-\BOOKMARK [1][-]{section.16.1}{Feedforward Neural Network}{chapter.16}% 68
-\BOOKMARK [0][-]{chapter.17}{My PySpark Package}{}% 69
-\BOOKMARK [1][-]{section.17.1}{Hierarchical Structure}{chapter.17}% 70
-\BOOKMARK [1][-]{section.17.2}{Set Up}{chapter.17}% 71
-\BOOKMARK [1][-]{section.17.3}{ReadMe}{chapter.17}% 72
-\BOOKMARK [0][-]{chapter.18}{Main Reference}{}% 73
-\BOOKMARK [0][-]{chapter*.5}{Bibliography}{}% 74
-\BOOKMARK [0][-]{section*.10}{Index}{}% 75
+\BOOKMARK [0][-]{chapter.16}{Monte Carlo Simulation}{}% 67
+\BOOKMARK [1][-]{section.16.1}{Simulating Casino Win}{chapter.16}% 68
+\BOOKMARK [1][-]{section.16.2}{Simulating a Random Walk}{chapter.16}% 69
+\BOOKMARK [0][-]{chapter.17}{Neural Network}{}% 70
+\BOOKMARK [1][-]{section.17.1}{Feedforward Neural Network}{chapter.17}% 71
+\BOOKMARK [0][-]{chapter.18}{My PySpark Package}{}% 72
+\BOOKMARK [1][-]{section.18.1}{Hierarchical Structure}{chapter.18}% 73
+\BOOKMARK [1][-]{section.18.2}{Set Up}{chapter.18}% 74
+\BOOKMARK [1][-]{section.18.3}{ReadMe}{chapter.18}% 75
+\BOOKMARK [0][-]{chapter.19}{Main Reference}{}% 76
+\BOOKMARK [0][-]{chapter*.5}{Bibliography}{}% 77
+\BOOKMARK [0][-]{section*.10}{Index}{}% 78
