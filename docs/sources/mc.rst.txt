@@ -13,8 +13,23 @@ Simulating Casino Win
 Simulating a Random Walk
 ++++++++++++++++++++++++
 
-.. _fig_mc_stock_rw:
-.. figure:: images/stock_rw.png
+
+.. _fig_mc_stock_his_price:
+.. figure:: images/baba_history.png
+   :align: center
+
+   Historical Stock Price 
+
+
+.. _fig_mc_stock_price:
+.. figure:: images/baba_sim_price.png
    :align: center
 
    Simulated Stock Price 
+
+
+.. _fig_mc_stock_dis:
+.. figure:: images/baba_sim_dis1.png
+   :align: center
+
+   Simulated Stock Price distribution   
