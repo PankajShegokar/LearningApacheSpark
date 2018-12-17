@@ -140,22 +140,22 @@
 \contentsline {subsection}{\numberline {15.3.3}Make prediction}{163}{subsection.15.3.3}
 \contentsline {chapter}{\numberline {16}Monte Carlo Simulation}{165}{chapter.16}
 \contentsline {section}{\numberline {16.1}Simulating Casino Win}{165}{section.16.1}
-\contentsline {section}{\numberline {16.2}Simulating a Random Walk}{165}{section.16.2}
-\contentsline {subsection}{\numberline {16.2.1}Fetch the histrical stock price}{165}{subsection.16.2.1}
-\contentsline {subsection}{\numberline {16.2.2}Calulate the Compound Annual Growth Rate}{166}{subsection.16.2.2}
+\contentsline {section}{\numberline {16.2}Simulating a Random Walk}{167}{section.16.2}
+\contentsline {subsection}{\numberline {16.2.1}Fetch the histrical stock price}{167}{subsection.16.2.1}
+\contentsline {subsection}{\numberline {16.2.2}Calulate the Compound Annual Growth Rate}{168}{subsection.16.2.2}
 \contentsline {subsection}{\numberline {16.2.3}Calulate the annual volatility}{168}{subsection.16.2.3}
-\contentsline {subsection}{\numberline {16.2.4}Create matrix of daily returns}{168}{subsection.16.2.4}
-\contentsline {subsection}{\numberline {16.2.5}Monte Carlo Simulation}{169}{subsection.16.2.5}
-\contentsline {subsection}{\numberline {16.2.6}Summary}{170}{subsection.16.2.6}
-\contentsline {subsection}{\numberline {16.2.7}One-year Stock price simulation}{170}{subsection.16.2.7}
-\contentsline {chapter}{\numberline {17}Neural Network}{173}{chapter.17}
-\contentsline {section}{\numberline {17.1}Feedforward Neural Network}{173}{section.17.1}
-\contentsline {subsection}{\numberline {17.1.1}Introduction}{173}{subsection.17.1.1}
-\contentsline {subsection}{\numberline {17.1.2}Demo}{174}{subsection.17.1.2}
-\contentsline {chapter}{\numberline {18}My PySpark Package}{177}{chapter.18}
-\contentsline {section}{\numberline {18.1}Hierarchical Structure}{177}{section.18.1}
-\contentsline {section}{\numberline {18.2}Set Up}{178}{section.18.2}
-\contentsline {section}{\numberline {18.3}ReadMe}{178}{section.18.3}
-\contentsline {chapter}{\numberline {19}Main Reference}{181}{chapter.19}
-\contentsline {chapter}{Bibliography}{183}{chapter*.5}
-\contentsline {chapter}{Index}{185}{section*.10}
+\contentsline {subsection}{\numberline {16.2.4}Create matrix of daily returns}{170}{subsection.16.2.4}
+\contentsline {subsection}{\numberline {16.2.5}Monte Carlo Simulation}{171}{subsection.16.2.5}
+\contentsline {subsection}{\numberline {16.2.6}Summary}{171}{subsection.16.2.6}
+\contentsline {subsection}{\numberline {16.2.7}One-year Stock price simulation}{172}{subsection.16.2.7}
+\contentsline {chapter}{\numberline {17}Neural Network}{175}{chapter.17}
+\contentsline {section}{\numberline {17.1}Feedforward Neural Network}{175}{section.17.1}
+\contentsline {subsection}{\numberline {17.1.1}Introduction}{175}{subsection.17.1.1}
+\contentsline {subsection}{\numberline {17.1.2}Demo}{176}{subsection.17.1.2}
+\contentsline {chapter}{\numberline {18}My PySpark Package}{179}{chapter.18}
+\contentsline {section}{\numberline {18.1}Hierarchical Structure}{179}{section.18.1}
+\contentsline {section}{\numberline {18.2}Set Up}{180}{section.18.2}
+\contentsline {section}{\numberline {18.3}ReadMe}{180}{section.18.3}
+\contentsline {chapter}{\numberline {19}Main Reference}{183}{chapter.19}
+\contentsline {chapter}{Bibliography}{185}{chapter*.5}
+\contentsline {chapter}{Index}{187}{section*.10}

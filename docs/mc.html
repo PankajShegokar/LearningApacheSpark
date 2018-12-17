@@ -195,17 +195,54 @@
             
   <div class="section" id="monte-carlo-simulation">
 <span id="mc"></span><h1>Monte Carlo Simulation<a class="headerlink" href="#monte-carlo-simulation" title="Permalink to this headline">¶</a></h1>
+<p>Monte Carlo simulation is a technique used to understand the impact of risk and uncertainty in financial, project management, cost, and other forecasting models. A Monte Carlo simulator helps one visualize most or all of the potential outcomes to have a better idea regarding the risk of a decision. More details can be found at <a class="reference external" href="https://towardsdatascience.com/the-house-always-wins-monte-carlo-simulation-eb82787da2a3">The house always wins</a>.</p>
 <div class="section" id="simulating-casino-win">
 <h2>Simulating Casino Win<a class="headerlink" href="#simulating-casino-win" title="Permalink to this headline">¶</a></h2>
+<p>We assume that the player John has the 49% chance to win the game and the wager will be $5 per game.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">start_m</span> <span class="o">=</span><span class="mi">100</span>
+<span class="n">wager</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">bets</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">trials</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="o">-</span><span class="n">wager</span> <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;=</span><span class="mf">0.51</span> <span class="k">else</span> <span class="n">wager</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">end_m</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trials</span><span class="p">):</span>
+    <span class="n">money</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">c</span> <span class="o">+</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">],</span> <span class="n">trans</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">bets</span><span class="p">)),</span> <span class="p">[</span><span class="n">start_m</span><span class="p">])</span>
+    <span class="n">end_m</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">money</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">money</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Player Money in $&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of bets&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">((</span><span class="s2">&quot;John starts the game with $ </span><span class="si">%.2f</span><span class="s2"> and ends with $ </span><span class="si">%.2f</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">%</span><span class="p">(</span><span class="n">start_m</span><span class="p">,</span><span class="nb">sum</span><span class="p">(</span><span class="n">end_m</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">end_m</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="fig-mc-casino-5-100">
+<img alt="images/casino_5_100.png" src="images/casino_5_100.png" />
+</div>
+<div class="figure align-center" id="fig-mc-casino-100-1000">
+<img alt="images/casino_100_1000.png" src="images/casino_100_1000.png" />
+</div>
 </div>
 <div class="section" id="simulating-a-random-walk">
 <h2>Simulating a Random Walk<a class="headerlink" href="#simulating-a-random-walk" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="fetch-the-histrical-stock-price">
 <h3>Fetch the histrical stock price<a class="headerlink" href="#fetch-the-histrical-stock-price" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li>Fecth the data. If you need the code for this piece, you can contact with me</li>
+<li>Fecth the data. If you need the code for this piece, you can contact with me.</li>
 </ol>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">+----------+----------+----------+----------+----------+----------+--------+</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">stock</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="o">+----------+----------+----------+----------+----------+----------+--------+</span>
 <span class="o">|</span>      <span class="n">Date</span><span class="o">|</span>      <span class="n">Open</span><span class="o">|</span>      <span class="n">High</span><span class="o">|</span>       <span class="n">Low</span><span class="o">|</span>     <span class="n">Close</span><span class="o">|</span> <span class="n">Adj</span> <span class="n">Close</span><span class="o">|</span>  <span class="n">Volume</span><span class="o">|</span>
 <span class="o">+----------+----------+----------+----------+----------+----------+--------+</span>
 <span class="o">|</span><span class="mi">2018</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mo">07</span><span class="o">|</span><span class="mf">155.399994</span><span class="o">|</span><span class="mf">158.050003</span><span class="o">|</span><span class="mf">151.729996</span><span class="o">|</span><span class="mf">153.059998</span><span class="o">|</span><span class="mf">153.059998</span><span class="o">|</span><span class="mi">17447900</span><span class="o">|</span>
@@ -255,11 +292,11 @@
 </div>
 <div class="figure align-center" id="id2">
 <span id="fig-mc-stock-his-price"></span><img alt="images/baba_history.png" src="images/baba_history.png" />
-<p class="caption"><span class="caption-number">Fig. 44 </span><span class="caption-text">Historical Stock Price</span></p>
+<p class="caption"><span class="caption-number">Fig. 46 </span><span class="caption-text">Historical Stock Price</span></p>
 </div>
 <div class="figure align-center" id="id3">
 <span id="fig-mc-stock-his-vol"></span><img alt="images/baba_history_vol.png" src="images/baba_history_vol.png" />
-<p class="caption"><span class="caption-number">Fig. 45 </span><span class="caption-text">Historical Stock Volume</span></p>
+<p class="caption"><span class="caption-number">Fig. 47 </span><span class="caption-text">Historical Stock Volume</span></p>
 </div>
 </div>
 <div class="section" id="calulate-the-compound-annual-growth-rate">
@@ -433,11 +470,11 @@ trading days in a given year.  More details can be found at <a class="reference 
 <h3>One-year Stock price simulation<a class="headerlink" href="#one-year-stock-price-simulation" title="Permalink to this headline">¶</a></h3>
 <div class="figure align-center" id="id4">
 <span id="fig-mc-stock-price"></span><img alt="images/baba_sim_price.png" src="images/baba_sim_price.png" />
-<p class="caption"><span class="caption-number">Fig. 47 </span><span class="caption-text">Simulated Stock Price</span></p>
+<p class="caption"><span class="caption-number">Fig. 49 </span><span class="caption-text">Simulated Stock Price</span></p>
 </div>
 <div class="figure align-center" id="id5">
 <span id="fig-mc-stock-dis"></span><img alt="images/baba_sim_dis1.png" src="images/baba_sim_dis1.png" />
-<p class="caption"><span class="caption-number">Fig. 48 </span><span class="caption-text">Simulated Stock Price distribution</span></p>
+<p class="caption"><span class="caption-number">Fig. 50 </span><span class="caption-text">Simulated Stock Price distribution</span></p>
 </div>
 </div>
 </div>
@@ -466,7 +503,7 @@ trading days in a given year.  More details can be found at <a class="reference 
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Dec 13, 2018.
+      Last updated on Dec 17, 2018.
 
     </p>
   </div>

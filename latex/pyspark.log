@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  13 DEC 2018 17:00
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  17 DEC 2018 15:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2854,28 +2854,56 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [164]
 Chapter 16.
-[165
+<casino_5_100.png, id=1544, 617.30624pt x 390.45876pt>
+File: casino_5_100.png Graphic file (type png)
+ <use casino_5_100.png>
+Package pdftex.def Info: casino_5_100.png used on input line 8623.
+(pdftex.def)             Requested size: 617.30473pt x 390.4578pt.
+File: casino_5_100.png Graphic file (type png)
 
-] <baba_history.png, id=1551, 617.30624pt x 391.4625pt>
+<use casino_5_100.png>
+Package pdftex.def Info: casino_5_100.png used on input line 8623.
+(pdftex.def)             Requested size: 469.755pt x 297.13899pt.
+
+<casino_100_1000.png, id=1545, 619.31375pt x 390.45876pt>
+File: casino_100_1000.png Graphic file (type png)
+
+<use casino_100_1000.png>
+Package pdftex.def Info: casino_100_1000.png used on input line 8628.
+(pdftex.def)             Requested size: 619.31224pt x 390.4578pt.
+File: casino_100_1000.png Graphic file (type png)
+ <use casino_100_1000.png>
+Package pdftex.def Info: casino_100_1000.png used on input line 8628.
+(pdftex.def)             Requested size: 469.755pt x 296.17976pt.
+ [165
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[166 <./casino_5_100.png> <./casino_100_1000.png>]
+<baba_history.png, id=1556, 617.30624pt x 391.4625pt>
+File: baba_history.png Graphic file (type png)
+ <use baba_history.png>
+Package pdftex.def Info: baba_history.png used on input line 8704.
+(pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
 File: baba_history.png Graphic file (type png)
 
 <use baba_history.png>
-Package pdftex.def Info: baba_history.png used on input line 8660.
-(pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
-File: baba_history.png Graphic file (type png)
- <use baba_history.png>
-Package pdftex.def Info: baba_history.png used on input line 8660.
+Package pdftex.def Info: baba_history.png used on input line 8704.
 (pdftex.def)             Requested size: 469.755pt x 297.90285pt.
-
-<baba_history_vol.png, id=1552, 614.295pt x 391.4625pt>
+ <baba_history_vol.png, id=1557, 614.295pt x 391.4625pt>
 File: baba_history_vol.png Graphic file (type png)
 
 <use baba_history_vol.png>
-Package pdftex.def Info: baba_history_vol.png used on input line 8666.
+Package pdftex.def Info: baba_history_vol.png used on input line 8710.
 (pdftex.def)             Requested size: 614.29349pt x 391.46153pt.
 File: baba_history_vol.png Graphic file (type png)
  <use baba_history_vol.png>
-Package pdftex.def Info: baba_history_vol.png used on input line 8666.
+Package pdftex.def Info: baba_history_vol.png used on input line 8710.
 (pdftex.def)             Requested size: 469.755pt x 299.35434pt.
 
 
@@ -2884,60 +2912,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[166 <./baba_history.png>]
+[167]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[167 <./baba_history_vol.png>]
+[168 <./baba_history.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[168]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[169] <baba_sim_price_demo.png, id=1584, 618.31pt x 391.4625pt>
-File: baba_sim_price_demo.png Graphic file (type png)
-
-<use baba_sim_price_demo.png>
-Package pdftex.def Info: baba_sim_price_demo.png used on input line 8860.
-(pdftex.def)             Requested size: 618.30849pt x 391.46153pt.
-File: baba_sim_price_demo.png Graphic file (type png)
- <use baba_sim_price_demo.png>
-Package pdftex.def Info: baba_sim_price_demo.png used on input line 8860.
-(pdftex.def)             Requested size: 469.755pt x 297.419pt.
-
-<baba_sim_price.png, id=1585, 603.25375pt x 377.41pt>
-File: baba_sim_price.png Graphic file (type png)
- <use baba_sim_price.png>
-Package pdftex.def Info: baba_sim_price.png used on input line 8869.
-(pdftex.def)             Requested size: 603.25227pt x 377.40907pt.
-File: baba_sim_price.png Graphic file (type png)
-
-<use baba_sim_price.png>
-Package pdftex.def Info: baba_sim_price.png used on input line 8869.
-(pdftex.def)             Requested size: 469.755pt x 293.88911pt.
-
-<baba_sim_dis1.png, id=1586, 617.30624pt x 391.4625pt>
-File: baba_sim_dis1.png Graphic file (type png)
- <use baba_sim_dis1.png>
-Package pdftex.def Info: baba_sim_dis1.png used on input line 8875.
-(pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
-File: baba_sim_dis1.png Graphic file (type png)
-
-<use baba_sim_dis1.png>
-Package pdftex.def Info: baba_sim_dis1.png used on input line 8875.
-(pdftex.def)             Requested size: 469.755pt x 297.90285pt.
-
+[169 <./baba_history_vol.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2951,25 +2940,71 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[171 <./baba_sim_price_demo.png> <./baba_sim_price.png>]
+[171] <baba_sim_price_demo.png, id=1598, 618.31pt x 391.4625pt>
+File: baba_sim_price_demo.png Graphic file (type png)
+
+<use baba_sim_price_demo.png>
+Package pdftex.def Info: baba_sim_price_demo.png used on input line 8904.
+(pdftex.def)             Requested size: 618.30849pt x 391.46153pt.
+File: baba_sim_price_demo.png Graphic file (type png)
+ <use baba_sim_price_demo.png>
+Package pdftex.def Info: baba_sim_price_demo.png used on input line 8904.
+(pdftex.def)             Requested size: 469.755pt x 297.419pt.
+
+<baba_sim_price.png, id=1599, 603.25375pt x 377.41pt>
+File: baba_sim_price.png Graphic file (type png)
+ <use baba_sim_price.png>
+Package pdftex.def Info: baba_sim_price.png used on input line 8913.
+(pdftex.def)             Requested size: 603.25227pt x 377.40907pt.
+File: baba_sim_price.png Graphic file (type png)
+
+<use baba_sim_price.png>
+Package pdftex.def Info: baba_sim_price.png used on input line 8913.
+(pdftex.def)             Requested size: 469.755pt x 293.88911pt.
+
+<baba_sim_dis1.png, id=1600, 617.30624pt x 391.4625pt>
+File: baba_sim_dis1.png Graphic file (type png)
+ <use baba_sim_dis1.png>
+Package pdftex.def Info: baba_sim_dis1.png used on input line 8919.
+(pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
+File: baba_sim_dis1.png Graphic file (type png)
+
+<use baba_sim_dis1.png>
+Package pdftex.def Info: baba_sim_dis1.png used on input line 8919.
+(pdftex.def)             Requested size: 469.755pt x 297.90285pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[172 <./baba_sim_dis1.png>]
+[172]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[173 <./baba_sim_price_demo.png> <./baba_sim_price.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[174 <./baba_sim_dis1.png>]
 Chapter 17.
-<fnn.png, id=1607, 907.39pt x 357.335pt>
+<fnn.png, id=1620, 907.39pt x 357.335pt>
 File: fnn.png Graphic file (type png)
  <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 8899.
+Package pdftex.def Info: fnn.png used on input line 8943.
 (pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
 File: fnn.png Graphic file (type png)
  <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 8899.
+Package pdftex.def Info: fnn.png used on input line 8943.
 (pdftex.def)             Requested size: 469.755pt x 184.99194pt.
- [173
+ [175
 
  <./fnn.png>]
 
@@ -2978,21 +3013,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[174]
+[176]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[175]
+[177]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[176
+[178
 
 ]
 Chapter 18.
@@ -3003,7 +3038,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9066 ├-- build
+l.9110 ├-- build
                   
 ? 
 
@@ -3013,7 +3048,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9067 ...├-- bdist.linux\PYGZhy{}x86\PYGZus{}64
+l.9111 ...├-- bdist.linux\PYGZhy{}x86\PYGZus{}64
                                                   
 ? 
 
@@ -3023,7 +3058,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9068 ...linux\PYGZhy{}x86\PYGZus{}64\PYGZhy{}2.7
+l.9112 ...linux\PYGZhy{}x86\PYGZus{}64\PYGZhy{}2.7
                                                   
 ? 
 
@@ -3033,7 +3068,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9069 \textbar{}       └-- PySparkTools
+l.9113 \textbar{}       └-- PySparkTools
                                             
 ? 
 
@@ -3043,7 +3078,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9070 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+l.9114 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
                                                   
 ? 
 
@@ -3053,7 +3088,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9071 \textbar{}           ├-- Manipulation
+l.9115 \textbar{}           ├-- Manipulation
                                                 
 ? 
 
@@ -3063,7 +3098,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9072 ...\textbar{}   ├-- DataManipulation.py
+l.9116 ...\textbar{}   ├-- DataManipulation.py
                                                   
 ? 
 
@@ -3073,7 +3108,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9073 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+l.9117 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
                                                   
 ? 
 
@@ -3083,7 +3118,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9074 \textbar{}           └-- Visualization
+l.9118 \textbar{}           └-- Visualization
                                                  
 ? 
 
@@ -3093,7 +3128,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9075 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+l.9119 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
                                                   
 ? 
 
@@ -3103,7 +3138,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9076 \textbar{}               └-- PyPlots.py
+l.9120 \textbar{}               └-- PyPlots.py
                                                   
 ? 
 
@@ -3113,7 +3148,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9077 ├-- dist
+l.9121 ├-- dist
                  
 ? 
 
@@ -3123,7 +3158,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9078 ...SParkTools\PYGZhy{}1.0\PYGZhy{}py2.7.egg
+l.9122 ...SParkTools\PYGZhy{}1.0\PYGZhy{}py2.7.egg
                                                   
 ? 
 
@@ -3133,7 +3168,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9079 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+l.9123 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
                                                   
 ? 
 
@@ -3143,7 +3178,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9080 ├-- PySparkTools
+l.9124 ├-- PySparkTools
                          
 ? 
 
@@ -3153,7 +3188,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9081 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+l.9125 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
                                                   
 ? 
 
@@ -3163,7 +3198,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9082 \textbar{}   ├-- Manipulation
+l.9126 \textbar{}   ├-- Manipulation
                                         
 ? 
 
@@ -3173,7 +3208,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9083 ...\textbar{}   ├-- DataManipulation.py
+l.9127 ...\textbar{}   ├-- DataManipulation.py
                                                   
 ? 
 
@@ -3183,7 +3218,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9084 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+l.9128 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
                                                   
 ? 
 
@@ -3193,7 +3228,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9085 \textbar{}   └-- Visualization
+l.9129 \textbar{}   └-- Visualization
                                          
 ? 
 
@@ -3203,7 +3238,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9086 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+l.9130 ...GZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
                                                   
 ? 
 
@@ -3213,7 +3248,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9087 \textbar{}       ├-- PyPlots.py
+l.9131 \textbar{}       ├-- PyPlots.py
                                           
 ? 
 
@@ -3223,7 +3258,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9088 \textbar{}       └-- PyPlots.pyc
+l.9132 \textbar{}       └-- PyPlots.pyc
                                            
 ? 
 
@@ -3233,7 +3268,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9089 ├-- PySParkTools.egg\PYGZhy{}info
+l.9133 ├-- PySParkTools.egg\PYGZhy{}info
                                           
 ? 
 
@@ -3243,7 +3278,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9090 ...}   ├-- dependency\PYGZus{}links.txt
+l.9134 ...}   ├-- dependency\PYGZus{}links.txt
                                                   
 ? 
 
@@ -3253,7 +3288,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9091 \textbar{}   ├-- PKG\PYGZhy{}INFO
+l.9135 \textbar{}   ├-- PKG\PYGZhy{}INFO
                                             
 ? 
 
@@ -3263,7 +3298,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9092 \textbar{}   ├-- requires.txt
+l.9136 \textbar{}   ├-- requires.txt
                                         
 ? 
 
@@ -3273,7 +3308,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9093 \textbar{}   ├-- SOURCES.txt
+l.9137 \textbar{}   ├-- SOURCES.txt
                                        
 ? 
 
@@ -3283,7 +3318,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9094 \textbar{}   └-- top\PYGZus{}level.txt
+l.9138 \textbar{}   └-- top\PYGZus{}level.txt
                                                  
 ? 
 
@@ -3293,7 +3328,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9095 ├-- README.md
+l.9139 ├-- README.md
                       
 ? 
 
@@ -3303,7 +3338,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9096 ├-- requirements.txt
+l.9140 ├-- requirements.txt
                              
 ? 
 
@@ -3313,7 +3348,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9097 ├-- setup.py
+l.9141 ├-- setup.py
                      
 ? 
 
@@ -3323,7 +3358,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9098 └-- \PYG{n+nb}{test}
+l.9142 └-- \PYG{n+nb}{test}
                              
 ? 
 
@@ -3333,7 +3368,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9099     ├-- spark\PYGZhy{}warehouse
+l.9143     ├-- spark\PYGZhy{}warehouse
                                         
 ? 
 
@@ -3343,7 +3378,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9100     ├-- test1.py
+l.9144     ├-- test1.py
                          
 ? 
 
@@ -3353,23 +3388,9 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9101     └-- test2.py
+l.9145     └-- test2.py
                          
 ? 
-[177]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[178]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
 [179]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3377,10 +3398,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[180
+[180]
 
-]
-Chapter 19.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 [181]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3391,14 +3415,8 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [182
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 9191--9193
-[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
-ure and in-ter-nals.
- []
-
-(./pyspark.ind [183
-
-]
+Chapter 19.
+[183]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -3407,25 +3425,42 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [184
 
-] [185
+]
+Underfull \hbox (badness 10000) in paragraph at lines 9235--9237
+[]\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
+ure and in-ter-nals.
+ []
+
+(./pyspark.ind [185
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[186
+
+] [187
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 9199.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 9199.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 9243.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 9243.
  (./pyspark.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 9199.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 9199.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 9243.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 9243.
 
 Package rerunfilecheck Info: File `pyspark.out' has not changed.
 (rerunfilecheck)             Checksum: 1DB3E453248110E9B197ACC95ACF1C80;5029.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 9199.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 9243.
  ) 
 Here is how much of TeX's memory you used:
- 11188 strings out of 493304
- 158020 string characters out of 6139871
- 356280 words of memory out of 5000000
- 13715 multiletter control sequences out of 15000+600000
+ 11202 strings out of 493304
+ 158283 string characters out of 6139871
+ 356384 words of memory out of 5000000
+ 13725 multiletter control sequences out of 15000+600000
  73520 words of font info for 102 fonts, out of 8000000 for 9000
  958 hyphenation exceptions out of 8191
  36i,18n,48p,2555b,510s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -3449,10 +3484,10 @@ etic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a
 hare/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (191 pages, 6326636 bytes).
+Output written on pyspark.pdf (193 pages, 6554431 bytes).
 PDF statistics:
- 1882 PDF objects out of 2073 (max. 8388607)
- 1530 compressed objects within 16 object streams
- 549 named destinations out of 1000 (max. 500000)
- 970 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1896 PDF objects out of 2073 (max. 8388607)
+ 1538 compressed objects within 16 object streams
+ 551 named destinations out of 1000 (max. 500000)
+ 980 words of extra memory for PDF output out of 10000 (max. 10000000)
 

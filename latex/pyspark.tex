@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{December 13, 2018}
+\date{December 17, 2018}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -8583,9 +8583,51 @@ make prediction
 
 \chapter{Monte Carlo Simulation}
 \label{mc:monte-carlo-simulation}\label{mc::doc}\label{mc:mc}
+Monte Carlo simulation is a technique used to understand the impact of risk and uncertainty in financial, project management, cost, and other forecasting models. A Monte Carlo simulator helps one visualize most or all of the potential outcomes to have a better idea regarding the risk of a decision. More details can be found at \href{https://towardsdatascience.com/the-house-always-wins-monte-carlo-simulation-eb82787da2a3}{The house always wins}.
+
 
 \section{Simulating Casino Win}
 \label{mc:simulating-casino-win}
+We assume that the player John has the 49\% chance to win the game and the wager will be \$5 per game.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k+kn}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k+kn}{as} \PYG{n+nn}{pd}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k+kn}{as} \PYG{n+nn}{plt}
+
+\PYG{n}{start\PYGZus{}m} \PYG{o}{=}\PYG{l+m+mi}{100}
+\PYG{n}{wager} \PYG{o}{=} \PYG{l+m+mi}{5}
+\PYG{n}{bets} \PYG{o}{=} \PYG{l+m+mi}{100}
+\PYG{n}{trials} \PYG{o}{=} \PYG{l+m+mi}{1000}
+
+\PYG{n}{trans} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{vectorize}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{t}\PYG{p}{:} \PYG{o}{\PYGZhy{}}\PYG{n}{wager} \PYG{k}{if} \PYG{n}{t} \PYG{o}{\PYGZlt{}}\PYG{o}{=}\PYG{l+m+mf}{0.51} \PYG{k}{else} \PYG{n}{wager}\PYG{p}{)}
+
+\PYG{n}{fig} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{ax} \PYG{o}{=} \PYG{n}{fig}\PYG{o}{.}\PYG{n}{add\PYGZus{}subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n}{end\PYGZus{}m} \PYG{o}{=} \PYG{p}{[}\PYG{p}{]}
+
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{trials}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{money} \PYG{o}{=} \PYG{n+nb}{reduce}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{c}\PYG{p}{,} \PYG{n}{x}\PYG{p}{:} \PYG{n}{c} \PYG{o}{+} \PYG{p}{[}\PYG{n}{c}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{x}\PYG{p}{]}\PYG{p}{,} \PYG{n}{trans}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{random}\PYG{p}{(}\PYG{n}{bets}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,} \PYG{p}{[}\PYG{n}{start\PYGZus{}m}\PYG{p}{]}\PYG{p}{)}
+    \PYG{n}{end\PYGZus{}m}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{money}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{money}\PYG{p}{)}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Player Money in \PYGZdl{}}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Number of bets}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{John starts the game with \PYGZdl{} }\PYG{l+s+si}{\PYGZpc{}.2f}\PYG{l+s}{ and ends with \PYGZdl{} }\PYG{l+s+si}{\PYGZpc{}.2f}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{\PYGZpc{}}\PYG{p}{(}\PYG{n}{start\PYGZus{}m}\PYG{p}{,}\PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{end\PYGZus{}m}\PYG{p}{)}\PYG{o}{/}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{end\PYGZus{}m}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{casino_5_100.png}
+\label{mc:fig-mc-casino-5-100}\end{figure}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{casino_100_1000.png}
+\label{mc:fig-mc-casino-100-1000}\end{figure}
+
 
 \section{Simulating a Random Walk}
 \label{mc:simulating-a-random-walk}
@@ -8598,6 +8640,8 @@ Fecth the data. If you need the code for this piece, you can contact with me.
 \end{enumerate}
 
 \begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{stock}\PYG{o}{.}\PYG{n}{tail}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+
 \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
 \PYG{o}{\textbar{}}      \PYG{n}{Date}\PYG{o}{\textbar{}}      \PYG{n}{Open}\PYG{o}{\textbar{}}      \PYG{n}{High}\PYG{o}{\textbar{}}       \PYG{n}{Low}\PYG{o}{\textbar{}}     \PYG{n}{Close}\PYG{o}{\textbar{}} \PYG{n}{Adj} \PYG{n}{Close}\PYG{o}{\textbar{}}  \PYG{n}{Volume}\PYG{o}{\textbar{}}
 \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
@@ -8877,7 +8921,7 @@ Convert Rdd mstrix to dataframe
 
 
 \chapter{Neural Network}
-\label{fnn:fnn}\label{fnn::doc}\label{fnn:neural-network}\label{fnn:how-to-calculate-annualized-volatility}
+\label{fnn:fnn}\label{fnn::doc}\label{fnn:the-house-always-wins}\label{fnn:neural-network}
 \begin{notice}{note}{Note:}
 Sharpening the knife longer can make it easier to hack the firewood -- old Chinese proverb
 \end{notice}

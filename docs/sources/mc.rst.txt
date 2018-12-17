@@ -4,10 +4,49 @@
 Monte Carlo Simulation
 ======================
 
-
+Monte Carlo simulation is a technique used to understand the impact of risk and uncertainty in financial, project management, cost, and other forecasting models. A Monte Carlo simulator helps one visualize most or all of the potential outcomes to have a better idea regarding the risk of a decision. More details can be found at `The house always wins`_. 
 
 Simulating Casino Win
 +++++++++++++++++++++
+
+We assume that the player John has the 49% chance to win the game and the wager will be $5 per game.  
+
+.. code-block:: python
+
+	import numpy as np
+	import pandas as pd
+	import matplotlib.pyplot as plt
+
+	start_m =100
+	wager = 5
+	bets = 100
+	trials = 1000
+
+	trans = np.vectorize(lambda t: -wager if t <=0.51 else wager)
+
+	fig = plt.figure(figsize=(10, 6))
+	ax = fig.add_subplot(1,1,1)
+
+	end_m = []
+
+	for i in range(trials):
+	    money = reduce(lambda c, x: c + [c[-1] + x], trans(np.random.random(bets)), [start_m])
+	    end_m.append(money[-1])
+	    plt.plot(money)
+	    
+	plt.ylabel('Player Money in $')
+	plt.xlabel('Number of bets')
+	plt.title(("John starts the game with $ %.2f and ends with $ %.2f")%(start_m,sum(end_m)/len(end_m)))
+	plt.show()
+
+.. _fig_mc_casino_5_100:
+.. figure:: images/casino_5_100.png
+   :align: center
+
+.. _fig_mc_casino_100_1000:
+.. figure:: images/casino_100_1000.png
+   :align: center
+
 
 
 Simulating a Random Walk
@@ -16,9 +55,11 @@ Simulating a Random Walk
 Fetch the histrical stock price 
 -------------------------------
 
-1. Fecth the data. If you need the code for this piece, you can contact with me 
+1. Fecth the data. If you need the code for this piece, you can contact with me. 
 
 .. code-block:: python
+
+	stock.tail(4)
 
 	+----------+----------+----------+----------+----------+----------+--------+
 	|      Date|      Open|      High|       Low|     Close| Adj Close|  Volume|
@@ -293,3 +334,4 @@ One-year Stock price simulation
 
 .. _CAGR Calculator and Formula: https://www.vertex42.com/Calculators/cagr-calculator.html  
 .. _How to Calculate Annualized Volatility: https://www.fool.com/knowledge-center/how-to-calculate-annualized-volatility.aspx 
+.. _The house always wins: https://towardsdatascience.com/the-house-always-wins-monte-carlo-simulation-eb82787da2a3
