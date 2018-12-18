@@ -33,6 +33,7 @@ Contents
    socialnetwork
    als
    mc
+   mcmc
    fnn
    pack
    reference
