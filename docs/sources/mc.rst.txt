@@ -4,6 +4,8 @@
 Monte Carlo Simulation
 ======================
 
+Monte Carlo simulations are just a way of estimating a fixed parameter by repeatedly generating random numbers. More details can be found at `A Zero Math Introduction to Markov Chain Monte Carlo Methods`_. 
+
 Monte Carlo simulation is a technique used to understand the impact of risk and uncertainty in financial, project management, cost, and other forecasting models. A Monte Carlo simulator helps one visualize most or all of the potential outcomes to have a better idea regarding the risk of a decision. More details can be found at `The house always wins`_. 
 
 Simulating Casino Win
@@ -331,7 +333,7 @@ One-year Stock price simulation
 
 
 
-
+.. _A Zero Math Introduction to Markov Chain Monte Carlo Methods: https://towardsdatascience.com/a-zero-math-introduction-to-markov-chain-monte-carlo-methods-dcba889e0c50
 .. _CAGR Calculator and Formula: https://www.vertex42.com/Calculators/cagr-calculator.html  
 .. _How to Calculate Annualized Volatility: https://www.fool.com/knowledge-center/how-to-calculate-annualized-volatility.aspx 
 .. _The house always wins: https://towardsdatascience.com/the-house-always-wins-monte-carlo-simulation-eb82787da2a3

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  18 DEC 2018 15:54
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  17 JAN 2019 10:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2854,7 +2854,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [164]
 Chapter 16.
-<casino_5_100.png, id=1549, 617.30624pt x 390.45876pt>
+<casino_5_100.png, id=1550, 617.30624pt x 390.45876pt>
 File: casino_5_100.png Graphic file (type png)
  <use casino_5_100.png>
 Package pdftex.def Info: casino_5_100.png used on input line 8625.
@@ -2865,7 +2865,7 @@ File: casino_5_100.png Graphic file (type png)
 Package pdftex.def Info: casino_5_100.png used on input line 8625.
 (pdftex.def)             Requested size: 469.755pt x 297.13899pt.
 
-<casino_100_1000.png, id=1550, 619.31375pt x 390.45876pt>
+<casino_100_1000.png, id=1551, 619.31375pt x 390.45876pt>
 File: casino_100_1000.png Graphic file (type png)
 
 <use casino_100_1000.png>
@@ -2885,7 +2885,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [166 <./casino_5_100.png> <./casino_100_1000.png>]
-<baba_history.png, id=1561, 617.30624pt x 391.4625pt>
+<baba_history.png, id=1562, 617.30624pt x 391.4625pt>
 File: baba_history.png Graphic file (type png)
  <use baba_history.png>
 Package pdftex.def Info: baba_history.png used on input line 8706.
@@ -2895,7 +2895,7 @@ File: baba_history.png Graphic file (type png)
 <use baba_history.png>
 Package pdftex.def Info: baba_history.png used on input line 8706.
 (pdftex.def)             Requested size: 469.755pt x 297.90285pt.
- <baba_history_vol.png, id=1562, 614.295pt x 391.4625pt>
+ <baba_history_vol.png, id=1563, 614.295pt x 391.4625pt>
 File: baba_history_vol.png Graphic file (type png)
 
 <use baba_history_vol.png>
@@ -2940,7 +2940,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[171] <baba_sim_price_demo.png, id=1603, 618.31pt x 391.4625pt>
+[171] <baba_sim_price_demo.png, id=1604, 618.31pt x 391.4625pt>
 File: baba_sim_price_demo.png Graphic file (type png)
 
 <use baba_sim_price_demo.png>
@@ -2951,7 +2951,7 @@ File: baba_sim_price_demo.png Graphic file (type png)
 Package pdftex.def Info: baba_sim_price_demo.png used on input line 8906.
 (pdftex.def)             Requested size: 469.755pt x 297.419pt.
 
-<baba_sim_price.png, id=1604, 603.25375pt x 377.41pt>
+<baba_sim_price.png, id=1605, 603.25375pt x 377.41pt>
 File: baba_sim_price.png Graphic file (type png)
  <use baba_sim_price.png>
 Package pdftex.def Info: baba_sim_price.png used on input line 8915.
@@ -2962,7 +2962,7 @@ File: baba_sim_price.png Graphic file (type png)
 Package pdftex.def Info: baba_sim_price.png used on input line 8915.
 (pdftex.def)             Requested size: 469.755pt x 293.88911pt.
 
-<baba_sim_dis1.png, id=1605, 617.30624pt x 391.4625pt>
+<baba_sim_dis1.png, id=1606, 617.30624pt x 391.4625pt>
 File: baba_sim_dis1.png Graphic file (type png)
  <use baba_sim_dis1.png>
 Package pdftex.def Info: baba_sim_dis1.png used on input line 8921.
@@ -3008,7 +3008,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Chapter 18.
-<fnn.png, id=1637, 907.39pt x 357.335pt>
+<fnn.png, id=1638, 907.39pt x 357.335pt>
 File: fnn.png Graphic file (type png)
  <use fnn.png>
 Package pdftex.def Info: fnn.png used on input line 8952.
@@ -3470,7 +3470,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 9252.
 Here is how much of TeX's memory you used:
  11210 strings out of 493304
  158441 string characters out of 6139871
- 356588 words of memory out of 5000000
+ 356587 words of memory out of 5000000
  13730 multiletter control sequences out of 15000+600000
  73520 words of font info for 102 fonts, out of 8000000 for 9000
  958 hyphenation exceptions out of 8191
@@ -3495,10 +3495,10 @@ etic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a
 hare/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (195 pages, 6557815 bytes).
+Output written on pyspark.pdf (195 pages, 6557789 bytes).
 PDF statistics:
- 1913 PDF objects out of 2073 (max. 8388607)
- 1553 compressed objects within 16 object streams
+ 1914 PDF objects out of 2073 (max. 8388607)
+ 1554 compressed objects within 16 object streams
  554 named destinations out of 1000 (max. 500000)
  988 words of extra memory for PDF output out of 10000 (max. 10000000)
 

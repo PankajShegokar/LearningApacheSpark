@@ -82,7 +82,7 @@ Set Up
 	      version='1.0',
 	      description='Python Spark Tools',
 	      author='Wenqiang Feng',
-	      author_email='WFeng@dstsystems.com',
+	      author_email='von198@gmail.com',
 	      url='https://github.com/runawayhorse001/PySparkTools',
 	      packages=find_packages(),
 	      long_description=long_description

@@ -5,8 +5,8 @@
   .. figure:: images/logo.jpg
     :align: center
 
-Welcome to our **Learning Apache Spark with Python** note! 
-In these note, you will learn a wide array of concepts about
+Welcome to my **Learning Apache Spark with Python** note! 
+In this note, you will learn a wide array of concepts about
 **PySpark** in Data Mining, Text Mining, Machine Leanring
 and Deep Learning. The PDF version can be downloaded from `HERE <pyspark.pdf>`_.
 
