@@ -4963,6 +4963,122 @@ Elbow method to determine the optimal number of clusters for k-means clustering
 
 \includegraphics{elbow.png}
 \end{figure}
+
+In my opinion, sometimes it's hard to choose the optimal number of the clusters by using the \code{elbow method}. As shown in the following Figure, you can choose 3, 5 or even 8. I will choose \code{3} in this demo.
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{elbow_rfm.png}
+\end{figure}
+\begin{itemize}
+\item {} 
+Silhouette analysis
+
+\end{itemize}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{}PySpark libraries}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml} \PYG{k+kn}{import} \PYG{n}{Pipeline}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.feature} \PYG{k+kn}{import} \PYG{n}{StringIndexer}\PYG{p}{,} \PYG{n}{OneHotEncoder}\PYG{p}{,} \PYG{n}{VectorAssembler}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n}{col}\PYG{p}{,} \PYG{n}{percent\PYGZus{}rank}\PYG{p}{,} \PYG{n}{lit}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.window} \PYG{k+kn}{import} \PYG{n}{Window}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql} \PYG{k+kn}{import} \PYG{n}{DataFrame}\PYG{p}{,} \PYG{n}{Row}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.types} \PYG{k+kn}{import} \PYG{n}{StructType}
+\PYG{k+kn}{from} \PYG{n+nn}{functools} \PYG{k+kn}{import} \PYG{n+nb}{reduce}  \PYG{c}{\PYGZsh{} For Python 3.x}
+
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.clustering} \PYG{k+kn}{import} \PYG{n}{KMeans}
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.evaluation} \PYG{k+kn}{import} \PYG{n}{ClusteringEvaluator}
+
+\PYG{k}{def} \PYG{n+nf}{optimal\PYGZus{}k}\PYG{p}{(}\PYG{n}{df\PYGZus{}in}\PYG{p}{,}\PYG{n}{index\PYGZus{}col}\PYG{p}{,}\PYG{n}{k\PYGZus{}min}\PYG{p}{,} \PYG{n}{k\PYGZus{}max}\PYG{p}{,}\PYG{n}{num\PYGZus{}runs}\PYG{p}{)}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{    Determine optimal number of clusters by using Silhoutte Score Analysis.}
+\PYG{l+s+sd}{    :param df\PYGZus{}in: the input dataframe}
+\PYG{l+s+sd}{    :param index\PYGZus{}col: the name of the index column}
+\PYG{l+s+sd}{    :param k\PYGZus{}min: the train dataset}
+\PYG{l+s+sd}{    :param k\PYGZus{}min: the minmum number of the clusters}
+\PYG{l+s+sd}{    :param k\PYGZus{}max: the maxmum number of the clusters}
+\PYG{l+s+sd}{    :param num\PYGZus{}runs: the number of runs for each fixed clusters}
+
+\PYG{l+s+sd}{    :return k: optimal number of the clusters}
+\PYG{l+s+sd}{    :return silh\PYGZus{}lst: Silhouette score}
+\PYG{l+s+sd}{    :return r\PYGZus{}table: the running results table}
+
+\PYG{l+s+sd}{    :author: Wenqiang Feng}
+\PYG{l+s+sd}{    :email:  WFeng@dstsystems.com}
+\PYG{l+s+sd}{    \PYGZsq{}\PYGZsq{}\PYGZsq{}}
+
+    \PYG{n}{start} \PYG{o}{=} \PYG{n}{time}\PYG{o}{.}\PYG{n}{time}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{silh\PYGZus{}lst} \PYG{o}{=} \PYG{p}{[}\PYG{p}{]}
+    \PYG{n}{k\PYGZus{}lst} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{n}{k\PYGZus{}min}\PYG{p}{,} \PYG{n}{k\PYGZus{}max}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+    \PYG{n}{r\PYGZus{}table} \PYG{o}{=} \PYG{n}{df\PYGZus{}in}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{index\PYGZus{}col}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toPandas}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{r\PYGZus{}table} \PYG{o}{=} \PYG{n}{r\PYGZus{}table}\PYG{o}{.}\PYG{n}{set\PYGZus{}index}\PYG{p}{(}\PYG{n}{index\PYGZus{}col}\PYG{p}{)}
+    \PYG{n}{centers} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n}{k\PYGZus{}lst}\PYG{p}{:}
+        \PYG{n}{silh\PYGZus{}val} \PYG{o}{=} \PYG{p}{[}\PYG{p}{]}
+        \PYG{k}{for} \PYG{n}{run} \PYG{o+ow}{in} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{num\PYGZus{}runs}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{:}
+
+            \PYG{c}{\PYGZsh{} Trains a k\PYGZhy{}means model.}
+            \PYG{n}{kmeans} \PYG{o}{=} \PYG{n}{KMeans}\PYG{p}{(}\PYG{p}{)}\PYGZbs{}
+                    \PYG{o}{.}\PYG{n}{setK}\PYG{p}{(}\PYG{n}{k}\PYG{p}{)}\PYGZbs{}
+                    \PYG{o}{.}\PYG{n}{setSeed}\PYG{p}{(}\PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{size}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+            \PYG{n}{model} \PYG{o}{=} \PYG{n}{kmeans}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{df\PYGZus{}in}\PYG{p}{)}
+
+            \PYG{c}{\PYGZsh{} Make predictions}
+            \PYG{n}{predictions} \PYG{o}{=} \PYG{n}{model}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{df\PYGZus{}in}\PYG{p}{)}
+            \PYG{n}{r\PYGZus{}table}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{cluster\PYGZus{}\PYGZob{}k\PYGZcb{}\PYGZus{}\PYGZob{}run\PYGZcb{}}\PYG{l+s}{\PYGZsq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{k}\PYG{o}{=}\PYG{n}{k}\PYG{p}{,} \PYG{n}{run}\PYG{o}{=}\PYG{n}{run}\PYG{p}{)}\PYG{p}{]}\PYG{o}{=} \PYG{n}{predictions}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toPandas}\PYG{p}{(}\PYG{p}{)}
+
+            \PYG{c}{\PYGZsh{} Evaluate clustering by computing Silhouette score}
+            \PYG{n}{evaluator} \PYG{o}{=} \PYG{n}{ClusteringEvaluator}\PYG{p}{(}\PYG{p}{)}
+            \PYG{n}{silhouette} \PYG{o}{=} \PYG{n}{evaluator}\PYG{o}{.}\PYG{n}{evaluate}\PYG{p}{(}\PYG{n}{predictions}\PYG{p}{)}
+            \PYG{n}{silh\PYGZus{}val}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{silhouette}\PYG{p}{)}
+
+        \PYG{n}{silh\PYGZus{}array}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{asanyarray}\PYG{p}{(}\PYG{n}{silh\PYGZus{}val}\PYG{p}{)}
+        \PYG{n}{silh\PYGZus{}lst}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{silh\PYGZus{}array}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+
+    \PYG{n}{elapsed} \PYG{o}{=}  \PYG{n}{time}\PYG{o}{.}\PYG{n}{time}\PYG{p}{(}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{start}
+
+    \PYG{n}{silhouette} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n+nb}{zip}\PYG{p}{(}\PYG{n}{k\PYGZus{}lst}\PYG{p}{,}\PYG{n}{silh\PYGZus{}lst}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}\PYG{n}{columns} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{k}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{silhouette}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\textbar{}         The finding optimal k phase took }\PYG{l+s+si}{\PYGZpc{}8.0f}\PYG{l+s}{ s.       \textbar{}}\PYG{l+s}{\PYGZdq{}} \PYG{o}{\PYGZpc{}}\PYG{p}{(}\PYG{n}{elapsed}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{+\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}+}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+
+
+    \PYG{k}{return} \PYG{n}{k\PYGZus{}lst}\PYG{p}{[}\PYG{n}{np}\PYG{o}{.}\PYG{n}{argmax}\PYG{p}{(}\PYG{n}{silh\PYGZus{}lst}\PYG{p}{,} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{p}{]}\PYG{p}{,} \PYG{n}{silhouette} \PYG{p}{,} \PYG{n}{r\PYGZus{}table}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{k}\PYG{p}{,} \PYG{n}{silh\PYGZus{}lst}\PYG{p}{,} \PYG{n}{r\PYGZus{}table} \PYG{o}{=} \PYG{n}{optimal\PYGZus{}k}\PYG{p}{(}\PYG{n}{scaledData}\PYG{p}{,}\PYG{n}{index\PYGZus{}col}\PYG{p}{,}\PYG{n}{k\PYGZus{}min}\PYG{p}{,} \PYG{n}{k\PYGZus{}max}\PYG{p}{,}\PYG{n}{num\PYGZus{}runs}\PYG{p}{)}
+
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}         \PYG{n}{The} \PYG{n}{finding} \PYG{n}{optimal} \PYG{n}{k} \PYG{n}{phase} \PYG{n}{took}     \PYG{l+m+mi}{1783} \PYG{n}{s}\PYG{o}{.}       \PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{spark}\PYG{o}{.}\PYG{n}{createDataFrame}\PYG{p}{(}\PYG{n}{silh\PYGZus{}lst}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}  \PYG{n}{k}\PYG{o}{\textbar{}}        \PYG{n}{silhouette}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.8045154385557953}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{4}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.6993528775512052}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.6689286654221447}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.6356184024841809}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{7}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.7174102265711756}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{8}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.6720861758298997}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{9}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.601771359881241}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mi}{10}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.6292447334578428}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+From the silhouette list, we can choose \code{3} as the optimal number of the clusters.
+
+\begin{notice}{warning}{Warning:}
+\code{ClusteringEvaluator} in \code{pyspark.ml.evaluation} requires Spark 2.4 or later!!
+\end{notice}
 \begin{enumerate}
 \setcounter{enumi}{6}
 \item {} 

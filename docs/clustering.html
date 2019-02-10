@@ -359,6 +359,113 @@
 <div class="figure align-center">
 <img alt="images/elbow.png" src="images/elbow.png" />
 </div>
+<p>In my opinion, sometimes it&#8217;s hard to choose the optimal number of the clusters by using the <code class="docutils literal"><span class="pre">elbow</span> <span class="pre">method</span></code>. As shown in the following Figure, you can choose 3, 5 or even 8. I will choose <code class="docutils literal"><span class="pre">3</span></code> in this demo.</p>
+<div class="figure align-center">
+<img alt="images/elbow_rfm.png" src="images/elbow_rfm.png" />
+</div>
+<ul class="simple">
+<li>Silhouette analysis</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">#PySpark libraries</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">StringIndexer</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">,</span> <span class="n">VectorAssembler</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">percent_rank</span><span class="p">,</span> <span class="n">lit</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="n">Window</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Row</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>  <span class="c1"># For Python 3.x</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.ml.clustering</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.evaluation</span> <span class="kn">import</span> <span class="n">ClusteringEvaluator</span>
+
+<span class="k">def</span> <span class="nf">optimal_k</span><span class="p">(</span><span class="n">df_in</span><span class="p">,</span><span class="n">index_col</span><span class="p">,</span><span class="n">k_min</span><span class="p">,</span> <span class="n">k_max</span><span class="p">,</span><span class="n">num_runs</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Determine optimal number of clusters by using Silhoutte Score Analysis.</span>
+<span class="sd">    :param df_in: the input dataframe</span>
+<span class="sd">    :param index_col: the name of the index column</span>
+<span class="sd">    :param k_min: the train dataset</span>
+<span class="sd">    :param k_min: the minmum number of the clusters</span>
+<span class="sd">    :param k_max: the maxmum number of the clusters</span>
+<span class="sd">    :param num_runs: the number of runs for each fixed clusters</span>
+
+<span class="sd">    :return k: optimal number of the clusters</span>
+<span class="sd">    :return silh_lst: Silhouette score</span>
+<span class="sd">    :return r_table: the running results table</span>
+
+<span class="sd">    :author: Wenqiang Feng</span>
+<span class="sd">    :email:  WFeng@dstsystems.com</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">silh_lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">k_lst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">k_min</span><span class="p">,</span> <span class="n">k_max</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">r_table</span> <span class="o">=</span> <span class="n">df_in</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">index_col</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+    <span class="n">r_table</span> <span class="o">=</span> <span class="n">r_table</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">index_col</span><span class="p">)</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k_lst</span><span class="p">:</span>
+        <span class="n">silh_val</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_runs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+
+            <span class="c1"># Trains a k-means model.</span>
+            <span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">()</span>\
+                    <span class="o">.</span><span class="n">setK</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_in</span><span class="p">)</span>
+
+            <span class="c1"># Make predictions</span>
+            <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df_in</span><span class="p">)</span>
+            <span class="n">r_table</span><span class="p">[</span><span class="s1">&#39;cluster_{k}_{run}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">run</span><span class="o">=</span><span class="n">run</span><span class="p">)]</span><span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;prediction&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+
+            <span class="c1"># Evaluate clustering by computing Silhouette score</span>
+            <span class="n">evaluator</span> <span class="o">=</span> <span class="n">ClusteringEvaluator</span><span class="p">()</span>
+            <span class="n">silhouette</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+            <span class="n">silh_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">silhouette</span><span class="p">)</span>
+
+        <span class="n">silh_array</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">silh_val</span><span class="p">)</span>
+        <span class="n">silh_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">silh_array</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+    <span class="n">elapsed</span> <span class="o">=</span>  <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="n">silhouette</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">k_lst</span><span class="p">,</span><span class="n">silh_lst</span><span class="p">)),</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;silhouette&#39;</span><span class="p">])</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;+------------------------------------------------------------+&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;|         The finding optimal k phase took </span><span class="si">%8.0f</span><span class="s2"> s.       |&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">elapsed</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;+------------------------------------------------------------+&#39;</span><span class="p">)</span>
+
+
+    <span class="k">return</span> <span class="n">k_lst</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">silh_lst</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)],</span> <span class="n">silhouette</span> <span class="p">,</span> <span class="n">r_table</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">k</span><span class="p">,</span> <span class="n">silh_lst</span><span class="p">,</span> <span class="n">r_table</span> <span class="o">=</span> <span class="n">optimal_k</span><span class="p">(</span><span class="n">scaledData</span><span class="p">,</span><span class="n">index_col</span><span class="p">,</span><span class="n">k_min</span><span class="p">,</span> <span class="n">k_max</span><span class="p">,</span><span class="n">num_runs</span><span class="p">)</span>
+
+<span class="o">+------------------------------------------------------------+</span>
+<span class="o">|</span>         <span class="n">The</span> <span class="n">finding</span> <span class="n">optimal</span> <span class="n">k</span> <span class="n">phase</span> <span class="n">took</span>     <span class="mi">1783</span> <span class="n">s</span><span class="o">.</span>       <span class="o">|</span>
+<span class="o">+------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">silh_lst</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="o">+---+------------------+</span>
+<span class="o">|</span>  <span class="n">k</span><span class="o">|</span>        <span class="n">silhouette</span><span class="o">|</span>
+<span class="o">+---+------------------+</span>
+<span class="o">|</span>  <span class="mi">3</span><span class="o">|</span><span class="mf">0.8045154385557953</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span><span class="o">|</span><span class="mf">0.6993528775512052</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span><span class="o">|</span><span class="mf">0.6689286654221447</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">6</span><span class="o">|</span><span class="mf">0.6356184024841809</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">7</span><span class="o">|</span><span class="mf">0.7174102265711756</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">8</span><span class="o">|</span><span class="mf">0.6720861758298997</span><span class="o">|</span>
+<span class="o">|</span>  <span class="mi">9</span><span class="o">|</span> <span class="mf">0.601771359881241</span><span class="o">|</span>
+<span class="o">|</span> <span class="mi">10</span><span class="o">|</span><span class="mf">0.6292447334578428</span><span class="o">|</span>
+<span class="o">+---+------------------+</span>
+</pre></div>
+</div>
+<p>From the silhouette list, we can choose <code class="docutils literal"><span class="pre">3</span></code> as the optimal number of the clusters.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><code class="docutils literal"><span class="pre">ClusteringEvaluator</span></code> in <code class="docutils literal"><span class="pre">pyspark.ml.evaluation</span></code> requires Spark 2.4 or later!!</p>
+</div>
 <ol class="arabic simple" start="7">
 <li>Pipeline Architecture</li>
 </ol>

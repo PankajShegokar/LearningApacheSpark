@@ -96,68 +96,68 @@
 \contentsline {section}{\numberline {11.1}K-Means Model}{99}{section.11.1}
 \contentsline {subsection}{\numberline {11.1.1}Introduction}{99}{subsection.11.1.1}
 \contentsline {subsection}{\numberline {11.1.2}Demo}{99}{subsection.11.1.2}
-\contentsline {chapter}{\numberline {12}RFM Analysis}{105}{chapter.12}
-\contentsline {section}{\numberline {12.1}RFM Analysis Methodology}{105}{section.12.1}
-\contentsline {subsection}{\numberline {12.1.1}1. Build the RFM features matrix for each customer}{105}{subsection.12.1.1}
-\contentsline {subsection}{\numberline {12.1.2}2. Determine cutting points for each feature}{105}{subsection.12.1.2}
-\contentsline {subsection}{\numberline {12.1.3}3. Determine the RFM scores and summarize the corresponding business value}{106}{subsection.12.1.3}
-\contentsline {section}{\numberline {12.2}Demo}{106}{section.12.2}
-\contentsline {subsection}{\numberline {12.2.1}Load and clean data}{106}{subsection.12.2.1}
-\contentsline {subsection}{\numberline {12.2.2}RFM Segmentation}{110}{subsection.12.2.2}
-\contentsline {subsection}{\numberline {12.2.3}Statistical Summary}{111}{subsection.12.2.3}
-\contentsline {section}{\numberline {12.3}Extension}{112}{section.12.3}
-\contentsline {subsection}{\numberline {12.3.1}Build feature matrix}{112}{subsection.12.3.1}
-\contentsline {subsection}{\numberline {12.3.2}K-means clustering}{113}{subsection.12.3.2}
-\contentsline {subsection}{\numberline {12.3.3}Statistical summary}{117}{subsection.12.3.3}
-\contentsline {chapter}{\numberline {13}Text Mining}{119}{chapter.13}
-\contentsline {section}{\numberline {13.1}Text Collection}{119}{section.13.1}
-\contentsline {subsection}{\numberline {13.1.1}Image to text}{119}{subsection.13.1.1}
-\contentsline {subsection}{\numberline {13.1.2}Image Enhnaced to text}{121}{subsection.13.1.2}
-\contentsline {subsection}{\numberline {13.1.3}PDF to text}{123}{subsection.13.1.3}
-\contentsline {subsection}{\numberline {13.1.4}Audio to text}{125}{subsection.13.1.4}
-\contentsline {section}{\numberline {13.2}Text Preprocessing}{126}{section.13.2}
-\contentsline {section}{\numberline {13.3}Text Classification}{128}{section.13.3}
-\contentsline {subsection}{\numberline {13.3.1}Introduction}{129}{subsection.13.3.1}
-\contentsline {subsection}{\numberline {13.3.2}Demo}{129}{subsection.13.3.2}
-\contentsline {section}{\numberline {13.4}Sentiment analysis}{134}{section.13.4}
-\contentsline {subsection}{\numberline {13.4.1}Introduction}{134}{subsection.13.4.1}
-\contentsline {subsection}{\numberline {13.4.2}Pipeline}{135}{subsection.13.4.2}
-\contentsline {subsection}{\numberline {13.4.3}Demo}{135}{subsection.13.4.3}
-\contentsline {section}{\numberline {13.5}N-grams and Correlations}{140}{section.13.5}
-\contentsline {section}{\numberline {13.6}Topic Model: Latent Dirichlet Allocation}{140}{section.13.6}
-\contentsline {subsection}{\numberline {13.6.1}Introduction}{140}{subsection.13.6.1}
-\contentsline {subsection}{\numberline {13.6.2}Demo}{140}{subsection.13.6.2}
-\contentsline {chapter}{\numberline {14}Social Network Analysis}{153}{chapter.14}
-\contentsline {section}{\numberline {14.1}Co-occurrence Network}{153}{section.14.1}
-\contentsline {subsection}{\numberline {14.1.1}Methodology}{154}{subsection.14.1.1}
-\contentsline {subsection}{\numberline {14.1.2}Coding Puzzle from my interview}{156}{subsection.14.1.2}
-\contentsline {section}{\numberline {14.2}Correlation Network}{158}{section.14.2}
-\contentsline {chapter}{\numberline {15}ALS: Stock Portfolio Recommendations}{159}{chapter.15}
-\contentsline {section}{\numberline {15.1}Recommender systems}{159}{section.15.1}
-\contentsline {section}{\numberline {15.2}Alternating Least Squares}{159}{section.15.2}
-\contentsline {section}{\numberline {15.3}Demo}{159}{section.15.3}
-\contentsline {subsection}{\numberline {15.3.1}Load and clean data}{159}{subsection.15.3.1}
-\contentsline {subsection}{\numberline {15.3.2}Train model}{164}{subsection.15.3.2}
-\contentsline {subsection}{\numberline {15.3.3}Make prediction}{165}{subsection.15.3.3}
-\contentsline {chapter}{\numberline {16}Monte Carlo Simulation}{167}{chapter.16}
-\contentsline {section}{\numberline {16.1}Simulating Casino Win}{167}{section.16.1}
-\contentsline {section}{\numberline {16.2}Simulating a Random Walk}{169}{section.16.2}
-\contentsline {subsection}{\numberline {16.2.1}Fetch the histrical stock price}{169}{subsection.16.2.1}
-\contentsline {subsection}{\numberline {16.2.2}Calulate the Compound Annual Growth Rate}{170}{subsection.16.2.2}
-\contentsline {subsection}{\numberline {16.2.3}Calulate the annual volatility}{170}{subsection.16.2.3}
-\contentsline {subsection}{\numberline {16.2.4}Create matrix of daily returns}{172}{subsection.16.2.4}
-\contentsline {subsection}{\numberline {16.2.5}Monte Carlo Simulation}{173}{subsection.16.2.5}
-\contentsline {subsection}{\numberline {16.2.6}Summary}{173}{subsection.16.2.6}
-\contentsline {subsection}{\numberline {16.2.7}One-year Stock price simulation}{174}{subsection.16.2.7}
-\contentsline {chapter}{\numberline {17}Markov Chain Monte Carlo}{177}{chapter.17}
-\contentsline {chapter}{\numberline {18}Neural Network}{179}{chapter.18}
-\contentsline {section}{\numberline {18.1}Feedforward Neural Network}{179}{section.18.1}
-\contentsline {subsection}{\numberline {18.1.1}Introduction}{179}{subsection.18.1.1}
-\contentsline {subsection}{\numberline {18.1.2}Demo}{180}{subsection.18.1.2}
-\contentsline {chapter}{\numberline {19}My PySpark Package}{183}{chapter.19}
-\contentsline {section}{\numberline {19.1}Hierarchical Structure}{183}{section.19.1}
-\contentsline {section}{\numberline {19.2}Set Up}{184}{section.19.2}
-\contentsline {section}{\numberline {19.3}ReadMe}{184}{section.19.3}
-\contentsline {chapter}{\numberline {20}Main Reference}{187}{chapter.20}
-\contentsline {chapter}{Bibliography}{189}{chapter*.5}
-\contentsline {chapter}{Index}{191}{section*.10}
+\contentsline {chapter}{\numberline {12}RFM Analysis}{107}{chapter.12}
+\contentsline {section}{\numberline {12.1}RFM Analysis Methodology}{107}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}1. Build the RFM features matrix for each customer}{107}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}2. Determine cutting points for each feature}{107}{subsection.12.1.2}
+\contentsline {subsection}{\numberline {12.1.3}3. Determine the RFM scores and summarize the corresponding business value}{108}{subsection.12.1.3}
+\contentsline {section}{\numberline {12.2}Demo}{108}{section.12.2}
+\contentsline {subsection}{\numberline {12.2.1}Load and clean data}{108}{subsection.12.2.1}
+\contentsline {subsection}{\numberline {12.2.2}RFM Segmentation}{112}{subsection.12.2.2}
+\contentsline {subsection}{\numberline {12.2.3}Statistical Summary}{113}{subsection.12.2.3}
+\contentsline {section}{\numberline {12.3}Extension}{114}{section.12.3}
+\contentsline {subsection}{\numberline {12.3.1}Build feature matrix}{114}{subsection.12.3.1}
+\contentsline {subsection}{\numberline {12.3.2}K-means clustering}{115}{subsection.12.3.2}
+\contentsline {subsection}{\numberline {12.3.3}Statistical summary}{119}{subsection.12.3.3}
+\contentsline {chapter}{\numberline {13}Text Mining}{121}{chapter.13}
+\contentsline {section}{\numberline {13.1}Text Collection}{121}{section.13.1}
+\contentsline {subsection}{\numberline {13.1.1}Image to text}{121}{subsection.13.1.1}
+\contentsline {subsection}{\numberline {13.1.2}Image Enhnaced to text}{123}{subsection.13.1.2}
+\contentsline {subsection}{\numberline {13.1.3}PDF to text}{125}{subsection.13.1.3}
+\contentsline {subsection}{\numberline {13.1.4}Audio to text}{127}{subsection.13.1.4}
+\contentsline {section}{\numberline {13.2}Text Preprocessing}{128}{section.13.2}
+\contentsline {section}{\numberline {13.3}Text Classification}{130}{section.13.3}
+\contentsline {subsection}{\numberline {13.3.1}Introduction}{131}{subsection.13.3.1}
+\contentsline {subsection}{\numberline {13.3.2}Demo}{131}{subsection.13.3.2}
+\contentsline {section}{\numberline {13.4}Sentiment analysis}{136}{section.13.4}
+\contentsline {subsection}{\numberline {13.4.1}Introduction}{136}{subsection.13.4.1}
+\contentsline {subsection}{\numberline {13.4.2}Pipeline}{137}{subsection.13.4.2}
+\contentsline {subsection}{\numberline {13.4.3}Demo}{137}{subsection.13.4.3}
+\contentsline {section}{\numberline {13.5}N-grams and Correlations}{142}{section.13.5}
+\contentsline {section}{\numberline {13.6}Topic Model: Latent Dirichlet Allocation}{142}{section.13.6}
+\contentsline {subsection}{\numberline {13.6.1}Introduction}{142}{subsection.13.6.1}
+\contentsline {subsection}{\numberline {13.6.2}Demo}{142}{subsection.13.6.2}
+\contentsline {chapter}{\numberline {14}Social Network Analysis}{155}{chapter.14}
+\contentsline {section}{\numberline {14.1}Co-occurrence Network}{155}{section.14.1}
+\contentsline {subsection}{\numberline {14.1.1}Methodology}{156}{subsection.14.1.1}
+\contentsline {subsection}{\numberline {14.1.2}Coding Puzzle from my interview}{158}{subsection.14.1.2}
+\contentsline {section}{\numberline {14.2}Correlation Network}{160}{section.14.2}
+\contentsline {chapter}{\numberline {15}ALS: Stock Portfolio Recommendations}{161}{chapter.15}
+\contentsline {section}{\numberline {15.1}Recommender systems}{161}{section.15.1}
+\contentsline {section}{\numberline {15.2}Alternating Least Squares}{161}{section.15.2}
+\contentsline {section}{\numberline {15.3}Demo}{161}{section.15.3}
+\contentsline {subsection}{\numberline {15.3.1}Load and clean data}{161}{subsection.15.3.1}
+\contentsline {subsection}{\numberline {15.3.2}Train model}{166}{subsection.15.3.2}
+\contentsline {subsection}{\numberline {15.3.3}Make prediction}{167}{subsection.15.3.3}
+\contentsline {chapter}{\numberline {16}Monte Carlo Simulation}{169}{chapter.16}
+\contentsline {section}{\numberline {16.1}Simulating Casino Win}{169}{section.16.1}
+\contentsline {section}{\numberline {16.2}Simulating a Random Walk}{171}{section.16.2}
+\contentsline {subsection}{\numberline {16.2.1}Fetch the histrical stock price}{171}{subsection.16.2.1}
+\contentsline {subsection}{\numberline {16.2.2}Calulate the Compound Annual Growth Rate}{172}{subsection.16.2.2}
+\contentsline {subsection}{\numberline {16.2.3}Calulate the annual volatility}{172}{subsection.16.2.3}
+\contentsline {subsection}{\numberline {16.2.4}Create matrix of daily returns}{174}{subsection.16.2.4}
+\contentsline {subsection}{\numberline {16.2.5}Monte Carlo Simulation}{175}{subsection.16.2.5}
+\contentsline {subsection}{\numberline {16.2.6}Summary}{175}{subsection.16.2.6}
+\contentsline {subsection}{\numberline {16.2.7}One-year Stock price simulation}{176}{subsection.16.2.7}
+\contentsline {chapter}{\numberline {17}Markov Chain Monte Carlo}{179}{chapter.17}
+\contentsline {chapter}{\numberline {18}Neural Network}{181}{chapter.18}
+\contentsline {section}{\numberline {18.1}Feedforward Neural Network}{181}{section.18.1}
+\contentsline {subsection}{\numberline {18.1.1}Introduction}{181}{subsection.18.1.1}
+\contentsline {subsection}{\numberline {18.1.2}Demo}{182}{subsection.18.1.2}
+\contentsline {chapter}{\numberline {19}My PySpark Package}{185}{chapter.19}
+\contentsline {section}{\numberline {19.1}Hierarchical Structure}{185}{section.19.1}
+\contentsline {section}{\numberline {19.2}Set Up}{186}{section.19.2}
+\contentsline {section}{\numberline {19.3}ReadMe}{186}{section.19.3}
+\contentsline {chapter}{\numberline {20}Main Reference}{189}{chapter.20}
+\contentsline {chapter}{Bibliography}{191}{chapter*.5}
+\contentsline {chapter}{Index}{193}{section*.10}
