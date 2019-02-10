@@ -14,7 +14,7 @@ I want to answer this question from the following two parts:
 Why Spark?
 ++++++++++
 
-I think the following four main reasons form `Apache Spark™`_ official website are good enough
+I think the following four main reasons from `Apache Spark™`_ official website are good enough
 to convince you to use Spark.
 
 1. Speed
