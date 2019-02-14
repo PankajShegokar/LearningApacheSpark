@@ -108,29 +108,34 @@
 <li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reg.html">Regularization</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Classification</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#logistic-regression">Logistic regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#binomial-logistic-regression">Binomial logistic regression</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#demo">Demo</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#multinomial-logistic-regression">Multinomial logistic regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Demo</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#decision-tree-classification">Decision tree Classification</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Demo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#random-forest-classification">Random forest Classification</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Demo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-tree-classification">Gradient-boosted tree Classification</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Demo</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#naive-bayes-classification">Naive Bayes Classification</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Demo</a></li>
 </ul>
 </li>
 </ul>
@@ -214,8 +219,8 @@
 <p class="first admonition-title">Note</p>
 <p class="last"><strong>Birds of a feather folock together.</strong> &#8211; old Chinese proverb</p>
 </div>
-<div class="section" id="logistic-regression">
-<h2>Logistic regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="binomial-logistic-regression">
+<h2>Binomial logistic regression<a class="headerlink" href="#binomial-logistic-regression" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="introduction">
 <h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
 </div>
@@ -603,13 +608,45 @@ use <code class="docutils literal"><span class="pre">sql</span></code> to plot t
 </div>
 </div>
 </div>
+<div class="section" id="multinomial-logistic-regression">
+<h2>Multinomial logistic regression<a class="headerlink" href="#multinomial-logistic-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Introduction<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id3">
+<h3>Demo<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The Jupyter notebook can be download from <a class="reference external" href="_static/logisticRegression.ipynb">Logistic Regression</a>.</li>
+<li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.BinaryLogisticRegressionSummary.html">Logistic Regression API</a> .</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In this demo, I introduced a new function <code class="docutils literal"><span class="pre">get_dummy</span></code> to deal with the categorical data. I highly recommend you to use my <code class="docutils literal"><span class="pre">get_dummy</span></code> function in the other cases. This function will save a lot of time for you.</p>
+</div>
+<ol class="arabic simple">
+<li>Set up spark context and SparkSession</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+        <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+            <span class="o">.</span><span class="n">builder</span> \
+            <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark Logistic Regression example&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Load dataset</li>
+</ol>
+</div>
+</div>
 <div class="section" id="decision-tree-classification">
 <h2>Decision tree Classification<a class="headerlink" href="#decision-tree-classification" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
-<h3>Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>Introduction<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="id4">
-<h3>Demo<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>Demo<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/DecisionTreeC.ipynb">Decision Tree Classification</a>.</li>
 <li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.DecisionTreeClassifier.html">DecisionTreeClassifier API</a> .</li>
@@ -981,11 +1018,11 @@ use <code class="docutils literal"><span class="pre">sql</span></code> to plot t
 </div>
 <div class="section" id="random-forest-classification">
 <h2>Random forest Classification<a class="headerlink" href="#random-forest-classification" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id6">
-<h3>Introduction<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>Introduction<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2Mg8QD0F1dQ" frameborder="0" allowfullscreen></iframe></div>
-<div class="section" id="id7">
-<h3>Demo<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Demo<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/RandomForestC3.ipynb">Random forest Classification</a>.</li>
 <li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.RandomForestClassifier.html">RandomForestClassifier API</a> .</li>
@@ -1356,11 +1393,11 @@ use <code class="docutils literal"><span class="pre">sql</span></code> to plot t
 </div>
 <div class="section" id="gradient-boosted-tree-classification">
 <h2>Gradient-boosted tree Classification<a class="headerlink" href="#gradient-boosted-tree-classification" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id9">
-<h3>Introduction<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>Introduction<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/GM3CDQfQ4sw" frameborder="0" allowfullscreen></iframe></div>
-<div class="section" id="id10">
-<h3>Demo<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>Demo<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/gbtC3.ipynb">Gradient boosted tree Classification</a>.</li>
 <li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.GBTClassifier.html">GBTClassifier API</a> .</li>
@@ -1373,11 +1410,11 @@ use <code class="docutils literal"><span class="pre">sql</span></code> to plot t
 </div>
 <div class="section" id="naive-bayes-classification">
 <h2>Naive Bayes Classification<a class="headerlink" href="#naive-bayes-classification" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id12">
-<h3>Introduction<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>Introduction<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="id13">
-<h3>Demo<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>Demo<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/NaiveBayes.ipynb">Naive Bayes Classification</a>.</li>
 <li>For more details, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.classification.NaiveBayes.html">NaiveBayes API</a> .</li>

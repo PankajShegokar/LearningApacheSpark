@@ -77,21 +77,24 @@
 \contentsline {section}{\numberline {9.2}Least Absolute Shrinkage and Selection Operator (LASSO)}{65}{section.9.2}
 \contentsline {section}{\numberline {9.3}Elastic net}{65}{section.9.3}
 \contentsline {chapter}{\numberline {10}Classification}{66}{chapter.10}
-\contentsline {section}{\numberline {10.1}Logistic regression}{66}{section.10.1}
+\contentsline {section}{\numberline {10.1}Binomial logistic regression}{66}{section.10.1}
 \contentsline {subsection}{\numberline {10.1.1}Introduction}{66}{subsection.10.1.1}
 \contentsline {subsection}{\numberline {10.1.2}Demo}{66}{subsection.10.1.2}
-\contentsline {section}{\numberline {10.2}Decision tree Classification}{73}{section.10.2}
+\contentsline {section}{\numberline {10.2}Multinomial logistic regression}{73}{section.10.2}
 \contentsline {subsection}{\numberline {10.2.1}Introduction}{73}{subsection.10.2.1}
 \contentsline {subsection}{\numberline {10.2.2}Demo}{73}{subsection.10.2.2}
-\contentsline {section}{\numberline {10.3}Random forest Classification}{79}{section.10.3}
-\contentsline {subsection}{\numberline {10.3.1}Introduction}{79}{subsection.10.3.1}
-\contentsline {subsection}{\numberline {10.3.2}Demo}{79}{subsection.10.3.2}
-\contentsline {section}{\numberline {10.4}Gradient-boosted tree Classification}{86}{section.10.4}
-\contentsline {subsection}{\numberline {10.4.1}Introduction}{86}{subsection.10.4.1}
-\contentsline {subsection}{\numberline {10.4.2}Demo}{86}{subsection.10.4.2}
-\contentsline {section}{\numberline {10.5}Naive Bayes Classification}{87}{section.10.5}
-\contentsline {subsection}{\numberline {10.5.1}Introduction}{87}{subsection.10.5.1}
-\contentsline {subsection}{\numberline {10.5.2}Demo}{87}{subsection.10.5.2}
+\contentsline {section}{\numberline {10.3}Decision tree Classification}{74}{section.10.3}
+\contentsline {subsection}{\numberline {10.3.1}Introduction}{74}{subsection.10.3.1}
+\contentsline {subsection}{\numberline {10.3.2}Demo}{74}{subsection.10.3.2}
+\contentsline {section}{\numberline {10.4}Random forest Classification}{80}{section.10.4}
+\contentsline {subsection}{\numberline {10.4.1}Introduction}{80}{subsection.10.4.1}
+\contentsline {subsection}{\numberline {10.4.2}Demo}{80}{subsection.10.4.2}
+\contentsline {section}{\numberline {10.5}Gradient-boosted tree Classification}{86}{section.10.5}
+\contentsline {subsection}{\numberline {10.5.1}Introduction}{86}{subsection.10.5.1}
+\contentsline {subsection}{\numberline {10.5.2}Demo}{86}{subsection.10.5.2}
+\contentsline {section}{\numberline {10.6}Naive Bayes Classification}{87}{section.10.6}
+\contentsline {subsection}{\numberline {10.6.1}Introduction}{87}{subsection.10.6.1}
+\contentsline {subsection}{\numberline {10.6.2}Demo}{87}{subsection.10.6.2}
 \contentsline {chapter}{\numberline {11}Clustering}{88}{chapter.11}
 \contentsline {section}{\numberline {11.1}K-Means Model}{88}{section.11.1}
 \contentsline {subsection}{\numberline {11.1.1}Introduction}{88}{subsection.11.1.1}

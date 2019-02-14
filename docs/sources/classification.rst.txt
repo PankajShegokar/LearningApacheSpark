@@ -11,8 +11,8 @@ Classification
   **Birds of a feather folock together.** -- old Chinese proverb
 
 
-Logistic regression
-+++++++++++++++++++
+Binomial logistic regression
+++++++++++++++++++++++++++++
 
 Introduction
 ------------
@@ -438,6 +438,37 @@ use ``sql`` to plot the ROC curve:
    :align: center
 
 
+Multinomial logistic regression
++++++++++++++++++++++++++++++++
+
+Introduction
+------------
+
+Demo
+----
+
+* The Jupyter notebook can be download from `Logistic Regression <_static/logisticRegression.ipynb>`_.
+
+* For more details, please visit `Logistic Regression API`_ . 
+
+.. note::
+
+  In this demo, I introduced a new function ``get_dummy`` to deal with the categorical data. I highly recommend you to use my ``get_dummy`` function in the other cases. This function will save a lot of time for you.
+
+
+1. Set up spark context and SparkSession
+
+.. code-block:: python
+
+	from pyspark.sql import SparkSession
+
+		spark = SparkSession \
+		    .builder \
+		    .appName("Python Spark Logistic Regression example") \
+		    .config("spark.some.config.option", "some-value") \
+		    .getOrCreate()
+
+2. Load dataset
 
 
 Decision tree Classification

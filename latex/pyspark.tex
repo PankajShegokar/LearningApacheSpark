@@ -1566,7 +1566,7 @@ positive skew: The right tail is longer; the mass of the distribution is concent
 
 This subsection comes from Wikipedia \href{https://en.wikipedia.org/wiki/Kurtosis}{Kurtosis}.
 
-In probability theory and statistics, kurtosis (from Greek: \(\kappa\)\(\upsilon\)\(\rho\)\(\tau\)ός, kyrtos or kurtos, meaning ``curved, arching'') is a measure of the ``tailedness'' of the probability distribution of a real-valued random variable. In a similar way to the concept of skewness, kurtosis is a descriptor of the shape of a probability distribution and, just as for skewness, there are different ways of quantifying it for a theoretical distribution and corresponding ways of estimating it from a sample from a population.
+In probability theory and statistics, kurtosis (kyrtos or kurtos, meaning ``curved, arching'') is a measure of the ``tailedness'' of the probability distribution of a real-valued random variable. In a similar way to the concept of skewness, kurtosis is a descriptor of the shape of a probability distribution and, just as for skewness, there are different ways of quantifying it for a theoretical distribution and corresponding ways of estimating it from a sample from a population.
 
 \end{itemize}
 \begin{figure}[htbp]
@@ -3349,8 +3349,8 @@ Variable selection and the removal of correlated variables (\href{https://en.wik
 \end{notice}
 
 
-\section{Logistic regression}
-\label{classification:logistic-regression}
+\section{Binomial logistic regression}
+\label{classification:binomial-logistic-regression}
 
 \subsection{Introduction}
 \label{classification:introduction}
@@ -3813,14 +3813,56 @@ visualization
 \end{figure}
 
 
+\section{Multinomial logistic regression}
+\label{classification:multinomial-logistic-regression}
+
+\subsection{Introduction}
+\label{classification:id2}
+
+\subsection{Demo}
+\label{classification:id3}\begin{itemize}
+\item {} 
+The Jupyter notebook can be download from Logistic Regression.
+
+\item {} 
+For more details, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.classification.BinaryLogisticRegressionSummary.html}{Logistic Regression API} .
+
+\end{itemize}
+
+\begin{notice}{note}{Note:}
+In this demo, I introduced a new function \code{get\_dummy} to deal with the categorical data. I highly recommend you to use my \code{get\_dummy} function in the other cases. This function will save a lot of time for you.
+\end{notice}
+\begin{enumerate}
+\item {} 
+Set up spark context and SparkSession
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql} \PYG{k+kn}{import} \PYG{n}{SparkSession}
+
+        \PYG{n}{spark} \PYG{o}{=} \PYG{n}{SparkSession} \PYGZbs{}
+            \PYG{o}{.}\PYG{n}{builder} \PYGZbs{}
+            \PYG{o}{.}\PYG{n}{appName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Python Spark Logistic Regression example}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)} \PYGZbs{}
+            \PYG{o}{.}\PYG{n}{config}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{spark.some.config.option}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{some\PYGZhy{}value}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)} \PYGZbs{}
+            \PYG{o}{.}\PYG{n}{getOrCreate}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+Load dataset
+
+\end{enumerate}
+
+
 \section{Decision tree Classification}
 \label{classification:decision-tree-classification}
 
 \subsection{Introduction}
-\label{classification:id3}
+\label{classification:id5}
 
 \subsection{Demo}
-\label{classification:id4}\begin{itemize}
+\label{classification:id6}\begin{itemize}
 \item {} 
 The Jupyter notebook can be download from Decision Tree Classification.
 
@@ -4268,10 +4310,10 @@ visualization
 \label{classification:random-forest-classification}
 
 \subsection{Introduction}
-\label{classification:id6}
+\label{classification:id8}
 
 \subsection{Demo}
-\label{classification:id7}\begin{itemize}
+\label{classification:id9}\begin{itemize}
 \item {} 
 The Jupyter notebook can be download from Random forest Classification.
 
@@ -4718,10 +4760,10 @@ visualization
 \label{classification:gradient-boosted-tree-classification}
 
 \subsection{Introduction}
-\label{classification:id9}
+\label{classification:id11}
 
 \subsection{Demo}
-\label{classification:id10}\begin{itemize}
+\label{classification:id12}\begin{itemize}
 \item {} 
 The Jupyter notebook can be download from Gradient boosted tree Classification.
 
@@ -4739,10 +4781,10 @@ Unfortunately, the GBTClassifier currently only supports binary labels.
 \label{classification:naive-bayes-classification}
 
 \subsection{Introduction}
-\label{classification:id12}
+\label{classification:id14}
 
 \subsection{Demo}
-\label{classification:id13}\begin{itemize}
+\label{classification:id15}\begin{itemize}
 \item {} 
 The Jupyter notebook can be download from Naive Bayes Classification.
 
@@ -9248,42 +9290,42 @@ structure and the directory structure of this package are as follows.
 \section{Hierarchical Structure}
 \label{pack:hierarchical-structure}
 \begin{Verbatim}[commandchars=\\\{\}]
-├-- build
-\textbar{}   ├-- bdist.linux\PYGZhy{}x86\PYGZus{}64
-\textbar{}   └-- lib.linux\PYGZhy{}x86\PYGZus{}64\PYGZhy{}2.7
-\textbar{}       └-- PySparkTools
-\textbar{}           ├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-\textbar{}           ├-- Manipulation
-\textbar{}           \textbar{}   ├-- DataManipulation.py
-\textbar{}           \textbar{}   └-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-\textbar{}           └-- Visualization
-\textbar{}               ├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-\textbar{}               └-- PyPlots.py
-├-- dist
-\textbar{}   └-- PySParkTools\PYGZhy{}1.0\PYGZhy{}py2.7.egg
-├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-├-- PySparkTools
-\textbar{}   ├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-\textbar{}   ├-- Manipulation
-\textbar{}   \textbar{}   ├-- DataManipulation.py
-\textbar{}   \textbar{}   └-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-\textbar{}   └-- Visualization
-\textbar{}       ├-- \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-\textbar{}       ├-- PyPlots.py
-\textbar{}       └-- PyPlots.pyc
-├-- PySParkTools.egg\PYGZhy{}info
-\textbar{}   ├-- dependency\PYGZus{}links.txt
-\textbar{}   ├-- PKG\PYGZhy{}INFO
-\textbar{}   ├-- requires.txt
-\textbar{}   ├-- SOURCES.txt
-\textbar{}   └-- top\PYGZus{}level.txt
-├-- README.md
-├-- requirements.txt
-├-- setup.py
-└-- \PYG{n+nb}{test}
-    ├-- spark\PYGZhy{}warehouse
-    ├-- test1.py
-    └-- test2.py
+\textbar{}\PYGZhy{}\PYGZhy{} build
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} bdist.linux\PYGZhy{}x86\PYGZus{}64
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} lib.linux\PYGZhy{}x86\PYGZus{}64\PYGZhy{}2.7
+\textbar{}       \textbar{}\PYGZhy{}\PYGZhy{} PySparkTools
+\textbar{}           \textbar{}\PYGZhy{}\PYGZhy{} \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}           \textbar{}\PYGZhy{}\PYGZhy{} Manipulation
+\textbar{}           \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} DataManipulation.py
+\textbar{}           \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}           \textbar{}-- Visualization
+\textbar{}               \textbar{}\PYGZhy{}\PYGZhy{} \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}               \textbar{}\PYGZhy{}\PYGZhy{} PyPlots.py
+\textbar{}\PYGZhy{}\PYGZhy{} dist
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} PySParkTools\PYGZhy{}1.0\PYGZhy{}py2.7.egg
+\textbar{}\PYGZhy{}\PYGZhy{} \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}\PYGZhy{}\PYGZhy{} PySparkTools
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} Manipulation
+\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} DataManipulation.py
+\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} Visualization
+\textbar{}       \textbar{}\PYGZhy{}\PYGZhy{} \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
+\textbar{}       \textbar{}\PYGZhy{}\PYGZhy{} PyPlots.py
+\textbar{}       \textbar{}\PYGZhy{}\PYGZhy{} PyPlots.pyc
+\textbar{}\PYGZhy{}\PYGZhy{} PySParkTools.egg\PYGZhy{}info
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} dependency\PYGZus{}links.txt
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} PKG\PYGZhy{}INFO
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} requires.txt
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} SOURCES.txt
+\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} top\PYGZus{}level.txt
+\textbar{}\PYGZhy{}\PYGZhy{} README.md
+\textbar{}\PYGZhy{}\PYGZhy{} requirements.txt
+\textbar{}\PYGZhy{}\PYGZhy{} setup.py
+\textbar{}\PYGZhy{}\PYGZhy{} test
+    \textbar{}\PYGZhy{}\PYGZhy{} spark\PYGZhy{}warehouse
+    \textbar{}\PYGZhy{}\PYGZhy{} test1.py
+    \textbar{}\PYGZhy{}\PYGZhy{} test2.py
 \end{Verbatim}
 
 From the above hierarchical structure, you will find that you have to have \code{\_\_init\_\_.py} in each directory. I will explain the \code{\_\_init\_\_.py} file with the example below:

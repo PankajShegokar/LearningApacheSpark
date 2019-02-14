@@ -193,42 +193,42 @@ used in my daily work. You can download and install it from <a class="reference 
 structure and the directory structure of this package are as follows.</p>
 <div class="section" id="hierarchical-structure">
 <h2>Hierarchical Structure<a class="headerlink" href="#hierarchical-structure" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>├── build
-│   ├── bdist.linux-x86_64
-│   └── lib.linux-x86_64-2.7
-│       └── PySparkTools
-│           ├── __init__.py
-│           ├── Manipulation
-│           │   ├── DataManipulation.py
-│           │   └── __init__.py
-│           └── Visualization
-│               ├── __init__.py
-│               └── PyPlots.py
-├── dist
-│   └── PySParkTools-1.0-py2.7.egg
-├── __init__.py
-├── PySparkTools
-│   ├── __init__.py
-│   ├── Manipulation
-│   │   ├── DataManipulation.py
-│   │   └── __init__.py
-│   └── Visualization
-│       ├── __init__.py
-│       ├── PyPlots.py
-│       └── PyPlots.pyc
-├── PySParkTools.egg-info
-│   ├── dependency_links.txt
-│   ├── PKG-INFO
-│   ├── requires.txt
-│   ├── SOURCES.txt
-│   └── top_level.txt
-├── README.md
-├── requirements.txt
-├── setup.py
-└── <span class="nb">test</span>
-    ├── spark-warehouse
-    ├── test1.py
-    └── test2.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="p">|</span>-- build
+<span class="p">|</span>   <span class="p">|</span>-- bdist.linux-x86_64
+<span class="p">|</span>   <span class="p">|</span>-- lib.linux-x86_64-2.7
+<span class="p">|</span>       <span class="p">|</span>-- PySparkTools
+<span class="p">|</span>           <span class="p">|</span>-- __init__.py
+<span class="p">|</span>           <span class="p">|</span>-- Manipulation
+<span class="p">|</span>           <span class="p">|</span>   <span class="p">|</span>-- DataManipulation.py
+<span class="p">|</span>           <span class="p">|</span>   <span class="p">|</span>-- __init__.py
+<span class="p">|</span>           <span class="p">|</span>── Visualization
+<span class="p">|</span>               <span class="p">|</span>-- __init__.py
+│               <span class="p">|</span>-- PyPlots.py
+<span class="p">|</span>-- dist
+│   <span class="p">|</span>-- PySParkTools-1.0-py2.7.egg
+<span class="p">|</span>-- __init__.py
+<span class="p">|</span>-- PySparkTools
+<span class="p">|</span>   <span class="p">|</span>-- __init__.py
+<span class="p">|</span>   <span class="p">|</span>-- Manipulation
+<span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>-- DataManipulation.py
+<span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>-- __init__.py
+<span class="p">|</span>   <span class="p">|</span>-- Visualization
+<span class="p">|</span>       <span class="p">|</span>-- __init__.py
+<span class="p">|</span>       <span class="p">|</span>-- PyPlots.py
+│       <span class="p">|</span>-- PyPlots.pyc
+<span class="p">|</span>-- PySParkTools.egg-info
+<span class="p">|</span>   <span class="p">|</span>-- dependency_links.txt
+<span class="p">|</span>   <span class="p">|</span>-- PKG-INFO
+<span class="p">|</span>   <span class="p">|</span>-- requires.txt
+<span class="p">|</span>   <span class="p">|</span>-- SOURCES.txt
+<span class="p">|</span>   <span class="p">|</span>-- top_level.txt
+<span class="p">|</span>-- README.md
+<span class="p">|</span>-- requirements.txt
+<span class="p">|</span>-- setup.py
+<span class="p">|</span>-- <span class="nb">test</span>
+    <span class="p">|</span>-- spark-warehouse
+    <span class="p">|</span>-- test1.py
+    <span class="p">|</span>-- test2.py
 </pre></div>
 </div>
 <p>From the above hierarchical structure, you will find that you have to have <code class="docutils literal"><span class="pre">__init__.py</span></code> in each directory. I will explain the <code class="docutils literal"><span class="pre">__init__.py</span></code> file with the example below:</p>
