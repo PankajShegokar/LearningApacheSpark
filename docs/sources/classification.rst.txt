@@ -858,6 +858,9 @@ Random forest Classification
 Introduction
 ------------
 
+.. raw:: html
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/2Mg8QD0F1dQ" frameborder="0" allowfullscreen></iframe>
 
 Demo
 ----
@@ -1271,6 +1274,9 @@ Gradient-boosted tree Classification
 Introduction
 ------------
 
+.. raw:: html
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/GM3CDQfQ4sw" frameborder="0" allowfullscreen></iframe>
 	
 
 Demo
