@@ -118,6 +118,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyspark-with-eclipse">PySpark With Eclipse</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#pysparkling-water-spark-h2o">PySparkling Water: Spark + H2O</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#set-up-spark-on-cloud">Set up Spark on Cloud</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#demo-code-in-this-section">Demo Code in this Section</a></li>
 </ul>
@@ -524,8 +525,61 @@ as follows:</p>
 </div></blockquote>
 </div>
 </div>
+<div class="section" id="pysparkling-water-spark-h2o">
+<span id="index-2"></span><h2>PySparkling Water: Spark + H2O<a class="headerlink" href="#pysparkling-water-spark-h2o" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Download <code class="docutils literal"><span class="pre">Sparkling</span> <span class="pre">Water</span></code> from: <a class="reference external" href="https://s3.amazonaws.com/h2o-release/sparkling-water/rel-2.4/5/index.html">https://s3.amazonaws.com/h2o-release/sparkling-water/rel-2.4/5/index.html</a></li>
+<li>Test PySparking</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>unzip sparkling-water-2.4.5.zip
+<span class="nb">cd</span>  ~/sparkling-water-2.4.5/bin
+./pysparkling
+</pre></div>
+</div>
+<p>If you have a correct setup for PySpark, then you will get the following results:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Using Spark defined in the <span class="nv">SPARK_HOME</span><span class="o">=</span>/Users/dt216661/spark environmental property
+
+Python <span class="m">3</span>.7.1 <span class="o">(</span>default, Dec <span class="m">14</span> <span class="m">2018</span>, <span class="m">13</span>:28:58<span class="o">)</span>
+<span class="o">[</span>GCC <span class="m">4</span>.2.1 Compatible Apple LLVM <span class="m">6</span>.0 <span class="o">(</span>clang-600.0.57<span class="o">)]</span> on darwin
+Type <span class="s2">&quot;help&quot;</span>, <span class="s2">&quot;copyright&quot;</span>, <span class="s2">&quot;credits&quot;</span> or <span class="s2">&quot;license&quot;</span> <span class="k">for</span> more information.
+<span class="m">2019</span>-02-15 <span class="m">14</span>:08:30 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library <span class="k">for</span> your platform... using builtin-java classes where applicable
+Setting default log level to <span class="s2">&quot;WARN&quot;</span>.
+Using Spark<span class="s1">&#39;s default log4j profile: org/apache/spark/log4j-defaults.properties</span>
+<span class="s1">Setting default log level to &quot;WARN&quot;.</span>
+<span class="s1">To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</span>
+<span class="s1">2019-02-15 14:08:31 WARN  Utils:66 - Service &#39;</span>SparkUI<span class="s1">&#39; could not bind on port 4040. Attempting port 4041.</span>
+<span class="s1">2019-02-15 14:08:31 WARN  Utils:66 - Service &#39;</span>SparkUI<span class="s1">&#39; could not bind on port 4041. Attempting port 4042.</span>
+<span class="s1">17/08/30 13:30:12 WARN NativeCodeLoader: Unable to load native-hadoop</span>
+<span class="s1">library for your platform... using builtin-java classes where applicable</span>
+<span class="s1">17/08/30 13:30:17 WARN ObjectStore: Failed to get database global_temp,</span>
+<span class="s1">returning NoSuchObjectException</span>
+<span class="s1">Welcome to</span>
+<span class="s1">       ____              __</span>
+<span class="s1">      / __/__  ___ _____/ /__</span>
+<span class="s1">     _\ \/ _ \/ _ `/ __/  &#39;</span>_/
+    /__ / .__/<span class="se">\_</span>,_/_/ /_/<span class="se">\_\ </span>  version <span class="m">2</span>.4.0
+       /_/
+
+Using Python version <span class="m">3</span>.7.1 <span class="o">(</span>default, Dec <span class="m">14</span> <span class="m">2018</span> <span class="m">13</span>:28:58<span class="o">)</span>
+SparkSession available as <span class="s1">&#39;spark&#39;</span>.
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Setup <code class="docutils literal"><span class="pre">pysparkling</span></code> with Jupyter notebook</li>
+</ol>
+<p>Add the following alias to your <code class="docutils literal"><span class="pre">bashrc</span></code> (Linux systems) or <code class="docutils literal"><span class="pre">bash_profile</span></code> (Mac system)</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">sparkling</span><span class="o">=</span><span class="s2">&quot;PYSPARK_DRIVER_PYTHON=&quot;</span>ipython<span class="s2">&quot; PYSPARK_DRIVER_PYTHON_OPTS=    &quot;</span>notebook<span class="s2">&quot; /~/~/sparkling-water-2.4.5/bin/pysparkling&quot;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Open <code class="docutils literal"><span class="pre">pysparkling</span></code> in terminal</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sparkling
+</pre></div>
+</div>
+</div>
 <div class="section" id="set-up-spark-on-cloud">
-<span id="index-2"></span><h2>Set up Spark on Cloud<a class="headerlink" href="#set-up-spark-on-cloud" title="Permalink to this headline">¶</a></h2>
+<h2>Set up Spark on Cloud<a class="headerlink" href="#set-up-spark-on-cloud" title="Permalink to this headline">¶</a></h2>
 <p>Following the setup steps in <a class="reference internal" href="#set-up-ubuntu"><span class="std std-ref">Configure Spark on Mac and Ubuntu</span></a>, you can set
 up your own cluster on the cloud, for example AWS, Google Cloud.
 Actually, for those clouds, they have their own Big Data tool.
