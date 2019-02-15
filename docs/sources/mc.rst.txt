@@ -4,6 +4,10 @@
 Monte Carlo Simulation
 ======================
 
+.. figure:: images/baba_sim_price.png
+   :align: center
+
+
 Monte Carlo simulations are just a way of estimating a fixed parameter by repeatedly generating random numbers. More details can be found at `A Zero Math Introduction to Markov Chain Monte Carlo Methods`_. 
 
 Monte Carlo simulation is a technique used to understand the impact of risk and uncertainty in financial, project management, cost, and other forecasting models. A Monte Carlo simulator helps one visualize most or all of the potential outcomes to have a better idea regarding the risk of a decision. More details can be found at `The house always wins`_. 

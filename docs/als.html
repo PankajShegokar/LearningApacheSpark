@@ -193,6 +193,49 @@
             
   <div class="section" id="als-stock-portfolio-recommendations">
 <span id="als"></span><h1>ALS: Stock Portfolio Recommendations<a class="headerlink" href="#als-stock-portfolio-recommendations" title="Permalink to this headline">¶</a></h1>
+<div class="figure align-center">
+<img alt="images/stock_portfolio.png" src="images/stock_portfolio.png" />
+</div>
+<p>Code for the above figure:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;equal&quot;</span><span class="p">))</span>
+
+<span class="n">recipe</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;375 k U.S. Large Cap Blend&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;300 k U.S. Large Cap Value&quot;</span>
+          <span class="s2">&quot;75 k U.S. Short-Term Bonds&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;50 k U.S. Small Cap Blend&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;55 k U.S. Small Cap Value&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;95 k U.S. Real Estate&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;250 k Intermediate-Term Bonds&quot;</span><span class="p">]</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">recipe</span><span class="p">]</span>
+<span class="n">ingredients</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">:])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">recipe</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ingredients</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">pct</span><span class="p">,</span> <span class="n">allvals</span><span class="p">):</span>
+    <span class="n">absolute</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pct</span><span class="o">/</span><span class="mf">100.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">allvals</span><span class="p">))</span>
+    <span class="k">return</span> <span class="s2">&quot;{:.1f}%</span><span class="se">\n</span><span class="s2">({:d} k)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pct</span><span class="p">,</span> <span class="n">absolute</span><span class="p">)</span>
+
+<span class="n">explode</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="c1">#(0.1, 0.1, 0.1,  0.1, 0.1, 0.1)  # explode 1st slice</span>
+<span class="n">explode</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">wedges</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">autotexts</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">explode</span><span class="o">=</span><span class="n">explode</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="k">lambda</span> <span class="n">pct</span><span class="p">:</span> <span class="n">func</span><span class="p">(</span><span class="n">pct</span><span class="p">,</span> <span class="n">data</span><span class="p">),</span>
+                                  <span class="n">textprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">wedges</span><span class="p">,</span> <span class="n">ingredients</span><span class="p">,</span>
+          <span class="c1">#title=&quot;Stock portfolio&quot;,</span>
+          <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;center left&quot;</span><span class="p">,</span>
+          <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">autotexts</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+
+<span class="c1">#ax.set_title(&quot;Stock portfolio&quot;)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
 <div class="section" id="recommender-systems">
 <h2>Recommender systems<a class="headerlink" href="#recommender-systems" title="Permalink to this headline">¶</a></h2>
 <p>Recommender systems or recommendation systems (sometimes replacing “system” with a synonym such as platform or engine) are a subclass of information filtering system that seek to predict the “rating” or “preference” that a user would give to an item.”</p>
@@ -620,7 +663,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Feb 14, 2019.
+      Last updated on Feb 15, 2019.
 
     </p>
   </div>

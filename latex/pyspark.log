@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  14 FEB 2019 16:51
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  15 FEB 2019 12:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1772,10 +1772,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [53]
-Underfull \hbox (badness 10000) in paragraph at lines 2521--2526
-
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1783,6 +1779,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [54]
+Underfull \hbox (badness 10000) in paragraph at lines 2594--2599
+
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1853,14 +1853,20 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [64]
-Chapter 9.
-[65
 
-]
-Chapter 10.
-[66
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-]
+[65]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[66]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1881,78 +1887,35 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[69] <roc_z.png, id=1009, 1333.98375pt x 428.60126pt>
-File: roc_z.png Graphic file (type png)
- <use roc_z.png>
-Package pdftex.def Info: roc_z.png used on input line 3689.
-(pdftex.def)             Requested size: 1333.9805pt x 428.6002pt.
-File: roc_z.png Graphic file (type png)
-
-<use roc_z.png>
-Package pdftex.def Info: roc_z.png used on input line 3689.
-(pdftex.def)             Requested size: 452.96788pt x 145.53284pt.
- <roc.png, id=1010, 1320.935pt x 545.03625pt>
-File: roc.png Graphic file (type png)
- <use roc.png>
-Package pdftex.def Info: roc.png used on input line 3697.
-(pdftex.def)             Requested size: 1320.93178pt x 545.03493pt.
-File: roc.png Graphic file (type png)
-
-<use roc.png>
-Package pdftex.def Info: roc.png used on input line 3697.
-(pdftex.def)             Requested size: 452.96788pt x 186.89833pt.
-
+[69]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[70 <./roc_z.png>]
-Underfull \vbox (badness 10000) detected at line 3753
- []
-
+[70]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[71 <./roc.png>] <logr_b1.png, id=1024, 348.30125pt x 295.1025pt>
-File: logr_b1.png Graphic file (type png)
-
-<use logr_b1.png>
-Package pdftex.def Info: logr_b1.png used on input line 3792.
-(pdftex.def)             Requested size: 348.3004pt x 295.10176pt.
-File: logr_b1.png Graphic file (type png)
- <use logr_b1.png>
-Package pdftex.def Info: logr_b1.png used on input line 3792.
-(pdftex.def)             Requested size: 348.3004pt x 295.10176pt.
-
+[71]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[72 <./logr_b1.png>] <logr_b2.png, id=1030, 332.24126pt x 295.1025pt>
-File: logr_b2.png Graphic file (type png)
-
-<use logr_b2.png>
-Package pdftex.def Info: logr_b2.png used on input line 3812.
-(pdftex.def)             Requested size: 332.24043pt x 295.10176pt.
-File: logr_b2.png Graphic file (type png)
- <use logr_b2.png>
-Package pdftex.def Info: logr_b2.png used on input line 3812.
-(pdftex.def)             Requested size: 332.24043pt x 295.10176pt.
-
+[72]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[73 <./logr_b2.png>]
+[73]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1981,39 +1944,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [77]
+Chapter 9.
+[78
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
+]
+Chapter 10.
+[79
 
-[78] <dt_cm_c3.png, id=1076, 341.275pt x 295.1025pt>
-File: dt_cm_c3.png Graphic file (type png)
- <use dt_cm_c3.png>
-Package pdftex.def Info: dt_cm_c3.png used on input line 4284.
-(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
-File: dt_cm_c3.png Graphic file (type png)
-
-<use dt_cm_c3.png>
-Package pdftex.def Info: dt_cm_c3.png used on input line 4284.
-(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[79 <./dt_cm_c3.png>]
-File: dt_cm_c3.png Graphic file (type png)
- <use dt_cm_c3.png>
-Package pdftex.def Info: dt_cm_c3.png used on input line 4305.
-(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
-File: dt_cm_c3.png Graphic file (type png)
- <use dt_cm_c3.png>
-Package pdftex.def Info: dt_cm_c3.png used on input line 4305.
-(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
-
+]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2021,9 +1959,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [80]
-Overfull \vbox (2.03726pt too high) detected at line 4423
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2044,42 +1979,35 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[83]
+[83] <roc_z.png, id=1090, 1333.98375pt x 428.60126pt>
+File: roc_z.png Graphic file (type png)
+ <use roc_z.png>
+Package pdftex.def Info: roc_z.png used on input line 4730.
+(pdftex.def)             Requested size: 1333.9805pt x 428.6002pt.
+File: roc_z.png Graphic file (type png)
+
+<use roc_z.png>
+Package pdftex.def Info: roc_z.png used on input line 4730.
+(pdftex.def)             Requested size: 452.96788pt x 145.53284pt.
+ <roc.png, id=1091, 1320.935pt x 545.03625pt>
+File: roc.png Graphic file (type png)
+ <use roc.png>
+Package pdftex.def Info: roc.png used on input line 4738.
+(pdftex.def)             Requested size: 1320.93178pt x 545.03493pt.
+File: roc.png Graphic file (type png)
+
+<use roc.png>
+Package pdftex.def Info: roc.png used on input line 4738.
+(pdftex.def)             Requested size: 452.96788pt x 186.89833pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[84] <rf_cm_c3.png, id=1117, 341.275pt x 295.1025pt>
-File: rf_cm_c3.png Graphic file (type png)
- <use rf_cm_c3.png>
-Package pdftex.def Info: rf_cm_c3.png used on input line 4734.
-(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
-File: rf_cm_c3.png Graphic file (type png)
-
-<use rf_cm_c3.png>
-Package pdftex.def Info: rf_cm_c3.png used on input line 4734.
-(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[85]
-File: rf_cm_c3.png Graphic file (type png)
- <use rf_cm_c3.png>
-Package pdftex.def Info: rf_cm_c3.png used on input line 4755.
-(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
-File: rf_cm_c3.png Graphic file (type png)
- <use rf_cm_c3.png>
-Package pdftex.def Info: rf_cm_c3.png used on input line 4755.
-(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 4775--4778
-
+[84 <./roc_z.png>]
+Underfull \vbox (badness 10000) detected at line 4794
  []
 
 
@@ -2088,45 +2016,58 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[86 <./rf_cm_c3.png>]
+[85 <./roc.png>] <logr_b1.png, id=1105, 348.30125pt x 295.1025pt>
+File: logr_b1.png Graphic file (type png)
+
+<use logr_b1.png>
+Package pdftex.def Info: logr_b1.png used on input line 4833.
+(pdftex.def)             Requested size: 348.3004pt x 295.10176pt.
+File: logr_b1.png Graphic file (type png)
+ <use logr_b1.png>
+Package pdftex.def Info: logr_b1.png used on input line 4833.
+(pdftex.def)             Requested size: 348.3004pt x 295.10176pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[87]
-Chapter 11.
-[88
+[86 <./logr_b1.png>] <logr_b2.png, id=1111, 332.24126pt x 295.1025pt>
+File: logr_b2.png Graphic file (type png)
 
-]
+<use logr_b2.png>
+Package pdftex.def Info: logr_b2.png used on input line 4853.
+(pdftex.def)             Requested size: 332.24043pt x 295.10176pt.
+File: logr_b2.png Graphic file (type png)
+ <use logr_b2.png>
+Package pdftex.def Info: logr_b2.png used on input line 4853.
+(pdftex.def)             Requested size: 332.24043pt x 295.10176pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[89] <elbow.png, id=1154, 499.8675pt x 372.39125pt>
-File: elbow.png Graphic file (type png)
- <use elbow.png>
-Package pdftex.def Info: elbow.png used on input line 5006.
-(pdftex.def)             Requested size: 499.86627pt x 372.39034pt.
-File: elbow.png Graphic file (type png)
+[87 <./logr_b2.png>]
+Overfull \vbox (0.75742pt too high) detected at line 4961
+ []
 
-<use elbow.png>
-Package pdftex.def Info: elbow.png used on input line 5006.
-(pdftex.def)             Requested size: 452.96788pt x 337.46169pt.
- <elbow_rfm.png, id=1155, 494.84875pt x 372.39125pt>
-File: elbow_rfm.png Graphic file (type png)
 
-<use elbow_rfm.png>
-Package pdftex.def Info: elbow_rfm.png used on input line 5013.
-(pdftex.def)             Requested size: 494.84755pt x 372.39034pt.
-File: elbow_rfm.png Graphic file (type png)
- <use elbow_rfm.png>
-Package pdftex.def Info: elbow_rfm.png used on input line 5013.
-(pdftex.def)             Requested size: 452.96788pt x 340.87671pt.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
+[88]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[89]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2140,14 +2081,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[91 <./elbow.png> <./elbow_rfm.png>]
-Underfull \vbox (badness 10000) detected at line 5092
- []
-
-
-Underfull \vbox (badness 10000) detected at line 5092
- []
-
+[91]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2155,6 +2089,23 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [92]
+File: roc_z.png Graphic file (type png)
+ <use roc_z.png>
+Package pdftex.def Info: roc_z.png used on input line 5328.
+(pdftex.def)             Requested size: 1333.9805pt x 428.6002pt.
+File: roc_z.png Graphic file (type png)
+ <use roc_z.png>
+Package pdftex.def Info: roc_z.png used on input line 5328.
+(pdftex.def)             Requested size: 452.96788pt x 145.53284pt.
+File: roc.png Graphic file (type png)
+ <use roc.png>
+Package pdftex.def Info: roc.png used on input line 5336.
+(pdftex.def)             Requested size: 1320.93178pt x 545.03493pt.
+File: roc.png Graphic file (type png)
+ <use roc.png>
+Package pdftex.def Info: roc.png used on input line 5336.
+(pdftex.def)             Requested size: 452.96788pt x 186.89833pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2162,26 +2113,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [93]
+Underfull \vbox (badness 10000) detected at line 5383
+ []
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
 
-[94]
-Chapter 12.
-[95
-
-] <rfm_business.png, id=1189, 591.20876pt x 524.96124pt>
-File: rfm_business.png Graphic file (type png)
-
-<use rfm_business.png>
-Package pdftex.def Info: rfm_business.png used on input line 5262.
-(pdftex.def)             Requested size: 591.2073pt x 524.95996pt.
-File: rfm_business.png Graphic file (type png)
- <use rfm_business.png>
-Package pdftex.def Info: rfm_business.png used on input line 5262.
-(pdftex.def)             Requested size: 452.96788pt x 402.21884pt.
+Underfull \vbox (badness 10000) detected at line 5383
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2189,7 +2126,41 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[96 <./rfm_business.png (PNG copy)>]
+[94] <mlrconfu1.png, id=1161, 341.275pt x 295.1025pt>
+File: mlrconfu1.png Graphic file (type png)
+ <use mlrconfu1.png>
+Package pdftex.def Info: mlrconfu1.png used on input line 5433.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
+File: mlrconfu1.png Graphic file (type png)
+
+<use mlrconfu1.png>
+Package pdftex.def Info: mlrconfu1.png used on input line 5433.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
+ <mlrconfu2.png, id=1162, 338.26375pt x 295.1025pt>
+File: mlrconfu2.png Graphic file (type png)
+
+<use mlrconfu2.png>
+Package pdftex.def Info: mlrconfu2.png used on input line 5454.
+(pdftex.def)             Requested size: 338.26291pt x 295.10176pt.
+File: mlrconfu2.png Graphic file (type png)
+ <use mlrconfu2.png>
+Package pdftex.def Info: mlrconfu2.png used on input line 5454.
+(pdftex.def)             Requested size: 338.26291pt x 295.10176pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[95]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[96 <./mlrconfu1.png> <./mlrconfu2.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2231,15 +2202,16 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[102]
-File: elbow_rfm.png Graphic file (type png)
- <use elbow_rfm.png>
-Package pdftex.def Info: elbow_rfm.png used on input line 5750.
-(pdftex.def)             Requested size: 494.84755pt x 372.39034pt.
-File: elbow_rfm.png Graphic file (type png)
- <use elbow_rfm.png>
-Package pdftex.def Info: elbow_rfm.png used on input line 5750.
-(pdftex.def)             Requested size: 452.96788pt x 340.87671pt.
+[102] <dt_cm_c3.png, id=1212, 341.275pt x 295.1025pt>
+File: dt_cm_c3.png Graphic file (type png)
+ <use dt_cm_c3.png>
+Package pdftex.def Info: dt_cm_c3.png used on input line 5956.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
+File: dt_cm_c3.png Graphic file (type png)
+
+<use dt_cm_c3.png>
+Package pdftex.def Info: dt_cm_c3.png used on input line 5956.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2247,13 +2219,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[103]
-Underfull \vbox (badness 10000) detected at line 5831
- []
-
-
-Underfull \vbox (badness 10000) detected at line 5831
- []
+[103 <./dt_cm_c3.png>]
+File: dt_cm_c3.png Graphic file (type png)
+ <use dt_cm_c3.png>
+Package pdftex.def Info: dt_cm_c3.png used on input line 5977.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
+File: dt_cm_c3.png Graphic file (type png)
+ <use dt_cm_c3.png>
+Package pdftex.def Info: dt_cm_c3.png used on input line 5977.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2262,6 +2236,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [104]
+Overfull \vbox (2.03726pt too high) detected at line 6095
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2276,20 +2253,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [106]
-Chapter 13.
-<sen_word_freq.png, id=1260, 1283.79625pt x 611.28375pt>
-File: sen_word_freq.png Graphic file (type png)
 
-<use sen_word_freq.png>
-Package pdftex.def Info: sen_word_freq.png used on input line 5968.
-(pdftex.def)             Requested size: 1283.79312pt x 611.28226pt.
-File: sen_word_freq.png Graphic file (type png)
- <use sen_word_freq.png>
-Package pdftex.def Info: sen_word_freq.png used on input line 5968.
-(pdftex.def)             Requested size: 452.96788pt x 215.67809pt.
- [107
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
- <./sen_word_freq.png>]
+[107]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2303,16 +2273,35 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[109] <noised.jpg, id=1277, 120.45pt x 60.225pt>
-File: noised.jpg Graphic file (type jpg)
- <use noised.jpg>
-Package pdftex.def Info: noised.jpg used on input line 6149.
-(pdftex.def)             Requested size: 120.44969pt x 60.22484pt.
-File: noised.jpg Graphic file (type jpg)
+[109]
 
-<use noised.jpg>
-Package pdftex.def Info: noised.jpg used on input line 6149.
-(pdftex.def)             Requested size: 120.44969pt x 60.22484pt.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[110] <rf_cm_c3.png, id=1262, 341.275pt x 295.1025pt>
+File: rf_cm_c3.png Graphic file (type png)
+ <use rf_cm_c3.png>
+Package pdftex.def Info: rf_cm_c3.png used on input line 6478.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
+File: rf_cm_c3.png Graphic file (type png)
+
+<use rf_cm_c3.png>
+Package pdftex.def Info: rf_cm_c3.png used on input line 6478.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
+File: rf_cm_c3.png Graphic file (type png)
+ <use rf_cm_c3.png>
+Package pdftex.def Info: rf_cm_c3.png used on input line 6499.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
+File: rf_cm_c3.png Graphic file (type png)
+ <use rf_cm_c3.png>
+Package pdftex.def Info: rf_cm_c3.png used on input line 6499.
+(pdftex.def)             Requested size: 341.27415pt x 295.10176pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 6519--6522
+
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2320,14 +2309,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[110 <./noised.jpg>]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[111]
+[111 <./rf_cm_c3.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2355,24 +2337,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[115] <text_classification.png, id=1305, 1464.47125pt x 522.95375pt>
-File: text_classification.png Graphic file (type png)
-
-<use text_classification.png>
-Package pdftex.def Info: text_classification.png used on input line 6547.
-(pdftex.def)             Requested size: 1464.46768pt x 522.95247pt.
-File: text_classification.png Graphic file (type png)
- <use text_classification.png>
-Package pdftex.def Info: text_classification.png used on input line 6547.
-(pdftex.def)             Requested size: 452.96788pt x 161.7549pt.
-
+[115]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[116 <./text_classification.png>]
+[116]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2380,6 +2352,23 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [117]
+File: roc_z.png Graphic file (type png)
+ <use roc_z.png>
+Package pdftex.def Info: roc_z.png used on input line 6989.
+(pdftex.def)             Requested size: 1333.9805pt x 428.6002pt.
+File: roc_z.png Graphic file (type png)
+ <use roc_z.png>
+Package pdftex.def Info: roc_z.png used on input line 6989.
+(pdftex.def)             Requested size: 452.96788pt x 145.53284pt.
+File: roc.png Graphic file (type png)
+ <use roc.png>
+Package pdftex.def Info: roc.png used on input line 6997.
+(pdftex.def)             Requested size: 1320.93178pt x 545.03493pt.
+File: roc.png Graphic file (type png)
+ <use roc.png>
+Package pdftex.def Info: roc.png used on input line 6997.
+(pdftex.def)             Requested size: 452.96788pt x 186.89833pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2393,35 +2382,16 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[119] <sen_class.png, id=1337, 1282.7925pt x 610.28pt>
-File: sen_class.png Graphic file (type png)
- <use sen_class.png>
-Package pdftex.def Info: sen_class.png used on input line 6926.
-(pdftex.def)             Requested size: 1282.78937pt x 610.2785pt.
-File: sen_class.png Graphic file (type png)
+[119] <nb_c1.png, id=1319, 336.25626pt x 295.1025pt>
+File: nb_c1.png Graphic file (type png)
+ <use nb_c1.png>
+Package pdftex.def Info: nb_c1.png used on input line 7092.
+(pdftex.def)             Requested size: 336.25543pt x 295.10176pt.
+File: nb_c1.png Graphic file (type png)
 
-<use sen_class.png>
-Package pdftex.def Info: sen_class.png used on input line 6926.
-(pdftex.def)             Requested size: 452.96788pt x 215.49155pt.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[120] <sentiment_analysis_pipeline.png, id=1346, 523.9575pt x 79.04532pt>
-File: sentiment_analysis_pipeline.png Graphic file (type png)
-
-<use sentiment_analysis_pipeline.png>
-Package pdftex.def Info: sentiment_analysis_pipeline.png used on input line 695
-5.
-(pdftex.def)             Requested size: 523.95622pt x 79.0451pt.
-File: sentiment_analysis_pipeline.png Graphic file (type png)
- <use sentiment_analysis_pipeline.png>
-Package pdftex.def Info: sentiment_analysis_pipeline.png used on input line 695
-5.
-(pdftex.def)             Requested size: 452.96788pt x 68.33705pt.
+<use nb_c1.png>
+Package pdftex.def Info: nb_c1.png used on input line 7092.
+(pdftex.def)             Requested size: 336.25543pt x 295.10176pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2429,21 +2399,55 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[121 <./sen_class.png> <./sentiment_analysis_pipeline.png>]
+[120 <./nb_c1.png>] <nb_c2.png, id=1325, 339.2675pt x 295.1025pt>
+File: nb_c2.png Graphic file (type png)
+
+<use nb_c2.png>
+Package pdftex.def Info: nb_c2.png used on input line 7112.
+(pdftex.def)             Requested size: 339.26666pt x 295.10176pt.
+File: nb_c2.png Graphic file (type png)
+ <use nb_c2.png>
+Package pdftex.def Info: nb_c2.png used on input line 7112.
+(pdftex.def)             Requested size: 339.26666pt x 295.10176pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[122]
+[121 <./nb_c2.png>]
+Chapter 11.
+[122
+
+]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[123]
+[123] <elbow.png, id=1347, 499.8675pt x 372.39125pt>
+File: elbow.png Graphic file (type png)
+ <use elbow.png>
+Package pdftex.def Info: elbow.png used on input line 7325.
+(pdftex.def)             Requested size: 499.86627pt x 372.39034pt.
+File: elbow.png Graphic file (type png)
+
+<use elbow.png>
+Package pdftex.def Info: elbow.png used on input line 7325.
+(pdftex.def)             Requested size: 452.96788pt x 337.46169pt.
+ <elbow_rfm.png, id=1348, 494.84875pt x 372.39125pt>
+File: elbow_rfm.png Graphic file (type png)
+
+<use elbow_rfm.png>
+Package pdftex.def Info: elbow_rfm.png used on input line 7332.
+(pdftex.def)             Requested size: 494.84755pt x 372.39034pt.
+File: elbow_rfm.png Graphic file (type png)
+ <use elbow_rfm.png>
+Package pdftex.def Info: elbow_rfm.png used on input line 7332.
+(pdftex.def)             Requested size: 452.96788pt x 340.87671pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2451,40 +2455,19 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [124]
-File: sen_word_freq.png Graphic file (type png)
- <use sen_word_freq.png>
-Package pdftex.def Info: sen_word_freq.png used on input line 7225.
-(pdftex.def)             Requested size: 1283.79312pt x 611.28226pt.
-File: sen_word_freq.png Graphic file (type png)
- <use sen_word_freq.png>
-Package pdftex.def Info: sen_word_freq.png used on input line 7225.
-(pdftex.def)             Requested size: 452.96788pt x 215.67809pt.
-File: sen_class.png Graphic file (type png)
- <use sen_class.png>
-Package pdftex.def Info: sen_class.png used on input line 7261.
-(pdftex.def)             Requested size: 1282.78937pt x 610.2785pt.
-File: sen_class.png Graphic file (type png)
-
-<use sen_class.png>
-Package pdftex.def Info: sen_class.png used on input line 7261.
-(pdftex.def)             Requested size: 452.96788pt x 215.49155pt.
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[125] <topic_time.png, id=1377, 1160.335pt x 482.80376pt>
-File: topic_time.png Graphic file (type png)
- <use topic_time.png>
-Package pdftex.def Info: topic_time.png used on input line 7318.
-(pdftex.def)             Requested size: 1160.33217pt x 482.80258pt.
-File: topic_time.png Graphic file (type png)
+[125 <./elbow.png> <./elbow_rfm.png>]
+Underfull \vbox (badness 10000) detected at line 7411
+ []
 
-<use topic_time.png>
-Package pdftex.def Info: topic_time.png used on input line 7318.
-(pdftex.def)             Requested size: 452.96788pt x 188.47688pt.
+
+Underfull \vbox (badness 10000) detected at line 7411
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2499,7 +2482,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[127 <./topic_time.png>]
+[127]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2507,13 +2490,30 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [128]
+Chapter 12.
+<rfm_business.png, id=1375, 591.20876pt x 524.96124pt>
+File: rfm_business.png Graphic file (type png)
+ <use rfm_business.png>
+Package pdftex.def Info: rfm_business.png used on input line 7509.
+(pdftex.def)             Requested size: 591.2073pt x 524.95996pt.
+File: rfm_business.png Graphic file (type png)
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
+<use rfm_business.png>
+Package pdftex.def Info: rfm_business.png used on input line 7509.
+(pdftex.def)             Requested size: 452.96788pt x 402.21884pt.
+ [129
 
-[129]
+ <./rfm_business.png (PNG copy)>]
+File: rfm_business.png Graphic file (type png)
+
+<use rfm_business.png>
+Package pdftex.def Info: rfm_business.png used on input line 7588.
+(pdftex.def)             Requested size: 591.2073pt x 524.95996pt.
+File: rfm_business.png Graphic file (type png)
+ <use rfm_business.png>
+Package pdftex.def Info: rfm_business.png used on input line 7588.
+(pdftex.def)             Requested size: 452.96788pt x 402.21884pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2555,46 +2555,29 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[135] <avg_rating_airlines.png, id=1428, 1284.8pt x 494.84875pt>
-File: avg_rating_airlines.png Graphic file (type png)
+[135]
 
-<use avg_rating_airlines.png>
-Package pdftex.def Info: avg_rating_airlines.png used on input line 7993.
-(pdftex.def)             Requested size: 1284.79688pt x 494.84755pt.
-File: avg_rating_airlines.png Graphic file (type png)
- <use avg_rating_airlines.png>
-Package pdftex.def Info: avg_rating_airlines.png used on input line 7993.
-(pdftex.def)             Requested size: 452.96788pt x 174.46063pt.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-<avg_rating_mon.png, id=1429, 1287.81125pt x 481.8pt>
-File: avg_rating_mon.png Graphic file (type png)
- <use avg_rating_mon.png>
-Package pdftex.def Info: avg_rating_mon.png used on input line 8003.
-(pdftex.def)             Requested size: 1287.80812pt x 481.79881pt.
-File: avg_rating_mon.png Graphic file (type png)
+[136]
 
-<use avg_rating_mon.png>
-Package pdftex.def Info: avg_rating_mon.png used on input line 8003.
-(pdftex.def)             Requested size: 452.96788pt x 169.46326pt.
-File: topic_time.png Graphic file (type png)
- <use topic_time.png>
-Package pdftex.def Info: topic_time.png used on input line 8013.
-(pdftex.def)             Requested size: 1160.33217pt x 482.80258pt.
-File: topic_time.png Graphic file (type png)
- <use topic_time.png>
-Package pdftex.def Info: topic_time.png used on input line 8013.
-(pdftex.def)             Requested size: 452.96788pt x 188.47688pt.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-<review2topic.png, id=1430, 1112.155pt x 334.24875pt>
-File: review2topic.png Graphic file (type png)
- <use review2topic.png>
-Package pdftex.def Info: review2topic.png used on input line 8023.
-(pdftex.def)             Requested size: 1112.1523pt x 334.24792pt.
-File: review2topic.png Graphic file (type png)
-
-<use review2topic.png>
-Package pdftex.def Info: review2topic.png used on input line 8023.
-(pdftex.def)             Requested size: 452.96788pt x 136.13503pt.
+[137]
+File: elbow_rfm.png Graphic file (type png)
+ <use elbow_rfm.png>
+Package pdftex.def Info: elbow_rfm.png used on input line 8076.
+(pdftex.def)             Requested size: 494.84755pt x 372.39034pt.
+File: elbow_rfm.png Graphic file (type png)
+ <use elbow_rfm.png>
+Package pdftex.def Info: elbow_rfm.png used on input line 8076.
+(pdftex.def)             Requested size: 452.96788pt x 340.87671pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2602,38 +2585,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[136 <./avg_rating_airlines.png> <./avg_rating_mon.png>]
+[138]
+Underfull \vbox (badness 10000) detected at line 8157
+ []
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
 
-[137 <./review2topic.png>]
-Chapter 14.
-<net_work.png, id=1442, 837.1275pt x 541.02126pt>
-File: net_work.png Graphic file (type png)
- <use net_work.png>
-Package pdftex.def Info: net_work.png used on input line 8035.
-(pdftex.def)             Requested size: 837.12546pt x 541.01993pt.
-File: net_work.png Graphic file (type png)
-
-<use net_work.png>
-Package pdftex.def Info: net_work.png used on input line 8035.
-(pdftex.def)             Requested size: 452.96788pt x 292.7415pt.
- [138
-
- <./net_work.png>]
-<demo_freq.png, id=1449, 1282.7925pt x 561.09625pt>
-File: demo_freq.png Graphic file (type png)
- <use demo_freq.png>
-Package pdftex.def Info: demo_freq.png used on input line 8099.
-(pdftex.def)             Requested size: 1282.78937pt x 561.09488pt.
-File: demo_freq.png Graphic file (type png)
-
-<use demo_freq.png>
-Package pdftex.def Info: demo_freq.png used on input line 8099.
-(pdftex.def)             Requested size: 452.96788pt x 198.12463pt.
+Underfull \vbox (badness 10000) detected at line 8157
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2641,23 +2599,58 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[139 <./demo_freq.png>]
+[139]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[140] <freq_word_ze.png, id=1464, 1280.785pt x 548.0475pt>
-File: freq_word_ze.png Graphic file (type png)
+[140]
 
-<use freq_word_ze.png>
-Package pdftex.def Info: freq_word_ze.png used on input line 8237.
-(pdftex.def)             Requested size: 1280.78188pt x 548.04616pt.
-File: freq_word_ze.png Graphic file (type png)
- <use freq_word_ze.png>
-Package pdftex.def Info: freq_word_ze.png used on input line 8237.
-(pdftex.def)             Requested size: 452.96788pt x 193.81813pt.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[141]
+Chapter 13.
+<sen_word_freq.png, id=1458, 1283.79625pt x 611.28375pt>
+File: sen_word_freq.png Graphic file (type png)
+
+<use sen_word_freq.png>
+Package pdftex.def Info: sen_word_freq.png used on input line 8294.
+(pdftex.def)             Requested size: 1283.79312pt x 611.28226pt.
+File: sen_word_freq.png Graphic file (type png)
+ <use sen_word_freq.png>
+Package pdftex.def Info: sen_word_freq.png used on input line 8294.
+(pdftex.def)             Requested size: 452.96788pt x 215.67809pt.
+ [142
+
+ <./sen_word_freq.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[143]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[144] <noised.jpg, id=1473, 120.45pt x 60.225pt>
+File: noised.jpg Graphic file (type jpg)
+ <use noised.jpg>
+Package pdftex.def Info: noised.jpg used on input line 8475.
+(pdftex.def)             Requested size: 120.44969pt x 60.22484pt.
+File: noised.jpg Graphic file (type jpg)
+
+<use noised.jpg>
+Package pdftex.def Info: noised.jpg used on input line 8475.
+(pdftex.def)             Requested size: 120.44969pt x 60.22484pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2665,52 +2658,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[141 <./freq_word_ze.png>] <netfreq.png, id=1470, 912.40875pt x 696.6025pt>
-File: netfreq.png Graphic file (type png)
-
-<use netfreq.png>
-Package pdftex.def Info: netfreq.png used on input line 8268.
-(pdftex.def)             Requested size: 912.40652pt x 696.6008pt.
-File: netfreq.png Graphic file (type png)
- <use netfreq.png>
-Package pdftex.def Info: netfreq.png used on input line 8268.
-(pdftex.def)             Requested size: 452.96788pt x 345.82378pt.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[142 <./netfreq.png>]
-Chapter 15.
-[143
-
-]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[144]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[145]
-! FancyVerb Error:
-  Empty verbatim environment
-.
-\FV@Error ... {FancyVerb Error:
-\space \space #1
-}
-                                                  
-l.8493 \end{Verbatim}
-                     
-? 
+[145 <./noised.jpg>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2739,59 +2687,30 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [149]
-Chapter 16.
-<casino_5_100.png, id=1516, 617.30624pt x 390.45876pt>
-File: casino_5_100.png Graphic file (type png)
- <use casino_5_100.png>
-Package pdftex.def Info: casino_5_100.png used on input line 8799.
-(pdftex.def)             Requested size: 617.30473pt x 390.4578pt.
-File: casino_5_100.png Graphic file (type png)
-
-<use casino_5_100.png>
-Package pdftex.def Info: casino_5_100.png used on input line 8799.
-(pdftex.def)             Requested size: 452.96788pt x 286.52199pt.
-
-<casino_100_1000.png, id=1517, 619.31375pt x 390.45876pt>
-File: casino_100_1000.png Graphic file (type png)
-
-<use casino_100_1000.png>
-Package pdftex.def Info: casino_100_1000.png used on input line 8804.
-(pdftex.def)             Requested size: 619.31224pt x 390.4578pt.
-File: casino_100_1000.png Graphic file (type png)
- <use casino_100_1000.png>
-Package pdftex.def Info: casino_100_1000.png used on input line 8804.
-(pdftex.def)             Requested size: 452.96788pt x 285.59256pt.
- [150
-
-]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[151 <./casino_5_100.png> <./casino_100_1000.png>]
-<baba_history.png, id=1531, 617.30624pt x 391.4625pt>
-File: baba_history.png Graphic file (type png)
- <use baba_history.png>
-Package pdftex.def Info: baba_history.png used on input line 8880.
-(pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
-File: baba_history.png Graphic file (type png)
+[150] <text_classification.png, id=1501, 1464.47125pt x 522.95375pt>
+File: text_classification.png Graphic file (type png)
 
-<use baba_history.png>
-Package pdftex.def Info: baba_history.png used on input line 8880.
-(pdftex.def)             Requested size: 452.96788pt x 287.25854pt.
- <baba_history_vol.png, id=1532, 614.295pt x 391.4625pt>
-File: baba_history_vol.png Graphic file (type png)
+<use text_classification.png>
+Package pdftex.def Info: text_classification.png used on input line 8873.
+(pdftex.def)             Requested size: 1464.46768pt x 522.95247pt.
+File: text_classification.png Graphic file (type png)
+ <use text_classification.png>
+Package pdftex.def Info: text_classification.png used on input line 8873.
+(pdftex.def)             Requested size: 452.96788pt x 161.7549pt.
 
-<use baba_history_vol.png>
-Package pdftex.def Info: baba_history_vol.png used on input line 8886.
-(pdftex.def)             Requested size: 614.29349pt x 391.46153pt.
-File: baba_history_vol.png Graphic file (type png)
- <use baba_history_vol.png>
-Package pdftex.def Info: baba_history_vol.png used on input line 8886.
-(pdftex.def)             Requested size: 452.96788pt x 288.65628pt.
 
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[151 <./text_classification.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2805,52 +2724,23 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[153 <./baba_history.png> <./baba_history_vol.png>]
+[153]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[154]
+[154] <sen_class.png, id=1535, 1282.7925pt x 610.28pt>
+File: sen_class.png Graphic file (type png)
+ <use sen_class.png>
+Package pdftex.def Info: sen_class.png used on input line 9252.
+(pdftex.def)             Requested size: 1282.78937pt x 610.2785pt.
+File: sen_class.png Graphic file (type png)
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[155] <baba_sim_price_demo.png, id=1568, 618.31pt x 391.4625pt>
-File: baba_sim_price_demo.png Graphic file (type png)
-
-<use baba_sim_price_demo.png>
-Package pdftex.def Info: baba_sim_price_demo.png used on input line 9080.
-(pdftex.def)             Requested size: 618.30849pt x 391.46153pt.
-File: baba_sim_price_demo.png Graphic file (type png)
- <use baba_sim_price_demo.png>
-Package pdftex.def Info: baba_sim_price_demo.png used on input line 9080.
-(pdftex.def)             Requested size: 452.96788pt x 286.79263pt.
-
-<baba_sim_price.png, id=1569, 603.25375pt x 377.41pt>
-File: baba_sim_price.png Graphic file (type png)
- <use baba_sim_price.png>
-Package pdftex.def Info: baba_sim_price.png used on input line 9089.
-(pdftex.def)             Requested size: 603.25227pt x 377.40907pt.
-File: baba_sim_price.png Graphic file (type png)
-
-<use baba_sim_price.png>
-Package pdftex.def Info: baba_sim_price.png used on input line 9089.
-(pdftex.def)             Requested size: 452.96788pt x 283.38506pt.
-
-<baba_sim_dis1.png, id=1570, 617.30624pt x 391.4625pt>
-File: baba_sim_dis1.png Graphic file (type png)
- <use baba_sim_dis1.png>
-Package pdftex.def Info: baba_sim_dis1.png used on input line 9095.
-(pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
-File: baba_sim_dis1.png Graphic file (type png)
-
-<use baba_sim_dis1.png>
-Package pdftex.def Info: baba_sim_dis1.png used on input line 9095.
-(pdftex.def)             Requested size: 452.96788pt x 287.25854pt.
+<use sen_class.png>
+Package pdftex.def Info: sen_class.png used on input line 9252.
+(pdftex.def)             Requested size: 452.96788pt x 215.49155pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2858,38 +2748,82 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[156]
+[155] <sentiment_analysis_pipeline.png, id=1544, 523.9575pt x 79.04532pt>
+File: sentiment_analysis_pipeline.png Graphic file (type png)
+
+<use sentiment_analysis_pipeline.png>
+Package pdftex.def Info: sentiment_analysis_pipeline.png used on input line 928
+1.
+(pdftex.def)             Requested size: 523.95622pt x 79.0451pt.
+File: sentiment_analysis_pipeline.png Graphic file (type png)
+ <use sentiment_analysis_pipeline.png>
+Package pdftex.def Info: sentiment_analysis_pipeline.png used on input line 928
+1.
+(pdftex.def)             Requested size: 452.96788pt x 68.33705pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[157 <./baba_sim_price_demo.png> <./baba_sim_price.png>]
+[156 <./sen_class.png> <./sentiment_analysis_pipeline.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[158 <./baba_sim_dis1.png>]
-Chapter 17.
-[159
+[157]
 
-]
-Chapter 18.
-<fnn.png, id=1600, 907.39pt x 357.335pt>
-File: fnn.png Graphic file (type png)
- <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 9126.
-(pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
-File: fnn.png Graphic file (type png)
- <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 9126.
-(pdftex.def)             Requested size: 452.96788pt x 178.38353pt.
- [160
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
- <./fnn.png>]
+[158]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[159]
+File: sen_word_freq.png Graphic file (type png)
+ <use sen_word_freq.png>
+Package pdftex.def Info: sen_word_freq.png used on input line 9551.
+(pdftex.def)             Requested size: 1283.79312pt x 611.28226pt.
+File: sen_word_freq.png Graphic file (type png)
+ <use sen_word_freq.png>
+Package pdftex.def Info: sen_word_freq.png used on input line 9551.
+(pdftex.def)             Requested size: 452.96788pt x 215.67809pt.
+File: sen_class.png Graphic file (type png)
+ <use sen_class.png>
+Package pdftex.def Info: sen_class.png used on input line 9587.
+(pdftex.def)             Requested size: 1282.78937pt x 610.2785pt.
+File: sen_class.png Graphic file (type png)
+
+<use sen_class.png>
+Package pdftex.def Info: sen_class.png used on input line 9587.
+(pdftex.def)             Requested size: 452.96788pt x 215.49155pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[160] <topic_time.png, id=1575, 1160.335pt x 482.80376pt>
+File: topic_time.png Graphic file (type png)
+ <use topic_time.png>
+Package pdftex.def Info: topic_time.png used on input line 9644.
+(pdftex.def)             Requested size: 1160.33217pt x 482.80258pt.
+File: topic_time.png Graphic file (type png)
+
+<use topic_time.png>
+Package pdftex.def Info: topic_time.png used on input line 9644.
+(pdftex.def)             Requested size: 452.96788pt x 188.47688pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2903,11 +2837,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[162]
-Chapter 19.
-[163
+[162 <./topic_time.png>]
 
-]
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[163]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2922,16 +2859,445 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [165]
-Chapter 20.
-[166
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[166]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[167]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[168]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[169]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[170] <avg_rating_airlines.png, id=1625, 1284.8pt x 494.84875pt>
+File: avg_rating_airlines.png Graphic file (type png)
+
+<use avg_rating_airlines.png>
+Package pdftex.def Info: avg_rating_airlines.png used on input line 10319.
+(pdftex.def)             Requested size: 1284.79688pt x 494.84755pt.
+File: avg_rating_airlines.png Graphic file (type png)
+ <use avg_rating_airlines.png>
+Package pdftex.def Info: avg_rating_airlines.png used on input line 10319.
+(pdftex.def)             Requested size: 452.96788pt x 174.46063pt.
+
+<avg_rating_mon.png, id=1626, 1287.81125pt x 481.8pt>
+File: avg_rating_mon.png Graphic file (type png)
+ <use avg_rating_mon.png>
+Package pdftex.def Info: avg_rating_mon.png used on input line 10329.
+(pdftex.def)             Requested size: 1287.80812pt x 481.79881pt.
+File: avg_rating_mon.png Graphic file (type png)
+
+<use avg_rating_mon.png>
+Package pdftex.def Info: avg_rating_mon.png used on input line 10329.
+(pdftex.def)             Requested size: 452.96788pt x 169.46326pt.
+File: topic_time.png Graphic file (type png)
+ <use topic_time.png>
+Package pdftex.def Info: topic_time.png used on input line 10339.
+(pdftex.def)             Requested size: 1160.33217pt x 482.80258pt.
+File: topic_time.png Graphic file (type png)
+ <use topic_time.png>
+Package pdftex.def Info: topic_time.png used on input line 10339.
+(pdftex.def)             Requested size: 452.96788pt x 188.47688pt.
+
+<review2topic.png, id=1627, 1112.155pt x 334.24875pt>
+File: review2topic.png Graphic file (type png)
+ <use review2topic.png>
+Package pdftex.def Info: review2topic.png used on input line 10349.
+(pdftex.def)             Requested size: 1112.1523pt x 334.24792pt.
+File: review2topic.png Graphic file (type png)
+
+<use review2topic.png>
+Package pdftex.def Info: review2topic.png used on input line 10349.
+(pdftex.def)             Requested size: 452.96788pt x 136.13503pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[171 <./avg_rating_airlines.png> <./avg_rating_mon.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[172 <./review2topic.png>]
+Chapter 14.
+<net_work.png, id=1639, 837.1275pt x 541.02126pt>
+File: net_work.png Graphic file (type png)
+ <use net_work.png>
+Package pdftex.def Info: net_work.png used on input line 10361.
+(pdftex.def)             Requested size: 837.12546pt x 541.01993pt.
+File: net_work.png Graphic file (type png)
+
+<use net_work.png>
+Package pdftex.def Info: net_work.png used on input line 10361.
+(pdftex.def)             Requested size: 452.96788pt x 292.7415pt.
+ [173
+
+ <./net_work.png>]
+<demo_freq.png, id=1646, 1282.7925pt x 561.09625pt>
+File: demo_freq.png Graphic file (type png)
+ <use demo_freq.png>
+Package pdftex.def Info: demo_freq.png used on input line 10425.
+(pdftex.def)             Requested size: 1282.78937pt x 561.09488pt.
+File: demo_freq.png Graphic file (type png)
+
+<use demo_freq.png>
+Package pdftex.def Info: demo_freq.png used on input line 10425.
+(pdftex.def)             Requested size: 452.96788pt x 198.12463pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[174 <./demo_freq.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[175] <freq_word_ze.png, id=1661, 1280.785pt x 548.0475pt>
+File: freq_word_ze.png Graphic file (type png)
+
+<use freq_word_ze.png>
+Package pdftex.def Info: freq_word_ze.png used on input line 10563.
+(pdftex.def)             Requested size: 1280.78188pt x 548.04616pt.
+File: freq_word_ze.png Graphic file (type png)
+ <use freq_word_ze.png>
+Package pdftex.def Info: freq_word_ze.png used on input line 10563.
+(pdftex.def)             Requested size: 452.96788pt x 193.81813pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[176 <./freq_word_ze.png>] <netfreq.png, id=1668, 912.40875pt x 696.6025pt>
+File: netfreq.png Graphic file (type png)
+
+<use netfreq.png>
+Package pdftex.def Info: netfreq.png used on input line 10594.
+(pdftex.def)             Requested size: 912.40652pt x 696.6008pt.
+File: netfreq.png Graphic file (type png)
+ <use netfreq.png>
+Package pdftex.def Info: netfreq.png used on input line 10594.
+(pdftex.def)             Requested size: 452.96788pt x 345.82378pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[177 <./netfreq.png>]
+Chapter 15.
+<stock_portfolio.png, id=1676, 739.76375pt x 457.71pt>
+File: stock_portfolio.png Graphic file (type png)
+
+<use stock_portfolio.png>
+Package pdftex.def Info: stock_portfolio.png used on input line 10608.
+(pdftex.def)             Requested size: 739.76193pt x 457.7089pt.
+File: stock_portfolio.png Graphic file (type png)
+ <use stock_portfolio.png>
+Package pdftex.def Info: stock_portfolio.png used on input line 10608.
+(pdftex.def)             Requested size: 452.96788pt x 280.26428pt.
+ [178
+
+ <./stock_portfolio.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[179]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[180]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[181]
+! FancyVerb Error:
+  Empty verbatim environment
+.
+\FV@Error ... {FancyVerb Error:
+\space \space #1
+}
+                                                  
+l.10866 \end{Verbatim}
+                      
+? 
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[182]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[183]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[184]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[185]
+Chapter 16.
+<baba_sim_price.png, id=1718, 603.25375pt x 377.41pt>
+File: baba_sim_price.png Graphic file (type png)
+ <use baba_sim_price.png>
+Package pdftex.def Info: baba_sim_price.png used on input line 11135.
+(pdftex.def)             Requested size: 603.25227pt x 377.40907pt.
+File: baba_sim_price.png Graphic file (type png)
+
+<use baba_sim_price.png>
+Package pdftex.def Info: baba_sim_price.png used on input line 11135.
+(pdftex.def)             Requested size: 452.96788pt x 283.38506pt.
+ [186
+
+ <./baba_sim_price.png>]
+<casino_5_100.png, id=1727, 617.30624pt x 390.45876pt>
+File: casino_5_100.png Graphic file (type png)
+ <use casino_5_100.png>
+Package pdftex.def Info: casino_5_100.png used on input line 11177.
+(pdftex.def)             Requested size: 617.30473pt x 390.4578pt.
+File: casino_5_100.png Graphic file (type png)
+
+<use casino_5_100.png>
+Package pdftex.def Info: casino_5_100.png used on input line 11177.
+(pdftex.def)             Requested size: 452.96788pt x 286.52199pt.
+
+<casino_100_1000.png, id=1728, 619.31375pt x 390.45876pt>
+File: casino_100_1000.png Graphic file (type png)
+
+<use casino_100_1000.png>
+Package pdftex.def Info: casino_100_1000.png used on input line 11182.
+(pdftex.def)             Requested size: 619.31224pt x 390.4578pt.
+File: casino_100_1000.png Graphic file (type png)
+ <use casino_100_1000.png>
+Package pdftex.def Info: casino_100_1000.png used on input line 11182.
+(pdftex.def)             Requested size: 452.96788pt x 285.59256pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[187 <./casino_5_100.png>]
+Overfull \vbox (1.1504pt too high) detected at line 11253
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[188 <./casino_100_1000.png>]
+<baba_history.png, id=1744, 617.30624pt x 391.4625pt>
+File: baba_history.png Graphic file (type png)
+ <use baba_history.png>
+Package pdftex.def Info: baba_history.png used on input line 11258.
+(pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
+File: baba_history.png Graphic file (type png)
+
+<use baba_history.png>
+Package pdftex.def Info: baba_history.png used on input line 11258.
+(pdftex.def)             Requested size: 452.96788pt x 287.25854pt.
+ <baba_history_vol.png, id=1745, 614.295pt x 391.4625pt>
+File: baba_history_vol.png Graphic file (type png)
+
+<use baba_history_vol.png>
+Package pdftex.def Info: baba_history_vol.png used on input line 11264.
+(pdftex.def)             Requested size: 614.29349pt x 391.46153pt.
+File: baba_history_vol.png Graphic file (type png)
+ <use baba_history_vol.png>
+Package pdftex.def Info: baba_history_vol.png used on input line 11264.
+(pdftex.def)             Requested size: 452.96788pt x 288.65628pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[189 <./baba_history.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[190 <./baba_history_vol.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[191] <baba_sim_price_demo.png, id=1772, 618.31pt x 391.4625pt>
+File: baba_sim_price_demo.png Graphic file (type png)
+
+<use baba_sim_price_demo.png>
+Package pdftex.def Info: baba_sim_price_demo.png used on input line 11458.
+(pdftex.def)             Requested size: 618.30849pt x 391.46153pt.
+File: baba_sim_price_demo.png Graphic file (type png)
+ <use baba_sim_price_demo.png>
+Package pdftex.def Info: baba_sim_price_demo.png used on input line 11458.
+(pdftex.def)             Requested size: 452.96788pt x 286.79263pt.
+File: baba_sim_price.png Graphic file (type png)
+
+<use baba_sim_price.png>
+Package pdftex.def Info: baba_sim_price.png used on input line 11467.
+(pdftex.def)             Requested size: 603.25227pt x 377.40907pt.
+File: baba_sim_price.png Graphic file (type png)
+ <use baba_sim_price.png>
+Package pdftex.def Info: baba_sim_price.png used on input line 11467.
+(pdftex.def)             Requested size: 452.96788pt x 283.38506pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[192] <baba_sim_dis1.png, id=1779, 617.30624pt x 391.4625pt>
+File: baba_sim_dis1.png Graphic file (type png)
+
+<use baba_sim_dis1.png>
+Package pdftex.def Info: baba_sim_dis1.png used on input line 11473.
+(pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
+File: baba_sim_dis1.png Graphic file (type png)
+ <use baba_sim_dis1.png>
+Package pdftex.def Info: baba_sim_dis1.png used on input line 11473.
+(pdftex.def)             Requested size: 452.96788pt x 287.25854pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[193 <./baba_sim_price_demo.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[194 <./baba_sim_dis1.png>]
+Chapter 17.
+[195
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 9418--9420
+Chapter 18.
+<fnn.png, id=1804, 907.39pt x 357.335pt>
+File: fnn.png Graphic file (type png)
+ <use fnn.png>
+Package pdftex.def Info: fnn.png used on input line 11506.
+(pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
+File: fnn.png Graphic file (type png)
+ <use fnn.png>
+Package pdftex.def Info: fnn.png used on input line 11506.
+(pdftex.def)             Requested size: 452.96788pt x 178.38353pt.
+ [196
+
+ <./fnn.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[197]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[198]
+Chapter 19.
+[199
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[200]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[201]
+Chapter 20.
+[202
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 11798--11800
 []\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
 ure and in-ter-nals.
  []
 
-(./pyspark.ind [167
+(./pyspark.ind [203
 
 
 ]
@@ -2941,27 +3307,28 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[168
+[204
 
-] [169
+] [205
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 9426.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 9426.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 11806.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 11806.
  (./pyspark.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 9426.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 9426.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 11806.
 
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 11806
+.
 Package rerunfilecheck Info: File `pyspark.out' has not changed.
 (rerunfilecheck)             Checksum: 8613D06A09FF05D7857307E981094585;5320.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 9426.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 11806.
  ) 
 Here is how much of TeX's memory you used:
- 11202 strings out of 493304
- 158524 string characters out of 6139871
- 363699 words of memory out of 5000000
- 13734 multiletter control sequences out of 15000+600000
+ 11305 strings out of 493304
+ 159558 string characters out of 6139871
+ 363953 words of memory out of 5000000
+ 13754 multiletter control sequences out of 15000+600000
  73520 words of font info for 102 fonts, out of 8000000 for 9000
  958 hyphenation exceptions out of 8191
  38i,18n,51p,2555b,507s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2985,10 +3352,10 @@ etic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a
 hare/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (175 pages, 6551893 bytes).
+Output written on pyspark.pdf (211 pages, 6705880 bytes).
 PDF statistics:
- 1862 PDF objects out of 2073 (max. 8388607)
- 1522 compressed objects within 16 object streams
- 541 named destinations out of 1000 (max. 500000)
- 1012 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2081 PDF objects out of 2487 (max. 8388607)
+ 1694 compressed objects within 17 object streams
+ 619 named destinations out of 1000 (max. 500000)
+ 1037 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -9,5 +9,7 @@ Monte Carlo simulations are just a way of estimating a fixed parameter by repeat
 Markov Chain Monte Carlo (MCMC) methods are used to approximate the posterior distribution of a parameter of interest by random sampling in a probabilistic space. More details can be found at `A Zero Math Introduction to Markov Chain Monte Carlo Methods`_. 
 
 
+TODO ..
+
 
 .. _A Zero Math Introduction to Markov Chain Monte Carlo Methods: https://towardsdatascience.com/a-zero-math-introduction-to-markov-chain-monte-carlo-methods-dcba889e0c50
