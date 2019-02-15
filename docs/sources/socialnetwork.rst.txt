@@ -238,6 +238,7 @@ Appendix: matrix multiplication in PySpark
 
 	from pyspark.sql import functions as F
 	from functools import reduce
+	# reference: https://stackoverflow.com/questions/44348527/matrix-multiplication-at-a-in-pyspark
 	# do the sum of the multiplication that we want, and get
 	# one data frame for each column
 	colDFs = []

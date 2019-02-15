@@ -409,6 +409,7 @@ tag 2n).</p>
 </ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
+<span class="c1"># reference: https://stackoverflow.com/questions/44348527/matrix-multiplication-at-a-in-pyspark</span>
 <span class="c1"># do the sum of the multiplication that we want, and get</span>
 <span class="c1"># one data frame for each column</span>
 <span class="n">colDFs</span> <span class="o">=</span> <span class="p">[]</span>

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  15 FEB 2019 12:25
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2018.11.1)  15 FEB 2019 13:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3033,11 +3033,11 @@ Chapter 15.
 File: stock_portfolio.png Graphic file (type png)
 
 <use stock_portfolio.png>
-Package pdftex.def Info: stock_portfolio.png used on input line 10685.
+Package pdftex.def Info: stock_portfolio.png used on input line 10686.
 (pdftex.def)             Requested size: 739.76193pt x 457.7089pt.
 File: stock_portfolio.png Graphic file (type png)
  <use stock_portfolio.png>
-Package pdftex.def Info: stock_portfolio.png used on input line 10685.
+Package pdftex.def Info: stock_portfolio.png used on input line 10686.
 (pdftex.def)             Requested size: 452.96788pt x 280.26428pt.
  [179
 
@@ -3070,7 +3070,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 \space \space #1
 }
                                                   
-l.10943 \end{Verbatim}
+l.10944 \end{Verbatim}
                       
 ? 
 
@@ -3105,12 +3105,12 @@ Chapter 16.
 <baba_sim_price.png, id=1730, 603.25375pt x 377.41pt>
 File: baba_sim_price.png Graphic file (type png)
  <use baba_sim_price.png>
-Package pdftex.def Info: baba_sim_price.png used on input line 11212.
+Package pdftex.def Info: baba_sim_price.png used on input line 11213.
 (pdftex.def)             Requested size: 603.25227pt x 377.40907pt.
 File: baba_sim_price.png Graphic file (type png)
 
 <use baba_sim_price.png>
-Package pdftex.def Info: baba_sim_price.png used on input line 11212.
+Package pdftex.def Info: baba_sim_price.png used on input line 11213.
 (pdftex.def)             Requested size: 452.96788pt x 283.38506pt.
  [187
 
@@ -3118,23 +3118,23 @@ Package pdftex.def Info: baba_sim_price.png used on input line 11212.
 <casino_5_100.png, id=1740, 617.30624pt x 390.45876pt>
 File: casino_5_100.png Graphic file (type png)
  <use casino_5_100.png>
-Package pdftex.def Info: casino_5_100.png used on input line 11254.
+Package pdftex.def Info: casino_5_100.png used on input line 11255.
 (pdftex.def)             Requested size: 617.30473pt x 390.4578pt.
 File: casino_5_100.png Graphic file (type png)
 
 <use casino_5_100.png>
-Package pdftex.def Info: casino_5_100.png used on input line 11254.
+Package pdftex.def Info: casino_5_100.png used on input line 11255.
 (pdftex.def)             Requested size: 452.96788pt x 286.52199pt.
 
 <casino_100_1000.png, id=1741, 619.31375pt x 390.45876pt>
 File: casino_100_1000.png Graphic file (type png)
 
 <use casino_100_1000.png>
-Package pdftex.def Info: casino_100_1000.png used on input line 11259.
+Package pdftex.def Info: casino_100_1000.png used on input line 11260.
 (pdftex.def)             Requested size: 619.31224pt x 390.4578pt.
 File: casino_100_1000.png Graphic file (type png)
  <use casino_100_1000.png>
-Package pdftex.def Info: casino_100_1000.png used on input line 11259.
+Package pdftex.def Info: casino_100_1000.png used on input line 11260.
 (pdftex.def)             Requested size: 452.96788pt x 285.59256pt.
 
 
@@ -3144,7 +3144,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [188 <./casino_5_100.png>]
-Overfull \vbox (1.1504pt too high) detected at line 11330
+Overfull \vbox (1.1504pt too high) detected at line 11331
  []
 
 
@@ -3157,22 +3157,22 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 <baba_history.png, id=1756, 617.30624pt x 391.4625pt>
 File: baba_history.png Graphic file (type png)
  <use baba_history.png>
-Package pdftex.def Info: baba_history.png used on input line 11335.
+Package pdftex.def Info: baba_history.png used on input line 11336.
 (pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
 File: baba_history.png Graphic file (type png)
 
 <use baba_history.png>
-Package pdftex.def Info: baba_history.png used on input line 11335.
+Package pdftex.def Info: baba_history.png used on input line 11336.
 (pdftex.def)             Requested size: 452.96788pt x 287.25854pt.
  <baba_history_vol.png, id=1757, 614.295pt x 391.4625pt>
 File: baba_history_vol.png Graphic file (type png)
 
 <use baba_history_vol.png>
-Package pdftex.def Info: baba_history_vol.png used on input line 11341.
+Package pdftex.def Info: baba_history_vol.png used on input line 11342.
 (pdftex.def)             Requested size: 614.29349pt x 391.46153pt.
 File: baba_history_vol.png Graphic file (type png)
  <use baba_history_vol.png>
-Package pdftex.def Info: baba_history_vol.png used on input line 11341.
+Package pdftex.def Info: baba_history_vol.png used on input line 11342.
 (pdftex.def)             Requested size: 452.96788pt x 288.65628pt.
 
 
@@ -3199,20 +3199,20 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: baba_sim_price_demo.png Graphic file (type png)
 
 <use baba_sim_price_demo.png>
-Package pdftex.def Info: baba_sim_price_demo.png used on input line 11535.
+Package pdftex.def Info: baba_sim_price_demo.png used on input line 11536.
 (pdftex.def)             Requested size: 618.30849pt x 391.46153pt.
 File: baba_sim_price_demo.png Graphic file (type png)
  <use baba_sim_price_demo.png>
-Package pdftex.def Info: baba_sim_price_demo.png used on input line 11535.
+Package pdftex.def Info: baba_sim_price_demo.png used on input line 11536.
 (pdftex.def)             Requested size: 452.96788pt x 286.79263pt.
 File: baba_sim_price.png Graphic file (type png)
 
 <use baba_sim_price.png>
-Package pdftex.def Info: baba_sim_price.png used on input line 11544.
+Package pdftex.def Info: baba_sim_price.png used on input line 11545.
 (pdftex.def)             Requested size: 603.25227pt x 377.40907pt.
 File: baba_sim_price.png Graphic file (type png)
  <use baba_sim_price.png>
-Package pdftex.def Info: baba_sim_price.png used on input line 11544.
+Package pdftex.def Info: baba_sim_price.png used on input line 11545.
 (pdftex.def)             Requested size: 452.96788pt x 283.38506pt.
 
 
@@ -3225,11 +3225,11 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: baba_sim_dis1.png Graphic file (type png)
 
 <use baba_sim_dis1.png>
-Package pdftex.def Info: baba_sim_dis1.png used on input line 11550.
+Package pdftex.def Info: baba_sim_dis1.png used on input line 11551.
 (pdftex.def)             Requested size: 617.30473pt x 391.46153pt.
 File: baba_sim_dis1.png Graphic file (type png)
  <use baba_sim_dis1.png>
-Package pdftex.def Info: baba_sim_dis1.png used on input line 11550.
+Package pdftex.def Info: baba_sim_dis1.png used on input line 11551.
 (pdftex.def)             Requested size: 452.96788pt x 287.25854pt.
 
 
@@ -3254,11 +3254,11 @@ Chapter 18.
 <fnn.png, id=1816, 907.39pt x 357.335pt>
 File: fnn.png Graphic file (type png)
  <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 11583.
+Package pdftex.def Info: fnn.png used on input line 11584.
 (pdftex.def)             Requested size: 907.38779pt x 357.33412pt.
 File: fnn.png Graphic file (type png)
  <use fnn.png>
-Package pdftex.def Info: fnn.png used on input line 11583.
+Package pdftex.def Info: fnn.png used on input line 11584.
 (pdftex.def)             Requested size: 452.96788pt x 178.38353pt.
  [197
 
@@ -3308,7 +3308,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [204
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 11875--11877
+Underfull \hbox (badness 10000) in paragraph at lines 11876--11878
 []\T1/ptm/m/n/10.95 Anton Kir-illov. Apache Spark: core con-cepts, ar-chi-tec-t
 ure and in-ter-nals.
  []
@@ -3328,16 +3328,16 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 11883.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 11883.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 11884.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 11884.
  (./pyspark.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 11883.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 11884.
 
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 11883
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 11884
 .
 Package rerunfilecheck Info: File `pyspark.out' has not changed.
 (rerunfilecheck)             Checksum: 539429D6AE5464029ED7893BF58359E2;5411.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 11883.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 11884.
  ) 
 Here is how much of TeX's memory you used:
  11313 strings out of 493304
@@ -3367,7 +3367,7 @@ etic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a
 hare/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on pyspark.pdf (213 pages, 6715550 bytes).
+Output written on pyspark.pdf (213 pages, 6715593 bytes).
 PDF statistics:
  2099 PDF objects out of 2487 (max. 8388607)
  1709 compressed objects within 18 object streams
