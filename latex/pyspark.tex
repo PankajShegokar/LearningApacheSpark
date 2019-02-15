@@ -10598,8 +10598,85 @@ The corresponding Co-occurrence network:
 Then you will get Figure {\hyperref[socialnetwork:fig-netfreq]{\emph{Co-occurrence network}}}
 
 
+\section{Appendix: matrix multiplication in PySpark}
+\label{socialnetwork:appendix-matrix-multiplication-in-pyspark}\begin{enumerate}
+\item {} 
+load test matrix
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{df} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{read}\PYG{o}{.}\PYG{n}{csv}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{matrix1.txt}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{sep}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{,}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{inferSchema}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{n}{\PYGZus{}c0}\PYG{o}{\textbar{}}\PYG{n}{\PYGZus{}c1}\PYG{o}{\textbar{}}\PYG{n}{\PYGZus{}c2}\PYG{o}{\textbar{}}\PYG{n}{\PYGZus{}c3}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.2}\PYG{o}{\textbar{}}\PYG{l+m+mf}{3.4}\PYG{o}{\textbar{}}\PYG{l+m+mf}{2.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.1}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{2.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{2.2}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{3.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{1.8}\PYG{o}{\textbar{}}\PYG{l+m+mf}{4.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{3.3}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{5.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{2.2}\PYG{o}{\textbar{}}\PYG{l+m+mf}{4.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{4.4}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{8.1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{5.5}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{4.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{4.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{2.1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{6.6}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+main function for matrix multiplication in PySpark
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql} \PYG{k+kn}{import} \PYG{n}{functions} \PYG{k}{as} \PYG{n}{F}
+\PYG{k+kn}{from} \PYG{n+nn}{functools} \PYG{k+kn}{import} \PYG{n+nb}{reduce}
+\PYG{c}{\PYGZsh{} do the sum of the multiplication that we want, and get}
+\PYG{c}{\PYGZsh{} one data frame for each column}
+\PYG{n}{colDFs} \PYG{o}{=} \PYG{p}{[}\PYG{p}{]}
+\PYG{k}{for} \PYG{n}{c2} \PYG{o+ow}{in} \PYG{n}{df}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{:}
+    \PYG{n}{colDFs}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(} \PYG{n}{df}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(} \PYG{p}{[} \PYG{n}{F}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{df}\PYG{p}{[}\PYG{n}{c1}\PYG{p}{]}\PYG{o}{*}\PYG{n}{df}\PYG{p}{[}\PYG{n}{c2}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{alias}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{op\PYGZus{}\PYGZob{}0\PYGZcb{}}\PYG{l+s}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i}\PYG{p}{,}\PYG{n}{c1} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{df}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{)} \PYG{p}{]} \PYG{p}{)} \PYG{p}{)}
+\PYG{c}{\PYGZsh{} now union those separate data frames to build the \PYGZdq{}matrix\PYGZdq{}}
+\PYG{n}{mtxDF} \PYG{o}{=} \PYG{n+nb}{reduce}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{a}\PYG{p}{,}\PYG{n}{b}\PYG{p}{:} \PYG{n}{a}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{a}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{)}\PYG{o}{.}\PYG{n}{union}\PYG{p}{(}\PYG{n}{b}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{a}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,} \PYG{n}{colDFs} \PYG{p}{)}
+\PYG{n}{mtxDF}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}              \PYG{n}{op\PYGZus{}0}\PYG{o}{\textbar{}}              \PYG{n}{op\PYGZus{}1}\PYG{o}{\textbar{}}              \PYG{n}{op\PYGZus{}2}\PYG{o}{\textbar{}}              \PYG{n}{op\PYGZus{}3}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}            \PYG{l+m+mf}{152.45}\PYG{o}{\textbar{}}\PYG{l+m+mf}{118.88999999999999}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{57.15}\PYG{o}{\textbar{}}\PYG{l+m+mf}{121.44000000000001}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{118.88999999999999}\PYG{o}{\textbar{}}\PYG{l+m+mf}{104.94999999999999}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{38.93}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{94.71}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}             \PYG{l+m+mf}{57.15}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{38.93}\PYG{o}{\textbar{}}\PYG{l+m+mf}{52.540000000000006}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{55.99}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{121.44000000000001}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{94.71}\PYG{o}{\textbar{}}             \PYG{l+m+mf}{55.99}\PYG{o}{\textbar{}}\PYG{l+m+mf}{110.10999999999999}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+Validation with python version
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k+kn}{as} \PYG{n+nn}{np}
+\PYG{n}{a} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{genfromtxt}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{matrix1.txt}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{delimiter}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{,}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{np}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{a}\PYG{o}{.}\PYG{n}{T}\PYG{p}{,} \PYG{n}{a}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{l+m+mf}{152.45}\PYG{p}{,} \PYG{l+m+mf}{118.89}\PYG{p}{,}  \PYG{l+m+mf}{57.15}\PYG{p}{,} \PYG{l+m+mf}{121.44}\PYG{p}{]}\PYG{p}{,}
+       \PYG{p}{[}\PYG{l+m+mf}{118.89}\PYG{p}{,} \PYG{l+m+mf}{104.95}\PYG{p}{,}  \PYG{l+m+mf}{38.93}\PYG{p}{,}  \PYG{l+m+mf}{94.71}\PYG{p}{]}\PYG{p}{,}
+       \PYG{p}{[} \PYG{l+m+mf}{57.15}\PYG{p}{,}  \PYG{l+m+mf}{38.93}\PYG{p}{,}  \PYG{l+m+mf}{52.54}\PYG{p}{,}  \PYG{l+m+mf}{55.99}\PYG{p}{]}\PYG{p}{,}
+       \PYG{p}{[}\PYG{l+m+mf}{121.44}\PYG{p}{,}  \PYG{l+m+mf}{94.71}\PYG{p}{,}  \PYG{l+m+mf}{55.99}\PYG{p}{,} \PYG{l+m+mf}{110.11}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}
+\end{Verbatim}
+
+
 \section{Correlation Network}
 \label{socialnetwork:correlation-network}
+TODO ..
+
 
 \chapter{ALS: Stock Portfolio Recommendations}
 \label{als:als-stock-portfolio-recommendations}\label{als:co-occurrence-networks}\label{als::doc}\label{als:als}\begin{figure}[htbp]

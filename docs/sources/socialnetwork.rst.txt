@@ -209,10 +209,76 @@ The corresponding Co-occurrence network:
 Then you will get Figure :ref:`fig_netfreq`
 
 
+Appendix: matrix multiplication in PySpark
+++++++++++++++++++++++++++++++++++++++++++
+
+1. load test matrix 
+
+.. code-block:: python
+
+	df = spark.read.csv("matrix1.txt",sep=",",inferSchema=True)
+	df.show()
+
+.. code-block:: python
+
+	+---+---+---+---+
+	|_c0|_c1|_c2|_c3|
+	+---+---+---+---+
+	|1.2|3.4|2.3|1.1|
+	|2.3|1.1|1.5|2.2|
+	|3.3|1.8|4.5|3.3|
+	|5.3|2.2|4.5|4.4|
+	|9.3|8.1|0.3|5.5|
+	|4.5|4.3|2.1|6.6|
+	+---+---+---+---+
+
+2. main function for matrix multiplication in PySpark 
+
+.. code-block:: python
+
+	from pyspark.sql import functions as F
+	from functools import reduce
+	# do the sum of the multiplication that we want, and get
+	# one data frame for each column
+	colDFs = []
+	for c2 in df.columns:
+	    colDFs.append( df.select( [ F.sum(df[c1]*df[c2]).alias("op_{0}".format(i)) for i,c1 in enumerate(df.columns) ] ) )
+	# now union those separate data frames to build the "matrix"
+	mtxDF = reduce(lambda a,b: a.select(a.columns).union(b.select(a.columns)), colDFs )
+	mtxDF.show()
+
+.. code-block:: python
+
+	+------------------+------------------+------------------+------------------+
+	|              op_0|              op_1|              op_2|              op_3|
+	+------------------+------------------+------------------+------------------+
+	|            152.45|118.88999999999999|             57.15|121.44000000000001|
+	|118.88999999999999|104.94999999999999|             38.93|             94.71|
+	|             57.15|             38.93|52.540000000000006|             55.99|
+	|121.44000000000001|             94.71|             55.99|110.10999999999999|
+	+------------------+------------------+------------------+------------------+
+
+3. Validation with python version
+
+.. code-block:: python
+
+	import numpy as np
+	a = np.genfromtxt("matrix1.txt",delimiter=",")
+	np.dot(a.T, a)
+
+.. code-block:: python
+
+	array([[152.45, 118.89,  57.15, 121.44],
+	       [118.89, 104.95,  38.93,  94.71],
+	       [ 57.15,  38.93,  52.54,  55.99],
+	       [121.44,  94.71,  55.99, 110.11]])
+
+
+
 Correlation Network
 +++++++++++++++++++
 
-
+TODO ..
 
 .. _Co-occurrence networks: https://en.wikipedia.org/wiki/Co-occurrence_networks
 
