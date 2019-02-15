@@ -2050,6 +2050,124 @@ Demo
 
 	Unfortunately, the GBTClassifier currently only supports binary labels.
 
+
+XGBoost: Gradient-boosted tree Classification
++++++++++++++++++++++++++++++++++++++++++++++
+
+Introduction
+------------
+
+
+Demo
+----
+
+* The Jupyter notebook can be download from `Gradient boosted tree Classification <_static/gbtC3.ipynb>`_.
+
+* For more details, please visit `GBTClassifier API`_ .
+
+.. warning::
+
+	Unfortunately, I didn't find a good way to setup the XGBoost directly in Spark. But I do get the XGBoost work with ``pysparkling``
+	on my machine.
+
+
+1. Start H2O cluster inside the Spark environment
+
+.. code-block:: python
+
+	from pysparkling import *
+	hc = H2OContext.getOrCreate(spark)
+
+.. code-block:: python
+
+	Connecting to H2O server at http://192.168.0.102:54323... successful.
+	H2O cluster uptime:	07 secs
+	H2O cluster timezone:	America/Chicago
+	H2O data parsing timezone:	UTC
+	H2O cluster version:	3.22.1.3
+	H2O cluster version age:	20 days
+	H2O cluster name:	sparkling-water-dt216661_local-1550259209801
+	H2O cluster total nodes:	1
+	H2O cluster free memory:	848 Mb
+	H2O cluster total cores:	8
+	H2O cluster allowed cores:	8
+	H2O cluster status:	accepting new members, healthy
+	H2O connection url:	http://192.168.0.102:54323
+	H2O connection proxy:	None
+	H2O internal security:	False
+	H2O API Extensions:	XGBoost, Algos, AutoML, Core V3, Core V4
+	Python version:	3.7.1 final
+
+	Sparkling Water Context:
+	 * H2O name: sparkling-water-dt216661_local-1550259209801
+	 * cluster size: 1
+	 * list of used nodes:
+	  (executorId, host, port)
+	  ------------------------
+	  (driver,192.168.0.102,54323)
+	  ------------------------
+
+	  Open H2O Flow in browser: http://192.168.0.102:54323 (CMD + click in Mac OSX)
+  
+
+2. Parse the data using H2O and convert them to Spark Frame
+
+.. code-block:: python
+
+	import h2o
+	frame = h2o.import_file("https://raw.githubusercontent.com/h2oai/sparkling-water/master/examples/smalldata/prostate/prostate.csv")
+	spark_frame = hc.as_spark_frame(frame)
+
+
+.. figure:: images/sparling_process.png
+   :align: center
+
+.. code-block:: python
+
+	spark_frame.show(4)
+
+.. code-block:: python
+
+	+---+-------+---+----+-----+-----+----+----+-------+
+	| ID|CAPSULE|AGE|RACE|DPROS|DCAPS| PSA| VOL|GLEASON|
+	+---+-------+---+----+-----+-----+----+----+-------+
+	|  1|      0| 65|   1|    2|    1| 1.4| 0.0|      6|
+	|  2|      0| 72|   1|    3|    2| 6.7| 0.0|      7|
+	|  3|      0| 70|   1|    1|    2| 4.9| 0.0|      6|
+	|  4|      0| 76|   2|    2|    1|51.2|20.0|      7|
+	+---+-------+---+----+-----+-----+----+----+-------+
+	only showing top 4 rows
+
+3. Train the model
+
+.. code-block:: python
+
+	from pysparkling.ml import H2OXGBoost
+	estimator = H2OXGBoost(predictionCol="AGE")
+	model = estimator.fit(spark_frame)
+
+
+
+4. Run Predictions
+
+.. code-block:: python
+
+	predictions = model.transform(spark_frame)
+	predictions.show(4)
+
+.. code-block:: python
+
+	+---+-------+---+----+-----+-----+----+----+-------+-------------------+
+	| ID|CAPSULE|AGE|RACE|DPROS|DCAPS| PSA| VOL|GLEASON|  prediction_output|
+	+---+-------+---+----+-----+-----+----+----+-------+-------------------+
+	|  1|      0| 65|   1|    2|    1| 1.4| 0.0|      6|[64.85852813720703]|
+	|  2|      0| 72|   1|    3|    2| 6.7| 0.0|      7| [72.0611801147461]|
+	|  3|      0| 70|   1|    1|    2| 4.9| 0.0|      6|[70.26496887207031]|
+	|  4|      0| 76|   2|    2|    1|51.2|20.0|      7|[75.26521301269531]|
+	+---+-------+---+----+-----+-----+----+----+-------+-------------------+
+	only showing top 4 rows
+
+
 Naive Bayes Classification
 ++++++++++++++++++++++++++
 

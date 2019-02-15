@@ -6521,14 +6521,145 @@ Unfortunately, the GBTClassifier currently only supports binary labels.
 \end{notice}
 
 
-\section{Naive Bayes Classification}
-\label{classification:naive-bayes-classification}
+\section{XGBoost: Gradient-boosted tree Classification}
+\label{classification:xgboost-gradient-boosted-tree-classification}
 
 \subsection{Introduction}
 \label{classification:id14}
 
 \subsection{Demo}
 \label{classification:id15}\begin{itemize}
+\item {} 
+The Jupyter notebook can be download from Gradient boosted tree Classification.
+
+\item {} 
+For more details, please visit \href{http://takwatanabe.me/pyspark/generated/generated/ml.classification.GBTClassifier.html}{GBTClassifier API} .
+
+\end{itemize}
+
+\begin{notice}{warning}{Warning:}
+Unfortunately, I didn't find a good way to setup the XGBoost directly in Spark. But I do get the XGBoost work
+on my machine.
+\end{notice}
+\begin{enumerate}
+\item {} 
+Start H2O cluster inside the Spark environment
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pysparkling} \PYG{k+kn}{import} \PYG{o}{*}
+\PYG{n}{hc} \PYG{o}{=} \PYG{n}{H2OContext}\PYG{o}{.}\PYG{n}{getOrCreate}\PYG{p}{(}\PYG{n}{spark}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{Connecting} \PYG{n}{to} \PYG{n}{H2O} \PYG{n}{server} \PYG{n}{at} \PYG{n}{http}\PYG{p}{:}\PYG{o}{/}\PYG{o}{/}\PYG{l+m+mf}{192.168}\PYG{o}{.}\PYG{l+m+mf}{0.102}\PYG{p}{:}\PYG{l+m+mf}{54323.}\PYG{o}{.}\PYG{o}{.} \PYG{n}{successful}\PYG{o}{.}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{uptime}\PYG{p}{:}     \PYG{l+m+mo}{07} \PYG{n}{secs}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{timezone}\PYG{p}{:}   \PYG{n}{America}\PYG{o}{/}\PYG{n}{Chicago}
+\PYG{n}{H2O} \PYG{n}{data} \PYG{n}{parsing} \PYG{n}{timezone}\PYG{p}{:}      \PYG{n}{UTC}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{version}\PYG{p}{:}    \PYG{l+m+mf}{3.22}\PYG{o}{.}\PYG{l+m+mf}{1.3}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{version} \PYG{n}{age}\PYG{p}{:}        \PYG{l+m+mi}{20} \PYG{n}{days}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{name}\PYG{p}{:}       \PYG{n}{sparkling}\PYG{o}{\PYGZhy{}}\PYG{n}{water}\PYG{o}{\PYGZhy{}}\PYG{n}{dt216661\PYGZus{}local}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1550259209801}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{total} \PYG{n}{nodes}\PYG{p}{:}        \PYG{l+m+mi}{1}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{free} \PYG{n}{memory}\PYG{p}{:}        \PYG{l+m+mi}{848} \PYG{n}{Mb}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{total} \PYG{n}{cores}\PYG{p}{:}        \PYG{l+m+mi}{8}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{allowed} \PYG{n}{cores}\PYG{p}{:}      \PYG{l+m+mi}{8}
+\PYG{n}{H2O} \PYG{n}{cluster} \PYG{n}{status}\PYG{p}{:}     \PYG{n}{accepting} \PYG{n}{new} \PYG{n}{members}\PYG{p}{,} \PYG{n}{healthy}
+\PYG{n}{H2O} \PYG{n}{connection} \PYG{n}{url}\PYG{p}{:}     \PYG{n}{http}\PYG{p}{:}\PYG{o}{/}\PYG{o}{/}\PYG{l+m+mf}{192.168}\PYG{o}{.}\PYG{l+m+mf}{0.102}\PYG{p}{:}\PYG{l+m+mi}{54323}
+\PYG{n}{H2O} \PYG{n}{connection} \PYG{n}{proxy}\PYG{p}{:}   \PYG{n+nb+bp}{None}
+\PYG{n}{H2O} \PYG{n}{internal} \PYG{n}{security}\PYG{p}{:}  \PYG{n+nb+bp}{False}
+\PYG{n}{H2O} \PYG{n}{API} \PYG{n}{Extensions}\PYG{p}{:}     \PYG{n}{XGBoost}\PYG{p}{,} \PYG{n}{Algos}\PYG{p}{,} \PYG{n}{AutoML}\PYG{p}{,} \PYG{n}{Core} \PYG{n}{V3}\PYG{p}{,} \PYG{n}{Core} \PYG{n}{V4}
+\PYG{n}{Python} \PYG{n}{version}\PYG{p}{:} \PYG{l+m+mf}{3.7}\PYG{o}{.}\PYG{l+m+mi}{1} \PYG{n}{final}
+
+\PYG{n}{Sparkling} \PYG{n}{Water} \PYG{n}{Context}\PYG{p}{:}
+ \PYG{o}{*} \PYG{n}{H2O} \PYG{n}{name}\PYG{p}{:} \PYG{n}{sparkling}\PYG{o}{\PYGZhy{}}\PYG{n}{water}\PYG{o}{\PYGZhy{}}\PYG{n}{dt216661\PYGZus{}local}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1550259209801}
+ \PYG{o}{*} \PYG{n}{cluster} \PYG{n}{size}\PYG{p}{:} \PYG{l+m+mi}{1}
+ \PYG{o}{*} \PYG{n+nb}{list} \PYG{n}{of} \PYG{n}{used} \PYG{n}{nodes}\PYG{p}{:}
+  \PYG{p}{(}\PYG{n}{executorId}\PYG{p}{,} \PYG{n}{host}\PYG{p}{,} \PYG{n}{port}\PYG{p}{)}
+  \PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}
+  \PYG{p}{(}\PYG{n}{driver}\PYG{p}{,}\PYG{l+m+mf}{192.168}\PYG{o}{.}\PYG{l+m+mf}{0.102}\PYG{p}{,}\PYG{l+m+mi}{54323}\PYG{p}{)}
+  \PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}
+
+  \PYG{n}{Open} \PYG{n}{H2O} \PYG{n}{Flow} \PYG{o+ow}{in} \PYG{n}{browser}\PYG{p}{:} \PYG{n}{http}\PYG{p}{:}\PYG{o}{/}\PYG{o}{/}\PYG{l+m+mf}{192.168}\PYG{o}{.}\PYG{l+m+mf}{0.102}\PYG{p}{:}\PYG{l+m+mi}{54323} \PYG{p}{(}\PYG{n}{CMD} \PYG{o}{+} \PYG{n}{click} \PYG{o+ow}{in} \PYG{n}{Mac} \PYG{n}{OSX}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+Parse the data using H2O and convert them to Spark Frame
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{h2o}
+\PYG{n}{frame} \PYG{o}{=} \PYG{n}{h2o}\PYG{o}{.}\PYG{n}{import\PYGZus{}file}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{https://raw.githubusercontent.com/h2oai/sparkling\PYGZhy{}water/master/examples/smalldata/prostate/prostate.csv}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{spark\PYGZus{}frame} \PYG{o}{=} \PYG{n}{hc}\PYG{o}{.}\PYG{n}{as\PYGZus{}spark\PYGZus{}frame}\PYG{p}{(}\PYG{n}{frame}\PYG{p}{)}
+\end{Verbatim}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{sparling_process.png}
+\end{figure}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{spark\PYGZus{}frame}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}} \PYG{n}{ID}\PYG{o}{\textbar{}}\PYG{n}{CAPSULE}\PYG{o}{\textbar{}}\PYG{n}{AGE}\PYG{o}{\textbar{}}\PYG{n}{RACE}\PYG{o}{\textbar{}}\PYG{n}{DPROS}\PYG{o}{\textbar{}}\PYG{n}{DCAPS}\PYG{o}{\textbar{}} \PYG{n}{PSA}\PYG{o}{\textbar{}} \PYG{n}{VOL}\PYG{o}{\textbar{}}\PYG{n}{GLEASON}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{0}\PYG{o}{\textbar{}} \PYG{l+m+mi}{65}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.4}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{0}\PYG{o}{\textbar{}} \PYG{l+m+mi}{72}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{6.7}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{7}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{0}\PYG{o}{\textbar{}} \PYG{l+m+mi}{70}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{4.9}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{4}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{0}\PYG{o}{\textbar{}} \PYG{l+m+mi}{76}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{51.2}\PYG{o}{\textbar{}}\PYG{l+m+mf}{20.0}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{7}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+Train the model
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{pysparkling.ml} \PYG{k+kn}{import} \PYG{n}{H2OXGBoost}
+\PYG{n}{estimator} \PYG{o}{=} \PYG{n}{H2OXGBoost}\PYG{p}{(}\PYG{n}{predictionCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{AGE}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{model} \PYG{o}{=} \PYG{n}{estimator}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{spark\PYGZus{}frame}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item {} 
+Run Predictions
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{predictions} \PYG{o}{=} \PYG{n}{model}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{spark\PYGZus{}frame}\PYG{p}{)}
+\PYG{n}{predictions}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}} \PYG{n}{ID}\PYG{o}{\textbar{}}\PYG{n}{CAPSULE}\PYG{o}{\textbar{}}\PYG{n}{AGE}\PYG{o}{\textbar{}}\PYG{n}{RACE}\PYG{o}{\textbar{}}\PYG{n}{DPROS}\PYG{o}{\textbar{}}\PYG{n}{DCAPS}\PYG{o}{\textbar{}} \PYG{n}{PSA}\PYG{o}{\textbar{}} \PYG{n}{VOL}\PYG{o}{\textbar{}}\PYG{n}{GLEASON}\PYG{o}{\textbar{}}  \PYG{n}{prediction\PYGZus{}output}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{0}\PYG{o}{\textbar{}} \PYG{l+m+mi}{65}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{1.4}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{64.85852813720703}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{0}\PYG{o}{\textbar{}} \PYG{l+m+mi}{72}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{6.7}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{7}\PYG{o}{\textbar{}} \PYG{p}{[}\PYG{l+m+mf}{72.0611801147461}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{0}\PYG{o}{\textbar{}} \PYG{l+m+mi}{70}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{4.9}\PYG{o}{\textbar{}} \PYG{l+m+mf}{0.0}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{70.26496887207031}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}  \PYG{l+m+mi}{4}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{0}\PYG{o}{\textbar{}} \PYG{l+m+mi}{76}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}    \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{51.2}\PYG{o}{\textbar{}}\PYG{l+m+mf}{20.0}\PYG{o}{\textbar{}}      \PYG{l+m+mi}{7}\PYG{o}{\textbar{}}\PYG{p}{[}\PYG{l+m+mf}{75.26521301269531}\PYG{p}{]}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+
+\section{Naive Bayes Classification}
+\label{classification:naive-bayes-classification}
+
+\subsection{Introduction}
+\label{classification:id17}
+
+\subsection{Demo}
+\label{classification:id18}\begin{itemize}
 \item {} 
 The Jupyter notebook can be download from Naive Bayes Classification.
 
