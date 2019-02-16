@@ -90,7 +90,7 @@ Demo
 
 .. note::
 
-  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in comple dataset. 
+  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in complex dataset. 
 
   Supervised learning version:
 
@@ -642,7 +642,7 @@ Demo
 
 .. note::
 
-  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in comple dataset. 
+  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in complex dataset. 
 
   Supervised learning version:
 
@@ -1176,7 +1176,7 @@ Demo
 
 .. note::
 
-  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in comple dataset. 
+  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in complex dataset. 
 
   Supervised learning version:
 
@@ -1658,7 +1658,7 @@ Demo
 
 .. note::
 
-  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in comple dataset. 
+  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in complex dataset. 
 
   Supervised learning version:
 
@@ -2297,7 +2297,7 @@ Demo
 
 .. note::
 
-  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in comple dataset. 
+  You are strongly encouraged to try my ``get_dummy`` function for dealing with the categorical data in complex dataset. 
 
   Supervised learning version:
 

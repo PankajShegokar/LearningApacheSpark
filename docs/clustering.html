@@ -272,6 +272,74 @@
     <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">[</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span><span class="o">.</span><span class="n">toDF</span><span class="p">([</span><span class="s1">&#39;features&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>You are strongly encouraged to try my <code class="docutils literal"><span class="pre">get_dummy</span></code> function for dealing with the categorical data in complex dataset.</p>
+<p>Supervised learning version:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_dummy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">indexCol</span><span class="p">,</span><span class="n">categoricalCols</span><span class="p">,</span><span class="n">continuousCols</span><span class="p">,</span><span class="n">labelCol</span><span class="p">):</span>
+
+    <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+    <span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="kn">import</span> <span class="n">StringIndexer</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">,</span> <span class="n">VectorAssembler</span>
+    <span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span>
+
+    <span class="n">indexers</span> <span class="o">=</span> <span class="p">[</span> <span class="n">StringIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;{0}_indexed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+                 <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">categoricalCols</span> <span class="p">]</span>
+
+    <span class="c1"># default setting: dropLast=True</span>
+    <span class="n">encoders</span> <span class="o">=</span> <span class="p">[</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">indexer</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">(),</span>
+                 <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;{0}_encoded&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indexer</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">()))</span>
+                 <span class="k">for</span> <span class="n">indexer</span> <span class="ow">in</span> <span class="n">indexers</span> <span class="p">]</span>
+
+    <span class="n">assembler</span> <span class="o">=</span> <span class="n">VectorAssembler</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="p">[</span><span class="n">encoder</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">()</span> <span class="k">for</span> <span class="n">encoder</span> <span class="ow">in</span> <span class="n">encoders</span><span class="p">]</span>
+                                <span class="o">+</span> <span class="n">continuousCols</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">)</span>
+
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="n">indexers</span> <span class="o">+</span> <span class="n">encoders</span> <span class="o">+</span> <span class="p">[</span><span class="n">assembler</span><span class="p">])</span>
+
+    <span class="n">model</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span><span class="n">col</span><span class="p">(</span><span class="n">labelCol</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">indexCol</span><span class="p">,</span><span class="s1">&#39;features&#39;</span><span class="p">,</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Unsupervised learning version:</p>
+<blockquote class="last">
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_dummy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">indexCol</span><span class="p">,</span><span class="n">categoricalCols</span><span class="p">,</span><span class="n">continuousCols</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get dummy variables and concat with continuous variables for unsupervised learning.</span>
+<span class="sd">    :param df: the dataframe</span>
+<span class="sd">    :param categoricalCols: the name list of the categorical data</span>
+<span class="sd">    :param continuousCols:  the name list of the numerical data</span>
+<span class="sd">    :return k: feature matrix</span>
+
+<span class="sd">    :author: Wenqiang Feng</span>
+<span class="sd">    :email:  von198@gmail.com</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">indexers</span> <span class="o">=</span> <span class="p">[</span> <span class="n">StringIndexer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;{0}_indexed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+                 <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">categoricalCols</span> <span class="p">]</span>
+
+    <span class="c1"># default setting: dropLast=True</span>
+    <span class="n">encoders</span> <span class="o">=</span> <span class="p">[</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">indexer</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">(),</span>
+                 <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;{0}_encoded&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">indexer</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">()))</span>
+                 <span class="k">for</span> <span class="n">indexer</span> <span class="ow">in</span> <span class="n">indexers</span> <span class="p">]</span>
+
+    <span class="n">assembler</span> <span class="o">=</span> <span class="n">VectorAssembler</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="p">[</span><span class="n">encoder</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">()</span> <span class="k">for</span> <span class="n">encoder</span> <span class="ow">in</span> <span class="n">encoders</span><span class="p">]</span>
+                                <span class="o">+</span> <span class="n">continuousCols</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">)</span>
+
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="n">indexers</span> <span class="o">+</span> <span class="n">encoders</span> <span class="o">+</span> <span class="p">[</span><span class="n">assembler</span><span class="p">])</span>
+
+    <span class="n">model</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">indexCol</span><span class="p">,</span><span class="s1">&#39;features&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
 <ol class="arabic simple" start="4">
 <li>Transform the dataset to DataFrame</li>
 </ol>

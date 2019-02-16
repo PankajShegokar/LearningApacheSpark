@@ -4512,7 +4512,7 @@ Load dataset
 \end{Verbatim}
 
 \begin{notice}{note}{Note:}
-You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in comple dataset.
+You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in complex dataset.
 
 Supervised learning version:
 \begin{quote}
@@ -5107,7 +5107,7 @@ Deal with categorical data and Convert the data to dense vector
 \end{enumerate}
 
 \begin{notice}{note}{Note:}
-You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in comple dataset.
+You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in complex dataset.
 
 Supervised learning version:
 \begin{quote}
@@ -5685,7 +5685,7 @@ Convert the data to dense vector
 \end{enumerate}
 
 \begin{notice}{note}{Note:}
-You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in comple dataset.
+You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in complex dataset.
 
 Supervised learning version:
 \begin{quote}
@@ -6208,7 +6208,7 @@ Convert the data to dense vector
 \end{enumerate}
 
 \begin{notice}{note}{Note:}
-You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in comple dataset.
+You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in complex dataset.
 
 Supervised learning version:
 \begin{quote}
@@ -6899,7 +6899,7 @@ Deal with categorical data and Convert the data to dense vector
 \end{enumerate}
 
 \begin{notice}{note}{Note:}
-You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in comple dataset.
+You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in complex dataset.
 
 Supervised learning version:
 \begin{quote}
@@ -7455,6 +7455,78 @@ Convert the data to dense vector (\textbf{features})
 \PYG{k}{def} \PYG{n+nf}{transData}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}\PYG{p}{:}
     \PYG{k}{return} \PYG{n}{data}\PYG{o}{.}\PYG{n}{rdd}\PYG{o}{.}\PYG{n}{map}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{r}\PYG{p}{:} \PYG{p}{[}\PYG{n}{Vectors}\PYG{o}{.}\PYG{n}{dense}\PYG{p}{(}\PYG{n}{r}\PYG{p}{[}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{toDF}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
 \end{Verbatim}
+
+\begin{notice}{note}{Note:}
+You are strongly encouraged to try my \code{get\_dummy} function for dealing with the categorical data in complex dataset.
+
+Supervised learning version:
+\begin{quote}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{get\PYGZus{}dummy}\PYG{p}{(}\PYG{n}{df}\PYG{p}{,}\PYG{n}{indexCol}\PYG{p}{,}\PYG{n}{categoricalCols}\PYG{p}{,}\PYG{n}{continuousCols}\PYG{p}{,}\PYG{n}{labelCol}\PYG{p}{)}\PYG{p}{:}
+
+    \PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml} \PYG{k+kn}{import} \PYG{n}{Pipeline}
+    \PYG{k+kn}{from} \PYG{n+nn}{pyspark.ml.feature} \PYG{k+kn}{import} \PYG{n}{StringIndexer}\PYG{p}{,} \PYG{n}{OneHotEncoder}\PYG{p}{,} \PYG{n}{VectorAssembler}
+    \PYG{k+kn}{from} \PYG{n+nn}{pyspark.sql.functions} \PYG{k+kn}{import} \PYG{n}{col}
+
+    \PYG{n}{indexers} \PYG{o}{=} \PYG{p}{[} \PYG{n}{StringIndexer}\PYG{p}{(}\PYG{n}{inputCol}\PYG{o}{=}\PYG{n}{c}\PYG{p}{,} \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\PYGZob{}0\PYGZcb{}\PYGZus{}indexed}\PYG{l+s}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)}\PYG{p}{)}
+                 \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{categoricalCols} \PYG{p}{]}
+
+    \PYG{c}{\PYGZsh{} default setting: dropLast=True}
+    \PYG{n}{encoders} \PYG{o}{=} \PYG{p}{[} \PYG{n}{OneHotEncoder}\PYG{p}{(}\PYG{n}{inputCol}\PYG{o}{=}\PYG{n}{indexer}\PYG{o}{.}\PYG{n}{getOutputCol}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,}
+                 \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\PYGZob{}0\PYGZcb{}\PYGZus{}encoded}\PYG{l+s}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{indexer}\PYG{o}{.}\PYG{n}{getOutputCol}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+                 \PYG{k}{for} \PYG{n}{indexer} \PYG{o+ow}{in} \PYG{n}{indexers} \PYG{p}{]}
+
+    \PYG{n}{assembler} \PYG{o}{=} \PYG{n}{VectorAssembler}\PYG{p}{(}\PYG{n}{inputCols}\PYG{o}{=}\PYG{p}{[}\PYG{n}{encoder}\PYG{o}{.}\PYG{n}{getOutputCol}\PYG{p}{(}\PYG{p}{)} \PYG{k}{for} \PYG{n}{encoder} \PYG{o+ow}{in} \PYG{n}{encoders}\PYG{p}{]}
+                                \PYG{o}{+} \PYG{n}{continuousCols}\PYG{p}{,} \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{pipeline} \PYG{o}{=} \PYG{n}{Pipeline}\PYG{p}{(}\PYG{n}{stages}\PYG{o}{=}\PYG{n}{indexers} \PYG{o}{+} \PYG{n}{encoders} \PYG{o}{+} \PYG{p}{[}\PYG{n}{assembler}\PYG{p}{]}\PYG{p}{)}
+
+    \PYG{n}{model}\PYG{o}{=}\PYG{n}{pipeline}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+    \PYG{n}{data} \PYG{o}{=} \PYG{n}{model}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+
+    \PYG{n}{data} \PYG{o}{=} \PYG{n}{data}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{col}\PYG{p}{(}\PYG{n}{labelCol}\PYG{p}{)}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{data}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{indexCol}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\end{Verbatim}
+\end{quote}
+
+Unsupervised learning version:
+\begin{quote}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{get\PYGZus{}dummy}\PYG{p}{(}\PYG{n}{df}\PYG{p}{,}\PYG{n}{indexCol}\PYG{p}{,}\PYG{n}{categoricalCols}\PYG{p}{,}\PYG{n}{continuousCols}\PYG{p}{)}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+\PYG{l+s+sd}{    Get dummy variables and concat with continuous variables for unsupervised learning.}
+\PYG{l+s+sd}{    :param df: the dataframe}
+\PYG{l+s+sd}{    :param categoricalCols: the name list of the categorical data}
+\PYG{l+s+sd}{    :param continuousCols:  the name list of the numerical data}
+\PYG{l+s+sd}{    :return k: feature matrix}
+
+\PYG{l+s+sd}{    :author: Wenqiang Feng}
+\PYG{l+s+sd}{    :email:  von198@gmail.com}
+\PYG{l+s+sd}{    \PYGZsq{}\PYGZsq{}\PYGZsq{}}
+
+    \PYG{n}{indexers} \PYG{o}{=} \PYG{p}{[} \PYG{n}{StringIndexer}\PYG{p}{(}\PYG{n}{inputCol}\PYG{o}{=}\PYG{n}{c}\PYG{p}{,} \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\PYGZob{}0\PYGZcb{}\PYGZus{}indexed}\PYG{l+s}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)}\PYG{p}{)}
+                 \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{categoricalCols} \PYG{p}{]}
+
+    \PYG{c}{\PYGZsh{} default setting: dropLast=True}
+    \PYG{n}{encoders} \PYG{o}{=} \PYG{p}{[} \PYG{n}{OneHotEncoder}\PYG{p}{(}\PYG{n}{inputCol}\PYG{o}{=}\PYG{n}{indexer}\PYG{o}{.}\PYG{n}{getOutputCol}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,}
+                 \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\PYGZob{}0\PYGZcb{}\PYGZus{}encoded}\PYG{l+s}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{indexer}\PYG{o}{.}\PYG{n}{getOutputCol}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+                 \PYG{k}{for} \PYG{n}{indexer} \PYG{o+ow}{in} \PYG{n}{indexers} \PYG{p}{]}
+
+    \PYG{n}{assembler} \PYG{o}{=} \PYG{n}{VectorAssembler}\PYG{p}{(}\PYG{n}{inputCols}\PYG{o}{=}\PYG{p}{[}\PYG{n}{encoder}\PYG{o}{.}\PYG{n}{getOutputCol}\PYG{p}{(}\PYG{p}{)} \PYG{k}{for} \PYG{n}{encoder} \PYG{o+ow}{in} \PYG{n}{encoders}\PYG{p}{]}
+                                \PYG{o}{+} \PYG{n}{continuousCols}\PYG{p}{,} \PYG{n}{outputCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{pipeline} \PYG{o}{=} \PYG{n}{Pipeline}\PYG{p}{(}\PYG{n}{stages}\PYG{o}{=}\PYG{n}{indexers} \PYG{o}{+} \PYG{n}{encoders} \PYG{o}{+} \PYG{p}{[}\PYG{n}{assembler}\PYG{p}{]}\PYG{p}{)}
+
+    \PYG{n}{model}\PYG{o}{=}\PYG{n}{pipeline}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+    \PYG{n}{data} \PYG{o}{=} \PYG{n}{model}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{data}\PYG{o}{.}\PYG{n}{select}\PYG{p}{(}\PYG{n}{indexCol}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\end{Verbatim}
+\end{quote}
+\end{notice}
 \begin{enumerate}
 \setcounter{enumi}{3}
 \item {} 
