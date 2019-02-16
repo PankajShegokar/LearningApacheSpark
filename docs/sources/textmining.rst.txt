@@ -5,9 +5,9 @@
 Text Mining
 ===========
 
-.. note::
+.. admonition:: Chinese proverb
 
-   Sharpening the knife longer can make it easier to hack the firewood -- old Chinese proverb
+   **Articles showed more than intended.**  -- Xianglong Shen
 
 .. figure:: images/sen_word_freq.png
    :align: center

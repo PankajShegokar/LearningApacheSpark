@@ -5,7 +5,7 @@
 Why Spark with Python ? 
 ========================
 
-.. note::
+.. admonition:: Chinese proverb
 
   **Sharpening the knife longer can make it easier to hack the firewood** -- old Chinese proverb
 

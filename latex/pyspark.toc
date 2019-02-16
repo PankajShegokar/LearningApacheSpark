@@ -47,11 +47,11 @@
 \contentsline {chapter}{\numberline {7}Data Exploration}{35}{chapter.7}
 \contentsline {section}{\numberline {7.1}Univariate Analysis}{35}{section.7.1}
 \contentsline {subsection}{\numberline {7.1.1}Numerical Variables}{35}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {7.1.2}Categorical Variables}{44}{subsection.7.1.2}
-\contentsline {section}{\numberline {7.2}Multivariate Analysis}{47}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}Numerical V.S. Numerical}{47}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {7.2.2}Categorical V.S. Categorical}{49}{subsection.7.2.2}
-\contentsline {subsection}{\numberline {7.2.3}Numerical V.S. Categorical}{51}{subsection.7.2.3}
+\contentsline {subsection}{\numberline {7.1.2}Categorical Variables}{43}{subsection.7.1.2}
+\contentsline {section}{\numberline {7.2}Multivariate Analysis}{48}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Numerical V.S. Numerical}{48}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Categorical V.S. Categorical}{48}{subsection.7.2.2}
+\contentsline {subsection}{\numberline {7.2.3}Numerical V.S. Categorical}{52}{subsection.7.2.3}
 \contentsline {chapter}{\numberline {8}Regression}{53}{chapter.8}
 \contentsline {section}{\numberline {8.1}Linear Regression}{53}{section.8.1}
 \contentsline {subsection}{\numberline {8.1.1}Introduction}{53}{subsection.8.1.1}

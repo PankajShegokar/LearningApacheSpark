@@ -4,6 +4,10 @@
 ALS: Stock Portfolio Recommendations
 ====================================
 
+.. admonition:: Chinese proverb
+
+	**Don't put all your eggs in one basket.**
+
 .. figure:: images/stock_portfolio.png
    :align: center
 

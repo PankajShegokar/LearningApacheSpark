@@ -6,9 +6,9 @@
 Classification
 ==============
 
-.. note::
+.. admonition:: Chinese proverb
 
-  **Birds of a feather folock together.** -- old Chinese proverb
+   **Birds of a feather folock together.** -- old Chinese proverb
 
 
 Binomial logistic regression

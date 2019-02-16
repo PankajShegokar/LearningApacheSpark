@@ -5,9 +5,9 @@
 Social Network Analysis
 ========================
 
-.. note::
+.. admonition:: Chinese proverb
 
-   A Touch of Cloth,linked in countless ways. -- old Chinese proverb
+   **A Touch of Cloth,linked in countless ways.** -- old Chinese proverb
 
 .. figure:: images/net_work.png
    :align: center

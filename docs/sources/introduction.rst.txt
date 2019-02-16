@@ -5,7 +5,7 @@
 An Introduction to Apache Spark 
 ===============================
 
-.. note::
+.. admonition:: Chinese proverb
 
    **Know yourself and know your enemy, and you will never be defeated** – idiom, from Sunzi’s Art of War
 

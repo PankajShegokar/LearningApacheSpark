@@ -4,7 +4,7 @@
 Data Exploration 
 ================
 
-.. note::
+.. admonition:: Chinese proverb
 
    **A journey of a thousand miles begins with a single step** 
    – idiom, from Laozi.
