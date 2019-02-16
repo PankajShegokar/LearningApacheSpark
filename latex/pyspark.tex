@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{February 15, 2019}
+\date{February 16, 2019}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -151,6 +151,7 @@ and Deep Learning. The PDF version can be downloaded from HERE.
 \subsection{About this note}
 \label{preface:about-this-note}
 This is a shared repository for \href{https://github.com/runawayhorse001/LearningApacheSpark}{Learning Apache Spark Notes}.
+The PDF version can be downloaded from HERE.
 The first version was posted on Github in \href{https://mingchen0919.github.io/learning-apache-spark/index.html}{ChenFeng} ({\hyperref[reference:feng2017]{{[}Feng2017{]}}}).
 This shared repository mainly contains the self-learning and
 self-teaching notes from Wenqiang during his \href{https://www.ima.umn.edu/2016-2017/SW1.23-3.10.17\#}{IMA Data Science
@@ -4360,25 +4361,62 @@ Converting ill-posed problems to well-posed by adding additional information via
 Preventing overfitting
 
 \item {} 
-Variable selection and the removal of correlated variables (\href{https://en.wikipedia.org/wiki/Mean\_squared\_error}{Glmnet Vignette}).  The Ridge method shrinks the coefficients of correlated variables while the LASSO method picks one variable and discards the others.  The elastic net penalty is a mixture of these two; if variables are correlated in groups then \(\alpha=0.5\) tends to select the groups as in or out. If \(\alpha\) is close to 1, the elastic net performs much like the LASSO method and removes any degeneracies and wild behavior caused by extreme correlations.
+Variable selection and the removal of correlated variables (\href{https://web.stanford.edu/~hastie/Papers/Glmnet\_Vignette.pdf}{Glmnet Vignette}).  The Ridge method shrinks the coefficients of correlated variables while the LASSO method picks one variable and discards the others.  The elastic net penalty is a mixture of these two; if variables are correlated in groups then \(\alpha=0.5\) tends to select the groups as in or out. If \(\alpha\) is close to 1, the elastic net performs much like the LASSO method and removes any degeneracies and wild behavior caused by extreme correlations.
 
 \end{enumerate}
+
+
+\section{Ordinary least squares regression}
+\label{reg:ordinary-least-squares-regression}\begin{gather}
+\begin{split}\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}\end{split}\notag
+\end{gather}
+When \(\lambda=0\) (i.e. \code{regParam} \(=0\)), then there is no penalty.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{LinearRegression}\PYG{p}{(}\PYG{n}{featuresCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{labelCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{predictionCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{maxIter}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{,}
+\PYG{n}{regParam}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{n}{elasticNetParam}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{n}{tol}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}6}\PYG{p}{,} \PYG{n}{fitIntercept}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{standardization}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{solver}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{auto}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}
+\PYG{n}{weightCol}\PYG{o}{=}\PYG{n+nb+bp}{None}\PYG{p}{,} \PYG{n}{aggregationDepth}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+\end{Verbatim}
 
 
 \section{Ridge regression}
 \label{reg:ridge-regression}\begin{gather}
 \begin{split}\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda \|\beta\|_{2}^{2}\end{split}\notag
 \end{gather}
+When \(\lambda>0\) (i.e. \code{regParam} \(>0\)) and \(\alpha=0\) (i.e. \code{elasticNetParam} \(=0\))  , then the penalty is an L2 penalty.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{LinearRegression}\PYG{p}{(}\PYG{n}{featuresCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{labelCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{predictionCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{maxIter}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{,}
+\PYG{n}{regParam}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{,} \PYG{n}{elasticNetParam}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{n}{tol}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}6}\PYG{p}{,} \PYG{n}{fitIntercept}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{standardization}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{solver}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{auto}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}
+\PYG{n}{weightCol}\PYG{o}{=}\PYG{n+nb+bp}{None}\PYG{p}{,} \PYG{n}{aggregationDepth}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+\end{Verbatim}
+
 
 \section{Least Absolute Shrinkage and Selection Operator (LASSO)}
 \label{reg:least-absolute-shrinkage-and-selection-operator-lasso}\begin{gather}
 \begin{split}\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda\|\beta\|_{1}\end{split}\notag
 \end{gather}
+When \(\lambda>0\) (i.e. \code{regParam} \(>0\)) and \(\alpha=1\) (i.e. \code{elasticNetParam} \(=1\)), then the penalty is an L1 penalty.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{LinearRegression}\PYG{p}{(}\PYG{n}{featuresCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{labelCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{predictionCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{maxIter}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{,}
+\PYG{n}{regParam}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{n}{elasticNetParam}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{n}{tol}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}6}\PYG{p}{,} \PYG{n}{fitIntercept}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{standardization}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{solver}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{auto}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}
+\PYG{n}{weightCol}\PYG{o}{=}\PYG{n+nb+bp}{None}\PYG{p}{,} \PYG{n}{aggregationDepth}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+\end{Verbatim}
+
 
 \section{Elastic net}
 \label{reg:elastic-net}\begin{gather}
-\begin{split}\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda (\alpha \|\beta\|_{1}+(1-\alpha )\|\beta\|_{2}^{2}),\alpha \in [0,1]\end{split}\notag
+\begin{split}\min _{\beta\in \mathbb {R} ^{p}}{\frac {1}{n}}\|{\hat {X}}\beta-{\hat {Y}}\|^{2}+\lambda (\alpha \|\beta\|_{1}+(1-\alpha )\|\beta\|_{2}^{2}),\alpha \in (0,1)\end{split}\notag
 \end{gather}
+When \(\lambda>0\) (i.e. \code{regParam} \(>0\)) and \code{elasticNetParam} \(\in (0,1)\) (i.e. \(\alpha\in (0,1)\)) , then the penalty is an L1 + L2 penalty.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{LinearRegression}\PYG{p}{(}\PYG{n}{featuresCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{features}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{labelCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{label}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{predictionCol}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{prediction}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{maxIter}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{,}
+\PYG{n}{regParam}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{n}{elasticNetParam}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{n}{tol}\PYG{o}{=}\PYG{l+m+mf}{1e\PYGZhy{}6}\PYG{p}{,} \PYG{n}{fitIntercept}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{standardization}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{solver}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{auto}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}
+\PYG{n}{weightCol}\PYG{o}{=}\PYG{n+nb+bp}{None}\PYG{p}{,} \PYG{n}{aggregationDepth}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+\end{Verbatim}
+
 
 \chapter{Classification}
 \label{classification:glmnet-vignette}\label{classification::doc}\label{classification:classification}\label{classification:id1}

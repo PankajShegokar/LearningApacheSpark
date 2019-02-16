@@ -12,6 +12,7 @@ About this note
 ---------------
 
 This is a shared repository for `Learning Apache Spark Notes`_. 
+The PDF version can be downloaded from `HERE <pyspark.pdf>`_. 
 The first version was posted on Github in `ChenFeng`_ ([Feng2017]_).  
 This shared repository mainly contains the self-learning and 
 self-teaching notes from Wenqiang during his `IMA Data Science

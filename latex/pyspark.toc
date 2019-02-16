@@ -74,9 +74,10 @@
 \contentsline {subsection}{\numberline {8.5.2}How to solve it?}{80}{subsection.8.5.2}
 \contentsline {subsection}{\numberline {8.5.3}Demo}{80}{subsection.8.5.3}
 \contentsline {chapter}{\numberline {9}Regularization}{86}{chapter.9}
-\contentsline {section}{\numberline {9.1}Ridge regression}{86}{section.9.1}
-\contentsline {section}{\numberline {9.2}Least Absolute Shrinkage and Selection Operator (LASSO)}{86}{section.9.2}
-\contentsline {section}{\numberline {9.3}Elastic net}{87}{section.9.3}
+\contentsline {section}{\numberline {9.1}Ordinary least squares regression}{86}{section.9.1}
+\contentsline {section}{\numberline {9.2}Ridge regression}{86}{section.9.2}
+\contentsline {section}{\numberline {9.3}Least Absolute Shrinkage and Selection Operator (LASSO)}{87}{section.9.3}
+\contentsline {section}{\numberline {9.4}Elastic net}{87}{section.9.4}
 \contentsline {chapter}{\numberline {10}Classification}{88}{chapter.10}
 \contentsline {section}{\numberline {10.1}Binomial logistic regression}{88}{section.10.1}
 \contentsline {subsection}{\numberline {10.1.1}Introduction}{88}{subsection.10.1.1}
