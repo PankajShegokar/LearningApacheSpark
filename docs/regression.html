@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Regression &mdash; Learning Apache Spark with Python v1.0 documentation</title>
+  <title>8. Regression &mdash; Learning Apache Spark with Python v1.0 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Learning Apache Spark with Python v1.0 documentation" href="index.html"/>
-        <link rel="next" title="Regularization" href="reg.html"/>
-        <link rel="prev" title="Data Exploration" href="exploration.html"/>
+        <link rel="next" title="9. Regularization" href="reg.html"/>
+        <link rel="prev" title="7. Data Exploration" href="exploration.html"/>
  
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -100,58 +100,58 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="why.html">Why Spark with Python ?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Configure Running Platform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">An Introduction to Apache Spark</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rdd.html">Programming with RDDs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stats.html">Statistics Preliminary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exploration.html">Data Exploration</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Regression</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#linear-regression">Linear Regression</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#how-to-solve-it">How to solve it?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#demo">Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preface.html">1. Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="why.html">2. Why Spark with Python ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">3. Configure Running Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">4. An Introduction to Apache Spark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rdd.html">5. Programming with RDDs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">6. Statistics Preliminary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploration.html">7. Data Exploration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#linear-regression">8.1. Linear Regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">8.1.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-solve-it">8.1.2. How to solve it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#demo">8.1.3. Demo</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#generalized-linear-regression">Generalized linear regression</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">How to solve it?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generalized-linear-regression">8.2. Generalized linear regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">8.2.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">8.2.2. How to solve it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">8.2.3. Demo</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#decision-tree-regression">Decision tree Regression</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">How to solve it?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#decision-tree-regression">8.3. Decision tree Regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">8.3.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">8.3.2. How to solve it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">8.3.3. Demo</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#random-forest-regression">Random Forest Regression</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">How to solve it?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#random-forest-regression">8.4. Random Forest Regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">8.4.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">8.4.2. How to solve it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">8.4.3. Demo</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-tree-regression">Gradient-boosted tree regression</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">How to solve it?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id17">Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-tree-regression">8.5. Gradient-boosted tree regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id15">8.5.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">8.5.2. How to solve it?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">8.5.3. Demo</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="reg.html">Regularization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rfm.html">RFM Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textmining.html">Text Mining</a></li>
-<li class="toctree-l1"><a class="reference internal" href="socialnetwork.html">Social Network Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="als.html">ALS: Stock Portfolio Recommendations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mc.html">Monte Carlo Simulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mcmc.html">Markov Chain Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="fnn.html">Neural Network</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pack.html">My PySpark Package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Main Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reg.html">9. Regularization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification.html">10. Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">11. Clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rfm.html">12. RFM Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textmining.html">13. Text Mining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="socialnetwork.html">14. Social Network Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="als.html">15. ALS: Stock Portfolio Recommendations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mc.html">16. Monte Carlo Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcmc.html">17. Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fnn.html">18. Neural Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pack.html">19. My PySpark Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">20. Main Reference</a></li>
 </ul>
 
             
@@ -196,7 +196,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Regression</li>
+      <li>8. Regression</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -216,7 +216,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="regression">
-<span id="id1"></span><h1>Regression<a class="headerlink" href="#regression" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>8. Regression<a class="headerlink" href="#regression" title="Permalink to this headline">¶</a></h1>
 <div class="admonition-chinese-proverb admonition">
 <p class="first admonition-title">Chinese proverb</p>
 <p class="last"><strong>A journey of a thousand miles begins with a single step.</strong> &#8211; old Chinese proverb</p>
@@ -224,9 +224,9 @@
 <p>In statistical modeling, regression analysis focuses on investigating the relationship between a dependent variable and one or more independent variables. <a class="reference external" href="https://en.wikipedia.org/wiki/Regression_analysis">Wikipedia Regression analysis</a></p>
 <p>In data mining, Regression is a model to represent the relationship between the value of lable ( or target, it is numerical variable) and on one or more features (or predictors they can be numerical and categorical variables).</p>
 <div class="section" id="linear-regression">
-<h2>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h2>
+<h2>8.1. Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="introduction">
-<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
+<h3>8.1.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
 <p>Given that a data set <img class="math" src="images/math/6d20f5ca5eaf64e6ca28d07379b0f19e69364475.png" alt="{\displaystyle \{\,x_{i1},\ldots ,x_{in},y_{i}\}_{i=1}^{m}}"/> which contains n features
 (variables) and m samples (data points), in simple linear regression model for modeling <img class="math" src="images/math/e2e41c048230d8820d51d5202e6fc530386b4707.png" alt="{\displaystyle m}"/> data points with one independent variable: <img class="math" src="images/math/cc82db7c9ba7788384379d0e9237a613bd6bc31f.png" alt="{\displaystyle x_{i1}}"/>, the formula is given by:</p>
 <blockquote>
@@ -244,7 +244,7 @@ Then the normal equations are written as</p>
 </div></div></blockquote>
 </div>
 <div class="section" id="how-to-solve-it">
-<h3>How to solve it?<a class="headerlink" href="#how-to-solve-it" title="Permalink to this headline">¶</a></h3>
+<h3>8.1.2. How to solve it?<a class="headerlink" href="#how-to-solve-it" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p class="first">Direct Methods (For more information please refer to my <a class="reference external" href="http://web.utk.edu/~wfeng1/doc/PrelimNum.pdf">Prelim Notes for Numerical Analysis</a>)</p>
 <blockquote>
@@ -300,7 +300,7 @@ Then the normal equations are written as</p>
 </ol>
 </div>
 <div class="section" id="demo">
-<h3>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h3>
+<h3>8.1.3. Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/LinearRegression.ipynb">Linear Regression</a> which was implemented without using Pipeline.</li>
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/LinearRegressionWpipeline.ipynb">Linear Regression with Pipeline</a> which was implemented with using Pipeline.</li>
@@ -371,7 +371,7 @@ Then the normal equations are written as</p>
 </div>
 <div class="figure align-center" id="id19">
 <span id="fig-adfreq"></span><img alt="images/ad.png" src="images/ad.png" />
-<p class="caption"><span class="caption-number">Fig. 37 </span><span class="caption-text">Sales distribution</span></p>
+<p class="caption"><span class="caption-number">Fig. 8.1 </span><span class="caption-text">Sales distribution</span></p>
 </div>
 <ol class="arabic simple" start="3">
 <li>Convert the data to dense vector (<strong>features</strong> and <strong>label</strong>)</li>
@@ -685,15 +685,15 @@ information from the <a class="reference external" href="https://stats.stackexch
 </div>
 </div>
 <div class="section" id="generalized-linear-regression">
-<h2>Generalized linear regression<a class="headerlink" href="#generalized-linear-regression" title="Permalink to this headline">¶</a></h2>
+<h2>8.2. Generalized linear regression<a class="headerlink" href="#generalized-linear-regression" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id3">
-<h3>Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>8.2.1. Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id4">
-<h3>How to solve it?<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>8.2.2. How to solve it?<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id5">
-<h3>Demo<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h3>8.2.3. Demo<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/GLM.ipynb">Generalized Linear Regression</a>.</li>
 <li>For more details about the parameters, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.regression.GeneralizedLinearRegression.html">Generalized Linear Regression API</a> .</li>
@@ -1072,15 +1072,15 @@ function which has similar format as <strong>R</strong> output for the linear re
 </div>
 </div>
 <div class="section" id="decision-tree-regression">
-<h2>Decision tree Regression<a class="headerlink" href="#decision-tree-regression" title="Permalink to this headline">¶</a></h2>
+<h2>8.3. Decision tree Regression<a class="headerlink" href="#decision-tree-regression" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id7">
-<h3>Introduction<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>8.3.1. Introduction<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id8">
-<h3>How to solve it?<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>8.3.2. How to solve it?<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id9">
-<h3>Demo<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>8.3.3. Demo<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/DecisionTreeR.ipynb">Decision Tree Regression</a>.</li>
 <li>For more details about the parameters, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.regression.DecisionTreeRegressor.html">Decision Tree Regressor API</a> .</li>
@@ -1421,15 +1421,15 @@ to good to keep tracking your data during prototype pahse):</p>
 </div>
 </div>
 <div class="section" id="random-forest-regression">
-<h2>Random Forest Regression<a class="headerlink" href="#random-forest-regression" title="Permalink to this headline">¶</a></h2>
+<h2>8.4. Random Forest Regression<a class="headerlink" href="#random-forest-regression" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id11">
-<h3>Introduction<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3>8.4.1. Introduction<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id12">
-<h3>How to solve it?<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<h3>8.4.2. How to solve it?<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id13">
-<h3>Demo<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<h3>8.4.3. Demo<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/RandomForestR.ipynb">Random Forest Regression</a>.</li>
 <li>For more details about the parameters, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.regression.RandomForestRegressor.html">Random Forest Regressor API</a> .</li>
@@ -1754,15 +1754,15 @@ to good to keep tracking your data during prototype pahse):</p>
 </div>
 </div>
 <div class="section" id="gradient-boosted-tree-regression">
-<h2>Gradient-boosted tree regression<a class="headerlink" href="#gradient-boosted-tree-regression" title="Permalink to this headline">¶</a></h2>
+<h2>8.5. Gradient-boosted tree regression<a class="headerlink" href="#gradient-boosted-tree-regression" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id15">
-<h3>Introduction<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<h3>8.5.1. Introduction<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id16">
-<h3>How to solve it?<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<h3>8.5.2. How to solve it?<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="id17">
-<h3>Demo<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<h3>8.5.3. Demo<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The Jupyter notebook can be download from <a class="reference external" href="_static/GLM.ipynb">Gradient-boosted tree regression</a>.</li>
 <li>For more details about the parameters, please visit <a class="reference external" href="http://takwatanabe.me/pyspark/generated/generated/ml.regression.GBTRegressor.html">Gradient boosted tree API</a> .</li>
@@ -2098,10 +2098,10 @@ to good to keep tracking your data during prototype pahse):</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="reg.html" class="btn btn-neutral float-right" title="Regularization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="reg.html" class="btn btn-neutral float-right" title="9. Regularization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="exploration.html" class="btn btn-neutral" title="Data Exploration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="exploration.html" class="btn btn-neutral" title="7. Data Exploration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -2111,7 +2111,7 @@ to good to keep tracking your data during prototype pahse):</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Feb 18, 2019.
+      Last updated on Feb 20, 2019.
 
     </p>
   </div>
