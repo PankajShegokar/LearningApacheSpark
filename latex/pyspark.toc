@@ -168,6 +168,7 @@
 \contentsline {section}{\numberline {19.1}Hierarchical Structure}{205}{section.19.1}
 \contentsline {section}{\numberline {19.2}Set Up}{206}{section.19.2}
 \contentsline {section}{\numberline {19.3}ReadMe}{206}{section.19.3}
-\contentsline {chapter}{\numberline {20}Main Reference}{208}{chapter.20}
-\contentsline {chapter}{Bibliography}{209}{chapter*.5}
-\contentsline {chapter}{Index}{211}{section*.10}
+\contentsline {chapter}{\numberline {20}My Cheat Sheet}{208}{chapter.20}
+\contentsline {chapter}{\numberline {21}Main Reference}{210}{chapter.21}
+\contentsline {chapter}{Bibliography}{211}{chapter*.5}
+\contentsline {chapter}{Index}{213}{section*.10}
