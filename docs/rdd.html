@@ -111,7 +111,24 @@
 <li class="toctree-l3"><a class="reference internal" href="#spark-actions">5.2.2. Spark Actions</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#rdd-dataframe-vs-pd-dataframe">5.3. <code class="docutils literal"><span class="pre">rdd.DataFrame</span></code>  vs <code class="docutils literal"><span class="pre">pd.DataFrame</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rdd-dataframe-vs-pd-dataframe">5.3. <code class="docutils literal"><span class="pre">rdd.DataFrame</span></code>  vs <code class="docutils literal"><span class="pre">pd.DataFrame</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-dataframe">5.3.1. Create DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-dataframe">5.3.2. Load DataFrame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#first-n-rows">5.3.3. First <code class="docutils literal"><span class="pre">n</span></code> Rows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#column-names">5.3.4. Column Names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-types">5.3.5. Data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fill-null">5.3.6. Fill Null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#replace-values">5.3.7. Replace Values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rename-columns">5.3.8. Rename Columns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#drop-columns">5.3.9. Drop Columns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter">5.3.10. Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-new-column">5.3.11. With New Column</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#join">5.3.12. Join</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concat-columns">5.3.13. Concat Columns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#groupby">5.3.14. GroupBy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pivot">5.3.15. Pivot</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="stats.html">6. Statistics Preliminary</a></li>
@@ -452,7 +469,695 @@ the driver program or save it to an external storage system (e.g., HDFS).</p>
 </div>
 <div class="section" id="rdd-dataframe-vs-pd-dataframe">
 <h2>5.3. <code class="docutils literal"><span class="pre">rdd.DataFrame</span></code>  vs <code class="docutils literal"><span class="pre">pd.DataFrame</span></code><a class="headerlink" href="#rdd-dataframe-vs-pd-dataframe" title="Permalink to this headline">¶</a></h2>
-<p>TODO..</p>
+<div class="section" id="create-dataframe">
+<h3>5.3.1. Create DataFrame<a class="headerlink" href="#create-dataframe" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>From List</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">my_list</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+<span class="n">col_name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># caution for the columns=</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span> <span class="n">col_name</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="n">col_name</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                  <span class="o">+---+---+---+</span>
+                  <span class="o">|</span>  <span class="n">A</span><span class="o">|</span>  <span class="n">B</span><span class="o">|</span>  <span class="n">C</span><span class="o">|</span>
+   <span class="n">A</span>  <span class="n">B</span>  <span class="n">C</span>        <span class="o">+---+---+---+</span>
+<span class="mi">0</span>  <span class="n">a</span>  <span class="mi">1</span>  <span class="mi">2</span>        <span class="o">|</span>  <span class="n">a</span><span class="o">|</span>  <span class="mi">1</span><span class="o">|</span>  <span class="mi">2</span><span class="o">|</span>
+<span class="mi">1</span>  <span class="n">b</span>  <span class="mi">2</span>  <span class="mi">3</span>        <span class="o">|</span>  <span class="n">b</span><span class="o">|</span>  <span class="mi">2</span><span class="o">|</span>  <span class="mi">3</span><span class="o">|</span>
+<span class="mi">2</span>  <span class="n">c</span>  <span class="mi">3</span>  <span class="mi">4</span>        <span class="o">|</span>  <span class="n">c</span><span class="o">|</span>  <span class="mi">3</span><span class="o">|</span>  <span class="mi">4</span><span class="o">|</span>
+                  <span class="o">+---+---+---+</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p>Pay attentation to the parameter <code class="docutils literal"><span class="pre">columns=</span></code> in <code class="docutils literal"><span class="pre">pd.DataFrame</span></code>. Since the default value will make the list as rows.</p>
+<blockquote class="last">
+<div><p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># caution for the columns=</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span> <span class="n">col_name</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="n">col_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>   <span class="n">A</span>  <span class="n">B</span>  <span class="n">C</span>             <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">2</span>
+<span class="mi">0</span>  <span class="n">a</span>  <span class="mi">1</span>  <span class="mi">2</span>          <span class="n">A</span>  <span class="n">a</span>  <span class="mi">1</span>  <span class="mi">2</span>
+<span class="mi">1</span>  <span class="n">b</span>  <span class="mi">2</span>  <span class="mi">3</span>          <span class="n">B</span>  <span class="n">b</span>  <span class="mi">2</span>  <span class="mi">3</span>
+<span class="mi">2</span>  <span class="n">c</span>  <span class="mi">3</span>  <span class="mi">4</span>          <span class="n">C</span>  <span class="n">c</span>  <span class="mi">3</span>  <span class="mi">4</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<ol class="arabic simple" start="2">
+<li>From Dict</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+     <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="k">for</span>
+<span class="c1"># Tedious for PySpark</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span><span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                   <span class="o">+---+---+---+</span>
+                   <span class="o">|</span>  <span class="n">A</span><span class="o">|</span>  <span class="n">B</span><span class="o">|</span>  <span class="n">C</span><span class="o">|</span>
+   <span class="n">A</span>  <span class="n">B</span>  <span class="n">C</span>         <span class="o">+---+---+---+</span>
+<span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">1</span>         <span class="o">|</span>  <span class="mi">0</span><span class="o">|</span>  <span class="mi">1</span><span class="o">|</span>  <span class="mi">1</span><span class="o">|</span>
+<span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>         <span class="o">|</span>  <span class="mi">1</span><span class="o">|</span>  <span class="mi">0</span><span class="o">|</span>  <span class="mi">0</span><span class="o">|</span>
+<span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>         <span class="o">|</span>  <span class="mi">0</span><span class="o">|</span>  <span class="mi">1</span><span class="o">|</span>  <span class="mi">0</span><span class="o">|</span>
+                   <span class="o">+---+---+---+</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="load-dataframe">
+<h3>5.3.2. Load DataFrame<a class="headerlink" href="#load-dataframe" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>From DataBase</li>
+</ol>
+<p>Most of time, you need to share your code with your colleagues or release your code for Code Review or Quality assurance(QA). You will definitely do not want to have your <code class="docutils literal"><span class="pre">User</span> <span class="pre">Information</span></code> in the code. So you can save them
+in login.txt:</p>
+<div class="highlight-rst"><div class="highlight"><pre><span></span>runawayhorse001
+PythonTips
+</pre></div>
+</div>
+<p>and use the following code to import your <code class="docutils literal"><span class="pre">User</span> <span class="pre">Information</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">#User Information</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;login.txt&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">pw</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;User information is ready!&#39;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Login information is not avaliable!!!&#39;</span><span class="p">)</span>
+
+<span class="c1">#Database information</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;##.###.###.##&#39;</span>
+<span class="n">db_name</span> <span class="o">=</span> <span class="s1">&#39;db_name&#39;</span>
+<span class="n">table_name</span> <span class="o">=</span> <span class="s1">&#39;table_name&#39;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="n">db_name</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">pw</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">      select *</span>
+<span class="s2">      from {table_name}</span>
+<span class="s2">      &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">)</span>
+<span class="n">dp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># connect to database</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;jdbc:postgresql://&#39;</span><span class="o">+</span><span class="n">host</span><span class="o">+</span><span class="s1">&#39;:5432/&#39;</span><span class="o">+</span><span class="n">db_name</span><span class="o">+</span><span class="s1">&#39;?user=&#39;</span><span class="o">+</span><span class="n">user</span><span class="o">+</span><span class="s1">&#39;&amp;password=&#39;</span><span class="o">+</span><span class="n">pw</span>
+<span class="n">properties</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="s1">&#39;org.postgresql.Driver&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="n">pw</span><span class="p">,</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">}</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">jdbc</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="n">properties</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Reading tables from Database with PySpark needs the proper drive for the corresponding Database. For example, the above demo needs org.postgresql.Driver and you need to download it and put it in <code class="docutils literal"><span class="pre">jars</span></code> folder of your spark installation path. I download postgresql-42.1.1.jar from the official website and put it in jars folder.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li>From <code class="docutils literal"><span class="pre">.csv</span></code></li>
+</ol>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># pd.DataFrame dp: DataFrame pandas</span>
+<span class="n">dp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Advertising.csv&#39;</span><span class="p">)</span>
+<span class="c1">#rdd.DataFrame. dp: DataFrame spark</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;Advertising.csv&#39;</span><span class="p">,</span>
+<span class="c1">#                sep=&#39;,&#39;,</span>
+<span class="c1">#                encoding=&#39;UTF-8&#39;,</span>
+<span class="c1">#                comment=None,</span>
+               <span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+               <span class="n">inferSchema</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>From <code class="docutils literal"><span class="pre">.json</span></code></li>
+</ol>
+<p>Data from: <a class="reference external" href="http://api.luftdaten.info/static/v1/data.json">http://api.luftdaten.info/static/v1/data.json</a></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;data/data.json&quot;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s1">&#39;data/data.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">[[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="p">[[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                                <span class="o">+----------+-------------------+</span>
+                                                <span class="o">|</span>        <span class="nb">id</span><span class="o">|</span>          <span class="n">timestamp</span><span class="o">|</span>
+            <span class="nb">id</span>  <span class="n">timestamp</span>                       <span class="o">+----------+-------------------+</span>
+<span class="mi">0</span>   <span class="mi">2994551481</span>  <span class="mi">2019</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">28</span> <span class="mi">17</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">52</span>             <span class="o">|</span><span class="mi">2994551481</span><span class="o">|</span><span class="mi">2019</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">28</span> <span class="mi">17</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">52</span><span class="o">|</span>
+<span class="mi">1</span>   <span class="mi">2994551482</span>  <span class="mi">2019</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">28</span> <span class="mi">17</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">52</span>             <span class="o">|</span><span class="mi">2994551482</span><span class="o">|</span><span class="mi">2019</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">28</span> <span class="mi">17</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">52</span><span class="o">|</span>
+<span class="mi">2</span>   <span class="mi">2994551483</span>  <span class="mi">2019</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">28</span> <span class="mi">17</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">52</span>             <span class="o">|</span><span class="mi">2994551483</span><span class="o">|</span><span class="mi">2019</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">28</span> <span class="mi">17</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">52</span><span class="o">|</span>
+<span class="mi">3</span>   <span class="mi">2994551484</span>  <span class="mi">2019</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">28</span> <span class="mi">17</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">52</span>             <span class="o">|</span><span class="mi">2994551484</span><span class="o">|</span><span class="mi">2019</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">28</span> <span class="mi">17</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">52</span><span class="o">|</span>
+                                                <span class="o">+----------+-------------------+</span>
+                                                <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="first-n-rows">
+<h3>5.3.3. First <code class="docutils literal"><span class="pre">n</span></code> Rows<a class="headerlink" href="#first-n-rows" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                        <span class="o">+-----+-----+---------+-----+</span>
+                                        <span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>
+      <span class="n">TV</span>  <span class="n">Radio</span>  <span class="n">Newspaper</span>  <span class="n">Sales</span>       <span class="o">+-----+-----+---------+-----+</span>
+<span class="mi">0</span>  <span class="mf">230.1</span>   <span class="mf">37.8</span>       <span class="mf">69.2</span>   <span class="mf">22.1</span>       <span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>     <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>
+<span class="mi">1</span>   <span class="mf">44.5</span>   <span class="mf">39.3</span>       <span class="mf">45.1</span>   <span class="mf">10.4</span>       <span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>     <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span>
+<span class="mi">2</span>   <span class="mf">17.2</span>   <span class="mf">45.9</span>       <span class="mf">69.3</span>    <span class="mf">9.3</span>       <span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>     <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="mf">151.5</span>   <span class="mf">41.3</span>       <span class="mf">58.5</span>   <span class="mf">18.5</span>       <span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>     <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span>
+                                        <span class="o">+-----+-----+---------+-----+</span>
+                                        <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="column-names">
+<h3>5.3.4. Column Names<a class="headerlink" href="#column-names" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="o">.</span><span class="n">columns</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Index</span><span class="p">([</span><span class="s1">&#39;TV&#39;</span><span class="p">,</span> <span class="s1">&#39;Radio&#39;</span><span class="p">,</span> <span class="s1">&#39;Newspaper&#39;</span><span class="p">,</span> <span class="s1">&#39;Sales&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;TV&#39;</span><span class="p">,</span> <span class="s1">&#39;Radio&#39;</span><span class="p">,</span> <span class="s1">&#39;Newspaper&#39;</span><span class="p">,</span> <span class="s1">&#39;Sales&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="data-types">
+<h3>5.3.5. Data types<a class="headerlink" href="#data-types" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">TV</span>           <span class="n">float64</span>                    <span class="p">[(</span><span class="s1">&#39;TV&#39;</span><span class="p">,</span> <span class="s1">&#39;double&#39;</span><span class="p">),</span>
+<span class="n">Radio</span>        <span class="n">float64</span>                     <span class="p">(</span><span class="s1">&#39;Radio&#39;</span><span class="p">,</span> <span class="s1">&#39;double&#39;</span><span class="p">),</span>
+<span class="n">Newspaper</span>    <span class="n">float64</span>                     <span class="p">(</span><span class="s1">&#39;Newspaper&#39;</span><span class="p">,</span> <span class="s1">&#39;double&#39;</span><span class="p">),</span>
+<span class="n">Sales</span>        <span class="n">float64</span>                     <span class="p">(</span><span class="s1">&#39;Sales&#39;</span><span class="p">,</span> <span class="s1">&#39;double&#39;</span><span class="p">)]</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="nb">object</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fill-null">
+<h3>5.3.6. Fill Null<a class="headerlink" href="#fill-null" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">my_list</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+<span class="n">dp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+<span class="c1">#</span>
+<span class="n">dp</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                        <span class="o">+------+---+----+</span>
+                                        <span class="o">|</span>     <span class="n">A</span><span class="o">|</span>  <span class="n">B</span><span class="o">|</span>   <span class="n">C</span><span class="o">|</span>
+        <span class="n">A</span>  <span class="n">B</span>    <span class="n">C</span>                       <span class="o">+------+---+----+</span>
+<span class="mi">0</span>    <span class="n">male</span>  <span class="mi">1</span>  <span class="n">NaN</span>                       <span class="o">|</span>  <span class="n">male</span><span class="o">|</span>  <span class="mi">1</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>
+<span class="mi">1</span>  <span class="n">female</span>  <span class="mi">2</span>  <span class="mf">3.0</span>                       <span class="o">|</span><span class="n">female</span><span class="o">|</span>  <span class="mi">2</span><span class="o">|</span>   <span class="mi">3</span><span class="o">|</span>
+<span class="mi">2</span>    <span class="n">male</span>  <span class="mi">3</span>  <span class="mf">4.0</span>                       <span class="o">|</span>  <span class="n">male</span><span class="o">|</span>  <span class="mi">3</span><span class="o">|</span>   <span class="mi">4</span><span class="o">|</span>
+                                        <span class="o">+------+---+----+</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="o">-</span><span class="mi">99</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="o">-</span><span class="mi">99</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                        <span class="o">+------+---+----+</span>
+                                        <span class="o">|</span>     <span class="n">A</span><span class="o">|</span>  <span class="n">B</span><span class="o">|</span>   <span class="n">C</span><span class="o">|</span>
+        <span class="n">A</span>  <span class="n">B</span>    <span class="n">C</span>                       <span class="o">+------+---+----+</span>
+<span class="mi">0</span>    <span class="n">male</span>  <span class="mi">1</span>  <span class="o">-</span><span class="mi">99</span>                       <span class="o">|</span>  <span class="n">male</span><span class="o">|</span>  <span class="mi">1</span><span class="o">|</span> <span class="o">-</span><span class="mi">99</span><span class="o">|</span>
+<span class="mi">1</span>  <span class="n">female</span>  <span class="mi">2</span>  <span class="mf">3.0</span>                       <span class="o">|</span><span class="n">female</span><span class="o">|</span>  <span class="mi">2</span><span class="o">|</span>   <span class="mi">3</span><span class="o">|</span>
+<span class="mi">2</span>    <span class="n">male</span>  <span class="mi">3</span>  <span class="mf">4.0</span>                       <span class="o">|</span>  <span class="n">male</span><span class="o">|</span>  <span class="mi">3</span><span class="o">|</span>   <span class="mi">4</span><span class="o">|</span>
+                                        <span class="o">+------+---+----+</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="replace-values">
+<h3>5.3.7. Replace Values<a class="headerlink" href="#replace-values" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># caution: you need to chose specific col</span>
+<span class="n">dp</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">dp</span>
+<span class="c1">#caution: Mixed type replacements are not supported</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">na</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="s1">&#39;male&#39;</span><span class="p">,</span><span class="s1">&#39;female&#39;</span><span class="p">],[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;0&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                <span class="o">+---+---+----+</span>
+                                <span class="o">|</span>  <span class="n">A</span><span class="o">|</span>  <span class="n">B</span><span class="o">|</span>   <span class="n">C</span><span class="o">|</span>
+   <span class="n">A</span>  <span class="n">B</span>    <span class="n">C</span>                    <span class="o">+---+---+----+</span>
+<span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="n">NaN</span>                    <span class="o">|</span>  <span class="mi">1</span><span class="o">|</span>  <span class="mi">1</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>
+<span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">2</span>  <span class="mf">3.0</span>                    <span class="o">|</span>  <span class="mi">0</span><span class="o">|</span>  <span class="mi">2</span><span class="o">|</span>   <span class="mi">3</span><span class="o">|</span>
+<span class="mi">2</span>  <span class="mi">1</span>  <span class="mi">3</span>  <span class="mf">4.0</span>                    <span class="o">|</span>  <span class="mi">1</span><span class="o">|</span>  <span class="mi">3</span><span class="o">|</span>   <span class="mi">4</span><span class="o">|</span>
+                                <span class="o">+---+---+----+</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rename-columns">
+<h3>5.3.8. Rename Columns<a class="headerlink" href="#rename-columns" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Rename all columns</li>
+</ol>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">]</span>
+<span class="n">dp</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                                <span class="o">+-----+----+----+----+</span>
+                                                <span class="o">|</span>    <span class="n">a</span><span class="o">|</span>   <span class="n">b</span><span class="o">|</span>   <span class="n">c</span><span class="o">|</span>   <span class="n">d</span><span class="o">|</span>
+       <span class="n">a</span>     <span class="n">b</span>     <span class="n">c</span>     <span class="n">d</span>                      <span class="o">+-----+----+----+----+</span>
+<span class="mi">0</span>  <span class="mf">230.1</span>  <span class="mf">37.8</span>  <span class="mf">69.2</span>  <span class="mf">22.1</span>                      <span class="o">|</span><span class="mf">230.1</span><span class="o">|</span><span class="mf">37.8</span><span class="o">|</span><span class="mf">69.2</span><span class="o">|</span><span class="mf">22.1</span><span class="o">|</span>
+<span class="mi">1</span>   <span class="mf">44.5</span>  <span class="mf">39.3</span>  <span class="mf">45.1</span>  <span class="mf">10.4</span>                      <span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span><span class="mf">39.3</span><span class="o">|</span><span class="mf">45.1</span><span class="o">|</span><span class="mf">10.4</span><span class="o">|</span>
+<span class="mi">2</span>   <span class="mf">17.2</span>  <span class="mf">45.9</span>  <span class="mf">69.3</span>   <span class="mf">9.3</span>                      <span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span><span class="mf">45.9</span><span class="o">|</span><span class="mf">69.3</span><span class="o">|</span> <span class="mf">9.3</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="mf">151.5</span>  <span class="mf">41.3</span>  <span class="mf">58.5</span>  <span class="mf">18.5</span>                      <span class="o">|</span><span class="mf">151.5</span><span class="o">|</span><span class="mf">41.3</span><span class="o">|</span><span class="mf">58.5</span><span class="o">|</span><span class="mf">18.5</span><span class="o">|</span>
+                                                <span class="o">+-----+----+----+----+</span>
+                                                <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Rename one or more columns</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Newspaper&#39;</span><span class="p">:</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="s1">&#39;Sales&#39;</span><span class="p">:</span><span class="s1">&#39;D&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">mapping</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">new_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="o">*</span><span class="n">new_names</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                        <span class="o">+-----+-----+----+----+</span>
+                                        <span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span>   <span class="n">C</span><span class="o">|</span>   <span class="n">D</span><span class="o">|</span>
+      <span class="n">TV</span>  <span class="n">Radio</span>     <span class="n">C</span>     <span class="n">D</span>             <span class="o">+-----+-----+----+----+</span>
+<span class="mi">0</span>  <span class="mf">230.1</span>   <span class="mf">37.8</span>  <span class="mf">69.2</span>  <span class="mf">22.1</span>             <span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span><span class="mf">69.2</span><span class="o">|</span><span class="mf">22.1</span><span class="o">|</span>
+<span class="mi">1</span>   <span class="mf">44.5</span>   <span class="mf">39.3</span>  <span class="mf">45.1</span>  <span class="mf">10.4</span>             <span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span><span class="mf">45.1</span><span class="o">|</span><span class="mf">10.4</span><span class="o">|</span>
+<span class="mi">2</span>   <span class="mf">17.2</span>   <span class="mf">45.9</span>  <span class="mf">69.3</span>   <span class="mf">9.3</span>             <span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span><span class="mf">69.3</span><span class="o">|</span> <span class="mf">9.3</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="mf">151.5</span>   <span class="mf">41.3</span>  <span class="mf">58.5</span>  <span class="mf">18.5</span>             <span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span><span class="mf">58.5</span><span class="o">|</span><span class="mf">18.5</span><span class="o">|</span>
+                                        <span class="o">+-----+-----+----+----+</span>
+                                        <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>You can also use <code class="docutils literal"><span class="pre">withColumnRenamed</span></code> to rename one column in PySpark.</p>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="s1">&#39;Newspaper&#39;</span><span class="p">,</span><span class="s1">&#39;Paper&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span><span class="o">+-----+-----+-----+-----+</span>
+<span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Paper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>
+<span class="o">+-----+-----+-----+-----+</span>
+<span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span> <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>
+<span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span> <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span>
+<span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span> <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span>
+<span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span> <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span>
+<span class="o">+-----+-----+-----+-----+</span>
+<span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="drop-columns">
+<h3>5.3.9. Drop Columns<a class="headerlink" href="#drop-columns" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">drop_name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Newspaper&#39;</span><span class="p">,</span><span class="s1">&#39;Sales&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_name</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="o">*</span><span class="n">drop_name</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                <span class="o">+-----+-----+</span>
+                                <span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span>
+      <span class="n">TV</span>  <span class="n">Radio</span>                 <span class="o">+-----+-----+</span>
+<span class="mi">0</span>  <span class="mf">230.1</span>   <span class="mf">37.8</span>                 <span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>
+<span class="mi">1</span>   <span class="mf">44.5</span>   <span class="mf">39.3</span>                 <span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>
+<span class="mi">2</span>   <span class="mf">17.2</span>   <span class="mf">45.9</span>                 <span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="mf">151.5</span>   <span class="mf">41.3</span>                 <span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>
+                                <span class="o">+-----+-----+</span>
+                                <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filter">
+<h3>5.3.10. Filter<a class="headerlink" href="#filter" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Advertising.csv&#39;</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;Advertising.csv&#39;</span><span class="p">,</span>
+                    <span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                    <span class="n">inferSchema</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">[</span><span class="n">dp</span><span class="o">.</span><span class="n">Newspaper</span><span class="o">&lt;</span><span class="mi">20</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">Newspaper</span><span class="o">&lt;</span><span class="mi">20</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                                <span class="o">+-----+-----+---------+-----+</span>
+                                                <span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>
+       <span class="n">TV</span>  <span class="n">Radio</span>  <span class="n">Newspaper</span>  <span class="n">Sales</span>              <span class="o">+-----+-----+---------+-----+</span>
+<span class="mi">7</span>   <span class="mf">120.2</span>   <span class="mf">19.6</span>       <span class="mf">11.6</span>   <span class="mf">13.2</span>              <span class="o">|</span><span class="mf">120.2</span><span class="o">|</span> <span class="mf">19.6</span><span class="o">|</span>     <span class="mf">11.6</span><span class="o">|</span> <span class="mf">13.2</span><span class="o">|</span>
+<span class="mi">8</span>     <span class="mf">8.6</span>    <span class="mf">2.1</span>        <span class="mf">1.0</span>    <span class="mf">4.8</span>              <span class="o">|</span>  <span class="mf">8.6</span><span class="o">|</span>  <span class="mf">2.1</span><span class="o">|</span>      <span class="mf">1.0</span><span class="o">|</span>  <span class="mf">4.8</span><span class="o">|</span>
+<span class="mi">11</span>  <span class="mf">214.7</span>   <span class="mf">24.0</span>        <span class="mf">4.0</span>   <span class="mf">17.4</span>              <span class="o">|</span><span class="mf">214.7</span><span class="o">|</span> <span class="mf">24.0</span><span class="o">|</span>      <span class="mf">4.0</span><span class="o">|</span> <span class="mf">17.4</span><span class="o">|</span>
+<span class="mi">13</span>   <span class="mf">97.5</span>    <span class="mf">7.6</span>        <span class="mf">7.2</span>    <span class="mf">9.7</span>              <span class="o">|</span> <span class="mf">97.5</span><span class="o">|</span>  <span class="mf">7.6</span><span class="o">|</span>      <span class="mf">7.2</span><span class="o">|</span>  <span class="mf">9.7</span><span class="o">|</span>
+                                                <span class="o">+-----+-----+---------+-----+</span>
+                                                <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">[(</span><span class="n">dp</span><span class="o">.</span><span class="n">Newspaper</span><span class="o">&lt;</span><span class="mi">20</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">dp</span><span class="o">.</span><span class="n">TV</span><span class="o">&gt;</span><span class="mi">100</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="p">[(</span><span class="n">ds</span><span class="o">.</span><span class="n">Newspaper</span><span class="o">&lt;</span><span class="mi">20</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">TV</span><span class="o">&gt;</span><span class="mi">100</span><span class="p">)]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                                <span class="o">+-----+-----+---------+-----+</span>
+                                                <span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>
+       <span class="n">TV</span>  <span class="n">Radio</span>  <span class="n">Newspaper</span>  <span class="n">Sales</span>              <span class="o">+-----+-----+---------+-----+</span>
+<span class="mi">7</span>   <span class="mf">120.2</span>   <span class="mf">19.6</span>       <span class="mf">11.6</span>   <span class="mf">13.2</span>              <span class="o">|</span><span class="mf">120.2</span><span class="o">|</span> <span class="mf">19.6</span><span class="o">|</span>     <span class="mf">11.6</span><span class="o">|</span> <span class="mf">13.2</span><span class="o">|</span>
+<span class="mi">11</span>  <span class="mf">214.7</span>   <span class="mf">24.0</span>        <span class="mf">4.0</span>   <span class="mf">17.4</span>              <span class="o">|</span><span class="mf">214.7</span><span class="o">|</span> <span class="mf">24.0</span><span class="o">|</span>      <span class="mf">4.0</span><span class="o">|</span> <span class="mf">17.4</span><span class="o">|</span>
+<span class="mi">19</span>  <span class="mf">147.3</span>   <span class="mf">23.9</span>       <span class="mf">19.1</span>   <span class="mf">14.6</span>              <span class="o">|</span><span class="mf">147.3</span><span class="o">|</span> <span class="mf">23.9</span><span class="o">|</span>     <span class="mf">19.1</span><span class="o">|</span> <span class="mf">14.6</span><span class="o">|</span>
+<span class="mi">25</span>  <span class="mf">262.9</span>    <span class="mf">3.5</span>       <span class="mf">19.5</span>   <span class="mf">12.0</span>              <span class="o">|</span><span class="mf">262.9</span><span class="o">|</span>  <span class="mf">3.5</span><span class="o">|</span>     <span class="mf">19.5</span><span class="o">|</span> <span class="mf">12.0</span><span class="o">|</span>
+                                                <span class="o">+-----+-----+---------+-----+</span>
+                                                <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="with-new-column">
+<h3>5.3.11. With New Column<a class="headerlink" href="#with-new-column" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">[</span><span class="s1">&#39;tv_norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">TV</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">dp</span><span class="o">.</span><span class="n">TV</span><span class="p">)</span>
+<span class="n">dp</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;tv_norm&#39;</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">TV</span><span class="o">/</span><span class="n">ds</span><span class="o">.</span><span class="n">groupBy</span><span class="p">()</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;TV&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                                <span class="o">+-----+-----+---------+-----+--------------------+</span>
+                                                <span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>             <span class="n">tv_norm</span><span class="o">|</span>
+      <span class="n">TV</span>  <span class="n">Radio</span>  <span class="n">Newspaper</span>  <span class="n">Sales</span>   <span class="n">tv_norm</span>     <span class="o">+-----+-----+---------+-----+--------------------+</span>
+<span class="mi">0</span>  <span class="mf">230.1</span>   <span class="mf">37.8</span>       <span class="mf">69.2</span>   <span class="mf">22.1</span>  <span class="mf">0.007824</span>     <span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>     <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span><span class="mf">0.007824268493802813</span><span class="o">|</span>
+<span class="mi">1</span>   <span class="mf">44.5</span>   <span class="mf">39.3</span>       <span class="mf">45.1</span>   <span class="mf">10.4</span>  <span class="mf">0.001513</span>     <span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>     <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span><span class="mf">0.001513167961643</span><span class="o">...|</span>
+<span class="mi">2</span>   <span class="mf">17.2</span>   <span class="mf">45.9</span>       <span class="mf">69.3</span>    <span class="mf">9.3</span>  <span class="mf">0.000585</span>     <span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>     <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span><span class="mf">5.848649200061207E-4</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="mf">151.5</span>   <span class="mf">41.3</span>       <span class="mf">58.5</span>   <span class="mf">18.5</span>  <span class="mf">0.005152</span>     <span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>     <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span><span class="mf">0.005151571824472517</span><span class="o">|</span>
+                                                <span class="o">+-----+-----+---------+-----+--------------------+</span>
+                                                <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">[</span><span class="s1">&#39;cond&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="p">((</span><span class="n">c</span><span class="o">.</span><span class="n">TV</span><span class="o">&gt;</span><span class="mi">100</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">Radio</span><span class="o">&lt;</span><span class="mi">40</span><span class="p">))</span> <span class="k">else</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">Sales</span><span class="o">&gt;</span> <span class="mi">10</span> <span class="k">else</span> <span class="mi">3</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;cond&#39;</span><span class="p">,</span><span class="n">F</span><span class="o">.</span><span class="n">when</span><span class="p">((</span><span class="n">ds</span><span class="o">.</span><span class="n">TV</span><span class="o">&gt;</span><span class="mi">100</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">Radio</span><span class="o">&lt;</span><span class="mi">40</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span>\
+                      <span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">Sales</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>\
+                      <span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                                <span class="o">+-----+-----+---------+-----+----+</span>
+                                                <span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span><span class="n">cond</span><span class="o">|</span>
+      <span class="n">TV</span>  <span class="n">Radio</span>  <span class="n">Newspaper</span>  <span class="n">Sales</span>  <span class="n">cond</span>         <span class="o">+-----+-----+---------+-----+----+</span>
+<span class="mi">0</span>  <span class="mf">230.1</span>   <span class="mf">37.8</span>       <span class="mf">69.2</span>   <span class="mf">22.1</span>     <span class="mi">1</span>         <span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>     <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>   <span class="mi">1</span><span class="o">|</span>
+<span class="mi">1</span>   <span class="mf">44.5</span>   <span class="mf">39.3</span>       <span class="mf">45.1</span>   <span class="mf">10.4</span>     <span class="mi">2</span>         <span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>     <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span>   <span class="mi">2</span><span class="o">|</span>
+<span class="mi">2</span>   <span class="mf">17.2</span>   <span class="mf">45.9</span>       <span class="mf">69.3</span>    <span class="mf">9.3</span>     <span class="mi">3</span>         <span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>     <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span>   <span class="mi">3</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="mf">151.5</span>   <span class="mf">41.3</span>       <span class="mf">58.5</span>   <span class="mf">18.5</span>     <span class="mi">2</span>         <span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>     <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span>   <span class="mi">2</span><span class="o">|</span>
+                                                <span class="o">+-----+-----+---------+-----+----+</span>
+                                                <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">[</span><span class="s1">&#39;log_tv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">dp</span><span class="o">.</span><span class="n">TV</span><span class="p">)</span>
+<span class="n">dp</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;log_tv&#39;</span><span class="p">,</span><span class="n">F</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">TV</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                                <span class="o">+-----+-----+---------+-----+------------------+</span>
+                                                <span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span>            <span class="n">log_tv</span><span class="o">|</span>
+      <span class="n">TV</span>  <span class="n">Radio</span>  <span class="n">Newspaper</span>  <span class="n">Sales</span>    <span class="n">log_tv</span>     <span class="o">+-----+-----+---------+-----+------------------+</span>
+<span class="mi">0</span>  <span class="mf">230.1</span>   <span class="mf">37.8</span>       <span class="mf">69.2</span>   <span class="mf">22.1</span>  <span class="mf">5.438514</span>     <span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>     <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span>  <span class="mf">5.43851399704132</span><span class="o">|</span>
+<span class="mi">1</span>   <span class="mf">44.5</span>   <span class="mf">39.3</span>       <span class="mf">45.1</span>   <span class="mf">10.4</span>  <span class="mf">3.795489</span>     <span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>     <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span><span class="mf">3.7954891891721947</span><span class="o">|</span>
+<span class="mi">2</span>   <span class="mf">17.2</span>   <span class="mf">45.9</span>       <span class="mf">69.3</span>    <span class="mf">9.3</span>  <span class="mf">2.844909</span>     <span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>     <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span><span class="mf">2.8449093838194073</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="mf">151.5</span>   <span class="mf">41.3</span>       <span class="mf">58.5</span>   <span class="mf">18.5</span>  <span class="mf">5.020586</span>     <span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>     <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span> <span class="mf">5.020585624949423</span><span class="o">|</span>
+                                                <span class="o">+-----+-----+---------+-----+------------------+</span>
+                                                <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">[</span><span class="s1">&#39;tv+10&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">TV</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">dp</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;tv+10&#39;</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">TV</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                                <span class="o">+-----+-----+---------+-----+-----+</span>
+                                                <span class="o">|</span>   <span class="n">TV</span><span class="o">|</span><span class="n">Radio</span><span class="o">|</span><span class="n">Newspaper</span><span class="o">|</span><span class="n">Sales</span><span class="o">|</span><span class="n">tv</span><span class="o">+</span><span class="mi">10</span><span class="o">|</span>
+      <span class="n">TV</span>  <span class="n">Radio</span>  <span class="n">Newspaper</span>  <span class="n">Sales</span>  <span class="n">tv</span><span class="o">+</span><span class="mi">10</span>        <span class="o">+-----+-----+---------+-----+-----+</span>
+<span class="mi">0</span>  <span class="mf">230.1</span>   <span class="mf">37.8</span>       <span class="mf">69.2</span>   <span class="mf">22.1</span>  <span class="mf">240.1</span>        <span class="o">|</span><span class="mf">230.1</span><span class="o">|</span> <span class="mf">37.8</span><span class="o">|</span>     <span class="mf">69.2</span><span class="o">|</span> <span class="mf">22.1</span><span class="o">|</span><span class="mf">240.1</span><span class="o">|</span>
+<span class="mi">1</span>   <span class="mf">44.5</span>   <span class="mf">39.3</span>       <span class="mf">45.1</span>   <span class="mf">10.4</span>   <span class="mf">54.5</span>        <span class="o">|</span> <span class="mf">44.5</span><span class="o">|</span> <span class="mf">39.3</span><span class="o">|</span>     <span class="mf">45.1</span><span class="o">|</span> <span class="mf">10.4</span><span class="o">|</span> <span class="mf">54.5</span><span class="o">|</span>
+<span class="mi">2</span>   <span class="mf">17.2</span>   <span class="mf">45.9</span>       <span class="mf">69.3</span>    <span class="mf">9.3</span>   <span class="mf">27.2</span>        <span class="o">|</span> <span class="mf">17.2</span><span class="o">|</span> <span class="mf">45.9</span><span class="o">|</span>     <span class="mf">69.3</span><span class="o">|</span>  <span class="mf">9.3</span><span class="o">|</span> <span class="mf">27.2</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="mf">151.5</span>   <span class="mf">41.3</span>       <span class="mf">58.5</span>   <span class="mf">18.5</span>  <span class="mf">161.5</span>        <span class="o">|</span><span class="mf">151.5</span><span class="o">|</span> <span class="mf">41.3</span><span class="o">|</span>     <span class="mf">58.5</span><span class="o">|</span> <span class="mf">18.5</span><span class="o">|</span><span class="mf">161.5</span><span class="o">|</span>
+                                                <span class="o">+-----+-----+---------+-----+-----+</span>
+                                                <span class="n">only</span> <span class="n">showing</span> <span class="n">top</span> <span class="mi">4</span> <span class="n">rows</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="join">
+<h3>5.3.12. Join<a class="headerlink" href="#join" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">leftp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="s1">&#39;A3&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B0&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D0&#39;</span><span class="p">,</span> <span class="s1">&#39;D1&#39;</span><span class="p">,</span> <span class="s1">&#39;D2&#39;</span><span class="p">,</span> <span class="s1">&#39;D3&#39;</span><span class="p">]},</span>
+                    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+<span class="n">rightp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="s1">&#39;A6&#39;</span><span class="p">,</span> <span class="s1">&#39;A7&#39;</span><span class="p">],</span>
+                       <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;B4&#39;</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B6&#39;</span><span class="p">,</span> <span class="s1">&#39;B7&#39;</span><span class="p">],</span>
+                       <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;C5&#39;</span><span class="p">,</span> <span class="s1">&#39;C6&#39;</span><span class="p">,</span> <span class="s1">&#39;C7&#39;</span><span class="p">],</span>
+                       <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;D4&#39;</span><span class="p">,</span> <span class="s1">&#39;D5&#39;</span><span class="p">,</span> <span class="s1">&#39;D6&#39;</span><span class="p">,</span> <span class="s1">&#39;D7&#39;</span><span class="p">]},</span>
+                       <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+
+<span class="n">lefts</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">leftp</span><span class="p">)</span>
+<span class="n">rights</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">rightp</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    <span class="n">A</span>   <span class="n">B</span>   <span class="n">C</span>   <span class="n">D</span>                   <span class="n">A</span>   <span class="n">F</span>   <span class="n">G</span>   <span class="n">H</span>
+<span class="mi">0</span>  <span class="n">A0</span>  <span class="n">B0</span>  <span class="n">C0</span>  <span class="n">D0</span>               <span class="mi">4</span>  <span class="n">A0</span>  <span class="n">B4</span>  <span class="n">C4</span>  <span class="n">D4</span>
+<span class="mi">1</span>  <span class="n">A1</span>  <span class="n">B1</span>  <span class="n">C1</span>  <span class="n">D1</span>               <span class="mi">5</span>  <span class="n">A1</span>  <span class="n">B5</span>  <span class="n">C5</span>  <span class="n">D5</span>
+<span class="mi">2</span>  <span class="n">A2</span>  <span class="n">B2</span>  <span class="n">C2</span>  <span class="n">D2</span>               <span class="mi">6</span>  <span class="n">A6</span>  <span class="n">B6</span>  <span class="n">C6</span>  <span class="n">D6</span>
+<span class="mi">3</span>  <span class="n">A3</span>  <span class="n">B3</span>  <span class="n">C3</span>  <span class="n">D3</span>               <span class="mi">7</span>  <span class="n">A7</span>  <span class="n">B7</span>  <span class="n">C7</span>  <span class="n">D7</span>
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p class="first">Left Join</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">leftp</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">rightp</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">lefts</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rights</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                        <span class="o">+---+---+---+---+----+----+----+</span>
+                                        <span class="o">|</span>  <span class="n">A</span><span class="o">|</span>  <span class="n">B</span><span class="o">|</span>  <span class="n">C</span><span class="o">|</span>  <span class="n">D</span><span class="o">|</span>   <span class="n">F</span><span class="o">|</span>   <span class="n">G</span><span class="o">|</span>   <span class="n">H</span><span class="o">|</span>
+    <span class="n">A</span>   <span class="n">B</span>   <span class="n">C</span>   <span class="n">D</span>    <span class="n">F</span>    <span class="n">G</span>    <span class="n">H</span>        <span class="o">+---+---+---+---+----+----+----+</span>
+<span class="mi">0</span>  <span class="n">A0</span>  <span class="n">B0</span>  <span class="n">C0</span>  <span class="n">D0</span>   <span class="n">B4</span>   <span class="n">C4</span>   <span class="n">D4</span>        <span class="o">|</span> <span class="n">A0</span><span class="o">|</span> <span class="n">B0</span><span class="o">|</span> <span class="n">C0</span><span class="o">|</span> <span class="n">D0</span><span class="o">|</span>  <span class="n">B4</span><span class="o">|</span>  <span class="n">C4</span><span class="o">|</span>  <span class="n">D4</span><span class="o">|</span>
+<span class="mi">1</span>  <span class="n">A1</span>  <span class="n">B1</span>  <span class="n">C1</span>  <span class="n">D1</span>   <span class="n">B5</span>   <span class="n">C5</span>   <span class="n">D5</span>        <span class="o">|</span> <span class="n">A1</span><span class="o">|</span> <span class="n">B1</span><span class="o">|</span> <span class="n">C1</span><span class="o">|</span> <span class="n">D1</span><span class="o">|</span>  <span class="n">B5</span><span class="o">|</span>  <span class="n">C5</span><span class="o">|</span>  <span class="n">D5</span><span class="o">|</span>
+<span class="mi">2</span>  <span class="n">A2</span>  <span class="n">B2</span>  <span class="n">C2</span>  <span class="n">D2</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">NaN</span>        <span class="o">|</span> <span class="n">A2</span><span class="o">|</span> <span class="n">B2</span><span class="o">|</span> <span class="n">C2</span><span class="o">|</span> <span class="n">D2</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="n">A3</span>  <span class="n">B3</span>  <span class="n">C3</span>  <span class="n">D3</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">NaN</span>        <span class="o">|</span> <span class="n">A3</span><span class="o">|</span> <span class="n">B3</span><span class="o">|</span> <span class="n">C3</span><span class="o">|</span> <span class="n">D3</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>
+                                        <span class="o">+---+---+---+---+----+----+----+</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Right Join</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">leftp</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">rightp</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">lefts</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rights</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                        <span class="o">+---+----+----+----+---+---+---+</span>
+                                        <span class="o">|</span>  <span class="n">A</span><span class="o">|</span>   <span class="n">B</span><span class="o">|</span>   <span class="n">C</span><span class="o">|</span>   <span class="n">D</span><span class="o">|</span>  <span class="n">F</span><span class="o">|</span>  <span class="n">G</span><span class="o">|</span>  <span class="n">H</span><span class="o">|</span>
+    <span class="n">A</span>    <span class="n">B</span>    <span class="n">C</span>    <span class="n">D</span>   <span class="n">F</span>   <span class="n">G</span>   <span class="n">H</span>        <span class="o">+---+----+----+----+---+---+---+</span>
+<span class="mi">0</span>  <span class="n">A0</span>   <span class="n">B0</span>   <span class="n">C0</span>   <span class="n">D0</span>  <span class="n">B4</span>  <span class="n">C4</span>  <span class="n">D4</span>        <span class="o">|</span> <span class="n">A0</span><span class="o">|</span>  <span class="n">B0</span><span class="o">|</span>  <span class="n">C0</span><span class="o">|</span>  <span class="n">D0</span><span class="o">|</span> <span class="n">B4</span><span class="o">|</span> <span class="n">C4</span><span class="o">|</span> <span class="n">D4</span><span class="o">|</span>
+<span class="mi">1</span>  <span class="n">A1</span>   <span class="n">B1</span>   <span class="n">C1</span>   <span class="n">D1</span>  <span class="n">B5</span>  <span class="n">C5</span>  <span class="n">D5</span>        <span class="o">|</span> <span class="n">A1</span><span class="o">|</span>  <span class="n">B1</span><span class="o">|</span>  <span class="n">C1</span><span class="o">|</span>  <span class="n">D1</span><span class="o">|</span> <span class="n">B5</span><span class="o">|</span> <span class="n">C5</span><span class="o">|</span> <span class="n">D5</span><span class="o">|</span>
+<span class="mi">2</span>  <span class="n">A6</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">B6</span>  <span class="n">C6</span>  <span class="n">D6</span>        <span class="o">|</span> <span class="n">A6</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span> <span class="n">B6</span><span class="o">|</span> <span class="n">C6</span><span class="o">|</span> <span class="n">D6</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="n">A7</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">B7</span>  <span class="n">C7</span>  <span class="n">D7</span>        <span class="o">|</span> <span class="n">A7</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span> <span class="n">B7</span><span class="o">|</span> <span class="n">C7</span><span class="o">|</span> <span class="n">D7</span><span class="o">|</span>
+                                        <span class="o">+---+----+----+----+---+---+---+</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Inner Join</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">leftp</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">rightp</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">lefts</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rights</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                <span class="o">+---+---+---+---+---+---+---+</span>
+                                <span class="o">|</span>  <span class="n">A</span><span class="o">|</span>  <span class="n">B</span><span class="o">|</span>  <span class="n">C</span><span class="o">|</span>  <span class="n">D</span><span class="o">|</span>  <span class="n">F</span><span class="o">|</span>  <span class="n">G</span><span class="o">|</span>  <span class="n">H</span><span class="o">|</span>
+    <span class="n">A</span>   <span class="n">B</span>   <span class="n">C</span>   <span class="n">D</span>   <span class="n">F</span>   <span class="n">G</span>   <span class="n">H</span>   <span class="o">+---+---+---+---+---+---+---+</span>
+<span class="mi">0</span>  <span class="n">A0</span>  <span class="n">B0</span>  <span class="n">C0</span>  <span class="n">D0</span>  <span class="n">B4</span>  <span class="n">C4</span>  <span class="n">D4</span>   <span class="o">|</span> <span class="n">A0</span><span class="o">|</span> <span class="n">B0</span><span class="o">|</span> <span class="n">C0</span><span class="o">|</span> <span class="n">D0</span><span class="o">|</span> <span class="n">B4</span><span class="o">|</span> <span class="n">C4</span><span class="o">|</span> <span class="n">D4</span><span class="o">|</span>
+<span class="mi">1</span>  <span class="n">A1</span>  <span class="n">B1</span>  <span class="n">C1</span>  <span class="n">D1</span>  <span class="n">B5</span>  <span class="n">C5</span>  <span class="n">D5</span>   <span class="o">|</span> <span class="n">A1</span><span class="o">|</span> <span class="n">B1</span><span class="o">|</span> <span class="n">C1</span><span class="o">|</span> <span class="n">D1</span><span class="o">|</span> <span class="n">B5</span><span class="o">|</span> <span class="n">C5</span><span class="o">|</span> <span class="n">D5</span><span class="o">|</span>
+                                <span class="o">+---+---+---+---+---+---+---+</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Full Join</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">leftp</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">rightp</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">lefts</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rights</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                        <span class="o">+---+----+----+----+----+----+----+</span>
+                                        <span class="o">|</span>  <span class="n">A</span><span class="o">|</span>   <span class="n">B</span><span class="o">|</span>   <span class="n">C</span><span class="o">|</span>   <span class="n">D</span><span class="o">|</span>   <span class="n">F</span><span class="o">|</span>   <span class="n">G</span><span class="o">|</span>   <span class="n">H</span><span class="o">|</span>
+    <span class="n">A</span>    <span class="n">B</span>    <span class="n">C</span>    <span class="n">D</span>    <span class="n">F</span>    <span class="n">G</span>    <span class="n">H</span>     <span class="o">+---+----+----+----+----+----+----+</span>
+<span class="mi">0</span>  <span class="n">A0</span>   <span class="n">B0</span>   <span class="n">C0</span>   <span class="n">D0</span>   <span class="n">B4</span>   <span class="n">C4</span>   <span class="n">D4</span>     <span class="o">|</span> <span class="n">A0</span><span class="o">|</span>  <span class="n">B0</span><span class="o">|</span>  <span class="n">C0</span><span class="o">|</span>  <span class="n">D0</span><span class="o">|</span>  <span class="n">B4</span><span class="o">|</span>  <span class="n">C4</span><span class="o">|</span>  <span class="n">D4</span><span class="o">|</span>
+<span class="mi">1</span>  <span class="n">A1</span>   <span class="n">B1</span>   <span class="n">C1</span>   <span class="n">D1</span>   <span class="n">B5</span>   <span class="n">C5</span>   <span class="n">D5</span>     <span class="o">|</span> <span class="n">A1</span><span class="o">|</span>  <span class="n">B1</span><span class="o">|</span>  <span class="n">C1</span><span class="o">|</span>  <span class="n">D1</span><span class="o">|</span>  <span class="n">B5</span><span class="o">|</span>  <span class="n">C5</span><span class="o">|</span>  <span class="n">D5</span><span class="o">|</span>
+<span class="mi">2</span>  <span class="n">A2</span>   <span class="n">B2</span>   <span class="n">C2</span>   <span class="n">D2</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">NaN</span>     <span class="o">|</span> <span class="n">A2</span><span class="o">|</span>  <span class="n">B2</span><span class="o">|</span>  <span class="n">C2</span><span class="o">|</span>  <span class="n">D2</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>
+<span class="mi">3</span>  <span class="n">A3</span>   <span class="n">B3</span>   <span class="n">C3</span>   <span class="n">D3</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">NaN</span>     <span class="o">|</span> <span class="n">A3</span><span class="o">|</span>  <span class="n">B3</span><span class="o">|</span>  <span class="n">C3</span><span class="o">|</span>  <span class="n">D3</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>
+<span class="mi">4</span>  <span class="n">A6</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">NaN</span>   <span class="n">B6</span>   <span class="n">C6</span>   <span class="n">D6</span>     <span class="o">|</span> <span class="n">A6</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>  <span class="n">B6</span><span class="o">|</span>  <span class="n">C6</span><span class="o">|</span>  <span class="n">D6</span><span class="o">|</span>
+<span class="mi">5</span>  <span class="n">A7</span>  <span class="n">NaN</span>  <span class="n">NaN</span>  <span class="n">NaN</span>   <span class="n">B7</span>   <span class="n">C7</span>   <span class="n">D7</span>     <span class="o">|</span> <span class="n">A7</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>  <span class="n">B7</span><span class="o">|</span>  <span class="n">C7</span><span class="o">|</span>  <span class="n">D7</span><span class="o">|</span>
+                                        <span class="o">+---+----+----+----+----+----+----+</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="concat-columns">
+<h3>5.3.13. Concat Columns<a class="headerlink" href="#concat-columns" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">my_list</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">)]</span>
+<span class="n">col_name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="s1">&#39;col2&#39;</span><span class="p">,</span> <span class="s1">&#39;col3&#39;</span><span class="p">]</span>
+<span class="c1">#</span>
+<span class="n">dp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">col_name</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span><span class="n">schema</span><span class="o">=</span><span class="n">col_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>  <span class="n">col1</span>  <span class="n">col2</span>  <span class="n">col3</span>
+<span class="mi">0</span>    <span class="n">a</span>     <span class="mi">2</span>     <span class="mi">3</span>
+<span class="mi">1</span>    <span class="n">b</span>     <span class="mi">5</span>     <span class="mi">6</span>
+<span class="mi">2</span>    <span class="n">c</span>     <span class="mi">8</span>     <span class="mi">9</span>
+<span class="mi">3</span>    <span class="n">a</span>     <span class="mi">2</span>     <span class="mi">3</span>
+<span class="mi">4</span>    <span class="n">b</span>     <span class="mi">5</span>     <span class="mi">6</span>
+<span class="mi">5</span>    <span class="n">c</span>     <span class="mi">8</span>     <span class="mi">9</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="p">[</span><span class="s1">&#39;concat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;col2&#39;</span><span class="p">]),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dp</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;concat&#39;</span><span class="p">,</span><span class="n">F</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span><span class="s1">&#39;col2&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                        <span class="o">+----+----+----+------+</span>
+                                        <span class="o">|</span><span class="n">col1</span><span class="o">|</span><span class="n">col2</span><span class="o">|</span><span class="n">col3</span><span class="o">|</span><span class="n">concat</span><span class="o">|</span>
+  <span class="n">col1</span>  <span class="n">col2</span>  <span class="n">col3</span> <span class="n">concat</span>               <span class="o">+----+----+----+------+</span>
+<span class="mi">0</span>    <span class="n">a</span>     <span class="mi">2</span>     <span class="mi">3</span>     <span class="n">a2</span>               <span class="o">|</span>   <span class="n">a</span><span class="o">|</span>   <span class="mi">2</span><span class="o">|</span>   <span class="mi">3</span><span class="o">|</span>    <span class="n">a2</span><span class="o">|</span>
+<span class="mi">1</span>    <span class="n">b</span>     <span class="mi">5</span>     <span class="mi">6</span>     <span class="n">b5</span>               <span class="o">|</span>   <span class="n">b</span><span class="o">|</span>   <span class="mi">5</span><span class="o">|</span>   <span class="mi">6</span><span class="o">|</span>    <span class="n">b5</span><span class="o">|</span>
+<span class="mi">2</span>    <span class="n">c</span>     <span class="mi">8</span>     <span class="mi">9</span>     <span class="n">c8</span>               <span class="o">|</span>   <span class="n">c</span><span class="o">|</span>   <span class="mi">8</span><span class="o">|</span>   <span class="mi">9</span><span class="o">|</span>    <span class="n">c8</span><span class="o">|</span>
+<span class="mi">3</span>    <span class="n">a</span>     <span class="mi">2</span>     <span class="mi">3</span>     <span class="n">a2</span>               <span class="o">|</span>   <span class="n">a</span><span class="o">|</span>   <span class="mi">2</span><span class="o">|</span>   <span class="mi">3</span><span class="o">|</span>    <span class="n">a2</span><span class="o">|</span>
+<span class="mi">4</span>    <span class="n">b</span>     <span class="mi">5</span>     <span class="mi">6</span>     <span class="n">b5</span>               <span class="o">|</span>   <span class="n">b</span><span class="o">|</span>   <span class="mi">5</span><span class="o">|</span>   <span class="mi">6</span><span class="o">|</span>    <span class="n">b5</span><span class="o">|</span>
+<span class="mi">5</span>    <span class="n">c</span>     <span class="mi">8</span>     <span class="mi">9</span>     <span class="n">c8</span>               <span class="o">|</span>   <span class="n">c</span><span class="o">|</span>   <span class="mi">8</span><span class="o">|</span>   <span class="mi">9</span><span class="o">|</span>    <span class="n">c8</span><span class="o">|</span>
+                                        <span class="o">+----+----+----+------+</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="groupby">
+<h3>5.3.14. GroupBy<a class="headerlink" href="#groupby" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dp</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;col1&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;col2&#39;</span><span class="p">:</span><span class="s1">&#39;min&#39;</span><span class="p">,</span><span class="s1">&#39;col3&#39;</span><span class="p">:</span><span class="s1">&#39;mean&#39;</span><span class="p">})</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">groupBy</span><span class="p">([</span><span class="s1">&#39;col1&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;col2&#39;</span><span class="p">:</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;col3&#39;</span><span class="p">:</span> <span class="s1">&#39;avg&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                        <span class="o">+----+---------+---------+</span>
+      <span class="n">col2</span>  <span class="n">col3</span>                        <span class="o">|</span><span class="n">col1</span><span class="o">|</span><span class="nb">min</span><span class="p">(</span><span class="n">col2</span><span class="p">)</span><span class="o">|</span><span class="n">avg</span><span class="p">(</span><span class="n">col3</span><span class="p">)</span><span class="o">|</span>
+<span class="n">col1</span>                                    <span class="o">+----+---------+---------+</span>
+<span class="n">a</span>        <span class="mi">2</span>     <span class="mi">3</span>                        <span class="o">|</span>   <span class="n">c</span><span class="o">|</span>        <span class="mi">8</span><span class="o">|</span>      <span class="mf">9.0</span><span class="o">|</span>
+<span class="n">b</span>        <span class="mi">5</span>     <span class="mi">6</span>                        <span class="o">|</span>   <span class="n">b</span><span class="o">|</span>        <span class="mi">5</span><span class="o">|</span>      <span class="mf">6.0</span><span class="o">|</span>
+<span class="n">c</span>        <span class="mi">8</span>     <span class="mi">9</span>                        <span class="o">|</span>   <span class="n">a</span><span class="o">|</span>        <span class="mi">2</span><span class="o">|</span>      <span class="mf">3.0</span><span class="o">|</span>
+                                        <span class="o">+----+---------+---------+</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pivot">
+<h3>5.3.15. Pivot<a class="headerlink" href="#pivot" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Python</span> <span class="pre">Code:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;col3&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;col2&#39;</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">groupBy</span><span class="p">([</span><span class="s1">&#39;col1&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="s1">&#39;col2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s1">&#39;col3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">::</span> <span class="pre">Comparison:</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>                                <span class="o">+----+----+----+----+</span>
+<span class="n">col2</span>    <span class="mi">2</span>     <span class="mi">5</span>     <span class="mi">8</span>           <span class="o">|</span><span class="n">col1</span><span class="o">|</span>   <span class="mi">2</span><span class="o">|</span>   <span class="mi">5</span><span class="o">|</span>   <span class="mi">8</span><span class="o">|</span>
+<span class="n">col1</span>                            <span class="o">+----+----+----+----+</span>
+<span class="n">a</span>     <span class="mf">6.0</span>   <span class="n">NaN</span>   <span class="n">NaN</span>           <span class="o">|</span>   <span class="n">c</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>  <span class="mi">18</span><span class="o">|</span>
+<span class="n">b</span>     <span class="n">NaN</span>  <span class="mf">12.0</span>   <span class="n">NaN</span>           <span class="o">|</span>   <span class="n">b</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>  <span class="mi">12</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>
+<span class="n">c</span>     <span class="n">NaN</span>   <span class="n">NaN</span>  <span class="mf">18.0</span>           <span class="o">|</span>   <span class="n">a</span><span class="o">|</span>   <span class="mi">6</span><span class="o">|</span><span class="n">null</span><span class="o">|</span><span class="n">null</span><span class="o">|</span>
+                                <span class="o">+----+----+----+----+</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 

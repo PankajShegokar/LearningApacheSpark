@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{February 26, 2019}
+\date{February 28, 2019}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -1287,19 +1287,19 @@ Then you will get the RDD data:
 \end{Verbatim}
 \end{quote}
 
-\begin{notice}{note}{Note:}\begin{quote}
-
+\begin{notice}{note}{Note:}
 Reading tables from Database needs the proper drive for the corresponding Database.
-For example, the above demo needs \code{org.postgresql.Driver} and \textbf{you need to download
-it and put it in {}`{}`jars{}`{}` folder of your spark installation path.} I download
+For example, the above demo needs \code{org.postgresql.Driver} and you need to download
+it and put it in \code{jars} folder of your spark installation path. I download
 \code{postgresql-42.1.1.jar} from the official website and put it in \code{jars} folder.
-\end{quote}
+\end{notice}
 \begin{enumerate}
 \setcounter{enumi}{2}
 \item {} 
 \textbf{Read dataset from HDFS}
 
 \end{enumerate}
+\begin{quote}
 
 \begin{Verbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{from} \PYG{n+nn}{pyspark.conf} \PYG{k+kn}{import} \PYG{n}{SparkConf}
@@ -1315,7 +1315,7 @@ it and put it in {}`{}`jars{}`{}` folder of your spark installation path.} I dow
 \PYG{n}{spf} \PYG{o}{=} \PYG{n}{hc}\PYG{o}{.}\PYG{n}{sql}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{SELECT * FROM spf LIMIT 100}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
 \PYG{k}{print}\PYG{p}{(}\PYG{n}{spf}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{p}{)}
 \end{Verbatim}
-\end{notice}
+\end{quote}
 
 
 \section{Spark Operations}
@@ -1372,6 +1372,847 @@ the driver program or save it to an external storage system (e.g., HDFS).
 \includegraphics{actions2.png}
 \label{rdd:fig-api5}\end{figure}
 \end{quote}
+
+
+\section{\texttt{rdd.DataFrame}  vs \texttt{pd.DataFrame}}
+\label{rdd:rdd-dataframe-vs-pd-dataframe}
+
+\subsection{Create DataFrame}
+\label{rdd:create-dataframe}\begin{enumerate}
+\item {} 
+From List
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{my\PYGZus{}list} \PYG{o}{=} \PYG{p}{[}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{a}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{b}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{c}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{]}\PYG{p}{]}
+\PYG{n}{col\PYGZus{}name} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} caution for the columns=}
+\PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{my\PYGZus{}list}\PYG{p}{,}\PYG{n}{columns}\PYG{o}{=} \PYG{n}{col\PYGZus{}name}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{spark}\PYG{o}{.}\PYG{n}{createDataFrame}\PYG{p}{(}\PYG{n}{my\PYGZus{}list}\PYG{p}{,} \PYG{n}{col\PYGZus{}name}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                  \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                  \PYG{o}{\textbar{}}  \PYG{n}{A}\PYG{o}{\textbar{}}  \PYG{n}{B}\PYG{o}{\textbar{}}  \PYG{n}{C}\PYG{o}{\textbar{}}
+   \PYG{n}{A}  \PYG{n}{B}  \PYG{n}{C}        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{n}{a}  \PYG{l+m+mi}{1}  \PYG{l+m+mi}{2}        \PYG{o}{\textbar{}}  \PYG{n}{a}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}  \PYG{n}{b}  \PYG{l+m+mi}{2}  \PYG{l+m+mi}{3}        \PYG{o}{\textbar{}}  \PYG{n}{b}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}  \PYG{n}{c}  \PYG{l+m+mi}{3}  \PYG{l+m+mi}{4}        \PYG{o}{\textbar{}}  \PYG{n}{c}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{4}\PYG{o}{\textbar{}}
+                  \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+\begin{notice}{attention}{Attention:}
+Pay attentation to the parameter \code{columns=} in \code{pd.DataFrame}. Since the default value will make the list as rows.
+\begin{quote}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} caution for the columns=}
+\PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{my\PYGZus{}list}\PYG{p}{,} \PYG{n}{columns}\PYG{o}{=} \PYG{n}{col\PYGZus{}name}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{my\PYGZus{}list}\PYG{p}{,} \PYG{n}{col\PYGZus{}name}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+   \PYG{n}{A}  \PYG{n}{B}  \PYG{n}{C}             \PYG{l+m+mi}{0}  \PYG{l+m+mi}{1}  \PYG{l+m+mi}{2}
+\PYG{l+m+mi}{0}  \PYG{n}{a}  \PYG{l+m+mi}{1}  \PYG{l+m+mi}{2}          \PYG{n}{A}  \PYG{n}{a}  \PYG{l+m+mi}{1}  \PYG{l+m+mi}{2}
+\PYG{l+m+mi}{1}  \PYG{n}{b}  \PYG{l+m+mi}{2}  \PYG{l+m+mi}{3}          \PYG{n}{B}  \PYG{n}{b}  \PYG{l+m+mi}{2}  \PYG{l+m+mi}{3}
+\PYG{l+m+mi}{2}  \PYG{n}{c}  \PYG{l+m+mi}{3}  \PYG{l+m+mi}{4}          \PYG{n}{C}  \PYG{n}{c}  \PYG{l+m+mi}{3}  \PYG{l+m+mi}{4}
+\end{Verbatim}
+\end{quote}
+\end{notice}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+From Dict
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{d} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,}
+     \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,}
+     \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{d}\PYG{p}{)}\PYG{k}{for}
+\PYG{c}{\PYGZsh{} Tedious for PySpark}
+\PYG{n}{spark}\PYG{o}{.}\PYG{n}{createDataFrame}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{d}\PYG{o}{.}\PYG{n}{values}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{T}\PYG{o}{.}\PYG{n}{tolist}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{d}\PYG{o}{.}\PYG{n}{keys}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                   \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                   \PYG{o}{\textbar{}}  \PYG{n}{A}\PYG{o}{\textbar{}}  \PYG{n}{B}\PYG{o}{\textbar{}}  \PYG{n}{C}\PYG{o}{\textbar{}}
+   \PYG{n}{A}  \PYG{n}{B}  \PYG{n}{C}         \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mi}{0}  \PYG{l+m+mi}{1}  \PYG{l+m+mi}{1}         \PYG{o}{\textbar{}}  \PYG{l+m+mi}{0}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}  \PYG{l+m+mi}{1}  \PYG{l+m+mi}{0}  \PYG{l+m+mi}{0}         \PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{0}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{0}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}  \PYG{l+m+mi}{0}  \PYG{l+m+mi}{1}  \PYG{l+m+mi}{0}         \PYG{o}{\textbar{}}  \PYG{l+m+mi}{0}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{0}\PYG{o}{\textbar{}}
+                   \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+
+\subsection{Load DataFrame}
+\label{rdd:load-dataframe}\begin{enumerate}
+\item {} 
+From DataBase
+
+\end{enumerate}
+
+Most of time, you need to share your code with your colleagues or release your code for Code Review or Quality assurance(QA). You will definitely do not want to have your \code{User Information} in the code. So you can save them
+in login.txt:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+runawayhorse001
+PythonTips
+\end{Verbatim}
+
+and use the following code to import your \code{User Information}:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{}User Information}
+\PYG{k}{try}\PYG{p}{:}
+    \PYG{n}{login} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{l+s}{r\PYGZsq{}}\PYG{l+s}{login.txt}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{header}\PYG{o}{=}\PYG{n+nb+bp}{None}\PYG{p}{)}
+    \PYG{n}{user} \PYG{o}{=} \PYG{n}{login}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{pw} \PYG{o}{=} \PYG{n}{login}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{User information is ready!}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{k}{except}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Login information is not avaliable!!!}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+
+\PYG{c}{\PYGZsh{}Database information}
+\PYG{n}{host} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{\PYGZsh{}\PYGZsh{}.\PYGZsh{}\PYGZsh{}\PYGZsh{}.\PYGZsh{}\PYGZsh{}\PYGZsh{}.\PYGZsh{}\PYGZsh{}}\PYG{l+s}{\PYGZsq{}}
+\PYG{n}{db\PYGZus{}name} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{db\PYGZus{}name}\PYG{l+s}{\PYGZsq{}}
+\PYG{n}{table\PYGZus{}name} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{table\PYGZus{}name}\PYG{l+s}{\PYGZsq{}}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{conn} \PYG{o}{=} \PYG{n}{psycopg2}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n}{host}\PYG{o}{=}\PYG{n}{host}\PYG{p}{,} \PYG{n}{database}\PYG{o}{=}\PYG{n}{db\PYGZus{}name}\PYG{p}{,} \PYG{n}{user}\PYG{o}{=}\PYG{n}{user}\PYG{p}{,} \PYG{n}{password}\PYG{o}{=}\PYG{n}{pw}\PYG{p}{)}
+\PYG{n}{cur} \PYG{o}{=} \PYG{n}{conn}\PYG{o}{.}\PYG{n}{cursor}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{n}{sql} \PYG{o}{=} \PYG{l+s}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s}{      select *}
+\PYG{l+s}{      from \PYGZob{}table\PYGZus{}name\PYGZcb{}}
+\PYG{l+s}{      }\PYG{l+s}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{table\PYGZus{}name}\PYG{o}{=}\PYG{n}{table\PYGZus{}name}\PYG{p}{)}
+\PYG{n}{dp} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}sql}\PYG{p}{(}\PYG{n}{sql}\PYG{p}{,} \PYG{n}{conn}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} connect to database}
+\PYG{n}{url} \PYG{o}{=} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{jdbc:postgresql://}\PYG{l+s}{\PYGZsq{}}\PYG{o}{+}\PYG{n}{host}\PYG{o}{+}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{:5432/}\PYG{l+s}{\PYGZsq{}}\PYG{o}{+}\PYG{n}{db\PYGZus{}name}\PYG{o}{+}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{?user=}\PYG{l+s}{\PYGZsq{}}\PYG{o}{+}\PYG{n}{user}\PYG{o}{+}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{\PYGZam{}password=}\PYG{l+s}{\PYGZsq{}}\PYG{o}{+}\PYG{n}{pw}
+\PYG{n}{properties} \PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{driver}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{org.postgresql.Driver}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{password}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{pw}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{user}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{user}\PYG{p}{\PYGZcb{}}
+\PYG{n}{ds} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{read}\PYG{o}{.}\PYG{n}{jdbc}\PYG{p}{(}\PYG{n}{url}\PYG{o}{=}\PYG{n}{url}\PYG{p}{,} \PYG{n}{table}\PYG{o}{=}\PYG{n}{table\PYGZus{}name}\PYG{p}{,} \PYG{n}{properties}\PYG{o}{=}\PYG{n}{properties}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{notice}{attention}{Attention:}
+Reading tables from Database with PySpark needs the proper drive for the corresponding Database. For example, the above demo needs org.postgresql.Driver and you need to download it and put it in \code{jars} folder of your spark installation path. I download postgresql-42.1.1.jar from the official website and put it in jars folder.
+\end{notice}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+From \code{.csv}
+
+\end{enumerate}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} pd.DataFrame dp: DataFrame pandas}
+\PYG{n}{dp} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Advertising.csv}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}rdd.DataFrame. dp: DataFrame spark}
+\PYG{n}{ds} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{read}\PYG{o}{.}\PYG{n}{csv}\PYG{p}{(}\PYG{n}{path}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Advertising.csv}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}
+\PYG{c}{\PYGZsh{}                sep=\PYGZsq{},\PYGZsq{},}
+\PYG{c}{\PYGZsh{}                encoding=\PYGZsq{}UTF\PYGZhy{}8\PYGZsq{},}
+\PYG{c}{\PYGZsh{}                comment=None,}
+               \PYG{n}{header}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,}
+               \PYG{n}{inferSchema}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+From \code{.json}
+
+\end{enumerate}
+
+Data from: \href{http://api.luftdaten.info/static/v1/data.json}{http://api.luftdaten.info/static/v1/data.json}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}json}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{data/data.json}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{ds} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{read}\PYG{o}{.}\PYG{n}{json}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{data/data.json}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{p}{[}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{id}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{timestamp}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{]}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{p}{[}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{id}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{timestamp}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{]}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{o}{\textbar{}}        \PYG{n+nb}{id}\PYG{o}{\textbar{}}          \PYG{n}{timestamp}\PYG{o}{\textbar{}}
+            \PYG{n+nb}{id}  \PYG{n}{timestamp}                       \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}   \PYG{l+m+mi}{2994551481}  \PYG{l+m+mi}{2019}\PYG{o}{\PYGZhy{}}\PYG{l+m+mo}{02}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28} \PYG{l+m+mi}{17}\PYG{p}{:}\PYG{l+m+mi}{23}\PYG{p}{:}\PYG{l+m+mi}{52}             \PYG{o}{\textbar{}}\PYG{l+m+mi}{2994551481}\PYG{o}{\textbar{}}\PYG{l+m+mi}{2019}\PYG{o}{\PYGZhy{}}\PYG{l+m+mo}{02}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28} \PYG{l+m+mi}{17}\PYG{p}{:}\PYG{l+m+mi}{23}\PYG{p}{:}\PYG{l+m+mi}{52}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}   \PYG{l+m+mi}{2994551482}  \PYG{l+m+mi}{2019}\PYG{o}{\PYGZhy{}}\PYG{l+m+mo}{02}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28} \PYG{l+m+mi}{17}\PYG{p}{:}\PYG{l+m+mi}{23}\PYG{p}{:}\PYG{l+m+mi}{52}             \PYG{o}{\textbar{}}\PYG{l+m+mi}{2994551482}\PYG{o}{\textbar{}}\PYG{l+m+mi}{2019}\PYG{o}{\PYGZhy{}}\PYG{l+m+mo}{02}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28} \PYG{l+m+mi}{17}\PYG{p}{:}\PYG{l+m+mi}{23}\PYG{p}{:}\PYG{l+m+mi}{52}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}   \PYG{l+m+mi}{2994551483}  \PYG{l+m+mi}{2019}\PYG{o}{\PYGZhy{}}\PYG{l+m+mo}{02}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28} \PYG{l+m+mi}{17}\PYG{p}{:}\PYG{l+m+mi}{23}\PYG{p}{:}\PYG{l+m+mi}{52}             \PYG{o}{\textbar{}}\PYG{l+m+mi}{2994551483}\PYG{o}{\textbar{}}\PYG{l+m+mi}{2019}\PYG{o}{\PYGZhy{}}\PYG{l+m+mo}{02}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28} \PYG{l+m+mi}{17}\PYG{p}{:}\PYG{l+m+mi}{23}\PYG{p}{:}\PYG{l+m+mi}{52}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}   \PYG{l+m+mi}{2994551484}  \PYG{l+m+mi}{2019}\PYG{o}{\PYGZhy{}}\PYG{l+m+mo}{02}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28} \PYG{l+m+mi}{17}\PYG{p}{:}\PYG{l+m+mi}{23}\PYG{p}{:}\PYG{l+m+mi}{52}             \PYG{o}{\textbar{}}\PYG{l+m+mi}{2994551484}\PYG{o}{\textbar{}}\PYG{l+m+mi}{2019}\PYG{o}{\PYGZhy{}}\PYG{l+m+mo}{02}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{28} \PYG{l+m+mi}{17}\PYG{p}{:}\PYG{l+m+mi}{23}\PYG{p}{:}\PYG{l+m+mi}{52}\PYG{o}{\textbar{}}
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+
+\subsection{First \texttt{n} Rows}
+\label{rdd:first-n-rows}
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}\PYG{n}{Newspaper}\PYG{o}{\textbar{}}\PYG{n}{Sales}\PYG{o}{\textbar{}}
+      \PYG{n}{TV}  \PYG{n}{Radio}  \PYG{n}{Newspaper}  \PYG{n}{Sales}       \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mf}{230.1}   \PYG{l+m+mf}{37.8}       \PYG{l+m+mf}{69.2}   \PYG{l+m+mf}{22.1}       \PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}   \PYG{l+m+mf}{44.5}   \PYG{l+m+mf}{39.3}       \PYG{l+m+mf}{45.1}   \PYG{l+m+mf}{10.4}       \PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{45.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}   \PYG{l+m+mf}{17.2}   \PYG{l+m+mf}{45.9}       \PYG{l+m+mf}{69.3}    \PYG{l+m+mf}{9.3}       \PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.3}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{l+m+mf}{151.5}   \PYG{l+m+mf}{41.3}       \PYG{l+m+mf}{58.5}   \PYG{l+m+mf}{18.5}       \PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{58.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+
+\subsection{Column Names}
+\label{rdd:column-names}
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{columns}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{columns}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{Index}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{TV}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Radio}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Newspaper}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Sales}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,} \PYG{n}{dtype}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{object}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{TV}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Radio}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Newspaper}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Sales}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}
+\end{Verbatim}
+
+
+\subsection{Data types}
+\label{rdd:data-types}
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{dtypes}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{dtypes}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{TV}           \PYG{n}{float64}                    \PYG{p}{[}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{TV}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{double}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}
+\PYG{n}{Radio}        \PYG{n}{float64}                     \PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Radio}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{double}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}
+\PYG{n}{Newspaper}    \PYG{n}{float64}                     \PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Newspaper}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{double}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{,}
+\PYG{n}{Sales}        \PYG{n}{float64}                     \PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Sales}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{double}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{]}
+\PYG{n}{dtype}\PYG{p}{:} \PYG{n+nb}{object}
+\end{Verbatim}
+
+
+\subsection{Fill Null}
+\label{rdd:fill-null}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{my\PYGZus{}list} \PYG{o}{=} \PYG{p}{[}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{a}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nb+bp}{None}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{b}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{c}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{]}\PYG{p}{]}
+\PYG{n}{dp} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{my\PYGZus{}list}\PYG{p}{,}\PYG{n}{columns}\PYG{o}{=}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{n}{ds} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{createDataFrame}\PYG{p}{(}\PYG{n}{my\PYGZus{}list}\PYG{p}{,} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{o}{\textbar{}}     \PYG{n}{A}\PYG{o}{\textbar{}}  \PYG{n}{B}\PYG{o}{\textbar{}}   \PYG{n}{C}\PYG{o}{\textbar{}}
+        \PYG{n}{A}  \PYG{n}{B}    \PYG{n}{C}                       \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}    \PYG{n}{male}  \PYG{l+m+mi}{1}  \PYG{n}{NaN}                       \PYG{o}{\textbar{}}  \PYG{n}{male}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}  \PYG{n}{female}  \PYG{l+m+mi}{2}  \PYG{l+m+mf}{3.0}                       \PYG{o}{\textbar{}}\PYG{n}{female}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}    \PYG{n}{male}  \PYG{l+m+mi}{3}  \PYG{l+m+mf}{4.0}                       \PYG{o}{\textbar{}}  \PYG{n}{male}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{4}\PYG{o}{\textbar{}}
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{fillna}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{99}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{fillna}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{99}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{o}{\textbar{}}     \PYG{n}{A}\PYG{o}{\textbar{}}  \PYG{n}{B}\PYG{o}{\textbar{}}   \PYG{n}{C}\PYG{o}{\textbar{}}
+        \PYG{n}{A}  \PYG{n}{B}    \PYG{n}{C}                       \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}    \PYG{n}{male}  \PYG{l+m+mi}{1}  \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{99}                       \PYG{o}{\textbar{}}  \PYG{n}{male}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{99}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}  \PYG{n}{female}  \PYG{l+m+mi}{2}  \PYG{l+m+mf}{3.0}                       \PYG{o}{\textbar{}}\PYG{n}{female}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}    \PYG{n}{male}  \PYG{l+m+mi}{3}  \PYG{l+m+mf}{4.0}                       \PYG{o}{\textbar{}}  \PYG{n}{male}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{4}\PYG{o}{\textbar{}}
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+
+\subsection{Replace Values}
+\label{rdd:replace-values}
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} caution: you need to chose specific col}
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{A}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{male}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{female}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{inplace}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}
+\PYG{n}{dp}
+\PYG{c}{\PYGZsh{}caution: Mixed type replacements are not supported}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{na}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{male}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{female}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{0}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                \PYG{o}{\textbar{}}  \PYG{n}{A}\PYG{o}{\textbar{}}  \PYG{n}{B}\PYG{o}{\textbar{}}   \PYG{n}{C}\PYG{o}{\textbar{}}
+   \PYG{n}{A}  \PYG{n}{B}    \PYG{n}{C}                    \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mi}{1}  \PYG{l+m+mi}{1}  \PYG{n}{NaN}                    \PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}  \PYG{l+m+mi}{0}  \PYG{l+m+mi}{2}  \PYG{l+m+mf}{3.0}                    \PYG{o}{\textbar{}}  \PYG{l+m+mi}{0}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}  \PYG{l+m+mi}{1}  \PYG{l+m+mi}{3}  \PYG{l+m+mf}{4.0}                    \PYG{o}{\textbar{}}  \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{4}\PYG{o}{\textbar{}}
+                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+
+\subsection{Rename Columns}
+\label{rdd:rename-columns}\begin{enumerate}
+\item {} 
+Rename all columns
+
+\end{enumerate}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{columns} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{a}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{b}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{c}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{d}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{toDF}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{a}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{b}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{c}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{d}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{o}{\textbar{}}    \PYG{n}{a}\PYG{o}{\textbar{}}   \PYG{n}{b}\PYG{o}{\textbar{}}   \PYG{n}{c}\PYG{o}{\textbar{}}   \PYG{n}{d}\PYG{o}{\textbar{}}
+       \PYG{n}{a}     \PYG{n}{b}     \PYG{n}{c}     \PYG{n}{d}                      \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mf}{230.1}  \PYG{l+m+mf}{37.8}  \PYG{l+m+mf}{69.2}  \PYG{l+m+mf}{22.1}                      \PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}}\PYG{l+m+mf}{69.2}\PYG{o}{\textbar{}}\PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}   \PYG{l+m+mf}{44.5}  \PYG{l+m+mf}{39.3}  \PYG{l+m+mf}{45.1}  \PYG{l+m+mf}{10.4}                      \PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{45.1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}   \PYG{l+m+mf}{17.2}  \PYG{l+m+mf}{45.9}  \PYG{l+m+mf}{69.3}   \PYG{l+m+mf}{9.3}                      \PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}}\PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}}\PYG{l+m+mf}{69.3}\PYG{o}{\textbar{}} \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{l+m+mf}{151.5}  \PYG{l+m+mf}{41.3}  \PYG{l+m+mf}{58.5}  \PYG{l+m+mf}{18.5}                      \PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{58.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+Rename one or more columns
+
+\end{enumerate}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{mapping} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Newspaper}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Sales}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D}\PYG{l+s}{\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{rename}\PYG{p}{(}\PYG{n}{columns}\PYG{o}{=}\PYG{n}{mapping}\PYG{p}{)}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{new\PYGZus{}names} \PYG{o}{=} \PYG{p}{[}\PYG{n}{mapping}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{col}\PYG{p}{,}\PYG{n}{col}\PYG{p}{)} \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n}{ds}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{]}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{toDF}\PYG{p}{(}\PYG{o}{*}\PYG{n}{new\PYGZus{}names}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}   \PYG{n}{C}\PYG{o}{\textbar{}}   \PYG{n}{D}\PYG{o}{\textbar{}}
+      \PYG{n}{TV}  \PYG{n}{Radio}     \PYG{n}{C}     \PYG{n}{D}             \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mf}{230.1}   \PYG{l+m+mf}{37.8}  \PYG{l+m+mf}{69.2}  \PYG{l+m+mf}{22.1}             \PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}}\PYG{l+m+mf}{69.2}\PYG{o}{\textbar{}}\PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}   \PYG{l+m+mf}{44.5}   \PYG{l+m+mf}{39.3}  \PYG{l+m+mf}{45.1}  \PYG{l+m+mf}{10.4}             \PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{45.1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}   \PYG{l+m+mf}{17.2}   \PYG{l+m+mf}{45.9}  \PYG{l+m+mf}{69.3}   \PYG{l+m+mf}{9.3}             \PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}}\PYG{l+m+mf}{69.3}\PYG{o}{\textbar{}} \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{l+m+mf}{151.5}   \PYG{l+m+mf}{41.3}  \PYG{l+m+mf}{58.5}  \PYG{l+m+mf}{18.5}             \PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{58.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+\begin{notice}{note}{Note:}
+You can also use \code{withColumnRenamed} to rename one column in PySpark.
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{withColumnRenamed}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Newspaper}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Paper}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}\PYG{n}{Paper}\PYG{o}{\textbar{}}\PYG{n}{Sales}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}} \PYG{l+m+mf}{69.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}} \PYG{l+m+mf}{69.3}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}
+\PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}} \PYG{l+m+mf}{58.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}
+\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+\end{notice}
+
+
+\subsection{Drop Columns}
+\label{rdd:drop-columns}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{drop\PYGZus{}name} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Newspaper}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Sales}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{(}\PYG{n}{drop\PYGZus{}name}\PYG{p}{,}\PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{drop}\PYG{p}{(}\PYG{o}{*}\PYG{n}{drop\PYGZus{}name}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                \PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}
+      \PYG{n}{TV}  \PYG{n}{Radio}                 \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mf}{230.1}   \PYG{l+m+mf}{37.8}                 \PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}   \PYG{l+m+mf}{44.5}   \PYG{l+m+mf}{39.3}                 \PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}   \PYG{l+m+mf}{17.2}   \PYG{l+m+mf}{45.9}                 \PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{l+m+mf}{151.5}   \PYG{l+m+mf}{41.3}                 \PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}}
+                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+
+\subsection{Filter}
+\label{rdd:filter}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Advertising.csv}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{read}\PYG{o}{.}\PYG{n}{csv}\PYG{p}{(}\PYG{n}{path}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{Advertising.csv}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}
+                    \PYG{n}{header}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,}
+                    \PYG{n}{inferSchema}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{p}{[}\PYG{n}{dp}\PYG{o}{.}\PYG{n}{Newspaper}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{20}\PYG{p}{]}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{p}{[}\PYG{n}{ds}\PYG{o}{.}\PYG{n}{Newspaper}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{20}\PYG{p}{]}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}\PYG{n}{Newspaper}\PYG{o}{\textbar{}}\PYG{n}{Sales}\PYG{o}{\textbar{}}
+       \PYG{n}{TV}  \PYG{n}{Radio}  \PYG{n}{Newspaper}  \PYG{n}{Sales}              \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{7}   \PYG{l+m+mf}{120.2}   \PYG{l+m+mf}{19.6}       \PYG{l+m+mf}{11.6}   \PYG{l+m+mf}{13.2}              \PYG{o}{\textbar{}}\PYG{l+m+mf}{120.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{19.6}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{11.6}\PYG{o}{\textbar{}} \PYG{l+m+mf}{13.2}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{8}     \PYG{l+m+mf}{8.6}    \PYG{l+m+mf}{2.1}        \PYG{l+m+mf}{1.0}    \PYG{l+m+mf}{4.8}              \PYG{o}{\textbar{}}  \PYG{l+m+mf}{8.6}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{2.1}\PYG{o}{\textbar{}}      \PYG{l+m+mf}{1.0}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{4.8}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{11}  \PYG{l+m+mf}{214.7}   \PYG{l+m+mf}{24.0}        \PYG{l+m+mf}{4.0}   \PYG{l+m+mf}{17.4}              \PYG{o}{\textbar{}}\PYG{l+m+mf}{214.7}\PYG{o}{\textbar{}} \PYG{l+m+mf}{24.0}\PYG{o}{\textbar{}}      \PYG{l+m+mf}{4.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{17.4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{13}   \PYG{l+m+mf}{97.5}    \PYG{l+m+mf}{7.6}        \PYG{l+m+mf}{7.2}    \PYG{l+m+mf}{9.7}              \PYG{o}{\textbar{}} \PYG{l+m+mf}{97.5}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{7.6}\PYG{o}{\textbar{}}      \PYG{l+m+mf}{7.2}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.7}\PYG{o}{\textbar{}}
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{p}{[}\PYG{p}{(}\PYG{n}{dp}\PYG{o}{.}\PYG{n}{Newspaper}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{20}\PYG{p}{)}\PYG{o}{\PYGZam{}}\PYG{p}{(}\PYG{n}{dp}\PYG{o}{.}\PYG{n}{TV}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{100}\PYG{p}{)}\PYG{p}{]}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{p}{[}\PYG{p}{(}\PYG{n}{ds}\PYG{o}{.}\PYG{n}{Newspaper}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{20}\PYG{p}{)}\PYG{o}{\PYGZam{}}\PYG{p}{(}\PYG{n}{ds}\PYG{o}{.}\PYG{n}{TV}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{100}\PYG{p}{)}\PYG{p}{]}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}\PYG{n}{Newspaper}\PYG{o}{\textbar{}}\PYG{n}{Sales}\PYG{o}{\textbar{}}
+       \PYG{n}{TV}  \PYG{n}{Radio}  \PYG{n}{Newspaper}  \PYG{n}{Sales}              \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{7}   \PYG{l+m+mf}{120.2}   \PYG{l+m+mf}{19.6}       \PYG{l+m+mf}{11.6}   \PYG{l+m+mf}{13.2}              \PYG{o}{\textbar{}}\PYG{l+m+mf}{120.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{19.6}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{11.6}\PYG{o}{\textbar{}} \PYG{l+m+mf}{13.2}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{11}  \PYG{l+m+mf}{214.7}   \PYG{l+m+mf}{24.0}        \PYG{l+m+mf}{4.0}   \PYG{l+m+mf}{17.4}              \PYG{o}{\textbar{}}\PYG{l+m+mf}{214.7}\PYG{o}{\textbar{}} \PYG{l+m+mf}{24.0}\PYG{o}{\textbar{}}      \PYG{l+m+mf}{4.0}\PYG{o}{\textbar{}} \PYG{l+m+mf}{17.4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{19}  \PYG{l+m+mf}{147.3}   \PYG{l+m+mf}{23.9}       \PYG{l+m+mf}{19.1}   \PYG{l+m+mf}{14.6}              \PYG{o}{\textbar{}}\PYG{l+m+mf}{147.3}\PYG{o}{\textbar{}} \PYG{l+m+mf}{23.9}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{19.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{14.6}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{25}  \PYG{l+m+mf}{262.9}    \PYG{l+m+mf}{3.5}       \PYG{l+m+mf}{19.5}   \PYG{l+m+mf}{12.0}              \PYG{o}{\textbar{}}\PYG{l+m+mf}{262.9}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{3.5}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{19.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{12.0}\PYG{o}{\textbar{}}
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+
+\subsection{With New Column}
+\label{rdd:with-new-column}
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{tv\PYGZus{}norm}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{dp}\PYG{o}{.}\PYG{n}{TV}\PYG{o}{/}\PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{dp}\PYG{o}{.}\PYG{n}{TV}\PYG{p}{)}
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{tv\PYGZus{}norm}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{ds}\PYG{o}{.}\PYG{n}{TV}\PYG{o}{/}\PYG{n}{ds}\PYG{o}{.}\PYG{n}{groupBy}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{agg}\PYG{p}{(}\PYG{n}{F}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{TV}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{collect}\PYG{p}{(}\PYG{p}{)}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}\PYG{n}{Newspaper}\PYG{o}{\textbar{}}\PYG{n}{Sales}\PYG{o}{\textbar{}}             \PYG{n}{tv\PYGZus{}norm}\PYG{o}{\textbar{}}
+      \PYG{n}{TV}  \PYG{n}{Radio}  \PYG{n}{Newspaper}  \PYG{n}{Sales}   \PYG{n}{tv\PYGZus{}norm}     \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mf}{230.1}   \PYG{l+m+mf}{37.8}       \PYG{l+m+mf}{69.2}   \PYG{l+m+mf}{22.1}  \PYG{l+m+mf}{0.007824}     \PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.007824268493802813}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}   \PYG{l+m+mf}{44.5}   \PYG{l+m+mf}{39.3}       \PYG{l+m+mf}{45.1}   \PYG{l+m+mf}{10.4}  \PYG{l+m+mf}{0.001513}     \PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{45.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.001513167961643}\PYG{o}{.}\PYG{o}{.}\PYG{o}{.}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}   \PYG{l+m+mf}{17.2}   \PYG{l+m+mf}{45.9}       \PYG{l+m+mf}{69.3}    \PYG{l+m+mf}{9.3}  \PYG{l+m+mf}{0.000585}     \PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.3}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{5.848649200061207E\PYGZhy{}4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{l+m+mf}{151.5}   \PYG{l+m+mf}{41.3}       \PYG{l+m+mf}{58.5}   \PYG{l+m+mf}{18.5}  \PYG{l+m+mf}{0.005152}     \PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{58.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{0.005151571824472517}\PYG{o}{\textbar{}}
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{cond}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{dp}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{c}\PYG{p}{:} \PYG{l+m+mi}{1} \PYG{k}{if} \PYG{p}{(}\PYG{p}{(}\PYG{n}{c}\PYG{o}{.}\PYG{n}{TV}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{100}\PYG{p}{)}\PYG{o}{\PYGZam{}}\PYG{p}{(}\PYG{n}{c}\PYG{o}{.}\PYG{n}{Radio}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{40}\PYG{p}{)}\PYG{p}{)} \PYG{k}{else} \PYG{l+m+mi}{2} \PYG{k}{if} \PYG{n}{c}\PYG{o}{.}\PYG{n}{Sales}\PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{10} \PYG{k}{else} \PYG{l+m+mi}{3}\PYG{p}{,}\PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{cond}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{F}\PYG{o}{.}\PYG{n}{when}\PYG{p}{(}\PYG{p}{(}\PYG{n}{ds}\PYG{o}{.}\PYG{n}{TV}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{100}\PYG{p}{)}\PYG{o}{\PYGZam{}}\PYG{p}{(}\PYG{n}{ds}\PYG{o}{.}\PYG{n}{Radio}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{40}\PYG{p}{)}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}\PYGZbs{}
+                      \PYG{o}{.}\PYG{n}{when}\PYG{p}{(}\PYG{n}{ds}\PYG{o}{.}\PYG{n}{Sales}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)}\PYGZbs{}
+                      \PYG{o}{.}\PYG{n}{otherwise}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}\PYG{n}{Newspaper}\PYG{o}{\textbar{}}\PYG{n}{Sales}\PYG{o}{\textbar{}}\PYG{n}{cond}\PYG{o}{\textbar{}}
+      \PYG{n}{TV}  \PYG{n}{Radio}  \PYG{n}{Newspaper}  \PYG{n}{Sales}  \PYG{n}{cond}         \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mf}{230.1}   \PYG{l+m+mf}{37.8}       \PYG{l+m+mf}{69.2}   \PYG{l+m+mf}{22.1}     \PYG{l+m+mi}{1}         \PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{1}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}   \PYG{l+m+mf}{44.5}   \PYG{l+m+mf}{39.3}       \PYG{l+m+mf}{45.1}   \PYG{l+m+mf}{10.4}     \PYG{l+m+mi}{2}         \PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{45.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}   \PYG{l+m+mf}{17.2}   \PYG{l+m+mf}{45.9}       \PYG{l+m+mf}{69.3}    \PYG{l+m+mf}{9.3}     \PYG{l+m+mi}{3}         \PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.3}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{l+m+mf}{151.5}   \PYG{l+m+mf}{41.3}       \PYG{l+m+mf}{58.5}   \PYG{l+m+mf}{18.5}     \PYG{l+m+mi}{2}         \PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{58.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{log\PYGZus{}tv}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{n}{dp}\PYG{o}{.}\PYG{n}{TV}\PYG{p}{)}
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{log\PYGZus{}tv}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{F}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{n}{ds}\PYG{o}{.}\PYG{n}{TV}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}\PYG{n}{Newspaper}\PYG{o}{\textbar{}}\PYG{n}{Sales}\PYG{o}{\textbar{}}            \PYG{n}{log\PYGZus{}tv}\PYG{o}{\textbar{}}
+      \PYG{n}{TV}  \PYG{n}{Radio}  \PYG{n}{Newspaper}  \PYG{n}{Sales}    \PYG{n}{log\PYGZus{}tv}     \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mf}{230.1}   \PYG{l+m+mf}{37.8}       \PYG{l+m+mf}{69.2}   \PYG{l+m+mf}{22.1}  \PYG{l+m+mf}{5.438514}     \PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{5.43851399704132}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}   \PYG{l+m+mf}{44.5}   \PYG{l+m+mf}{39.3}       \PYG{l+m+mf}{45.1}   \PYG{l+m+mf}{10.4}  \PYG{l+m+mf}{3.795489}     \PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{45.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}}\PYG{l+m+mf}{3.7954891891721947}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}   \PYG{l+m+mf}{17.2}   \PYG{l+m+mf}{45.9}       \PYG{l+m+mf}{69.3}    \PYG{l+m+mf}{9.3}  \PYG{l+m+mf}{2.844909}     \PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.3}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}}\PYG{l+m+mf}{2.8449093838194073}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{l+m+mf}{151.5}   \PYG{l+m+mf}{41.3}       \PYG{l+m+mf}{58.5}   \PYG{l+m+mf}{18.5}  \PYG{l+m+mf}{5.020586}     \PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{58.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{5.020585624949423}\PYG{o}{\textbar{}}
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{tv+10}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{dp}\PYG{o}{.}\PYG{n}{TV}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{n}{x}\PYG{o}{+}\PYG{l+m+mi}{10}\PYG{p}{)}
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{head}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{tv+10}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{ds}\PYG{o}{.}\PYG{n}{TV}\PYG{o}{+}\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{o}{\textbar{}}   \PYG{n}{TV}\PYG{o}{\textbar{}}\PYG{n}{Radio}\PYG{o}{\textbar{}}\PYG{n}{Newspaper}\PYG{o}{\textbar{}}\PYG{n}{Sales}\PYG{o}{\textbar{}}\PYG{n}{tv}\PYG{o}{+}\PYG{l+m+mi}{10}\PYG{o}{\textbar{}}
+      \PYG{n}{TV}  \PYG{n}{Radio}  \PYG{n}{Newspaper}  \PYG{n}{Sales}  \PYG{n}{tv}\PYG{o}{+}\PYG{l+m+mi}{10}        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{l+m+mf}{230.1}   \PYG{l+m+mf}{37.8}       \PYG{l+m+mf}{69.2}   \PYG{l+m+mf}{22.1}  \PYG{l+m+mf}{240.1}        \PYG{o}{\textbar{}}\PYG{l+m+mf}{230.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{37.8}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{22.1}\PYG{o}{\textbar{}}\PYG{l+m+mf}{240.1}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}   \PYG{l+m+mf}{44.5}   \PYG{l+m+mf}{39.3}       \PYG{l+m+mf}{45.1}   \PYG{l+m+mf}{10.4}   \PYG{l+m+mf}{54.5}        \PYG{o}{\textbar{}} \PYG{l+m+mf}{44.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{39.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{45.1}\PYG{o}{\textbar{}} \PYG{l+m+mf}{10.4}\PYG{o}{\textbar{}} \PYG{l+m+mf}{54.5}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}   \PYG{l+m+mf}{17.2}   \PYG{l+m+mf}{45.9}       \PYG{l+m+mf}{69.3}    \PYG{l+m+mf}{9.3}   \PYG{l+m+mf}{27.2}        \PYG{o}{\textbar{}} \PYG{l+m+mf}{17.2}\PYG{o}{\textbar{}} \PYG{l+m+mf}{45.9}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{69.3}\PYG{o}{\textbar{}}  \PYG{l+m+mf}{9.3}\PYG{o}{\textbar{}} \PYG{l+m+mf}{27.2}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{l+m+mf}{151.5}   \PYG{l+m+mf}{41.3}       \PYG{l+m+mf}{58.5}   \PYG{l+m+mf}{18.5}  \PYG{l+m+mf}{161.5}        \PYG{o}{\textbar{}}\PYG{l+m+mf}{151.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{41.3}\PYG{o}{\textbar{}}     \PYG{l+m+mf}{58.5}\PYG{o}{\textbar{}} \PYG{l+m+mf}{18.5}\PYG{o}{\textbar{}}\PYG{l+m+mf}{161.5}\PYG{o}{\textbar{}}
+                                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                                \PYG{n}{only} \PYG{n}{showing} \PYG{n}{top} \PYG{l+m+mi}{4} \PYG{n}{rows}
+\end{Verbatim}
+
+
+\subsection{Join}
+\label{rdd:join}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{leftp} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A0}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A3}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+                    \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B0}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B3}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+                    \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C0}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C3}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+                    \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D0}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D3}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{\PYGZcb{}}\PYG{p}{,}
+                    \PYG{n}{index}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{)}
+
+\PYG{n}{rightp} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A0}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A6}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A7}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+                       \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{F}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B4}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B5}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B6}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{B7}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+                       \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{G}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C4}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C5}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C6}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{C7}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+                       \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{H}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D4}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D5}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D6}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{D7}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{\PYGZcb{}}\PYG{p}{,}
+                       \PYG{n}{index}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{]}\PYG{p}{)}
+
+\PYG{n}{lefts} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{createDataFrame}\PYG{p}{(}\PYG{n}{leftp}\PYG{p}{)}
+\PYG{n}{rights} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{createDataFrame}\PYG{p}{(}\PYG{n}{rightp}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{n}{A}   \PYG{n}{B}   \PYG{n}{C}   \PYG{n}{D}                   \PYG{n}{A}   \PYG{n}{F}   \PYG{n}{G}   \PYG{n}{H}
+\PYG{l+m+mi}{0}  \PYG{n}{A0}  \PYG{n}{B0}  \PYG{n}{C0}  \PYG{n}{D0}               \PYG{l+m+mi}{4}  \PYG{n}{A0}  \PYG{n}{B4}  \PYG{n}{C4}  \PYG{n}{D4}
+\PYG{l+m+mi}{1}  \PYG{n}{A1}  \PYG{n}{B1}  \PYG{n}{C1}  \PYG{n}{D1}               \PYG{l+m+mi}{5}  \PYG{n}{A1}  \PYG{n}{B5}  \PYG{n}{C5}  \PYG{n}{D5}
+\PYG{l+m+mi}{2}  \PYG{n}{A2}  \PYG{n}{B2}  \PYG{n}{C2}  \PYG{n}{D2}               \PYG{l+m+mi}{6}  \PYG{n}{A6}  \PYG{n}{B6}  \PYG{n}{C6}  \PYG{n}{D6}
+\PYG{l+m+mi}{3}  \PYG{n}{A3}  \PYG{n}{B3}  \PYG{n}{C3}  \PYG{n}{D3}               \PYG{l+m+mi}{7}  \PYG{n}{A7}  \PYG{n}{B7}  \PYG{n}{C7}  \PYG{n}{D7}
+\end{Verbatim}
+\begin{enumerate}
+\item {} 
+Left Join
+\begin{quote}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{leftp}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{(}\PYG{n}{rightp}\PYG{p}{,}\PYG{n}{on}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{how}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{left}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{lefts}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{rights}\PYG{p}{,}\PYG{n}{on}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{how}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{left}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+     \PYG{o}{.}\PYG{n}{orderBy}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{ascending}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{o}{\textbar{}}  \PYG{n}{A}\PYG{o}{\textbar{}}  \PYG{n}{B}\PYG{o}{\textbar{}}  \PYG{n}{C}\PYG{o}{\textbar{}}  \PYG{n}{D}\PYG{o}{\textbar{}}   \PYG{n}{F}\PYG{o}{\textbar{}}   \PYG{n}{G}\PYG{o}{\textbar{}}   \PYG{n}{H}\PYG{o}{\textbar{}}
+    \PYG{n}{A}   \PYG{n}{B}   \PYG{n}{C}   \PYG{n}{D}    \PYG{n}{F}    \PYG{n}{G}    \PYG{n}{H}        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{n}{A0}  \PYG{n}{B0}  \PYG{n}{C0}  \PYG{n}{D0}   \PYG{n}{B4}   \PYG{n}{C4}   \PYG{n}{D4}        \PYG{o}{\textbar{}} \PYG{n}{A0}\PYG{o}{\textbar{}} \PYG{n}{B0}\PYG{o}{\textbar{}} \PYG{n}{C0}\PYG{o}{\textbar{}} \PYG{n}{D0}\PYG{o}{\textbar{}}  \PYG{n}{B4}\PYG{o}{\textbar{}}  \PYG{n}{C4}\PYG{o}{\textbar{}}  \PYG{n}{D4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}  \PYG{n}{A1}  \PYG{n}{B1}  \PYG{n}{C1}  \PYG{n}{D1}   \PYG{n}{B5}   \PYG{n}{C5}   \PYG{n}{D5}        \PYG{o}{\textbar{}} \PYG{n}{A1}\PYG{o}{\textbar{}} \PYG{n}{B1}\PYG{o}{\textbar{}} \PYG{n}{C1}\PYG{o}{\textbar{}} \PYG{n}{D1}\PYG{o}{\textbar{}}  \PYG{n}{B5}\PYG{o}{\textbar{}}  \PYG{n}{C5}\PYG{o}{\textbar{}}  \PYG{n}{D5}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}  \PYG{n}{A2}  \PYG{n}{B2}  \PYG{n}{C2}  \PYG{n}{D2}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{NaN}        \PYG{o}{\textbar{}} \PYG{n}{A2}\PYG{o}{\textbar{}} \PYG{n}{B2}\PYG{o}{\textbar{}} \PYG{n}{C2}\PYG{o}{\textbar{}} \PYG{n}{D2}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{n}{A3}  \PYG{n}{B3}  \PYG{n}{C3}  \PYG{n}{D3}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{NaN}        \PYG{o}{\textbar{}} \PYG{n}{A3}\PYG{o}{\textbar{}} \PYG{n}{B3}\PYG{o}{\textbar{}} \PYG{n}{C3}\PYG{o}{\textbar{}} \PYG{n}{D3}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+\end{quote}
+
+\item {} 
+Right Join
+\begin{quote}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{leftp}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{(}\PYG{n}{rightp}\PYG{p}{,}\PYG{n}{on}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{how}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{right}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{lefts}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{rights}\PYG{p}{,}\PYG{n}{on}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{how}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{right}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+     \PYG{o}{.}\PYG{n}{orderBy}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{ascending}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{o}{\textbar{}}  \PYG{n}{A}\PYG{o}{\textbar{}}   \PYG{n}{B}\PYG{o}{\textbar{}}   \PYG{n}{C}\PYG{o}{\textbar{}}   \PYG{n}{D}\PYG{o}{\textbar{}}  \PYG{n}{F}\PYG{o}{\textbar{}}  \PYG{n}{G}\PYG{o}{\textbar{}}  \PYG{n}{H}\PYG{o}{\textbar{}}
+    \PYG{n}{A}    \PYG{n}{B}    \PYG{n}{C}    \PYG{n}{D}   \PYG{n}{F}   \PYG{n}{G}   \PYG{n}{H}        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{n}{A0}   \PYG{n}{B0}   \PYG{n}{C0}   \PYG{n}{D0}  \PYG{n}{B4}  \PYG{n}{C4}  \PYG{n}{D4}        \PYG{o}{\textbar{}} \PYG{n}{A0}\PYG{o}{\textbar{}}  \PYG{n}{B0}\PYG{o}{\textbar{}}  \PYG{n}{C0}\PYG{o}{\textbar{}}  \PYG{n}{D0}\PYG{o}{\textbar{}} \PYG{n}{B4}\PYG{o}{\textbar{}} \PYG{n}{C4}\PYG{o}{\textbar{}} \PYG{n}{D4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}  \PYG{n}{A1}   \PYG{n}{B1}   \PYG{n}{C1}   \PYG{n}{D1}  \PYG{n}{B5}  \PYG{n}{C5}  \PYG{n}{D5}        \PYG{o}{\textbar{}} \PYG{n}{A1}\PYG{o}{\textbar{}}  \PYG{n}{B1}\PYG{o}{\textbar{}}  \PYG{n}{C1}\PYG{o}{\textbar{}}  \PYG{n}{D1}\PYG{o}{\textbar{}} \PYG{n}{B5}\PYG{o}{\textbar{}} \PYG{n}{C5}\PYG{o}{\textbar{}} \PYG{n}{D5}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}  \PYG{n}{A6}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{B6}  \PYG{n}{C6}  \PYG{n}{D6}        \PYG{o}{\textbar{}} \PYG{n}{A6}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}} \PYG{n}{B6}\PYG{o}{\textbar{}} \PYG{n}{C6}\PYG{o}{\textbar{}} \PYG{n}{D6}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{n}{A7}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{B7}  \PYG{n}{C7}  \PYG{n}{D7}        \PYG{o}{\textbar{}} \PYG{n}{A7}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}} \PYG{n}{B7}\PYG{o}{\textbar{}} \PYG{n}{C7}\PYG{o}{\textbar{}} \PYG{n}{D7}\PYG{o}{\textbar{}}
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+\end{quote}
+
+\item {} 
+Inner Join
+\begin{quote}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{leftp}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{(}\PYG{n}{rightp}\PYG{p}{,}\PYG{n}{on}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{how}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{inner}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{lefts}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{rights}\PYG{p}{,}\PYG{n}{on}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{how}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{inner}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+     \PYG{o}{.}\PYG{n}{orderBy}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{ascending}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                \PYG{o}{\textbar{}}  \PYG{n}{A}\PYG{o}{\textbar{}}  \PYG{n}{B}\PYG{o}{\textbar{}}  \PYG{n}{C}\PYG{o}{\textbar{}}  \PYG{n}{D}\PYG{o}{\textbar{}}  \PYG{n}{F}\PYG{o}{\textbar{}}  \PYG{n}{G}\PYG{o}{\textbar{}}  \PYG{n}{H}\PYG{o}{\textbar{}}
+    \PYG{n}{A}   \PYG{n}{B}   \PYG{n}{C}   \PYG{n}{D}   \PYG{n}{F}   \PYG{n}{G}   \PYG{n}{H}   \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{n}{A0}  \PYG{n}{B0}  \PYG{n}{C0}  \PYG{n}{D0}  \PYG{n}{B4}  \PYG{n}{C4}  \PYG{n}{D4}   \PYG{o}{\textbar{}} \PYG{n}{A0}\PYG{o}{\textbar{}} \PYG{n}{B0}\PYG{o}{\textbar{}} \PYG{n}{C0}\PYG{o}{\textbar{}} \PYG{n}{D0}\PYG{o}{\textbar{}} \PYG{n}{B4}\PYG{o}{\textbar{}} \PYG{n}{C4}\PYG{o}{\textbar{}} \PYG{n}{D4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}  \PYG{n}{A1}  \PYG{n}{B1}  \PYG{n}{C1}  \PYG{n}{D1}  \PYG{n}{B5}  \PYG{n}{C5}  \PYG{n}{D5}   \PYG{o}{\textbar{}} \PYG{n}{A1}\PYG{o}{\textbar{}} \PYG{n}{B1}\PYG{o}{\textbar{}} \PYG{n}{C1}\PYG{o}{\textbar{}} \PYG{n}{D1}\PYG{o}{\textbar{}} \PYG{n}{B5}\PYG{o}{\textbar{}} \PYG{n}{C5}\PYG{o}{\textbar{}} \PYG{n}{D5}\PYG{o}{\textbar{}}
+                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+\end{quote}
+
+\item {} 
+Full Join
+\begin{quote}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{leftp}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{(}\PYG{n}{rightp}\PYG{p}{,}\PYG{n}{on}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{how}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{full}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{lefts}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{rights}\PYG{p}{,}\PYG{n}{on}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{how}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{full}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+     \PYG{o}{.}\PYG{n}{orderBy}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{A}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{ascending}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{o}{\textbar{}}  \PYG{n}{A}\PYG{o}{\textbar{}}   \PYG{n}{B}\PYG{o}{\textbar{}}   \PYG{n}{C}\PYG{o}{\textbar{}}   \PYG{n}{D}\PYG{o}{\textbar{}}   \PYG{n}{F}\PYG{o}{\textbar{}}   \PYG{n}{G}\PYG{o}{\textbar{}}   \PYG{n}{H}\PYG{o}{\textbar{}}
+    \PYG{n}{A}    \PYG{n}{B}    \PYG{n}{C}    \PYG{n}{D}    \PYG{n}{F}    \PYG{n}{G}    \PYG{n}{H}     \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}  \PYG{n}{A0}   \PYG{n}{B0}   \PYG{n}{C0}   \PYG{n}{D0}   \PYG{n}{B4}   \PYG{n}{C4}   \PYG{n}{D4}     \PYG{o}{\textbar{}} \PYG{n}{A0}\PYG{o}{\textbar{}}  \PYG{n}{B0}\PYG{o}{\textbar{}}  \PYG{n}{C0}\PYG{o}{\textbar{}}  \PYG{n}{D0}\PYG{o}{\textbar{}}  \PYG{n}{B4}\PYG{o}{\textbar{}}  \PYG{n}{C4}\PYG{o}{\textbar{}}  \PYG{n}{D4}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}  \PYG{n}{A1}   \PYG{n}{B1}   \PYG{n}{C1}   \PYG{n}{D1}   \PYG{n}{B5}   \PYG{n}{C5}   \PYG{n}{D5}     \PYG{o}{\textbar{}} \PYG{n}{A1}\PYG{o}{\textbar{}}  \PYG{n}{B1}\PYG{o}{\textbar{}}  \PYG{n}{C1}\PYG{o}{\textbar{}}  \PYG{n}{D1}\PYG{o}{\textbar{}}  \PYG{n}{B5}\PYG{o}{\textbar{}}  \PYG{n}{C5}\PYG{o}{\textbar{}}  \PYG{n}{D5}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}  \PYG{n}{A2}   \PYG{n}{B2}   \PYG{n}{C2}   \PYG{n}{D2}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{NaN}     \PYG{o}{\textbar{}} \PYG{n}{A2}\PYG{o}{\textbar{}}  \PYG{n}{B2}\PYG{o}{\textbar{}}  \PYG{n}{C2}\PYG{o}{\textbar{}}  \PYG{n}{D2}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}  \PYG{n}{A3}   \PYG{n}{B3}   \PYG{n}{C3}   \PYG{n}{D3}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{NaN}     \PYG{o}{\textbar{}} \PYG{n}{A3}\PYG{o}{\textbar{}}  \PYG{n}{B3}\PYG{o}{\textbar{}}  \PYG{n}{C3}\PYG{o}{\textbar{}}  \PYG{n}{D3}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{4}  \PYG{n}{A6}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{NaN}   \PYG{n}{B6}   \PYG{n}{C6}   \PYG{n}{D6}     \PYG{o}{\textbar{}} \PYG{n}{A6}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}  \PYG{n}{B6}\PYG{o}{\textbar{}}  \PYG{n}{C6}\PYG{o}{\textbar{}}  \PYG{n}{D6}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{5}  \PYG{n}{A7}  \PYG{n}{NaN}  \PYG{n}{NaN}  \PYG{n}{NaN}   \PYG{n}{B7}   \PYG{n}{C7}   \PYG{n}{D7}     \PYG{o}{\textbar{}} \PYG{n}{A7}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}  \PYG{n}{B7}\PYG{o}{\textbar{}}  \PYG{n}{C7}\PYG{o}{\textbar{}}  \PYG{n}{D7}\PYG{o}{\textbar{}}
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+\end{quote}
+
+\end{enumerate}
+
+
+\subsection{Concat Columns}
+\label{rdd:concat-columns}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{my\PYGZus{}list} \PYG{o}{=} \PYG{p}{[}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{a}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{,}
+           \PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{b}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{)}\PYG{p}{,}
+           \PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{c}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{)}\PYG{p}{,}
+           \PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{a}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{,}
+           \PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{b}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{)}\PYG{p}{,}
+           \PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{c}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{)}\PYG{p}{]}
+\PYG{n}{col\PYGZus{}name} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col3}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{dp} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{my\PYGZus{}list}\PYG{p}{,}\PYG{n}{columns}\PYG{o}{=}\PYG{n}{col\PYGZus{}name}\PYG{p}{)}
+\PYG{n}{ds} \PYG{o}{=} \PYG{n}{spark}\PYG{o}{.}\PYG{n}{createDataFrame}\PYG{p}{(}\PYG{n}{my\PYGZus{}list}\PYG{p}{,}\PYG{n}{schema}\PYG{o}{=}\PYG{n}{col\PYGZus{}name}\PYG{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n}{col1}  \PYG{n}{col2}  \PYG{n}{col3}
+\PYG{l+m+mi}{0}    \PYG{n}{a}     \PYG{l+m+mi}{2}     \PYG{l+m+mi}{3}
+\PYG{l+m+mi}{1}    \PYG{n}{b}     \PYG{l+m+mi}{5}     \PYG{l+m+mi}{6}
+\PYG{l+m+mi}{2}    \PYG{n}{c}     \PYG{l+m+mi}{8}     \PYG{l+m+mi}{9}
+\PYG{l+m+mi}{3}    \PYG{n}{a}     \PYG{l+m+mi}{2}     \PYG{l+m+mi}{3}
+\PYG{l+m+mi}{4}    \PYG{n}{b}     \PYG{l+m+mi}{5}     \PYG{l+m+mi}{6}
+\PYG{l+m+mi}{5}    \PYG{n}{c}     \PYG{l+m+mi}{8}     \PYG{l+m+mi}{9}
+\end{Verbatim}
+
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{concat}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{dp}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:}\PYG{l+s}{\PYGZsq{}}\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s}{\PYGZsq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}\PYG{n}{x}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}\PYG{p}{,}\PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{dp}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{withColumn}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{concat}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{n}{F}\PYG{o}{.}\PYG{n}{concat}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+                                        \PYG{o}{\textbar{}}\PYG{n}{col1}\PYG{o}{\textbar{}}\PYG{n}{col2}\PYG{o}{\textbar{}}\PYG{n}{col3}\PYG{o}{\textbar{}}\PYG{n}{concat}\PYG{o}{\textbar{}}
+  \PYG{n}{col1}  \PYG{n}{col2}  \PYG{n}{col3} \PYG{n}{concat}               \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{l+m+mi}{0}    \PYG{n}{a}     \PYG{l+m+mi}{2}     \PYG{l+m+mi}{3}     \PYG{n}{a2}               \PYG{o}{\textbar{}}   \PYG{n}{a}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}    \PYG{n}{a2}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{1}    \PYG{n}{b}     \PYG{l+m+mi}{5}     \PYG{l+m+mi}{6}     \PYG{n}{b5}               \PYG{o}{\textbar{}}   \PYG{n}{b}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{5}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}    \PYG{n}{b5}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{2}    \PYG{n}{c}     \PYG{l+m+mi}{8}     \PYG{l+m+mi}{9}     \PYG{n}{c8}               \PYG{o}{\textbar{}}   \PYG{n}{c}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{8}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{9}\PYG{o}{\textbar{}}    \PYG{n}{c8}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{3}    \PYG{n}{a}     \PYG{l+m+mi}{2}     \PYG{l+m+mi}{3}     \PYG{n}{a2}               \PYG{o}{\textbar{}}   \PYG{n}{a}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{3}\PYG{o}{\textbar{}}    \PYG{n}{a2}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{4}    \PYG{n}{b}     \PYG{l+m+mi}{5}     \PYG{l+m+mi}{6}     \PYG{n}{b5}               \PYG{o}{\textbar{}}   \PYG{n}{b}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{5}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}    \PYG{n}{b5}\PYG{o}{\textbar{}}
+\PYG{l+m+mi}{5}    \PYG{n}{c}     \PYG{l+m+mi}{8}     \PYG{l+m+mi}{9}     \PYG{n}{c8}               \PYG{o}{\textbar{}}   \PYG{n}{c}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{8}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{9}\PYG{o}{\textbar{}}    \PYG{n}{c8}\PYG{o}{\textbar{}}
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+
+\subsection{GroupBy}
+\label{rdd:groupby}
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dp}\PYG{o}{.}\PYG{n}{groupby}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{agg}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{min}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col3}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{mean}\PYG{l+s}{\PYGZsq{}}\PYG{p}{\PYGZcb{}}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{groupBy}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{agg}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{min}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col3}\PYG{l+s}{\PYGZsq{}}\PYG{p}{:} \PYG{l+s}{\PYGZsq{}}\PYG{l+s}{avg}\PYG{l+s}{\PYGZsq{}}\PYG{p}{\PYGZcb{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+      \PYG{n}{col2}  \PYG{n}{col3}                        \PYG{o}{\textbar{}}\PYG{n}{col1}\PYG{o}{\textbar{}}\PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{col2}\PYG{p}{)}\PYG{o}{\textbar{}}\PYG{n}{avg}\PYG{p}{(}\PYG{n}{col3}\PYG{p}{)}\PYG{o}{\textbar{}}
+\PYG{n}{col1}                                    \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{a}        \PYG{l+m+mi}{2}     \PYG{l+m+mi}{3}                        \PYG{o}{\textbar{}}   \PYG{n}{c}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{8}\PYG{o}{\textbar{}}      \PYG{l+m+mf}{9.0}\PYG{o}{\textbar{}}
+\PYG{n}{b}        \PYG{l+m+mi}{5}     \PYG{l+m+mi}{6}                        \PYG{o}{\textbar{}}   \PYG{n}{b}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{5}\PYG{o}{\textbar{}}      \PYG{l+m+mf}{6.0}\PYG{o}{\textbar{}}
+\PYG{n}{c}        \PYG{l+m+mi}{8}     \PYG{l+m+mi}{9}                        \PYG{o}{\textbar{}}   \PYG{n}{a}\PYG{o}{\textbar{}}        \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}      \PYG{l+m+mf}{3.0}\PYG{o}{\textbar{}}
+                                        \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
+
+
+\subsection{Pivot}
+\label{rdd:pivot}
+\code{:: Python Code:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{pd}\PYG{o}{.}\PYG{n}{pivot\PYGZus{}table}\PYG{p}{(}\PYG{n}{dp}\PYG{p}{,} \PYG{n}{values}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col3}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{index}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{columns}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{aggfunc}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}}
+\PYG{n}{ds}\PYG{o}{.}\PYG{n}{groupBy}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col1}\PYG{l+s}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{pivot}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col2}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{col3}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
+
+\code{:: Comparison:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{col2}    \PYG{l+m+mi}{2}     \PYG{l+m+mi}{5}     \PYG{l+m+mi}{8}           \PYG{o}{\textbar{}}\PYG{n}{col1}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{2}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{5}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{8}\PYG{o}{\textbar{}}
+\PYG{n}{col1}                            \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\PYG{n}{a}     \PYG{l+m+mf}{6.0}   \PYG{n}{NaN}   \PYG{n}{NaN}           \PYG{o}{\textbar{}}   \PYG{n}{c}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{18}\PYG{o}{\textbar{}}
+\PYG{n}{b}     \PYG{n}{NaN}  \PYG{l+m+mf}{12.0}   \PYG{n}{NaN}           \PYG{o}{\textbar{}}   \PYG{n}{b}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}  \PYG{l+m+mi}{12}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}
+\PYG{n}{c}     \PYG{n}{NaN}   \PYG{n}{NaN}  \PYG{l+m+mf}{18.0}           \PYG{o}{\textbar{}}   \PYG{n}{a}\PYG{o}{\textbar{}}   \PYG{l+m+mi}{6}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}\PYG{n}{null}\PYG{o}{\textbar{}}
+                                \PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{+}
+\end{Verbatim}
 
 
 \chapter{Statistics Preliminary}
