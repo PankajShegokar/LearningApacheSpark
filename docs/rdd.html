@@ -69,9 +69,6 @@
           
 
           
-            
-            <img src="static/logo_h.jpg" class="logo" />
-          
           </a>
 
           
@@ -385,15 +382,16 @@ to the Spark Context.</p>
 </div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<blockquote>
-<div>Reading tables from Database needs the proper drive for the corresponding Database.
-For example, the above demo needs <code class="docutils literal"><span class="pre">org.postgresql.Driver</span></code> and <strong>you need to download
-it and put it in ``jars`` folder of your spark installation path.</strong> I download
-<code class="docutils literal"><span class="pre">postgresql-42.1.1.jar</span></code> from the official website and put it in <code class="docutils literal"><span class="pre">jars</span></code> folder.</div></blockquote>
+<p class="last">Reading tables from Database needs the proper drive for the corresponding Database.
+For example, the above demo needs <code class="docutils literal"><span class="pre">org.postgresql.Driver</span></code> and you need to download
+it and put it in <code class="docutils literal"><span class="pre">jars</span></code> folder of your spark installation path. I download
+<code class="docutils literal"><span class="pre">postgresql-42.1.1.jar</span></code> from the official website and put it in <code class="docutils literal"><span class="pre">jars</span></code> folder.</p>
+</div>
 <ol class="upperalpha simple" start="3">
 <li><strong>Read dataset from HDFS</strong></li>
 </ol>
-<div class="last highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.conf</span> <span class="kn">import</span> <span class="n">SparkConf</span>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.conf</span> <span class="kn">import</span> <span class="n">SparkConf</span>
 <span class="kn">from</span> <span class="nn">pyspark.context</span> <span class="kn">import</span> <span class="n">SparkContext</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">HiveContext</span>
 
@@ -407,7 +405,7 @@ it and put it in ``jars`` folder of your spark installation path.</strong> I dow
 <span class="k">print</span><span class="p">(</span><span class="n">spf</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
+</div></blockquote>
 </div>
 <div class="section" id="spark-operations">
 <h2>5.2. Spark Operations<a class="headerlink" href="#spark-operations" title="Permalink to this headline">¶</a></h2>
@@ -481,7 +479,7 @@ the driver program or save it to an external storage system (e.g., HDFS).</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, Wenqiang Feng.
-      Last updated on Feb 27, 2019.
+      Last updated on Feb 28, 2019.
 
     </p>
   </div> 
