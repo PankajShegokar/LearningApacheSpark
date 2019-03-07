@@ -19,12 +19,13 @@ Reference:
 
 - https://github.com/michaeljones/sphinx-to-github
 
-Now, the ``sphinx-to-github`` function for github pages can be easily solved by add an empty file ``.nojekyll `` to your docs folder.  I add the following piece of code in my ``.conf`` to add it automatically: 
+Now, the ``sphinx-to-github`` function for github pages can be easily solved by add an empty file ``.nojekyll `` to your docs folder.  I add the following piece of code in my ``docgen.py`` to add it automatically: 
 
 
 ```
-# add .nojekyll file to fix the github pages issues
-nojekyll_path = os.path.join(outdir, '.nojekyll')
-if not os.path.exists(nojekyll_path):
-    os.makedirs(nojekyll_path)
+    # add .nojekyll file to fix the github pages issues
+    nojekyll_path = os.path.join(outdir, '.nojekyll')
+    if not os.path.exists(nojekyll_path):
+        nojekyll = open(nojekyll_path,'a')
+        nojekyll.close()
 ```    
