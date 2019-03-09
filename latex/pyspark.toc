@@ -176,15 +176,24 @@
 \contentsline {subsection}{\numberline {16.2.6}Summary}{209}{subsection.16.2.6}
 \contentsline {subsection}{\numberline {16.2.7}One-year Stock price simulation}{210}{subsection.16.2.7}
 \contentsline {chapter}{\numberline {17}Markov Chain Monte Carlo}{212}{chapter.17}
-\contentsline {chapter}{\numberline {18}Neural Network}{213}{chapter.18}
-\contentsline {section}{\numberline {18.1}Feedforward Neural Network}{213}{section.18.1}
-\contentsline {subsection}{\numberline {18.1.1}Introduction}{213}{subsection.18.1.1}
-\contentsline {subsection}{\numberline {18.1.2}Demo}{213}{subsection.18.1.2}
-\contentsline {chapter}{\numberline {19}My PySpark Package}{216}{chapter.19}
-\contentsline {section}{\numberline {19.1}Hierarchical Structure}{216}{section.19.1}
-\contentsline {section}{\numberline {19.2}Set Up}{217}{section.19.2}
-\contentsline {section}{\numberline {19.3}ReadMe}{217}{section.19.3}
-\contentsline {chapter}{\numberline {20}My Cheat Sheet}{219}{chapter.20}
-\contentsline {chapter}{\numberline {21}Main Reference}{222}{chapter.21}
-\contentsline {chapter}{Bibliography}{223}{chapter*.5}
-\contentsline {chapter}{Index}{225}{section*.10}
+\contentsline {section}{\numberline {17.1}Metropolis algorithm}{212}{section.17.1}
+\contentsline {section}{\numberline {17.2}A Toy Example of Metropolis}{213}{section.17.2}
+\contentsline {subsection}{\numberline {17.2.1}Conjugate Normal-Normal model}{213}{subsection.17.2.1}
+\contentsline {subsection}{\numberline {17.2.2}Example setup}{213}{subsection.17.2.2}
+\contentsline {subsection}{\numberline {17.2.3}Essential mathematical derivation}{214}{subsection.17.2.3}
+\contentsline {section}{\numberline {17.3}Demos}{214}{section.17.3}
+\contentsline {subsection}{\numberline {17.3.1}R results}{214}{subsection.17.3.1}
+\contentsline {subsection}{\numberline {17.3.2}Python results}{215}{subsection.17.3.2}
+\contentsline {subsection}{\numberline {17.3.3}PySpark results}{218}{subsection.17.3.3}
+\contentsline {chapter}{\numberline {18}Neural Network}{220}{chapter.18}
+\contentsline {section}{\numberline {18.1}Feedforward Neural Network}{220}{section.18.1}
+\contentsline {subsection}{\numberline {18.1.1}Introduction}{220}{subsection.18.1.1}
+\contentsline {subsection}{\numberline {18.1.2}Demo}{220}{subsection.18.1.2}
+\contentsline {chapter}{\numberline {19}My PySpark Package}{223}{chapter.19}
+\contentsline {section}{\numberline {19.1}Hierarchical Structure}{223}{section.19.1}
+\contentsline {section}{\numberline {19.2}Set Up}{224}{section.19.2}
+\contentsline {section}{\numberline {19.3}ReadMe}{224}{section.19.3}
+\contentsline {chapter}{\numberline {20}My Cheat Sheet}{226}{chapter.20}
+\contentsline {chapter}{\numberline {21}Main Reference}{229}{chapter.21}
+\contentsline {chapter}{Bibliography}{231}{chapter*.6}
+\contentsline {chapter}{Index}{233}{section*.11}

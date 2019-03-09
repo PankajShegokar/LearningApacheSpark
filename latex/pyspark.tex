@@ -22,7 +22,7 @@
 
 
 \title{Learning Apache Spark with Python}
-\date{March 07, 2019}
+\date{March 09, 2019}
 \release{v1.0}
 \author{Wenqiang Feng}
 \newcommand{\sphinxlogo}{\includegraphics{logo.jpg}\par}
@@ -12728,15 +12728,356 @@ Convert Rdd mstrix to dataframe
 
 \chapter{Markov Chain Monte Carlo}
 \label{mcmc:mcmc}\label{mcmc:markov-chain-monte-carlo}\label{mcmc::doc}\label{mcmc:the-house-always-wins}
+\begin{notice}{note}{Chinese proverb}
+
+\textbf{A book is known in time of need.}
+\end{notice}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{mcmc_py.png}
+\end{figure}
+
 Monte Carlo simulations are just a way of estimating a fixed parameter by repeatedly generating random numbers. More details can be found at \href{https://towardsdatascience.com/a-zero-math-introduction-to-markov-chain-monte-carlo-methods-dcba889e0c50}{A Zero Math Introduction to Markov Chain Monte Carlo Methods}.
 
 Markov Chain Monte Carlo (MCMC) methods are used to approximate the posterior distribution of a parameter of interest by random sampling in a probabilistic space. More details can be found at \href{https://towardsdatascience.com/a-zero-math-introduction-to-markov-chain-monte-carlo-methods-dcba889e0c50}{A Zero Math Introduction to Markov Chain Monte Carlo Methods}.
 
-TODO ..
+The following theory and demo are from Dr. Rebecca C. Steorts's \href{http://www2.stat.duke.edu/~rcs46/lecturesModernBayes/601-module6-markov/markov-chain-monte-carlo.pdf}{Intro to Markov Chain Monte Carlo}. More details can be found at Dr. Rebecca C. Steorts's STA 360/601: \href{http://www2.stat.duke.edu/~rcs46/bayes.html}{Bayesian Methods and Modern Statistics} class at Duke.
+
+
+\section{Metropolis algorithm}
+\label{mcmc:metropolis-algorithm}\label{mcmc:metroalg}
+The Metropolis algorithm takes three main steps:
+\begin{enumerate}
+\item {} 
+Sample  \(\theta^* \sim J(\theta | \theta ^{(s)})\)
+
+\item {} 
+Compute the acceptance ratio \((r)\)
+\begin{quote}
+\begin{gather}
+\begin{split}r = \frac{p(\theta^*|y)}{p(\theta^{(s)}|y)} = \frac{p(y|\theta^*)p(\theta^*)}{p(y|\theta^{(s)})p(\theta^{(s)})}\end{split}\notag
+\end{gather}\end{quote}
+
+\item {} 
+Let
+\begin{quote}
+\phantomsection\label{mcmc:equation-eq_step3}\begin{gather}
+\begin{split}             \theta^{(s+1)}
+             =
+             \left\{
+     \begin{array}{ll}
+             \theta^* &\text{ with prob min}{(r,1)} \\
+             \theta^{(s)} &\text{ otherwise }
+     \end{array}
+     \right.\end{split}\label{mcmc-eq_step3}
+\end{gather}\end{quote}
+
+\end{enumerate}
+
+\begin{notice}{caution}{Caution:}
+Actually, the Step 3 in \eqref{mcmc-eq_step3} can be replaced by sampling \(u \sim \text{Uniform}(0,1)\) and setting \(\theta^{(s+1)}=\theta^*\) if \(u<r\) and setting \(\theta^{(s+1)}=\theta^{(s)}\) otherwise.
+\end{notice}
+
+
+\section{A Toy Example of Metropolis}
+\label{mcmc:a-toy-example-of-metropolis}
+The following example is going to test out the Metropolis algorithm for the conjugate Normal-Normal model with a known variance situation.
+
+
+\subsection{Conjugate Normal-Normal model}
+\label{mcmc:conjugate-normal-normal-model}\begin{quote}
+\begin{gather}
+\begin{split}\begin{array}{ll}
+    X_1, \cdots, X_n & \theta \stackrel{iid}{\sim}\text{Normal}(\theta,\sigma^2)\\
+                      & \theta \sim\text{Normal}(\mu,\tau^2)
+\end{array}\end{split}\notag
+\end{gather}\end{quote}
+
+Recall that the posterior of \(\theta\) is \(\text{Normal}(\mu_n,\tau^2_n)\), where
+\begin{quote}
+\begin{gather}
+\begin{split}\mu_n = \bar{x}\frac{n/\sigma^2}{n/\sigma^2+1/\tau^2} + \mu\frac{1/\tau^2}{n/\sigma^2+1/\tau^2}\end{split}\notag
+\end{gather}\end{quote}
+
+and
+\begin{quote}
+\begin{gather}
+\begin{split}\tau_n^2 = \frac{1}{n/\sigma^2+1/\tau^2}\end{split}\notag
+\end{gather}\end{quote}
+
+
+\subsection{Example setup}
+\label{mcmc:example-setup}
+The rest of the parameters are \(\sigma^2=1\), \(\tau^2=10\), \(\mu=5\), \(n=5\) and
+\begin{quote}
+\begin{gather}
+\begin{split}y = [9.37, 10.18, 9.16, 11.60, 10.33]\end{split}\notag
+\end{gather}\end{quote}
+
+For this setup, we get that \(\mu_n=10.02745\) and \(\tau_n^2=0.1960784\).
+
+
+\subsection{Essential mathematical derivation}
+\label{mcmc:essential-mathematical-derivation}
+In the {\hyperref[mcmc:metroalg]{\emph{Metropolis algorithm}}}, we need to compute the acceptance ratio \(r\), i.e.
+\begin{quote}
+\begin{gather}
+\begin{split}r  &=  \frac{p(\theta^*|x)}{p(\theta^{(s)}|x)} \\
+   &=  \frac{p(x|\theta^*)p(\theta^*)}{p(x|\theta^{(s)})p(\theta^{(s)})}\\
+   &=  \left(\frac{\prod_i\text{dnorm}(x_i,\theta^*,\sigma)}{\prod_i\text{dnorm}(x_i,\theta^{(s)},\sigma)}\right)
+        \left(\frac{\text{dnorm}(\theta^*,\mu,\tau)}{\text{dnorm}(\theta^{(s)},\mu,\tau)}\right)\end{split}\notag
+\end{gather}\end{quote}
+
+In many cases, computing the ratio \(r\) directly can be numerically unstable, however, this can be modified by taking \(log r\). i.e.
+\begin{quote}
+\begin{gather}
+\begin{split}logr  &=  \sum_i \left(log[\text{dnorm}(x_i,\theta^*,\sigma)] - log[\text{dnorm}(x_i, \theta^{(s)}, \sigma)]\right)\\
+      &+  \sum_i \left(log[\text{dnorm}(\theta^*,\mu,\tau)] - log[\text{dnorm}(\theta^{(s)}, \mu,\tau)]\right)\end{split}\notag
+\end{gather}\end{quote}
+
+Then the criteria of the acceptance becomes: if \(log u< log r\), where \(u\) is sample form the \(\text{Uniform}(0,1)\).
+
+
+\section{Demos}
+\label{mcmc:demos}
+Now, We generate \(S\) iterations of the Metropolis algorithm starting at \(\theta^{(0)}=0\) and using a normal proposal distribution, where
+\begin{quote}
+\begin{gather}
+\begin{split}\theta^{(s+1)} \sim \text{Normal}(\theta^{(s)},2).\end{split}\notag
+\end{gather}\end{quote}
+
+
+\subsection{R results}
+\label{mcmc:r-results}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} setting values}
+set.seed\PYG{p}{(}\PYG{l+m}{1}\PYG{p}{)}
+s2\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{l+m}{1}
+t2\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{l+m}{10}
+mu\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{l+m}{5}\PYG{p}{;} n\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{l+m}{5}
+
+
+\PYG{c+c1}{\PYGZsh{} rounding the rnorm to 2 decimal places}
+y\PYG{o}{\PYGZlt{}\PYGZhy{}}round\PYG{p}{(}rnorm\PYG{p}{(}n\PYG{p}{,}\PYG{l+m}{10}\PYG{p}{,}\PYG{l+m}{1}\PYG{p}{)}\PYG{p}{,}\PYG{l+m}{2}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} mean of the normal posterior}
+mu.n\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{p}{(} mean\PYG{p}{(}y\PYG{p}{)}\PYG{o}{*}n\PYG{o}{/}s2 \PYG{o}{+} mu\PYG{o}{/}t2 \PYG{p}{)}\PYG{o}{/}\PYG{p}{(} n\PYG{o}{/}s2\PYG{l+m}{+1}\PYG{o}{/}t2\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} variance of the normal posterior}
+t2.n\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{l+m}{1}\PYG{o}{/}\PYG{p}{(}n\PYG{o}{/}s2\PYG{l+m}{+1}\PYG{o}{/}t2\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} defining the data}
+y\PYG{o}{\PYGZlt{}\PYGZhy{}}c\PYG{p}{(}\PYG{l+m}{9.37}\PYG{p}{,} \PYG{l+m}{10.18}\PYG{p}{,} \PYG{l+m}{9.16}\PYG{p}{,} \PYG{l+m}{11.60}\PYG{p}{,} \PYG{l+m}{10.33}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}metropolis part\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}S = total num of simulations}
+theta\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{l+m}{0} \PYG{p}{;} delta\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{l+m}{2} \PYG{p}{;} S\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{l+m}{10000} \PYG{p}{;} THETA\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{k+kc}{NULL} \PYG{p}{;} set.seed\PYG{p}{(}\PYG{l+m}{1}\PYG{p}{)}
+\PYG{k+kr}{for}\PYG{p}{(}s \PYG{k+kr}{in} \PYG{l+m}{1}\PYG{o}{:}S\PYG{p}{)}\PYG{p}{\PYGZob{}}
+  \PYG{c+c1}{\PYGZsh{}\PYGZsh{} simulating our proposal}
+  \PYG{c+c1}{\PYGZsh{}the new value of theta}
+  \PYG{c+c1}{\PYGZsh{}print(theta)}
+  theta.star\PYG{o}{\PYGZlt{}\PYGZhy{}}rnorm\PYG{p}{(}\PYG{l+m}{1}\PYG{p}{,}theta\PYG{p}{,}sqrt\PYG{p}{(}delta\PYG{p}{)}\PYG{p}{)}
+  \PYG{c+c1}{\PYGZsh{}\PYGZsh{}taking the log of the ratio r}
+  log.r\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{p}{(} sum\PYG{p}{(}dnorm\PYG{p}{(}y\PYG{p}{,}theta.star\PYG{p}{,}sqrt\PYG{p}{(}s2\PYG{p}{)}\PYG{p}{,}log\PYG{o}{=}\PYG{k+kc}{TRUE}\PYG{p}{)}\PYG{p}{)}\PYG{o}{+} 
+                 dnorm\PYG{p}{(}theta.star\PYG{p}{,}mu\PYG{p}{,}sqrt\PYG{p}{(}t2\PYG{p}{)}\PYG{p}{,}log\PYG{o}{=}\PYG{k+kc}{TRUE}\PYG{p}{)}\PYG{p}{)}\PYG{o}{\PYGZhy{}} 
+          \PYG{p}{(} sum\PYG{p}{(}dnorm\PYG{p}{(}y\PYG{p}{,}theta\PYG{p}{,}sqrt\PYG{p}{(}s2\PYG{p}{)}\PYG{p}{,}log\PYG{o}{=}\PYG{k+kc}{TRUE}\PYG{p}{)}\PYG{p}{)}\PYG{o}{+}  
+                  dnorm\PYG{p}{(}theta\PYG{p}{,}mu\PYG{p}{,}sqrt\PYG{p}{(}t2\PYG{p}{)}\PYG{p}{,}log\PYG{o}{=}\PYG{k+kc}{TRUE}\PYG{p}{)}\PYG{p}{)}
+  \PYG{c+c1}{\PYGZsh{}print(log.r)}
+  \PYG{k+kr}{if}\PYG{p}{(}log\PYG{p}{(}runif\PYG{p}{(}\PYG{l+m}{1}\PYG{p}{)}\PYG{p}{)}\PYG{o}{\PYGZlt{}}log.r\PYG{p}{)} \PYG{p}{\PYGZob{}} theta\PYG{o}{\PYGZlt{}\PYGZhy{}}theta.star \PYG{p}{\PYGZcb{}}
+  \PYG{c+c1}{\PYGZsh{}\PYGZsh{}updating THETA}
+  \PYG{c+c1}{\PYGZsh{}print(log(runif(1)))}
+  THETA\PYG{o}{\PYGZlt{}\PYGZhy{}}c\PYG{p}{(}THETA\PYG{p}{,}theta\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}two plots: trace of theta and comparing the empirical distribution}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}of simulated values to the true posterior}
+par\PYG{p}{(}mar\PYG{o}{=}c\PYG{p}{(}\PYG{l+m}{3}\PYG{p}{,}\PYG{l+m}{3}\PYG{p}{,}\PYG{l+m}{1}\PYG{p}{,}\PYG{l+m}{1}\PYG{p}{)}\PYG{p}{,}mgp\PYG{o}{=}c\PYG{p}{(}\PYG{l+m}{1.75}\PYG{p}{,}\PYG{l+m}{.75}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{)}\PYG{p}{)}
+par\PYG{p}{(}mfrow\PYG{o}{=}c\PYG{p}{(}\PYG{l+m}{1}\PYG{p}{,}\PYG{l+m}{2}\PYG{p}{)}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} creating a sequence}
+skeep\PYG{o}{\PYGZlt{}\PYGZhy{}}seq\PYG{p}{(}\PYG{l+m}{10}\PYG{p}{,}S\PYG{p}{,}by\PYG{o}{=}\PYG{l+m}{10}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} making a trace place}
+plot\PYG{p}{(}skeep\PYG{p}{,}THETA\PYG{p}{[}skeep\PYG{p}{]}\PYG{p}{,}type\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{l\PYGZdq{}}\PYG{p}{,}
+     xlab\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{iteration\PYGZdq{}}\PYG{p}{,}ylab\PYG{o}{=}expression\PYG{p}{(}theta\PYG{p}{)}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} making a histogram}
+hist\PYG{p}{(}THETA\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{l+m}{1}\PYG{o}{:}\PYG{l+m}{50}\PYG{p}{)}\PYG{p}{]}\PYG{p}{,}prob\PYG{o}{=}\PYG{k+kc}{TRUE}\PYG{p}{,}main\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}
+     xlab\PYG{o}{=}expression\PYG{p}{(}theta\PYG{p}{)}\PYG{p}{,}ylab\PYG{o}{=}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{density\PYGZdq{}}\PYG{p}{)}
+th\PYG{o}{\PYGZlt{}\PYGZhy{}}seq\PYG{p}{(}min\PYG{p}{(}THETA\PYG{p}{)}\PYG{p}{,}max\PYG{p}{(}THETA\PYG{p}{)}\PYG{p}{,}length\PYG{o}{=}\PYG{l+m}{100}\PYG{p}{)}
+lines\PYG{p}{(}th\PYG{p}{,}dnorm\PYG{p}{(}th\PYG{p}{,}mu.n\PYG{p}{,}sqrt\PYG{p}{(}t2.n\PYG{p}{)}\PYG{p}{)} \PYG{p}{)}
+\end{Verbatim}
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\includegraphics{mcmc_r.png}
+\caption{Histogram for the Metropolis algorithm with r}\label{mcmc:fig-mcmc-r}\end{figure}
+
+Figure. {\hyperref[mcmc:fig-mcmc-r]{\emph{Histogram for the Metropolis algorithm with r}}} shows a trace plot for this run as well as a histogram for
+the Metropolis algorithm compared with a draw from the true normal density.
+
+
+\subsection{Python results}
+\label{mcmc:python-results}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} coding: utf\PYGZhy{}8}
+
+\PYG{c}{\PYGZsh{} In[1]:}
+
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k+kn}{as} \PYG{n+nn}{np}
+
+
+\PYG{c}{\PYGZsh{} In[2]:}
+
+\PYG{k+kn}{from} \PYG{n+nn}{scipy.stats} \PYG{k+kn}{import} \PYG{n}{norm}
+
+\PYG{k}{def} \PYG{n+nf}{rnorm}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{n}{mean}\PYG{p}{,}\PYG{n}{sd}\PYG{p}{)}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    same functions as rnorm in r}
+\PYG{l+s+sd}{    r: rnorm(n, mean=0, sd=1)}
+\PYG{l+s+sd}{    py: rvs(loc=0, scale=1, size=1, random\PYGZus{}state=None)}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{return} \PYG{n}{norm}\PYG{o}{.}\PYG{n}{rvs}\PYG{p}{(}\PYG{n}{loc}\PYG{o}{=}\PYG{n}{mean}\PYG{p}{,}\PYG{n}{scale}\PYG{o}{=}\PYG{n}{sd}\PYG{p}{,}\PYG{n}{size}\PYG{o}{=}\PYG{n}{n}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{dnorm}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{mean}\PYG{p}{,}\PYG{n}{sd}\PYG{p}{,} \PYG{n}{log}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{)}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    same functions as dnorm in r}
+\PYG{l+s+sd}{    dnorm(x, mean=0, sd=1, log=FALSE)}
+\PYG{l+s+sd}{    pdf(x, loc=0, scale=1)}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{if} \PYG{n}{log}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{n}{norm}\PYG{o}{.}\PYG{n}{pdf}\PYG{p}{(}\PYG{n}{x}\PYG{o}{=}\PYG{n}{x}\PYG{p}{,}\PYG{n}{loc}\PYG{o}{=}\PYG{n}{mean}\PYG{p}{,}\PYG{n}{scale}\PYG{o}{=}\PYG{n}{sd}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{norm}\PYG{o}{.}\PYG{n}{pdf}\PYG{p}{(}\PYG{n}{x}\PYG{o}{=}\PYG{n}{x}\PYG{p}{,}\PYG{n}{loc}\PYG{o}{=}\PYG{n}{mean}\PYG{p}{,}\PYG{n}{scale}\PYG{o}{=}\PYG{n}{sd}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{runif}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{n+nb}{min}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb}{max}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    r: runif(n, min = 0, max = 1)}
+\PYG{l+s+sd}{    py: random.uniform(low=0.0, high=1.0, size=None)}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{uniform}\PYG{p}{(}\PYG{n+nb}{min}\PYG{p}{,}\PYG{n+nb}{max}\PYG{p}{,}\PYG{n}{size}\PYG{o}{=}\PYG{n}{n}\PYG{p}{)}
+    
+
+
+\PYG{c}{\PYGZsh{} In[3]:}
+
+\PYG{n}{s2} \PYG{o}{=} \PYG{l+m+mi}{1}
+\PYG{n}{t2} \PYG{o}{=} \PYG{l+m+mi}{10}
+\PYG{n}{mu} \PYG{o}{=} \PYG{l+m+mi}{5}
+\PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{5} 
+
+
+\PYG{c}{\PYGZsh{} In[4]:}
+
+\PYG{n}{y} \PYG{o}{=} \PYG{n}{rnorm}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{y}
+
+
+\PYG{c}{\PYGZsh{} In[5]:}
+
+\PYG{c}{\PYGZsh{} mean of the normal posterior}
+\PYG{n}{mu\PYGZus{}n} \PYG{o}{=} \PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}\PYG{o}{*}\PYG{n}{n}\PYG{o}{/}\PYG{n}{s2} \PYG{o}{+} \PYG{n}{mu}\PYG{o}{/}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)}\PYG{p}{)}\PYG{o}{/}\PYG{p}{(}\PYG{n}{n}\PYG{o}{/}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{s2}\PYG{p}{)}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)}\PYG{p}{)} 
+\PYG{n}{mu\PYGZus{}n}
+
+
+\PYG{c}{\PYGZsh{} In[6]:}
+
+\PYG{c}{\PYGZsh{} variance of the normal posterior}
+\PYG{c}{\PYGZsh{} t2.n\PYGZlt{}\PYGZhy{}1/(n/s2+1/t2)}
+
+\PYG{n}{t2\PYGZus{}n} \PYG{o}{=} \PYG{l+m+mf}{1.0}\PYG{o}{/}\PYG{p}{(}\PYG{n}{n}\PYG{o}{/}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{s2}\PYG{p}{)}\PYG{o}{+}\PYG{l+m+mf}{1.0}\PYG{o}{/}\PYG{n}{t2}\PYG{p}{)}
+\PYG{n}{t2\PYGZus{}n}
+
+
+\PYG{c}{\PYGZsh{} In[7]:}
+
+\PYG{c}{\PYGZsh{} defining the data}
+\PYG{c}{\PYGZsh{} y\PYGZlt{}\PYGZhy{}c(9.37, 10.18, 9.16, 11.60, 10.33)}
+
+\PYG{n}{y} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mf}{9.37}\PYG{p}{,} \PYG{l+m+mf}{10.18}\PYG{p}{,} \PYG{l+m+mf}{9.16}\PYG{p}{,} \PYG{l+m+mf}{11.60}\PYG{p}{,} \PYG{l+m+mf}{10.33}\PYG{p}{]}
+
+
+\PYG{c}{\PYGZsh{} In[8]:}
+
+\PYG{n}{mu\PYGZus{}n} \PYG{o}{=} \PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}\PYG{o}{*}\PYG{n}{n}\PYG{o}{/}\PYG{n}{s2} \PYG{o}{+} \PYG{n}{mu}\PYG{o}{/}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)}\PYG{p}{)}\PYG{o}{/}\PYG{p}{(}\PYG{n}{n}\PYG{o}{/}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{s2}\PYG{p}{)}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)}\PYG{p}{)} 
+\PYG{n}{mu\PYGZus{}n}
+
+
+\PYG{c}{\PYGZsh{} In[9]:}
+
+\PYG{c}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}metropolis part\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}}
+\PYG{c}{\PYGZsh{}\PYGZsh{}S = total num of simulations}
+\PYG{c}{\PYGZsh{} theta\PYGZlt{}\PYGZhy{}0 ; delta\PYGZlt{}\PYGZhy{}2 ; S\PYGZlt{}\PYGZhy{}10000 ; THETA\PYGZlt{}\PYGZhy{}NULL ; set.seed(1)}
+
+\PYG{n}{theta} \PYG{o}{=} \PYG{l+m+mi}{0} 
+\PYG{n}{delta} \PYG{o}{=} \PYG{l+m+mi}{2}
+
+\PYG{n}{S} \PYG{o}{=} \PYG{l+m+mi}{10000}
+
+\PYG{n}{theta\PYGZus{}v} \PYG{o}{=} \PYG{p}{[}\PYG{p}{]}
+
+
+\PYG{c}{\PYGZsh{} In[ ]:}
+
+\PYG{k}{for} \PYG{n}{s} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{S}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{theta\PYGZus{}star} \PYG{o}{=} \PYG{n}{norm}\PYG{o}{.}\PYG{n}{rvs}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{delta}\PYG{p}{)}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{logr} \PYG{o}{=} \PYG{p}{(}\PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{dnorm}\PYG{p}{(}\PYG{n}{y}\PYG{p}{,}\PYG{n}{theta\PYGZus{}star}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{s2}\PYG{p}{)}\PYG{p}{,}\PYG{n}{log}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{p}{)} \PYG{o}{+}            
+            \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{dnorm}\PYG{p}{(}\PYG{n}{theta\PYGZus{}star}\PYG{p}{,}\PYG{n}{mu}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)}\PYG{p}{,}\PYG{n}{log}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{o}{\PYGZhy{}}            
+            \PYG{p}{(}\PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{dnorm}\PYG{p}{(}\PYG{n}{y}\PYG{p}{,}\PYG{n}{theta}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{s2}\PYG{p}{)}\PYG{p}{,}\PYG{n}{log}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{p}{)} \PYG{o}{+}             
+             \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{dnorm}\PYG{p}{(}\PYG{p}{[}\PYG{n}{theta}\PYG{p}{]}\PYG{p}{,}\PYG{n}{mu}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)}\PYG{p}{,}\PYG{n}{log}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+    \PYG{c}{\PYGZsh{}print(logr)}
+    \PYG{k}{if} \PYG{n}{np}\PYG{o}{.}\PYG{n}{log}\PYG{p}{(}\PYG{n}{runif}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}\PYG{o}{\PYGZlt{}}\PYG{n}{logr}\PYG{p}{:}
+        \PYG{n}{theta} \PYG{o}{=} \PYG{n}{theta\PYGZus{}star}
+    \PYG{c}{\PYGZsh{}print(theta)    }
+    \PYG{n}{theta\PYGZus{}v}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{)}  
+
+
+\PYG{c}{\PYGZsh{} In[ ]:}
+
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.mlab} \PYG{k+kn}{as} \PYG{n+nn}{mlab}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k+kn}{as} \PYG{n+nn}{plt}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{)}\PYG{p}{)}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{theta\PYGZus{}v}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{b\PYGZhy{}.}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+        
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)}
+\PYG{c}{\PYGZsh{}bins = np.arange(0, S, 10) }
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{hist}\PYG{p}{(}\PYG{n}{theta\PYGZus{}v}\PYG{p}{,} \PYG{n}{density}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,}\PYG{n}{bins}\PYG{o}{=}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{auto}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{x} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{theta\PYGZus{}v}\PYG{p}{)}\PYG{p}{,}\PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{theta\PYGZus{}v}\PYG{p}{)}\PYG{p}{,}\PYG{l+m+mi}{100}\PYG{p}{)} 
+\PYG{n}{y} \PYG{o}{=} \PYG{n}{norm}\PYG{o}{.}\PYG{n}{pdf}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{mu\PYGZus{}n}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{t2\PYGZus{}n}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{,}\PYG{l+s}{\PYGZsq{}}\PYG{l+s}{y\PYGZhy{}.}\PYG{l+s}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlim}\PYG{p}{(}\PYG{n}{right}\PYG{o}{=}\PYG{l+m+mi}{12}\PYG{p}{)}  \PYG{c}{\PYGZsh{} adjust the right leaving left unchanged}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlim}\PYG{p}{(}\PYG{n}{left}\PYG{o}{=}\PYG{l+m+mi}{8}\PYG{p}{)}  \PYG{c}{\PYGZsh{} adjust the left leaving right unchanged}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+
+
+\PYG{c}{\PYGZsh{} In[ ]:}
+\end{Verbatim}
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\includegraphics{mcmc_py.png}
+\caption{Histogram for the Metropolis algorithm with python}\label{mcmc:fig-mcmc-py}\end{figure}
+
+Figure. {\hyperref[mcmc:fig-mcmc-py]{\emph{Histogram for the Metropolis algorithm with python}}} shows a trace plot for this run as well as a histogram for
+the Metropolis algorithm compared with a draw from the true normal density.
+
+
+\subsection{PySpark results}
+\label{mcmc:pyspark-results}
+TODO...
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\includegraphics{mcmc_py.png}
+\caption{Histogram for the Metropolis algorithm with PySpark}\label{mcmc:fig-mcmc-pyspark}\end{figure}
+
+Figure. {\hyperref[mcmc:fig-mcmc-pyspark]{\emph{Histogram for the Metropolis algorithm with PySpark}}} shows a trace plot for this run as well as a histogram for
+the Metropolis algorithm compared with a draw from the true normal density.
 
 
 \chapter{Neural Network}
-\label{fnn:a-zero-math-introduction-to-markov-chain-monte-carlo-methods}\label{fnn:fnn}\label{fnn::doc}\label{fnn:neural-network}
+\label{fnn:fnn}\label{fnn:bayesian-methods-and-modern-statistics}\label{fnn::doc}\label{fnn:neural-network}
 \begin{notice}{note}{Chinese proverb}
 
 Sharpening the knife longer can make it easier to hack the firewood -- old Chinese proverb

@@ -76,13 +76,16 @@
 \BOOKMARK [1][-]{section.16.1}{Simulating Casino Win}{chapter.16}% 76
 \BOOKMARK [1][-]{section.16.2}{Simulating a Random Walk}{chapter.16}% 77
 \BOOKMARK [0][-]{chapter.17}{Markov Chain Monte Carlo}{}% 78
-\BOOKMARK [0][-]{chapter.18}{Neural Network}{}% 79
-\BOOKMARK [1][-]{section.18.1}{Feedforward Neural Network}{chapter.18}% 80
-\BOOKMARK [0][-]{chapter.19}{My PySpark Package}{}% 81
-\BOOKMARK [1][-]{section.19.1}{Hierarchical Structure}{chapter.19}% 82
-\BOOKMARK [1][-]{section.19.2}{Set Up}{chapter.19}% 83
-\BOOKMARK [1][-]{section.19.3}{ReadMe}{chapter.19}% 84
-\BOOKMARK [0][-]{chapter.20}{My Cheat Sheet}{}% 85
-\BOOKMARK [0][-]{chapter.21}{Main Reference}{}% 86
-\BOOKMARK [0][-]{chapter*.5}{Bibliography}{}% 87
-\BOOKMARK [0][-]{section*.10}{Index}{}% 88
+\BOOKMARK [1][-]{section.17.1}{Metropolis algorithm}{chapter.17}% 79
+\BOOKMARK [1][-]{section.17.2}{A Toy Example of Metropolis}{chapter.17}% 80
+\BOOKMARK [1][-]{section.17.3}{Demos}{chapter.17}% 81
+\BOOKMARK [0][-]{chapter.18}{Neural Network}{}% 82
+\BOOKMARK [1][-]{section.18.1}{Feedforward Neural Network}{chapter.18}% 83
+\BOOKMARK [0][-]{chapter.19}{My PySpark Package}{}% 84
+\BOOKMARK [1][-]{section.19.1}{Hierarchical Structure}{chapter.19}% 85
+\BOOKMARK [1][-]{section.19.2}{Set Up}{chapter.19}% 86
+\BOOKMARK [1][-]{section.19.3}{ReadMe}{chapter.19}% 87
+\BOOKMARK [0][-]{chapter.20}{My Cheat Sheet}{}% 88
+\BOOKMARK [0][-]{chapter.21}{Main Reference}{}% 89
+\BOOKMARK [0][-]{chapter*.6}{Bibliography}{}% 90
+\BOOKMARK [0][-]{section*.11}{Index}{}% 91
